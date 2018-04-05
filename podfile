@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+ platform :ios, '11.3'
 
 target 'TaskyBlocks' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -7,7 +7,7 @@ target 'TaskyBlocks' do
 
   # Pods for TaskyBlocks
 pod 'RealmSwift', '~>3.3'
-
+pod 'CircleTimer', '~> 0.2'
   target 'TaskyBlocksTests' do
     inherit! :search_paths
     # Pods for testing

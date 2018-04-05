@@ -7,11 +7,21 @@
 //
 
 import UIKit
+import AppusCircleTimer
 
 class PerformViewController: UIViewController {
+  @IBOutlet weak var sprintTimer: AppusCircleTimer!
+  
 
-    override func viewDidLoad() {
+  
+  override func viewDidLoad() {
         super.viewDidLoad()
+
+
+      sprintTimer.elapsedTime = 0
+      sprintTimer.totalTime = 600
+      sprintTimer.start()
+    
 
         // Do any additional setup after loading the view.
     }

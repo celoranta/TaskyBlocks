@@ -1,0 +1,6 @@
+framework module AppusCircleTimer {
+  umbrella header "CircleTimer-umbrella.h"
+
+  export *
+  module * { export * }
+}
