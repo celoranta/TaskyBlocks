@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  TaskyBlocks
+//  TestOrdinatorGraphics
 //
-//  Created by Chris Eloranta on 2018-04-04.
+//  Created by Chris Eloranta on 2018-03-26.
 //  Copyright © 2018 Christopher Eloranta. All rights reserved.
 //
 
