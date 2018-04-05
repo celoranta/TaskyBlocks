@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DB9D711848189A385558825 /* Pods_TaskyBlocksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CCB854CE0DB8AAC16109F0D /* Pods_TaskyBlocksTests.framework */; };
+		517211B36059D477D9D02E55 /* Pods_TaskyBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 100335919D82C4C02AD49442 /* Pods_TaskyBlocks.framework */; };
 		951099722075C0A10091DF49 /* TaskyBlocksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099712075C0A10091DF49 /* TaskyBlocksUITests.swift */; };
 		951099922075C14A0091DF49 /* PerformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510997F2075C1460091DF49 /* PerformViewController.swift */; };
 		951099932075C14A0091DF49 /* ViewControllers in Resources */ = {isa = PBXBuildFile; fileRef = 951099802075C1460091DF49 /* ViewControllers */; };
@@ -28,6 +30,7 @@
 		951099A32075C14A0091DF49 /* DependencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099902075C1490091DF49 /* DependencyViewController.swift */; };
 		951099A42075C14A0091DF49 /* TaskyBlock2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099912075C1490091DF49 /* TaskyBlock2.swift */; };
 		951099A62075C3600091DF49 /* TaskyBlocksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099662075C0A10091DF49 /* TaskyBlocksTests.swift */; };
+		A8FB86C5040C81C5F8BECB96 /* Pods_TaskyBlocksUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525EBF3C26B119C459668B45 /* Pods_TaskyBlocksUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +51,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		02832F0167D32952AFA3D549 /* Pods-TaskyBlocksUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocksUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests.release.xcconfig"; sourceTree = "<group>"; };
+		100335919D82C4C02AD49442 /* Pods_TaskyBlocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TaskyBlocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		346425527CA56A1F0069E0C7 /* Pods-TaskyBlocksTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocksTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocksTests/Pods-TaskyBlocksTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3CCB854CE0DB8AAC16109F0D /* Pods_TaskyBlocksTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TaskyBlocksTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F1BA92A39685022D1D3C68E /* Pods-TaskyBlocksTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocksTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocksTests/Pods-TaskyBlocksTests.release.xcconfig"; sourceTree = "<group>"; };
+		525EBF3C26B119C459668B45 /* Pods_TaskyBlocksUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TaskyBlocksUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9510994E2075C09F0091DF49 /* TaskyBlocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskyBlocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9510995D2075C0A10091DF49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		951099622075C0A10091DF49 /* TaskyBlocksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskyBlocksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +84,9 @@
 		9510998F2075C1490091DF49 /* TaskyGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskyGraphView.swift; sourceTree = "<group>"; };
 		951099902075C1490091DF49 /* DependencyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyViewController.swift; sourceTree = "<group>"; };
 		951099912075C1490091DF49 /* TaskyBlock2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskyBlock2.swift; sourceTree = "<group>"; };
+		A72648820E802729DA3A0EBD /* Pods-TaskyBlocksUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocksUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F60413C7A89086E30F4D0CA1 /* Pods-TaskyBlocks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocks.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks.debug.xcconfig"; sourceTree = "<group>"; };
+		FB974643A72EBA075538E8B3 /* Pods-TaskyBlocks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocks.release.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				517211B36059D477D9D02E55 /* Pods_TaskyBlocks.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DB9D711848189A385558825 /* Pods_TaskyBlocksTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,12 +110,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8FB86C5040C81C5F8BECB96 /* Pods_TaskyBlocksUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		78D9FFDBFD2E4B8C2E124FD0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F60413C7A89086E30F4D0CA1 /* Pods-TaskyBlocks.debug.xcconfig */,
+				FB974643A72EBA075538E8B3 /* Pods-TaskyBlocks.release.xcconfig */,
+				346425527CA56A1F0069E0C7 /* Pods-TaskyBlocksTests.debug.xcconfig */,
+				4F1BA92A39685022D1D3C68E /* Pods-TaskyBlocksTests.release.xcconfig */,
+				A72648820E802729DA3A0EBD /* Pods-TaskyBlocksUITests.debug.xcconfig */,
+				02832F0167D32952AFA3D549 /* Pods-TaskyBlocksUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		951099452075C09F0091DF49 = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +137,8 @@
 				951099652075C0A10091DF49 /* TaskyBlocksTests */,
 				951099702075C0A10091DF49 /* TaskyBlocksUITests */,
 				9510994F2075C09F0091DF49 /* Products */,
+				78D9FFDBFD2E4B8C2E124FD0 /* Pods */,
+				B99B930226CF906B54479857 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -167,6 +197,16 @@
 			path = TaskyBlocksUITests;
 			sourceTree = "<group>";
 		};
+		B99B930226CF906B54479857 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				100335919D82C4C02AD49442 /* Pods_TaskyBlocks.framework */,
+				3CCB854CE0DB8AAC16109F0D /* Pods_TaskyBlocksTests.framework */,
+				525EBF3C26B119C459668B45 /* Pods_TaskyBlocksUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -174,9 +214,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 951099762075C0A10091DF49 /* Build configuration list for PBXNativeTarget "TaskyBlocks" */;
 			buildPhases = (
+				21AC460EDD97BC050C83FDED /* [CP] Check Pods Manifest.lock */,
 				9510994A2075C09F0091DF49 /* Sources */,
 				9510994B2075C09F0091DF49 /* Frameworks */,
 				9510994C2075C09F0091DF49 /* Resources */,
+				9362274EE943CC190FDB001D /* [CP] Embed Pods Frameworks */,
+				E5151E166DDFDCBC8FB94D5F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -191,9 +234,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 951099792075C0A10091DF49 /* Build configuration list for PBXNativeTarget "TaskyBlocksTests" */;
 			buildPhases = (
+				68E4A9F919CB672408DEACAE /* [CP] Check Pods Manifest.lock */,
 				9510995E2075C0A10091DF49 /* Sources */,
 				9510995F2075C0A10091DF49 /* Frameworks */,
 				951099602075C0A10091DF49 /* Resources */,
+				177E4115BBC9EA663940BCDA /* [CP] Embed Pods Frameworks */,
+				DD7A302582EE28AA3360F682 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -209,9 +255,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9510997C2075C0A10091DF49 /* Build configuration list for PBXNativeTarget "TaskyBlocksUITests" */;
 			buildPhases = (
+				D50751A8ED8E527EDB1CE8B0 /* [CP] Check Pods Manifest.lock */,
 				951099692075C0A10091DF49 /* Sources */,
 				9510996A2075C0A10091DF49 /* Frameworks */,
 				9510996B2075C0A10091DF49 /* Resources */,
+				E75302AF30BDA290B4557BE9 /* [CP] Embed Pods Frameworks */,
+				9058CFE2ECD189E084F44951 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -297,6 +346,158 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		177E4115BBC9EA663940BCDA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TaskyBlocksTests/Pods-TaskyBlocksTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		21AC460EDD97BC050C83FDED /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TaskyBlocks-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		68E4A9F919CB672408DEACAE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TaskyBlocksTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9058CFE2ECD189E084F44951 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9362274EE943CC190FDB001D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D50751A8ED8E527EDB1CE8B0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TaskyBlocksUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DD7A302582EE28AA3360F682 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TaskyBlocksTests/Pods-TaskyBlocksTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E5151E166DDFDCBC8FB94D5F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E75302AF30BDA290B4557BE9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9510994A2075C09F0091DF49 /* Sources */ = {
@@ -466,17 +667,15 @@
 		};
 		951099772075C0A10091DF49 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F60413C7A89086E30F4D0CA1 /* Pods-TaskyBlocks.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4V94RGV9SC;
 				INFOPLIST_FILE = TaskyBlocks/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = celoranta.TaskyBlocks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -487,17 +686,15 @@
 		};
 		951099782075C0A10091DF49 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FB974643A72EBA075538E8B3 /* Pods-TaskyBlocks.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4V94RGV9SC;
 				INFOPLIST_FILE = TaskyBlocks/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = celoranta.TaskyBlocks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -507,17 +704,14 @@
 		};
 		9510997A2075C0A10091DF49 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 346425527CA56A1F0069E0C7 /* Pods-TaskyBlocksTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4V94RGV9SC;
 				INFOPLIST_FILE = TaskyBlocksTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = celoranta.TaskyBlocksTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -528,17 +722,14 @@
 		};
 		9510997B2075C0A10091DF49 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F1BA92A39685022D1D3C68E /* Pods-TaskyBlocksTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4V94RGV9SC;
 				INFOPLIST_FILE = TaskyBlocksTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = celoranta.TaskyBlocksTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -549,16 +740,13 @@
 		};
 		9510997D2075C0A10091DF49 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A72648820E802729DA3A0EBD /* Pods-TaskyBlocksUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4V94RGV9SC;
 				INFOPLIST_FILE = TaskyBlocksUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = celoranta.TaskyBlocksUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -569,16 +757,13 @@
 		};
 		9510997E2075C0A10091DF49 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02832F0167D32952AFA3D549 /* Pods-TaskyBlocksUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4V94RGV9SC;
 				INFOPLIST_FILE = TaskyBlocksUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = celoranta.TaskyBlocksUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
