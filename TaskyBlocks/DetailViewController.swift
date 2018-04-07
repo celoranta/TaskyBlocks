@@ -12,14 +12,18 @@ protocol TaskDetailDataSource {
   func returnSelectedTask () -> TaskyNode
 }
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
+  
   
   var task:TaskyNode!
   var taskDetailDataSource: TaskDetailDataSource!
+  var detailDataSource: [String]!
   
-  @IBOutlet weak var taskTitle: UILabel!
+  @IBOutlet weak var taskTitleText: UITextField!
   @IBOutlet weak var uuidLabel: UILabel!
   @IBOutlet weak var taskDescription: UITextView!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -29,10 +33,27 @@ class DetailViewController: UIViewController {
       fatalError("No data source set for detail view")
     }
     let task = taskDetailDataSource.returnSelectedTask()
-    self.taskTitle.text = task.title
-    self.taskDescription.text = task.description
+    self.taskTitleText.text = task.title
+    self.taskDescription.text = task.taskDescription
     self.uuidLabel.text = task.taskId
+    detailDataSource = self.createDetailTable()
+    
     // Do any additional setup after loading the view.
+  }
+  
+  //MARK: Tableview Data Source Methods:
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return detailDataSource.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  
+  }
+  
+  //MARK: Tableview Delegate Methods:
+  func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath) -> UITableViewCell
+  {
+    
   }
   
   override func didReceiveMemoryWarning() {
@@ -44,8 +65,20 @@ class DetailViewController: UIViewController {
     self.dismiss(animated: true, completion: nil)
   }
   
-  
-  
+  private func createDetailTable() -> ([String])
+  {
+    let detailTable =
+    [
+      "Parents",
+      "Children",
+      "Dependents",
+      "Dependees",
+      "Values Served",
+      "Tasks Comprised Of",
+      
+    ]
+    return detailTable
+  }
   /*
    // MARK: - Navigation
    

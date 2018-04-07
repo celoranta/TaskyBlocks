@@ -37,6 +37,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     taskPicker.dataSource = self
     taskPicker.delegate = self
+    taskPicker.showsSelectionIndicator = true
 
     var crucialsArray: [TaskyNode] = []
     for task in pickerSet
