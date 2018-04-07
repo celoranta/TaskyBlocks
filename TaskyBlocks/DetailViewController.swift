@@ -8,11 +8,29 @@
 
 import UIKit
 
+protocol TaskDetailDataSource {
+  func returnSelectedTask () -> TaskyNode
+}
+
 class DetailViewController: UIViewController {
+  
+  var task:TaskyNode!
+  var taskDetailDataSource: TaskDetailDataSource!
 
-    override func viewDidLoad() {
+  @IBOutlet weak var taskTitle: UILabel!
+  
+  @IBOutlet weak var taskDescription: UITextView!
+  override func viewDidLoad() {
         super.viewDidLoad()
-
+    
+    guard taskDetailDataSource != nil
+    else
+    {
+      fatalError("No data source set for detail view")
+    }
+      let task = taskDetailDataSource.returnSelectedTask()
+      self.taskTitle.text = task.title
+      self.taskDescription.text = task.description
         // Do any additional setup after loading the view.
     }
 
@@ -20,6 +38,8 @@ class DetailViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+  
+  
     
 
     /*

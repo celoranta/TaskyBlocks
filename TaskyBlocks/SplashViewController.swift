@@ -1,18 +1,18 @@
 //
-//  DependencyViewController.swift
-//  TestOrdinatorGraphics
+//  SplashViewController.swift
+//  TaskyBlocks
 //
-//  Created by Chris Eloranta on 2018-04-03.
+//  Created by Chris Eloranta on 2018-04-06.
 //  Copyright © 2018 Christopher Eloranta. All rights reserved.
 //
 
 import UIKit
 
-class DependencyViewController: UIViewController {
+class SplashViewController: UIViewController {
+  
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
 

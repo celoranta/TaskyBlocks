@@ -11,11 +11,8 @@
 		517211B36059D477D9D02E55 /* Pods_TaskyBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 100335919D82C4C02AD49442 /* Pods_TaskyBlocks.framework */; };
 		951099722075C0A10091DF49 /* TaskyBlocksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099712075C0A10091DF49 /* TaskyBlocksUITests.swift */; };
 		951099922075C14A0091DF49 /* PerformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510997F2075C1460091DF49 /* PerformViewController.swift */; };
-		951099932075C14A0091DF49 /* ViewControllers in Resources */ = {isa = PBXBuildFile; fileRef = 951099802075C1460091DF49 /* ViewControllers */; };
-		951099942075C14A0091DF49 /* GraphingViews in Resources */ = {isa = PBXBuildFile; fileRef = 951099812075C1460091DF49 /* GraphingViews */; };
 		951099952075C14A0091DF49 /* DataModel in Resources */ = {isa = PBXBuildFile; fileRef = 951099822075C1460091DF49 /* DataModel */; };
 		951099962075C14A0091DF49 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951099832075C1460091DF49 /* LaunchScreen.storyboard */; };
-		951099972075C14A0091DF49 /* TaskyKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099842075C1460091DF49 /* TaskyKeeper.swift */; };
 		951099982075C14A0091DF49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 951099852075C1460091DF49 /* Assets.xcassets */; };
 		951099992075C14A0091DF49 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951099862075C1470091DF49 /* Main.storyboard */; };
 		9510999A2075C14A0091DF49 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099872075C1470091DF49 /* AppDelegate.swift */; };
@@ -23,14 +20,17 @@
 		9510999C2075C14A0091DF49 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099892075C1470091DF49 /* DetailViewController.swift */; };
 		9510999D2075C14A0091DF49 /* TaskyBlock2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9510998A2075C1480091DF49 /* TaskyBlock2.xib */; };
 		9510999E2075C14A0091DF49 /* HierarchyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510998B2075C1480091DF49 /* HierarchyViewController.swift */; };
-		9510999F2075C14A0091DF49 /* TaskyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510998C2075C1480091DF49 /* TaskyNode.swift */; };
-		951099A02075C14A0091DF49 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510998D2075C1480091DF49 /* ViewController.swift */; };
 		951099A12075C14A0091DF49 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510998E2075C1490091DF49 /* SettingsViewController.swift */; };
-		951099A22075C14A0091DF49 /* TaskyGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510998F2075C1490091DF49 /* TaskyGraphView.swift */; };
 		951099A32075C14A0091DF49 /* DependencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099902075C1490091DF49 /* DependencyViewController.swift */; };
 		951099A42075C14A0091DF49 /* TaskyBlock2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099912075C1490091DF49 /* TaskyBlock2.swift */; };
 		951099A62075C3600091DF49 /* TaskyBlocksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099662075C0A10091DF49 /* TaskyBlocksTests.swift */; };
 		95BE0D2F2076027A0097937F /* TaskTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BE0D2E207602790097937F /* TaskTimer.swift */; };
+		95DC88CD20771D7B00E346DB /* GraphPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88CC20771D7B00E346DB /* GraphPageViewController.swift */; };
+		95DC88D120772A8B00E346DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88D020772A8A00E346DB /* ViewController.swift */; };
+		95DC88D52077489B00E346DB /* TaskyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88D42077489B00E346DB /* TaskyNode.swift */; };
+		95DC88D920774E2900E346DB /* TaskyGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88D820774E2800E346DB /* TaskyGraphView.swift */; };
+		95E5EFCF20780CB700CD8D6C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */; };
+		95E5EFD12078164200CD8D6C /* MasterTabBarControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E5EFD02078164200CD8D6C /* MasterTabBarControllerViewController.swift */; };
 		A8FB86C5040C81C5F8BECB96 /* Pods_TaskyBlocksUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525EBF3C26B119C459668B45 /* Pods_TaskyBlocksUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,11 +67,8 @@
 		951099712075C0A10091DF49 /* TaskyBlocksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyBlocksUITests.swift; sourceTree = "<group>"; };
 		951099732075C0A10091DF49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9510997F2075C1460091DF49 /* PerformViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerformViewController.swift; sourceTree = "<group>"; };
-		951099802075C1460091DF49 /* ViewControllers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ViewControllers; sourceTree = "<group>"; };
-		951099812075C1460091DF49 /* GraphingViews */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GraphingViews; sourceTree = "<group>"; };
 		951099822075C1460091DF49 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DataModel; sourceTree = "<group>"; };
 		951099832075C1460091DF49 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		951099842075C1460091DF49 /* TaskyKeeper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskyKeeper.swift; sourceTree = "<group>"; };
 		951099852075C1460091DF49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		951099862075C1470091DF49 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		951099872075C1470091DF49 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -79,13 +76,16 @@
 		951099892075C1470091DF49 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9510998A2075C1480091DF49 /* TaskyBlock2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskyBlock2.xib; sourceTree = "<group>"; };
 		9510998B2075C1480091DF49 /* HierarchyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HierarchyViewController.swift; sourceTree = "<group>"; };
-		9510998C2075C1480091DF49 /* TaskyNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskyNode.swift; sourceTree = "<group>"; };
-		9510998D2075C1480091DF49 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9510998E2075C1490091DF49 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		9510998F2075C1490091DF49 /* TaskyGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskyGraphView.swift; sourceTree = "<group>"; };
 		951099902075C1490091DF49 /* DependencyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyViewController.swift; sourceTree = "<group>"; };
 		951099912075C1490091DF49 /* TaskyBlock2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskyBlock2.swift; sourceTree = "<group>"; };
 		95BE0D2E207602790097937F /* TaskTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTimer.swift; sourceTree = "<group>"; };
+		95DC88CC20771D7B00E346DB /* GraphPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphPageViewController.swift; sourceTree = "<group>"; };
+		95DC88D020772A8A00E346DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		95DC88D42077489B00E346DB /* TaskyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyNode.swift; sourceTree = "<group>"; };
+		95DC88D820774E2800E346DB /* TaskyGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyGraphView.swift; sourceTree = "<group>"; };
+		95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		95E5EFD02078164200CD8D6C /* MasterTabBarControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterTabBarControllerViewController.swift; sourceTree = "<group>"; };
 		A72648820E802729DA3A0EBD /* Pods-TaskyBlocksUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocksUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F60413C7A89086E30F4D0CA1 /* Pods-TaskyBlocks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocks.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks.debug.xcconfig"; sourceTree = "<group>"; };
 		FB974643A72EBA075538E8B3 /* Pods-TaskyBlocks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocks.release.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks.release.xcconfig"; sourceTree = "<group>"; };
@@ -160,23 +160,23 @@
 				951099872075C1470091DF49 /* AppDelegate.swift */,
 				951099852075C1460091DF49 /* Assets.xcassets */,
 				951099822075C1460091DF49 /* DataModel */,
+				95DC88D820774E2800E346DB /* TaskyGraphView.swift */,
+				95DC88D020772A8A00E346DB /* ViewController.swift */,
+				9510998B2075C1480091DF49 /* HierarchyViewController.swift */,
 				951099902075C1490091DF49 /* DependencyViewController.swift */,
 				951099892075C1470091DF49 /* DetailViewController.swift */,
-				951099812075C1460091DF49 /* GraphingViews */,
-				9510998B2075C1480091DF49 /* HierarchyViewController.swift */,
-				951099832075C1460091DF49 /* LaunchScreen.storyboard */,
-				951099862075C1470091DF49 /* Main.storyboard */,
 				9510997F2075C1460091DF49 /* PerformViewController.swift */,
-				95BE0D2E207602790097937F /* TaskTimer.swift */,
 				951099882075C1470091DF49 /* PomodoroViewController.swift */,
+				95DC88CC20771D7B00E346DB /* GraphPageViewController.swift */,
+				95BE0D2E207602790097937F /* TaskTimer.swift */,
 				9510998E2075C1490091DF49 /* SettingsViewController.swift */,
 				951099912075C1490091DF49 /* TaskyBlock2.swift */,
 				9510998A2075C1480091DF49 /* TaskyBlock2.xib */,
-				9510998F2075C1490091DF49 /* TaskyGraphView.swift */,
-				951099842075C1460091DF49 /* TaskyKeeper.swift */,
-				9510998C2075C1480091DF49 /* TaskyNode.swift */,
-				9510998D2075C1480091DF49 /* ViewController.swift */,
-				951099802075C1460091DF49 /* ViewControllers */,
+				951099862075C1470091DF49 /* Main.storyboard */,
+				95E5EFD02078164200CD8D6C /* MasterTabBarControllerViewController.swift */,
+				95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */,
+				951099832075C1460091DF49 /* LaunchScreen.storyboard */,
+				95DC88D42077489B00E346DB /* TaskyNode.swift */,
 				9510995D2075C0A10091DF49 /* Info.plist */,
 			);
 			path = TaskyBlocks;
@@ -324,9 +324,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				951099932075C14A0091DF49 /* ViewControllers in Resources */,
 				951099962075C14A0091DF49 /* LaunchScreen.storyboard in Resources */,
-				951099942075C14A0091DF49 /* GraphingViews in Resources */,
 				951099992075C14A0091DF49 /* Main.storyboard in Resources */,
 				951099952075C14A0091DF49 /* DataModel in Resources */,
 				951099982075C14A0091DF49 /* Assets.xcassets in Resources */,
@@ -509,18 +507,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95E5EFD12078164200CD8D6C /* MasterTabBarControllerViewController.swift in Sources */,
+				95DC88D120772A8B00E346DB /* ViewController.swift in Sources */,
 				9510999E2075C14A0091DF49 /* HierarchyViewController.swift in Sources */,
 				9510999A2075C14A0091DF49 /* AppDelegate.swift in Sources */,
-				951099A22075C14A0091DF49 /* TaskyGraphView.swift in Sources */,
 				9510999B2075C14A0091DF49 /* PomodoroViewController.swift in Sources */,
 				95BE0D2F2076027A0097937F /* TaskTimer.swift in Sources */,
+				95DC88D52077489B00E346DB /* TaskyNode.swift in Sources */,
+				95DC88D920774E2900E346DB /* TaskyGraphView.swift in Sources */,
 				951099A32075C14A0091DF49 /* DependencyViewController.swift in Sources */,
 				9510999C2075C14A0091DF49 /* DetailViewController.swift in Sources */,
-				951099972075C14A0091DF49 /* TaskyKeeper.swift in Sources */,
+				95E5EFCF20780CB700CD8D6C /* SplashViewController.swift in Sources */,
+				95DC88CD20771D7B00E346DB /* GraphPageViewController.swift in Sources */,
 				951099922075C14A0091DF49 /* PerformViewController.swift in Sources */,
-				951099A02075C14A0091DF49 /* ViewController.swift in Sources */,
 				951099A42075C14A0091DF49 /* TaskyBlock2.swift in Sources */,
-				9510999F2075C14A0091DF49 /* TaskyNode.swift in Sources */,
 				951099A12075C14A0091DF49 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

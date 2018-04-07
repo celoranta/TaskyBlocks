@@ -11,13 +11,15 @@ import UIKit
 class ViewController: UIViewController, UIScrollViewDelegate {
   
   @IBOutlet weak var taskyGraph: TaskyGraphView!
+  var tasksData: TaskDataSource?
   
   override func viewDidLoad() {
     super.viewDidLoad()
     taskyGraph.delegate = self
-    let keeper = TaskyKeeper()
-    let primals = keeper.primals()
-    taskyGraph.graphPriorityWith(taskSet: primals)
+    let primals = tasksData?.primals()
+    
+    //replace force unwrapping
+    taskyGraph.graphPriorityWith(taskSet: primals!)
   }
   
   //  Tells the delegate that zooming of the content in the scroll view is about to commence.
