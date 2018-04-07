@@ -18,6 +18,8 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   //These two should be refactored out, as they don't need to be exposed
   var pickerData: Set<TaskyNode>?
   var pickerSet: Set<TaskyNode>!
+  //
+  
   var selectedItem: TaskyNode!
   var pickerArray: [TaskyNode]!
   
@@ -70,7 +72,8 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "detailSegueFromPomodoro"
     {
-        let detailViewController = segue.destination as! DetailViewController
+        let detailNavController = segue.destination as! UINavigationController
+        let detailViewController = detailNavController.topViewController as! DetailViewController
         detailViewController.taskDetailDataSource = self
     }
   }
