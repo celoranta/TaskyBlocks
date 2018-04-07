@@ -12,17 +12,18 @@ protocol TaskDetailDataSource {
   func returnSelectedTask () -> TaskyNode
 }
 
-class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DetailViewController: UIViewController {
 
-  
   
   var task:TaskyNode!
   var taskDetailDataSource: TaskDetailDataSource!
-  var detailDataSource: [String]!
-  
+
   @IBOutlet weak var taskTitleText: UITextField!
   @IBOutlet weak var uuidLabel: UILabel!
   @IBOutlet weak var taskDescription: UITextView!
+  @IBOutlet weak var priorityLevelLabel: UILabel!
+  @IBOutlet weak var isPrimalStatusLabel: UILabel!
+  @IBOutlet weak var isActionableStatusLabel: UILabel!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -36,49 +37,17 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     self.taskTitleText.text = task.title
     self.taskDescription.text = task.taskDescription
     self.uuidLabel.text = task.taskId
-    detailDataSource = self.createDetailTable()
+    self.priorityLevelLabel.text = task.priorityApparent.description
+    self.isPrimalStatusLabel.text = task.isPrimal.description
+    self.isActionableStatusLabel.text = task.isActionable.description
     
-    // Do any additional setup after loading the view.
-  }
-  
-  //MARK: Tableview Data Source Methods:
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return detailDataSource.count
-  }
-  
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-  
-  }
-  
-  //MARK: Tableview Delegate Methods:
-  func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath) -> UITableViewCell
-  {
-    
-  }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
   
   @IBAction func backButton(_ sender: Any) {
     self.dismiss(animated: true, completion: nil)
   }
   
-  private func createDetailTable() -> ([String])
-  {
-    let detailTable =
-    [
-      "Parents",
-      "Children",
-      "Dependents",
-      "Dependees",
-      "Values Served",
-      "Tasks Comprised Of",
-      
-    ]
-    return detailTable
-  }
+
   /*
    // MARK: - Navigation
    

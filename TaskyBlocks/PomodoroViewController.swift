@@ -11,6 +11,7 @@ import UIKit
 class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, TaskDetailDataSource {
 
   
+  @IBOutlet weak var goTimeButton: UIButton!
   @IBOutlet weak var taskPicker: UIPickerView!
   var tasksData: TaskDataSource?
   var segueToDetail: UIStoryboardSegue!
@@ -26,6 +27,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    goTimeButton.layer.cornerRadius = 25
     if let unwrappedTasksData = tasksData
     {
       pickerData = unwrappedTasksData.crucials()
@@ -46,6 +48,8 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     pickerArray = crucialsArray
     self.selectedItem = pickerArray[0]
+    
+        reloadInputViews()
   }
   
   @available(iOS 2.0, *)
