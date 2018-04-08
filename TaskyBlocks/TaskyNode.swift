@@ -13,21 +13,21 @@ class TaskyNode: NSObject
   typealias TaskRecord = (taskId: String, priority: Double)
   
   var title = "New Task"
-  var taskId: String
+  internal fileprivate(set) var taskId: String
   var taskDescription: String!
   let taskDate = Date()
   
-  var parents: [TaskyNode] = []
-  var children: [TaskyNode] = []
-  var antecedents: [TaskyNode] = []
-  var consequents: [TaskyNode] = []
+  internal fileprivate(set) var parents: [TaskyNode] = []
+  internal fileprivate(set) var children: [TaskyNode] = []
+  internal fileprivate(set) var antecedents: [TaskyNode] = []
+  internal fileprivate(set) var consequents: [TaskyNode] = []
 
-  var priorityApparent: Double = 0
+  internal fileprivate(set) var priorityApparent: Double = 0
   var priorityInherited: Double = 0
   var priorityConsequent: Double = 0
   var priorityDirect: Double? //currently no need to recalcutalate/update.  Revisit
   var priorityOverride: Double? //for testing by developer
-  var priorityDefaulted: Bool = true
+  var priorityDirectDefault: Double
   
   var isPrimal: Bool
   {
@@ -43,7 +43,7 @@ class TaskyNode: NSObject
   {
     var currentTaskRecords: [String:Double] = [:]
     var previousTaskRecords = ["dummy": 99.9] //ensures the first pass has a non-nil unequal dict to compare against, as to to ensure we enter a second pass.
-    let anyNonZeroInt = 42
+    let anyNonZeroInt = 42 // Remove this and use "while repeat" below?
     var recordsChanged = anyNonZeroInt //ensures that we enter the loop with a non-nil, non-zero value
     var updatesPerformed: [String:Int] = [:]
     while recordsChanged != 0
@@ -182,24 +182,29 @@ class TaskyNode: NSObject
     }
   }
   
-  //  func deleteDiscrete()
-  //  {
-  //    for child in children
-  //    {
-  //      for parent in parents
-  //      {
-  //        if !parent.children.contains(child)
-  //        {
-  //          parent.children.append(child)
-  //        }
-  //        if !child.parents.contains(parent)
-  //        {
-  //          child.parents.append(parent)
-  //        }
-  //      }
-  //    }
-  //    // call delegate to delete me?
-  //  }
+  func prepareRemove()
+  {
+    for child in children
+    {
+      for parent in parents
+      {
+        if !parent.children.contains(child)
+        {
+          parent.children.append(child)
+        }
+        if !child.parents.contains(parent)
+        {
+          child.parents.append(parent)
+        }
+      }
+    }
+    for antecedent in antecedents
+    {
+      // stub
+    }
+  }
+
+
   
   //Danny note:/master update instance method to call each priority update individually and return an update record
   func updateMyPriorities() -> (TaskRecord)  //Returns a tasks UUID and priorityApparent
@@ -258,10 +263,16 @@ class TaskyNode: NSObject
     // Danny note: if & else if vs a bunch of ifs. This would reqwuire you to reverse the order.
     var priorityRegister: Double!
     priorityRegister = self.priorityInherited
+    var postDefaultPriorityDirect: Double
     if let unwrappedPriorityDirect = priorityDirect
     {
-    if priorityRegister > unwrappedPriorityDirect {priorityRegister = unwrappedPriorityDirect}
+      postDefaultPriorityDirect = unwrappedPriorityDirect
     }
+    else
+    {
+      postDefaultPriorityDirect = priorityDirectDefault
+    }
+    if priorityRegister > postDefaultPriorityDirect {priorityRegister = postDefaultPriorityDirect}
     if priorityRegister < self.priorityConsequent {priorityRegister = self.priorityConsequent}
     if let priorityOverrideUnwrapped = self.priorityOverride{priorityRegister = priorityOverrideUnwrapped
       
@@ -287,8 +298,14 @@ class TaskyNode: NSObject
   
   override init()
   {
+    self.priorityDirectDefault = 50.00
     self.taskId = String(UUID().uuidString)
     super.init()
+  }
+  
+  deinit
+  {
+    prepareRemove()
   }
 }
 
@@ -299,4 +316,6 @@ extension TaskyNode {
       return "\(priorityApparent)\(taskId)"
     }
   }
+  
+  
 }

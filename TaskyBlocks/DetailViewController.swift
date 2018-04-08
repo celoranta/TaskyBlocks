@@ -31,8 +31,10 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
   @IBOutlet weak var dependentsListLabel: UILabel!
   @IBOutlet weak var primalsListLabel: UILabel!
   @IBOutlet weak var taskDateLabel: UILabel!
+  @IBOutlet weak var deleteButton: UIButton!
   
   fileprivate func refreshView() {
+  
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
     self.taskDescription.text = task.taskDescription
@@ -47,6 +49,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
       parentsString.append(parent.title + ", ")
     }
     parentsListButton.setTitle(parentsString, for: .normal)
+    deleteButton.isEnabled = tasksData.serveTaskData().count > 1
   }
   
   override func viewDidLoad() {
@@ -66,6 +69,15 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
   
   //MARK: Actions
   @IBAction func backButton(_ sender: Any) {
+    self.dismiss(animated: true, completion: nil)
+  }
+  @IBAction func addButton(_ sender: Any) {
+    let newTask = tasksData.newTask()
+    self.task = newTask
+    self.refreshView()
+  }
+  @IBAction func deleteButton(_ sender: Any) {
+    tasksData.remove(task: task)
     self.dismiss(animated: true, completion: nil)
   }
   

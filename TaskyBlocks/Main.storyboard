@@ -270,6 +270,14 @@
                                     <segue destination="wTe-Ve-92G" kind="show" identifier="pickerFromParents" id="Lac-2z-fDX"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydM-le-0DW">
+                                <rect key="frame" x="165" y="580" width="45" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Delete"/>
+                                <connections>
+                                    <action selector="deleteButton:" destination="1Gi-xi-kOP" eventType="touchUpInside" id="Mvc-mU-ds4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -328,9 +336,15 @@
                                 <action selector="backButton:" destination="1Gi-xi-kOP" id="9vZ-M5-Zik"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ygu-J1-vDo">
+                            <connections>
+                                <action selector="addButton:" destination="1Gi-xi-kOP" id="fhj-93-MQf"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="childListLabel" destination="Zld-nO-F3i" id="KSo-ci-f2L"/>
+                        <outlet property="deleteButton" destination="ydM-le-0DW" id="5X1-ed-lXn"/>
                         <outlet property="dependeesListLabel" destination="l8j-IQ-wos" id="k36-cO-fqR"/>
                         <outlet property="dependentsListLabel" destination="ua0-8L-u1M" id="kAX-2p-bgb"/>
                         <outlet property="isActionableStatusLabel" destination="dPx-Zb-Gw6" id="SMb-5s-Wna"/>
@@ -419,43 +433,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4j9-eo-pEQ">
+                            <pickerView contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4j9-eo-pEQ">
                                 <rect key="frame" x="0.0" y="202" width="375" height="216"/>
                             </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Duration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3lC-ad-qFG">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Duration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3lC-ad-qFG">
                                 <rect key="frame" x="16" y="132" width="66" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Follow with Timed Break?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7J-Nh-btN">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Follow with Timed Break?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7J-Nh-btN">
                                 <rect key="frame" x="16" y="169" width="195" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Td4-Mv-l46">
-                                <rect key="frame" x="152" y="426" width="70" height="30"/>
-                                <state key="normal" title="See Detail"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Td4-Mv-l46">
+                                <rect key="frame" x="145.5" y="426" width="83" height="30"/>
+                                <state key="normal" title="Task Details"/>
                                 <connections>
                                     <segue destination="myk-os-c8D" kind="presentation" identifier="detailSegueFromPomodoro" id="dfP-nm-rYj"/>
                                 </connections>
                             </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OCq-4T-iOL">
-                                <rect key="frame" x="310" y="89" width="51" height="31"/>
-                            </switch>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="YOr-qC-2hN">
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="YOr-qC-2hN">
                                 <rect key="frame" x="265" y="128" width="94" height="29"/>
                             </stepper>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="QSn-jX-erQ">
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="QSn-jX-erQ">
                                 <rect key="frame" x="265" y="165" width="94" height="29"/>
                             </stepper>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do not disturb" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xeq-O8-Y93">
-                                <rect key="frame" x="16" y="94" width="110" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fri-Po-94e">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -481,12 +486,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="svR-tq-aqj" firstAttribute="trailing" secondItem="OCq-4T-iOL" secondAttribute="trailing" constant="16" id="4Cy-hB-rBb"/>
-                            <constraint firstItem="Xeq-O8-Y93" firstAttribute="centerY" secondItem="OCq-4T-iOL" secondAttribute="centerY" id="5XM-FD-PON"/>
-                            <constraint firstItem="Xeq-O8-Y93" firstAttribute="leading" secondItem="svR-tq-aqj" secondAttribute="leading" constant="16" id="7NU-hl-hnO"/>
                             <constraint firstItem="h7J-Nh-btN" firstAttribute="leading" secondItem="svR-tq-aqj" secondAttribute="leading" constant="16" id="8OO-9w-Pd1"/>
                             <constraint firstItem="4j9-eo-pEQ" firstAttribute="top" secondItem="QSn-jX-erQ" secondAttribute="bottom" constant="8" id="8Sn-3d-M7A"/>
-                            <constraint firstItem="OCq-4T-iOL" firstAttribute="top" secondItem="svR-tq-aqj" secondAttribute="top" constant="69" id="Eme-2E-stq"/>
                             <constraint firstItem="QSn-jX-erQ" firstAttribute="top" secondItem="YOr-qC-2hN" secondAttribute="bottom" constant="8" id="Lcj-8V-bzw"/>
                             <constraint firstItem="h7J-Nh-btN" firstAttribute="centerY" secondItem="QSn-jX-erQ" secondAttribute="centerY" id="PeQ-T2-5pf"/>
                             <constraint firstItem="svR-tq-aqj" firstAttribute="bottom" secondItem="ngI-qK-1UD" secondAttribute="bottom" constant="51" id="W1K-bx-ppV"/>
@@ -494,7 +495,6 @@
                             <constraint firstItem="Td4-Mv-l46" firstAttribute="centerX" secondItem="4j9-eo-pEQ" secondAttribute="centerX" id="Xd4-gh-FwD"/>
                             <constraint firstItem="3lC-ad-qFG" firstAttribute="centerY" secondItem="YOr-qC-2hN" secondAttribute="centerY" id="Yis-24-ci7"/>
                             <constraint firstItem="svR-tq-aqj" firstAttribute="trailing" secondItem="QSn-jX-erQ" secondAttribute="trailing" constant="16" id="ch3-zG-RuM"/>
-                            <constraint firstItem="YOr-qC-2hN" firstAttribute="top" secondItem="OCq-4T-iOL" secondAttribute="bottom" constant="8" id="cri-sd-eOi"/>
                             <constraint firstItem="4j9-eo-pEQ" firstAttribute="leading" secondItem="svR-tq-aqj" secondAttribute="leading" id="evo-Nt-REY"/>
                             <constraint firstItem="ngI-qK-1UD" firstAttribute="centerX" secondItem="svR-tq-aqj" secondAttribute="centerX" id="lKs-Vp-i7Y"/>
                             <constraint firstItem="3lC-ad-qFG" firstAttribute="leading" secondItem="svR-tq-aqj" secondAttribute="leading" constant="16" id="rmv-el-Rdk"/>

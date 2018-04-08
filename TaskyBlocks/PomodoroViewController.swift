@@ -24,34 +24,14 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   var selectedItem: TaskyNode!
   var pickerArray: [TaskyNode]!
   
-  
   override func viewDidLoad() {
     super.viewDidLoad()
-    goTimeButton.layer.cornerRadius = 25
-    goTimeButton.layer.borderWidth = 5
-    goTimeButton.layer.borderColor = UIColor.darkGray.cgColor
-    if let unwrappedTasksData = tasksData
-    {
-      pickerData = unwrappedTasksData.crucials()
-    }
-    
-    if let unwrappedPickerData = pickerData
-    {
-      pickerSet = unwrappedPickerData
-    }
-    taskPicker.dataSource = self
-    taskPicker.delegate = self
-    taskPicker.showsSelectionIndicator = true
-
-    var crucialsArray: [TaskyNode] = []
-    for task in pickerSet
-    {
-      crucialsArray.append(task)
-    }
-    pickerArray = crucialsArray
-    self.selectedItem = pickerArray[0]
-    
-        reloadInputViews()
+    prepareView()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    prepareView()
   }
   
   @available(iOS 2.0, *)
@@ -74,6 +54,32 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
   {
     self.selectedItem = pickerArray[row]
+  }
+  
+  fileprivate func prepareView() {
+    goTimeButton.layer.cornerRadius = 25
+    goTimeButton.layer.borderWidth = 5
+    goTimeButton.layer.borderColor = UIColor.darkGray.cgColor
+    if let unwrappedTasksData = tasksData
+    {
+      pickerData = unwrappedTasksData.serveTaskData()
+    }
+    
+    if let unwrappedPickerData = pickerData
+    {
+      pickerSet = unwrappedPickerData
+    }
+    taskPicker.dataSource = self
+    taskPicker.delegate = self
+    taskPicker.showsSelectionIndicator = true
+    var displayArray: [TaskyNode] = []
+    for task in pickerSet
+    {
+      displayArray.append(task)
+    }
+    pickerArray = displayArray
+    self.selectedItem = pickerArray[0]
+    reloadInputViews()
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

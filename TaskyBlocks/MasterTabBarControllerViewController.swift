@@ -12,6 +12,8 @@ protocol TaskDataSource {
   func serveTaskData() -> (Set<TaskyNode>)
     func crucials() -> (Set<TaskyNode>)
     func primals() -> (Set<TaskyNode>)
+  func newTask() -> TaskyNode
+  func remove(task: TaskyNode)
 }
 
 enum relation
@@ -77,7 +79,7 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
         i += 1
       }
     
-    nodeA.parents = []
+    nodeA.removeAsChildToAll()
     nodeK.priorityOverride = nodeA.priorityOverride
     nodeB.priorityOverride = nodeC.priorityOverride
     nodeC.addAsChildTo(newParent: nodeB)
@@ -100,13 +102,28 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
         unwrappedViewController.tasksData = self
       }
     }
-
   }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
+  
+  //MARK: Task Creation and Deletion
+  
+  func newTask() -> TaskyNode
+  {
+    let task = TaskyNode()
+    activeTaskySet.insert(task)
+    return task
+  }
+  
+  func remove(task: TaskyNode)
+  {
+    task.prepareRemove()
+    activeTaskySet.remove(task)
+  }
+  
   
   //MARK: TaskDataSource methods
   
