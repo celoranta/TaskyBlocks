@@ -39,7 +39,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
     {
       fatalError("No data source set for detail view")
     }
-    let task = taskDetailDataSource.returnSelectedTask()
+    task = taskDetailDataSource.returnSelectedTask()
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
     self.taskDescription.text = task.taskDescription
