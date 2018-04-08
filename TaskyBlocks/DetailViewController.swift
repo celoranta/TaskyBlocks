@@ -14,7 +14,6 @@ protocol TaskDetailDataSource {
 
 class DetailViewController: UIViewController, PickerTableViewDelegate {
 
-
   
   var task:TaskyNode!
   var taskDetailDataSource: TaskDetailDataSource!
@@ -35,13 +34,12 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     guard taskDetailDataSource != nil
       else
     {
       fatalError("No data source set for detail view")
     }
-    task = taskDetailDataSource.returnSelectedTask()
+    let task = taskDetailDataSource.returnSelectedTask()
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
     self.taskDescription.text = task.taskDescription
@@ -59,19 +57,16 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
   }
   
   //MARK: Actions
-  
   @IBAction func backButton(_ sender: Any) {
     self.dismiss(animated: true, completion: nil)
   }
   
   //MARK: PickerTableView Delegate
-  
   func updatedSubset(from table: PickerTableViewController) {
     task.parents = table.updatedSubArray
   }
   
   // MARK: - Navigation
-  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let destinationVC = segue.destination as! PickerTableViewController
     destinationVC.contextItem = task

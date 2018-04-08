@@ -14,24 +14,25 @@ protocol TaskDataSource {
     func primals() -> (Set<TaskyNode>)
 }
 
+enum relation
+{case ancestors, descendants, brethren}
+
+enum dependency
+{case dependents, dependees}
+
+enum relativePriority
+{case greater, lesser, equal}
+
+enum relationalScheme
+{case all, mostDistant, immediate}
+
+enum relationErrors
+{case selfReference}
+
+
 class MasterTabBarControllerViewController: UITabBarController, UITabBarControllerDelegate,  TaskDataSource {
   
   var activeTaskySet: Set<TaskyNode> = []
-  
-  enum relative
-  {
-    case ancestors, descendants, brethren
-  }
-  
-  enum relationalScheme
-  {
-    case all, mostDistant, immediate
-  }
-  
-  enum relationErrors
-  {
-    case selfReference
-  }
   
   override func viewDidLoad() {
     super.viewDidLoad()

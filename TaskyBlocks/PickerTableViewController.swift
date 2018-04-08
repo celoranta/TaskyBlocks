@@ -10,24 +10,22 @@ import UIKit
 
 protocol PickerTableViewDelegate
 {
-  
   // to replace the subset of the contextItem
   // will be called by the pickerViewController upon save/close
   func updatedSubset(from table: PickerTableViewController) -> ()
 }
 
-class PickerTableViewController: UITableViewController {
-  
+class PickerTableViewController: UITableViewController
+{
   var superSet: Set<TaskyNode>?
-  var superArray: [TaskyNode] = []
   var contextItem: TaskyNode?
-  var pickerTableViewDelegate: PickerTableViewDelegate?
-  
+  var pickerTableViewDelegate: PickerTableViewDelegate!
   var tableViewTitle: String?
-  var subArray: [TaskyNode] = []
-  var updatedSubArray: [TaskyNode] = []
-  var selectedTask: TaskyNode!
+ 
   var activeTasks: [TaskyNode]!
+  var selectedTask: TaskyNode!
+  var subArray: [TaskyNode] = []  //copy of selected task's property
+  var updatedSubArray: [TaskyNode] = [] //for query by delegate
   
   override func viewDidLoad()
   {
@@ -48,8 +46,8 @@ class PickerTableViewController: UITableViewController {
     }
     activeTasks = Array.init(activeTasksUnwrapped)
     
-    guard pickerTableViewDelegate != nil
-    else
+    guard let pickerTableViewDelegateUnwrapped = pickerTableViewDelegate
+      else
     {
       fatalError("Fatal error: no picker table view delegate assigned")
     }
@@ -85,9 +83,9 @@ class PickerTableViewController: UITableViewController {
     return rowQty
   }
   
-   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    
-   let cell = tableView.dequeueReusableCell(withIdentifier: "pickerCell", for: indexPath) as! PickerTableViewCell
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+  {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "pickerCell", for: indexPath) as! PickerTableViewCell
     let checkMark = "\u{2713}"
     if indexPath.section == 0
     {
@@ -107,21 +105,17 @@ class PickerTableViewController: UITableViewController {
     }
     return cell
   }
-
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
   
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destinationViewController.
-   // Pass the selected object to the new view controller.
-   }
+  // MARK: - Navigation
   
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(true)
-    let delegate = self.pickerTableViewDelegate as! PickerTableViewDelegate
-    delegate.updatedSubset(from: self)
-    
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+  {
   }
   
+  override func viewWillDisappear(_ animated: Bool)
+  {
+    super.viewWillDisappear(true)
+    let delegate = self.pickerTableViewDelegate!
+    delegate.updatedSubset(from: self)
+  }
 }
