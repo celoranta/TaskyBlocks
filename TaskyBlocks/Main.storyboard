@@ -267,7 +267,7 @@
                                 <rect key="frame" x="313" y="328" width="46" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <segue destination="wTe-Ve-92G" kind="show" id="Lac-2z-fDX"/>
+                                    <segue destination="wTe-Ve-92G" kind="show" identifier="pickerFromParents" id="Lac-2z-fDX"/>
                                 </connections>
                             </button>
                         </subviews>

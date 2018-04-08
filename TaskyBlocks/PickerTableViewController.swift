@@ -8,25 +8,56 @@
 
 import UIKit
 
+protocol PickerTableViewDelegate
+{
+  
+  // to replace the subset of the contextItem
+  // will be called by the pickerViewController upon save/close
+  func updatedSubset(from table: PickerTableViewController) -> ()
+}
+
 class PickerTableViewController: UITableViewController {
   
-  var superSet: [TaskyNode]?
-  var subSet: [TaskyNode]?
+  var superSet: Set<TaskyNode>?
+  var superArray: [TaskyNode] = []
+  var contextItem: TaskyNode?
+  var pickerTableViewDelegate: PickerTableViewDelegate?
+  
+  var tableViewTitle: String?
+  var subArray: [TaskyNode] = []
+  var updatedSubArray: [TaskyNode] = []
+  var selectedTask: TaskyNode!
+  var activeTasks: [TaskyNode]!
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    //Test Data
-    let testNodeA = TaskyNode()
-    let testNodeB = TaskyNode()
-    let testNodeC = TaskyNode()
-    testNodeA.title = "First Task"
-    testNodeB.title = "Second Task"
-    testNodeC.title = "Third Task"
     
-    self.superSet = [testNodeA, testNodeB, testNodeC]
-    self.subSet = [testNodeA]
+    guard let selectedTaskunwrapped = contextItem
+      else
+    {
+      fatalError("Fatal error: no task loaded")
+    }
+    selectedTask = selectedTaskunwrapped
+    subArray = Array.init(selectedTask.parents)
     
+    guard let activeTasksUnwrapped = superSet
+      else
+    {
+      fatalError("Fatal error: no active task list loaded")
+    }
+    activeTasks = Array.init(activeTasksUnwrapped)
+    
+    guard pickerTableViewDelegate != nil
+    else
+    {
+      fatalError("Fatal error: no picker table view delegate assigned")
+    }
+    
+    if let unwrappedTitle = tableViewTitle
+    {
+      self.title = unwrappedTitle
+    }
   }
   
   override func didReceiveMemoryWarning()
@@ -43,17 +74,11 @@ class PickerTableViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
-    guard let unwrappedMasterActiveTaskSet = self.superSet,
-      let unwrappedParentsTaskSet = self.subSet
-    else
-    {
-      fatalError("Fatal Error: data not loaded")
-    }
     var rowQty: Int
     switch section
     {
-    case 0: rowQty = unwrappedParentsTaskSet.count
-    case 1: rowQty = unwrappedMasterActiveTaskSet.count
+    case 0: rowQty = subArray.count
+    case 1: rowQty = activeTasks.count
     default:
       rowQty = 0
     }
@@ -63,11 +88,22 @@ class PickerTableViewController: UITableViewController {
    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
    let cell = tableView.dequeueReusableCell(withIdentifier: "pickerCell", for: indexPath) as! PickerTableViewCell
+    let checkMark = "\u{2713}"
     if indexPath.section == 0
     {
-      let task = subSet![indexPath.row]
-      cell.checkMarkButton.setTitle("\u{2514}", for: .normal)
+      let task = subArray[indexPath.row]
+      cell.checkMarkButton.setTitle(checkMark, for: .normal)
       cell.taskTitleLabel.text = task.title
+    }
+    if indexPath.section == 1
+    {
+      let task = activeTasks[indexPath.row]
+      cell.checkMarkButton.setTitle("-", for: .normal)
+      cell.taskTitleLabel.text = task.title
+      if subArray.contains(task)
+      {
+        cell.checkMarkButton.setTitle(checkMark, for: .normal)
+      }
     }
     return cell
   }
@@ -81,6 +117,11 @@ class PickerTableViewController: UITableViewController {
    // Pass the selected object to the new view controller.
    }
   
-  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(true)
+    let delegate = self.pickerTableViewDelegate as! PickerTableViewDelegate
+    delegate.updatedSubset(from: self)
+    
+  }
   
 }

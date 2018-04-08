@@ -12,12 +12,14 @@ protocol TaskDetailDataSource {
   func returnSelectedTask () -> TaskyNode
 }
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, PickerTableViewDelegate {
+
 
   
   var task:TaskyNode!
   var taskDetailDataSource: TaskDetailDataSource!
-
+  var tasksData: TaskDataSource!
+  
   @IBOutlet weak var taskTitleText: UITextField!
   @IBOutlet weak var uuidLabel: UILabel!
   @IBOutlet weak var taskDescription: UITextView!
@@ -39,7 +41,7 @@ class DetailViewController: UIViewController {
     {
       fatalError("No data source set for detail view")
     }
-    let task = taskDetailDataSource.returnSelectedTask()
+    task = taskDetailDataSource.returnSelectedTask()
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
     self.taskDescription.text = task.taskDescription
@@ -54,25 +56,31 @@ class DetailViewController: UIViewController {
       parentsString.append(parent.title + ", ")
     }
     parentsListButton.setTitle(parentsString, for: .normal)
-    
-
-
   }
   
-
+  //MARK: Actions
+  
   @IBAction func backButton(_ sender: Any) {
     self.dismiss(animated: true, completion: nil)
   }
   
-
-  /*
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destinationViewController.
-   // Pass the selected object to the new view controller.
-   }
-   */
+  //MARK: PickerTableView Delegate
   
+  func updatedSubset(from table: PickerTableViewController) {
+    task.parents = table.updatedSubArray
+  }
+  
+  // MARK: - Navigation
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let destinationVC = segue.destination as! PickerTableViewController
+    destinationVC.contextItem = task
+    destinationVC.superSet = tasksData.serveTaskData()
+    destinationVC.pickerTableViewDelegate = self
+    if segue.identifier == "pickerToParents"
+    {
+      destinationVC.subArray = task.parents
+      destinationVC.title = "Task Parents"
+    }
+  }
 }

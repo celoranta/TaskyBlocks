@@ -14,9 +14,6 @@ class PickerTableViewCell: UITableViewCell {
   
   override func awakeFromNib() {
     super.awakeFromNib()
-
-    self.checkMarkButton.setTitle("\u{2713}", for: .normal)
-    self.checkMarkButton.setTitle("-", for: .selected)
     
     self.taskTitleLabel.text = "<default task title>"
     // Initialization code

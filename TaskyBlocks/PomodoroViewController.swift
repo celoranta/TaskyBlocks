@@ -82,6 +82,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         let detailNavController = segue.destination as! UINavigationController
         let detailViewController = detailNavController.topViewController as! DetailViewController
         detailViewController.taskDetailDataSource = self
+        detailViewController.tasksData = tasksData
     }
   }
   
