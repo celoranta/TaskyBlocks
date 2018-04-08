@@ -32,14 +32,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
   @IBOutlet weak var primalsListLabel: UILabel!
   @IBOutlet weak var taskDateLabel: UILabel!
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    guard taskDetailDataSource != nil
-      else
-    {
-      fatalError("No data source set for detail view")
-    }
-    task = taskDetailDataSource.returnSelectedTask()
+  fileprivate func refreshView() {
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
     self.taskDescription.text = task.taskDescription
@@ -56,6 +49,21 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
     parentsListButton.setTitle(parentsString, for: .normal)
   }
   
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    guard taskDetailDataSource != nil
+      else
+    {
+      fatalError("No data source set for detail view")
+    }
+    task = taskDetailDataSource.returnSelectedTask()
+    refreshView()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    self.refreshView()
+  }
+  
   //MARK: Actions
   @IBAction func backButton(_ sender: Any) {
     self.dismiss(animated: true, completion: nil)
@@ -63,7 +71,12 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
   
   //MARK: PickerTableView Delegate
   func updatedSubset(from table: PickerTableViewController) {
-    task.parents = table.updatedSubArray
+    let newParentList = table.subArray
+    task.removeAsChildToAll()
+    for parent in newParentList
+    {
+    task.addAsChildTo(newParent: parent)
+    }
   }
   
   // MARK: - Navigation

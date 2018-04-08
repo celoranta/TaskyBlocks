@@ -146,6 +146,27 @@ class TaskyNode: NSObject
       }
     }
   }
+  
+  func removeAsChildTo(parent: TaskyNode)
+  {
+    if let parentIndex = self.parents.index(of: parent)
+    {
+      self.parents.remove(at: parentIndex)
+    }
+    if let childIndex = parent.children.index(of: self)
+    {
+      parent.children.remove(at: childIndex)
+    }
+  }
+  
+  func removeAsChildToAll()
+  {
+    for parent in self.parents
+    {
+      self.removeAsChildTo(parent: parent)
+    }
+  }
+  
   func addAsConsequentTo(newAntecedent: TaskyNode)
   {
     if !self.antecedents.contains(newAntecedent)

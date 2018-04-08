@@ -106,8 +106,32 @@ class PickerTableViewController: UITableViewController
     return cell
   }
   
-  // MARK: - Navigation
+  // MARK: -Table View Delegate
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    var task: TaskyNode
+    switch indexPath.section
+    {
+    case 0: task = subArray[indexPath.row]
+    case 1: task = activeTasks[indexPath.row]
+    default: fatalError("Picker returned out-of-bounds selection")
+    }
+    self.toggleTaskInSubset(task: task)
+  }
   
+  func toggleTaskInSubset(task: TaskyNode)
+  {
+    if let index = subArray.index(of: task)
+    {
+      subArray.remove(at: index)
+    }
+    else
+    {
+      subArray.append(task)
+    }
+    self.tableView.reloadData()
+  }
+  
+  // MARK: - Navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
   {
   }
