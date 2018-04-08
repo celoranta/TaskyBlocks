@@ -28,6 +28,8 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   override func viewDidLoad() {
     super.viewDidLoad()
     goTimeButton.layer.cornerRadius = 25
+    goTimeButton.layer.borderWidth = 5
+    goTimeButton.layer.borderColor = UIColor.darkGray.cgColor
     if let unwrappedTasksData = tasksData
     {
       pickerData = unwrappedTasksData.crucials()

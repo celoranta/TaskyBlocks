@@ -15,6 +15,7 @@ class TaskyNode: NSObject
   var title = "New Task"
   var taskId: String
   var taskDescription: String!
+  let taskDate = Date()
   
   var parents: [TaskyNode] = []
   var children: [TaskyNode] = []

@@ -24,6 +24,12 @@ class DetailViewController: UIViewController {
   @IBOutlet weak var priorityLevelLabel: UILabel!
   @IBOutlet weak var isPrimalStatusLabel: UILabel!
   @IBOutlet weak var isActionableStatusLabel: UILabel!
+  @IBOutlet weak var parentsListButton: UIButton!
+  @IBOutlet weak var childListLabel: UILabel!
+  @IBOutlet weak var dependeesListLabel: UILabel!
+  @IBOutlet weak var dependentsListLabel: UILabel!
+  @IBOutlet weak var primalsListLabel: UILabel!
+  @IBOutlet weak var taskDateLabel: UILabel!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -35,14 +41,25 @@ class DetailViewController: UIViewController {
     }
     let task = taskDetailDataSource.returnSelectedTask()
     self.taskTitleText.text = task.title
+    self.taskTitleText.enablesReturnKeyAutomatically = true
     self.taskDescription.text = task.taskDescription
     self.uuidLabel.text = task.taskId
     self.priorityLevelLabel.text = task.priorityApparent.description
     self.isPrimalStatusLabel.text = task.isPrimal.description
     self.isActionableStatusLabel.text = task.isActionable.description
+    self.taskDateLabel.text = task.taskDate.description
+    var parentsString = ""
+    for parent in task.parents
+    {
+      parentsString.append(parent.title + ", ")
+    }
+    parentsListButton.setTitle(parentsString, for: .normal)
     
+
+
   }
   
+
   @IBAction func backButton(_ sender: Any) {
     self.dismiss(animated: true, completion: nil)
   }
