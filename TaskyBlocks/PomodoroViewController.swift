@@ -88,7 +88,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     pickerArray = displayArray
     self.selectedItem = pickerArray[0]
-    reloadInputViews()
+   // reloadInputViews()
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -105,6 +105,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
       performViewController.timeToSet = self.timerSetValue
       performViewController.pickerArray = self.pickerArray
       performViewController.performedTask = self.selectedItem
+      performViewController.tasksData = self.tasksData
     }
   }
 

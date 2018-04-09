@@ -16,6 +16,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
   @IBAction func taskDetailButton(_ sender: Any) {
   }
   
+  var tasksData: TaskDataSource!
   var timeToSet: Double = 45.00 * 60
   var pickerArray: [TaskyNode]?
   var performedTask: TaskyNode?
@@ -26,12 +27,13 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
   
   override func viewDidLoad() {
         super.viewDidLoad()
-
     guard let uPickerArray = pickerArray
       else
     {
       fatalError("Fatal Error:  Perform VC was fed a nil picker Array")
     }
+    
+
     
       guard let uPerformedTask = performedTask
       else
@@ -45,7 +47,14 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
       sprintTimer.totalTime = timeToSet
       sprintTimer.start()
       taskPicker.showsSelectionIndicator = true
+      refreshView()
     }
+  
+  func refreshView()
+  {
+    self.taskPicker.reloadAllComponents()
+    self.taskPicker.setNeedsDisplay()
+  }
 
   public func numberOfComponents(in pickerView: UIPickerView) -> Int
   {
@@ -68,8 +77,15 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     self.unwrappedPerformedTask = unwrappedPickerArray[row]
   }
   
-
-  
+  @IBAction func markCompletePress(_ sender: Any) {
+    tasksData.setComplete(for: unwrappedPerformedTask, on: Date())
+    let index = unwrappedPickerArray.index(of: unwrappedPerformedTask)
+    if let uindex = index
+    {
+      unwrappedPickerArray.remove(at: uindex)
+    }
+    refreshView()
+  }
   @IBAction func quitButton(_ sender: Any) {
     self.dismiss(animated: true, completion: nil)
   }
