@@ -13,8 +13,13 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   
   @IBOutlet weak var goTimeButton: UIButton!
   @IBOutlet weak var taskPicker: UIPickerView!
+  @IBOutlet weak var durationTimeLabel: UILabel!
+  @IBOutlet weak var taskDetailButton: UIButton!
+  
   var tasksData: TaskDataSource?
   var segueToDetail: UIStoryboardSegue!
+  var timerSetValue: Double = 2700.00
+  var performViewController: PerformViewController!
   
   //These two should be refactored out, as they don't need to be exposed
   var pickerData: Set<TaskyNode>?
@@ -34,13 +39,11 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     prepareView()
   }
   
-  @available(iOS 2.0, *)
   public func numberOfComponents(in pickerView: UIPickerView) -> Int
   {
     return 1
   }
   
-  @available(iOS 2.0, *)
   public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
   {
     return pickerArray.count
@@ -53,10 +56,16 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   
   public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
   {
+    self.goTimeButton.isEnabled = true
+    self.taskDetailButton.isEnabled = true
+    self.goTimeButton.alpha = 1
     self.selectedItem = pickerArray[row]
   }
   
   fileprivate func prepareView() {
+    taskDetailButton.isEnabled = false
+    goTimeButton.isEnabled = false
+    goTimeButton.alpha = 0.25
     goTimeButton.layer.cornerRadius = 25
     goTimeButton.layer.borderWidth = 5
     goTimeButton.layer.borderColor = UIColor.darkGray.cgColor
@@ -90,6 +99,22 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         detailViewController.taskDetailDataSource = self
         detailViewController.tasksData = tasksData
     }
+    if segue.identifier == "pomodoroToPerform"
+    {
+      performViewController = segue.destination as! PerformViewController
+      performViewController.timeToSet = self.timerSetValue
+      performViewController.pickerArray = self.pickerArray
+      performViewController.performedTask = self.selectedItem
+    }
+  }
+
+  @IBOutlet weak var durationStepperOut: UIStepper!
+  @IBAction func durationStepper(_ sender: Any) {
+    let duration = durationStepperOut.value
+    timerSetValue = duration * 60
+    print(duration)
+    let roundedDuration = Int(duration)
+    durationTimeLabel.text = "\(roundedDuration) min"
   }
   
   func returnSelectedTask() -> TaskyNode {

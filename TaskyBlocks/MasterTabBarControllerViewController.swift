@@ -14,6 +14,7 @@ protocol TaskDataSource {
     func primals() -> (Set<TaskyNode>)
   func newTask() -> TaskyNode
   func remove(task: TaskyNode)
+    func setComplete(for task: TaskyNode, on date: Date)
 }
 
 enum relation
@@ -35,6 +36,7 @@ enum relationErrors
 class MasterTabBarControllerViewController: UITabBarController, UITabBarControllerDelegate,  TaskDataSource {
   
   var activeTaskySet: Set<TaskyNode> = []
+  var completedTaskySet: Set<TaskyNode> = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -122,6 +124,16 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
   {
     task.prepareRemove()
     activeTaskySet.remove(task)
+  }
+  
+  func setComplete(for task: TaskyNode, on date: Date = Date())
+  {
+    task.markAsCompleted(on: date)
+    let removedTask = activeTaskySet.remove(task)
+    if let uRemovedTask = removedTask
+    {
+      completedTaskySet.insert(uRemovedTask)
+    }
   }
   
   

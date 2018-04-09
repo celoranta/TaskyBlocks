@@ -33,6 +33,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBOutlet weak var taskDateLabel: UILabel!
   @IBOutlet weak var deleteButton: UIButton!
   @IBOutlet weak var priorityDirectText: UITextField!
+  @IBOutlet weak var completedSwitch: UISwitch!
   
   fileprivate func refreshView() {
     
@@ -48,6 +49,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     self.isPrimalStatusLabel.text = task.isPrimal.description
     self.isActionableStatusLabel.text = task.isActionable.description
     self.taskDateLabel.text = task.taskDate.description
+    self.completedSwitch.isOn = task.isComplete
     var parentsString = ""
     for parent in task.parents
     {
@@ -89,6 +91,14 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     tasksData.remove(task: task)
     self.dismiss(animated: true, completion: nil)
   }
+  @IBAction func completedSwitchThrown(_ sender: Any) {
+    if completedSwitch.isOn == true
+    {
+      tasksData.setComplete(for: task, on: Date())
+      refreshView()
+    }
+  }
+  
   
   //MARK: PickerTableView Delegate
   func updatedSubset(from table: PickerTableViewController) {

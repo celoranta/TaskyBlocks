@@ -9,23 +9,67 @@
 import UIKit
 import AppusCircleTimer
 
-class PerformViewController: UIViewController {
-  @IBOutlet weak var sprintTimer: AppusCircleTimer!
+class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
   
+  @IBOutlet weak var sprintTimer: AppusCircleTimer!
+  @IBOutlet weak var taskPicker: UIPickerView!
+  @IBAction func taskDetailButton(_ sender: Any) {
+  }
+  
+  var timeToSet: Double = 45.00 * 60
+  var pickerArray: [TaskyNode]?
+  var performedTask: TaskyNode?
+  
+  var unwrappedPickerArray: [TaskyNode]!
+  var unwrappedPerformedTask: TaskyNode!
 
   
   override func viewDidLoad() {
         super.viewDidLoad()
 
+    guard let uPickerArray = pickerArray
+      else
+    {
+      fatalError("Fatal Error:  Perform VC was fed a nil picker Array")
+    }
+    
+      guard let uPerformedTask = performedTask
+      else
+    {
+      fatalError("Fatal Error: Perform VC was fed a nil performedTask")
+    }
+    self.unwrappedPickerArray = uPickerArray
+    self.unwrappedPerformedTask = uPerformedTask
 
       sprintTimer.elapsedTime = 0
-      sprintTimer.totalTime = 600
+      sprintTimer.totalTime = timeToSet
       sprintTimer.start()
-    
-
-        // Do any additional setup after loading the view.
+      taskPicker.showsSelectionIndicator = true
     }
 
+  public func numberOfComponents(in pickerView: UIPickerView) -> Int
+  {
+    return 1
+    
+  }
+  
+  public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
+  {
+    return unwrappedPickerArray.count
+  }
+  
+  public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+  {
+    return unwrappedPickerArray[row].title
+  }
+  
+  public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+  {
+    self.unwrappedPerformedTask = unwrappedPickerArray[row]
+  }
+  
+
+  
   @IBAction func quitButton(_ sender: Any) {
     self.dismiss(animated: true, completion: nil)
   }
@@ -33,7 +77,7 @@ class PerformViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
 
     /*
     // MARK: - Navigation

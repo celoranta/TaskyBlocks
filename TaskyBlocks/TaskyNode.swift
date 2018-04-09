@@ -21,6 +21,18 @@ class TaskyNode: NSObject
   internal fileprivate(set) var children: [TaskyNode] = []
   internal fileprivate(set) var antecedents: [TaskyNode] = []
   internal fileprivate(set) var consequents: [TaskyNode] = []
+  fileprivate var completionDate: Date? = nil
+  var isComplete: Bool
+  {
+    if completionDate == nil
+    {
+      return false
+    }
+    else
+    {
+      return true
+    }
+  }
 
   internal fileprivate(set) var priorityApparent: Double = 0
   var priorityInherited: Double = 0
@@ -200,6 +212,10 @@ class TaskyNode: NSObject
     }
   }
 
+  func markAsCompleted(on: Date = Date())
+  {
+    completionDate = Date()
+  }
 
   
   //Danny note:/master update instance method to call each priority update individually and return an update record
