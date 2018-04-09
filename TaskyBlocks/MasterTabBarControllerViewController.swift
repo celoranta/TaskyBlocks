@@ -67,8 +67,8 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
     var i = 1
       for task in activeTaskySet
       {
-        task.addAsChildTo(newParent: nodeA)
-        task.priorityOverride = Double(arc4random_uniform(99) + 1)
+        //task.addAsChildTo(newParent: nodeA)
+        task.priorityDirect = Double(arc4random_uniform(99) + 1)
         task.title = "Task #\(i)"
         task.taskDescription =
         """
@@ -79,12 +79,12 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
         i += 1
       }
     
-    nodeA.removeAsChildToAll()
-    nodeK.priorityOverride = nodeA.priorityOverride
-    nodeB.priorityOverride = nodeC.priorityOverride
-    nodeC.addAsChildTo(newParent: nodeB)
-    nodeE.addAsConsequentTo(newAntecedent: nodeF)
-    nodeF.addAsConsequentTo(newAntecedent: nodeG)
+    //nodeA.removeAsChildToAll()
+    //nodeK.priorityOverride = nodeA.priorityOverride
+    //nodeB.priorityOverride = nodeC.priorityOverride
+    //nodeC.addAsChildTo(newParent: nodeB)
+   // nodeE.addAsConsequentTo(newAntecedent: nodeF)
+    //nodeF.addAsConsequentTo(newAntecedent: nodeG)
     
     
     TaskyNode.updatePriorityFor(tasks: activeTaskySet, limit: 100)

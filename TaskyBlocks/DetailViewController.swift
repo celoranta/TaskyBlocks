@@ -12,7 +12,7 @@ protocol TaskDetailDataSource {
   func returnSelectedTask () -> TaskyNode
 }
 
-class DetailViewController: UIViewController, PickerTableViewDelegate {
+class DetailViewController: UIViewController, PickerTableViewDelegate, UITextViewDelegate, UITextFieldDelegate {
 
   
   var task:TaskyNode!
@@ -32,9 +32,14 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
   @IBOutlet weak var primalsListLabel: UILabel!
   @IBOutlet weak var taskDateLabel: UILabel!
   @IBOutlet weak var deleteButton: UIButton!
+  @IBOutlet weak var priorityDirect: UITextField!
   
   fileprivate func refreshView() {
   
+
+    self.priorityDirect.clearsOnBeginEditing = true
+    self.priorityDirect.keyboardType = .numbersAndPunctuation
+    self.priorityDirect.text = task.priorityDirect?.description ?? "<not set>"
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
     self.taskDescription.text = task.taskDescription
@@ -47,6 +52,10 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
     for parent in task.parents
     {
       parentsString.append(parent.title + ", ")
+    }
+    if parentsString == ""
+    {
+      parentsString = "<none>"
     }
     parentsListButton.setTitle(parentsString, for: .normal)
     deleteButton.isEnabled = tasksData.serveTaskData().count > 1
@@ -89,6 +98,67 @@ class DetailViewController: UIViewController, PickerTableViewDelegate {
     {
     task.addAsChildTo(newParent: parent)
     }
+  }
+  
+  //MARK: Text Field Delegate
+  func textFieldDidBeginEditing(_ textField: UITextField) {
+    if textField == taskTitleText
+    {
+      textField.clearsOnBeginEditing = true
+    }
+    if textField == priorityDirect
+    {
+      textField.clearsOnBeginEditing = true
+    }
+  }
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    if textField == taskTitleText
+    {
+      let inputString = textField.text ?? ""
+      task.title = inputString
+    }
+    if textField == priorityDirect
+    {
+      if let unwrappedString = textField.text
+      {
+        task.priorityDirect = (unwrappedString as NSString).doubleValue
+      }
+      else
+      {
+        
+      }
+    }
+    return true
+  }
+  
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+      taskTitleText.resignFirstResponder()
+    priorityDirect.resignFirstResponder()
+    
+    return true
+  }
+  
+  //MARK: Text View Delegate
+  
+  func textViewDidChange(_ textView: UITextView) {
+    if textView == taskDescription
+    {
+    let inputString = textView.text ?? ""
+    task.taskDescription = inputString
+    }
+  }
+  
+  func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+    if textView == taskDescription
+    {
+      taskDescription.resignFirstResponder()
+    }
+    return true
+  }
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+    taskDescription.resignFirstResponder()
+    taskTitleText.resignFirstResponder()
   }
   
   // MARK: - Navigation

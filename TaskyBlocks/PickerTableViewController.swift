@@ -102,6 +102,10 @@ class PickerTableViewController: UITableViewController
       {
         cell.checkMarkButton.setTitle(checkMark, for: .normal)
       }
+      if activeTasks[indexPath.row] === contextItem
+      {
+        cell.checkMarkButton.setTitle("X", for: .normal)
+      }
     }
     return cell
   }
@@ -115,7 +119,10 @@ class PickerTableViewController: UITableViewController
     case 1: task = activeTasks[indexPath.row]
     default: fatalError("Picker returned out-of-bounds selection")
     }
+    if task !== contextItem
+    {
     self.toggleTaskInSubset(task: task)
+    }
   }
   
   func toggleTaskInSubset(task: TaskyNode)

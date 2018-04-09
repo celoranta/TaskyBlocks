@@ -198,10 +198,6 @@ class TaskyNode: NSObject
         }
       }
     }
-    for antecedent in antecedents
-    {
-      // stub
-    }
   }
 
 
@@ -243,7 +239,7 @@ class TaskyNode: NSObject
 //  }
 //
   
-  //A tasks's consequent priority is the maximum of all antecedents' apparent priorities
+  //A tasks's consequent priority is the maximum of all consequents' apparent priorities
   private func updatePriorityConsequent()
   {
     var priorityRegister: Double = 0.0
@@ -261,22 +257,54 @@ class TaskyNode: NSObject
   private func updatePriorityApparent()
   {
     // Danny note: if & else if vs a bunch of ifs. This would reqwuire you to reverse the order.
-    var priorityRegister: Double!
-    priorityRegister = self.priorityInherited
-    var postDefaultPriorityDirect: Double
-    if let unwrappedPriorityDirect = priorityDirect
+    
+    let maxInheritanceTask = parents.max { $0.priorityApparent < $1.priorityApparent }
+    let inheritance = maxInheritanceTask?.priorityApparent ?? 100.00
+    let maxDependenceTask = consequents.max { $0.priorityApparent < $1.priorityApparent }
+    let dependence = maxDependenceTask?.priorityApparent ?? 0.00
+    let direct = priorityDirect ?? priorityDirectDefault
+    let priorities = (dependence: dependence,inheritance: inheritance,direct: direct)
+    var priorityRegister: Double
+    if priorityOverride != nil
     {
-      postDefaultPriorityDirect = unwrappedPriorityDirect
+      priorityRegister = priorityOverride!
+    }
+    else if priorities.dependence >= priorities.direct
+    {
+      priorityRegister = priorities.dependence
+    }
+    else if priorities.inheritance <= priorities.direct
+    {
+      priorityRegister = priorities.inheritance
     }
     else
     {
-      postDefaultPriorityDirect = priorityDirectDefault
+    priorityRegister = priorities.direct
     }
-    if priorityRegister > postDefaultPriorityDirect {priorityRegister = postDefaultPriorityDirect}
-    if priorityRegister < self.priorityConsequent {priorityRegister = self.priorityConsequent}
-    if let priorityOverrideUnwrapped = self.priorityOverride{priorityRegister = priorityOverrideUnwrapped
-      
-    }
+    //if priorityOverride != nil, return priorityOverride
+    //if consequent >= calcDirect, use consequent
+    //if inherited <= calcDirect, use inherited
+    //if priorityDirect = nil, use defaultPriorityDirect
+    //else use priorityDirect
+    
+    //let inherited = self.parents.max { $0.priorityApparent < $1.priorityApparent }
+    //let inherited = self.parents.priorityApparent.max()
+    
+//    var priorityRegister: Double!
+//    priorityRegister = self.priorityInherited
+//    let postDefaultPriorityDirect = priorityDirect ?? priorityDirectDefault
+//    if priorityRegister > postDefaultPriorityDirect
+//    {
+//      priorityRegister = postDefaultPriorityDirect
+//    }
+//    if priorityRegister < self.priorityConsequent
+//    {
+//      priorityRegister = self.priorityConsequent
+//    }
+//    if let priorityOverrideUnwrapped = self.priorityOverride
+//    {
+//      priorityRegister = priorityOverrideUnwrapped
+//    }
     self.priorityApparent = priorityRegister
   }
   
