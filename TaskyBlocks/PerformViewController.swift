@@ -24,7 +24,6 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
   var unwrappedPickerArray: [TaskyNode]!
   var unwrappedPerformedTask: TaskyNode!
 
-  
   override func viewDidLoad() {
         super.viewDidLoad()
     guard let uPickerArray = pickerArray
@@ -32,8 +31,6 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     {
       fatalError("Fatal Error:  Perform VC was fed a nil picker Array")
     }
-    
-
     
       guard let uPerformedTask = performedTask
       else
@@ -44,6 +41,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     self.unwrappedPerformedTask = uPerformedTask
 
       sprintTimer.elapsedTime = 0
+      sprintTimer.isBackwards = true
       sprintTimer.totalTime = timeToSet
       sprintTimer.start()
       taskPicker.showsSelectionIndicator = true
@@ -59,7 +57,6 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
   public func numberOfComponents(in pickerView: UIPickerView) -> Int
   {
     return 1
-    
   }
   
   public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
