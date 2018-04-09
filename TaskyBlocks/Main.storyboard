@@ -377,7 +377,7 @@
                         <outlet property="isPrimalStatusLabel" destination="5fw-Hi-Eu6" id="N1E-IH-5kH"/>
                         <outlet property="parentsListButton" destination="rJP-8M-Pcs" id="5B3-0d-lHG"/>
                         <outlet property="primalsListLabel" destination="eWG-c6-3rV" id="bfT-mR-Q4i"/>
-                        <outlet property="priorityDirect" destination="FtN-gm-hqJ" id="opx-N8-R2f"/>
+                        <outlet property="priorityDirectText" destination="FtN-gm-hqJ" id="IM8-Av-gHp"/>
                         <outlet property="priorityLevelLabel" destination="BOW-Wb-u9H" id="RAE-jP-Y7h"/>
                         <outlet property="taskDateLabel" destination="bI7-Sk-97c" id="JXD-zZ-aNl"/>
                         <outlet property="taskDescription" destination="A5h-2y-bd9" id="7EY-uF-d7m"/>

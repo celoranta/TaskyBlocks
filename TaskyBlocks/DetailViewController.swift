@@ -13,7 +13,7 @@ protocol TaskDetailDataSource {
 }
 
 class DetailViewController: UIViewController, PickerTableViewDelegate, UITextViewDelegate, UITextFieldDelegate {
-
+  
   
   var task:TaskyNode!
   var taskDetailDataSource: TaskDetailDataSource!
@@ -32,14 +32,14 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBOutlet weak var primalsListLabel: UILabel!
   @IBOutlet weak var taskDateLabel: UILabel!
   @IBOutlet weak var deleteButton: UIButton!
-  @IBOutlet weak var priorityDirect: UITextField!
+  @IBOutlet weak var priorityDirectText: UITextField!
   
   fileprivate func refreshView() {
-  
-
-    self.priorityDirect.clearsOnBeginEditing = true
-    self.priorityDirect.keyboardType = .numbersAndPunctuation
-    self.priorityDirect.text = task.priorityDirect?.description ?? "<not set>"
+    
+    
+    self.priorityDirectText.clearsOnBeginEditing = true
+    self.priorityDirectText.keyboardType = .numbersAndPunctuation
+    self.priorityDirectText.text = task.priorityDirect?.description ?? "<not set>"
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
     self.taskDescription.text = task.taskDescription
@@ -96,7 +96,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     task.removeAsChildToAll()
     for parent in newParentList
     {
-    task.addAsChildTo(newParent: parent)
+      task.addAsChildTo(newParent: parent)
     }
   }
   
@@ -106,7 +106,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     {
       textField.clearsOnBeginEditing = true
     }
-    if textField == priorityDirect
+    if textField == priorityDirectText
     {
       textField.clearsOnBeginEditing = true
     }
@@ -117,34 +117,65 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       let inputString = textField.text ?? ""
       task.title = inputString
     }
-    if textField == priorityDirect
+    if textField == priorityDirectText
     {
-      if let unwrappedString = textField.text
-      {
-        task.priorityDirect = (unwrappedString as NSString).doubleValue
-      }
-      else
-      {
-        
-      }
+        switch string {
+        case "0","1","2","3","4","5","6","7","8","9":
+          return true
+        case ".":
+          let array = Array(priorityDirectText.text!)
+          var decimalCount = 0
+          for character in array {
+            if character == "." {
+              decimalCount += 1
+            }
+          }
+          
+          if decimalCount == 1 {
+            return false
+          } else {
+            return true
+          }
+        default:
+          let array = Array(string)
+          if array.count == 0 {
+            return true
+          }
+          return false
+        }
     }
     return true
   }
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-      taskTitleText.resignFirstResponder()
-    priorityDirect.resignFirstResponder()
     
+
+
+    taskTitleText.resignFirstResponder()
+    priorityDirectText.resignFirstResponder()
     return true
   }
+  
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    if textField == priorityDirectText
+    {
+      if let unwrappedText = priorityDirectText.text
+      {
+        task.priorityDirect = ((unwrappedText as NSString).doubleValue)
+      }
+    }
+        _ = task.updateMyPriorities()
+        refreshView()
+  }
+  
   
   //MARK: Text View Delegate
   
   func textViewDidChange(_ textView: UITextView) {
     if textView == taskDescription
     {
-    let inputString = textView.text ?? ""
-    task.taskDescription = inputString
+      let inputString = textView.text ?? ""
+      task.taskDescription = inputString
     }
   }
   
@@ -174,3 +205,4 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     }
   }
 }
+
