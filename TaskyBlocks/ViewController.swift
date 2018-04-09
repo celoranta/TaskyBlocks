@@ -16,10 +16,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     taskyGraph.delegate = self
-    let displayTasks = tasksData?.serveTaskData()
-    
-    //replace force unwrapping
-    taskyGraph.graphPriorityWith(taskSet: displayTasks!)
+    graphIt()
   }
   
   //  Tells the delegate that zooming of the content in the scroll view is about to commence.
@@ -27,30 +24,44 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   {
     
   }
-
+  
   //  Tells the delegate when zooming of the content in the scroll view completed.
   internal func scrollViewDidEndZooming(_: UIScrollView, with: UIView?, atScale: CGFloat)
   {
     print(atScale)
   }
-
+  
   //  Tells the delegate that the scroll view’s zoom factor changed.
-
+  
   func scrollViewDidZoom(_: UIScrollView)
   {
     
   }
   
-//
-//  func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
-//  {
-//    return taskyGraph
-//  }
-
+  //
+  //  func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
+  //  {
+  //    return taskyGraph
+  //  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    graphIt()
+  }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
+  }
+  
+  func graphIt()
+  {
+    guard let tasksDataUnwrapped = tasksData
+      else
+    {
+      fatalError("Data source is nil")
+    }
+    let displayTasks = tasksDataUnwrapped.serveTaskData()
+    taskyGraph.graphPriorityWith(taskSet: displayTasks)
   }
 }
 
