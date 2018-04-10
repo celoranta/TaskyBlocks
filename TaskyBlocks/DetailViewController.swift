@@ -80,6 +80,11 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBAction func childrenButton(_ sender: Any)
   {
     pickerViewRelationshipType = .children
+    performSegue(withIdentifier: "toDetailPicker", sender: self)
+  }
+  @IBAction func parentsButton(_ sender: Any) {
+    pickerViewRelationshipType = .parents
+    performSegue(withIdentifier: "toDetailPicker", sender: self)
   }
   
   fileprivate func refreshView() {
@@ -106,7 +111,17 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     {
       parentsString = "<none>"
     }
+    var childrenString = ""
+    for child in task.children
+    {
+      childrenString.append(child.title + ", ")
+    }
+    if childrenString == ""
+    {
+      childrenString = "<none>"
+    }
     parentsListButton.setTitle(parentsString, for: .normal)
+    childrenListButton.setTitle(childrenString, for: .normal)
     deleteButton.isEnabled = tasksData.serveTaskData().count > 1
   }
   
@@ -120,6 +135,11 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     {
     case .children:
       print("picker returned children")
+      task.removeAsParentToAll()
+      for child in returnPickerData.collection
+      {
+        task.addAsParentTo(newChild: child)
+      }
     case .dependees:
       print("picker returned dependees")
     case .dependents:
@@ -231,13 +251,9 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     //delegate call
     
     destinationVC.pickerTableViewDelegate = self
-    switch segue.identifier
-    {
-    case "pickerFromParents":
-      destinationVC.provideUpdatedCollection(of: .parents, for: task, within: tasksData.serveTaskData())
-    default:
-      fatalError("Detail view prepared for undefined segue")
-    }
+
+      destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: tasksData.serveTaskData())
+
   }
 }
 

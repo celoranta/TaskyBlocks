@@ -261,7 +261,7 @@
                                 <rect key="frame" x="313" y="328" width="46" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <segue destination="wTe-Ve-92G" kind="show" identifier="pickerFromParents" id="Lac-2z-fDX"/>
+                                    <action selector="parentsButton:" destination="1Gi-xi-kOP" eventType="touchUpInside" id="7xq-Jr-yhi"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydM-le-0DW">
@@ -400,6 +400,7 @@
                         <outlet property="taskDescription" destination="A5h-2y-bd9" id="7EY-uF-d7m"/>
                         <outlet property="taskTitleText" destination="r6X-to-wo1" id="ycm-HH-ham"/>
                         <outlet property="uuidLabel" destination="JFd-5f-eJ1" id="9Gc-ap-yTP"/>
+                        <segue destination="wTe-Ve-92G" kind="show" identifier="toDetailPicker" id="MBY-j7-M4c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UG9-2q-HCD" userLabel="First Responder" sceneMemberID="firstResponder"/>

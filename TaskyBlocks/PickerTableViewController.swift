@@ -13,7 +13,7 @@ protocol PickerTableViewDelegate
   // call provideUpdatedCollection(of relationship: TaskRelationship, for task: TaskyNode)
   func retrieveUpdatedCollection(from table: PickerTableViewController)//
   // call postUpdatedTaskSubcollection() -> (focusTask: TaskyNode, relationship: TaskRelationship, collection: [TaskyNode])
-
+  
 }
 
 enum TaskRelationship: String
@@ -27,7 +27,7 @@ class PickerTableViewController: UITableViewController
   //var contextItem: TaskyNode?
   var pickerTableViewDelegate: PickerTableViewDelegate!
   //var tableViewTitle: String?
- 
+  
   var activeTasks: [TaskyNode]!
   //var selectedTask: TaskyNode!
   var subArray: [TaskyNode] = []  //copy of selected task's property
@@ -36,14 +36,14 @@ class PickerTableViewController: UITableViewController
   var delegateRequestedRelationshipType: TaskRelationship!
   var delegateRequestedRelationshipsOf: TaskyNode!
   var delegateRequestedRelationshipsAmong: Set<TaskyNode>!
-
+  
   override func viewDidLoad()
   {
     super.viewDidLoad()
     
     activeTasks = Array.init(delegateRequestedRelationshipsAmong)
-    subArray = Array.init(delegateRequestedRelationshipsOf.parents)
-  //    self.tableView(self.tableView, sectionForSectionIndexTitle: delegateRequestedRelationshipType.rawValue, at: 0)
+    
+    //    self.tableView(self.tableView, sectionForSectionIndexTitle: delegateRequestedRelationshipType.rawValue, at: 0)
   }
   
   override func didReceiveMemoryWarning()
@@ -56,7 +56,7 @@ class PickerTableViewController: UITableViewController
   
   func postUpdatedTaskSubcollection() -> (focusTask: TaskyNode, relationship: TaskRelationship, collection: [TaskyNode])
   {
-   return (delegateRequestedRelationshipsOf, delegateRequestedRelationshipType, subArray)
+    return (delegateRequestedRelationshipsOf, delegateRequestedRelationshipType, subArray)
   }
   
   func provideUpdatedCollection(of relationship: TaskRelationship, for task: TaskyNode, within taskList: Set<TaskyNode>)
@@ -64,6 +64,22 @@ class PickerTableViewController: UITableViewController
     delegateRequestedRelationshipType = relationship
     delegateRequestedRelationshipsOf = task
     delegateRequestedRelationshipsAmong = taskList
+    switch delegateRequestedRelationshipType
+    {
+    case .parents:
+      subArray = Array.init(delegateRequestedRelationshipsOf.parents)
+    case .children:
+      subArray = Array.init(delegateRequestedRelationshipsOf.children)
+    case .dependents:
+      subArray = Array.init(delegateRequestedRelationshipsOf.consequents)
+    case .dependees:
+      subArray = Array.init(delegateRequestedRelationshipsOf.antecedents)
+    case .none:
+      fatalError("delegate requested unknown type or types")
+    case .some(_):
+      fatalError("delegate requested unknown type or types")
+    }
+    
   }
   
   // MARK: - Table view data source
@@ -123,7 +139,7 @@ class PickerTableViewController: UITableViewController
     }
     if task !== delegateRequestedRelationshipsOf
     {
-    self.toggleTaskInSubset(task: task)
+      self.toggleTaskInSubset(task: task)
     }
   }
   
