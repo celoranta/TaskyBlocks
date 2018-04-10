@@ -13,22 +13,7 @@ protocol TaskDetailDataSource {
 }
 
 class DetailViewController: UIViewController, PickerTableViewDelegate, UITextViewDelegate, UITextFieldDelegate {
-  
-  func retrieveUpdatedCollection(from table: PickerTableViewController)
-  {
-    let returnPickerData = table.postUpdatedTaskSubcollection()
-    switch returnPickerData.relationship
-    {
-    case .children:
-      print("picker returned children")
-    case .dependees:
-      print("picker returned dependees")
-    case .dependents:
-      print("picker returned dependents")
-    case .parents:
-      print("picker returned parents")
-    }
-  }
+
   
   //MARK: Outlets
   @IBOutlet weak var taskTitleText: UITextField!
@@ -52,10 +37,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   var taskDetailDataSource: TaskDetailDataSource!
   var tasksData: TaskDataSource!
   var pickerTableViewController: PickerTableViewController!
-  
-  //MARK: PickerTableView
-  
-  
+ 
   //MARK: Methods
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -121,10 +103,30 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     deleteButton.isEnabled = tasksData.serveTaskData().count > 1
   }
   
-  
   //MARK: PickerTableView Delegate
   
   
+  func retrieveUpdatedCollection(from table: PickerTableViewController)
+  {
+    let returnPickerData = table.postUpdatedTaskSubcollection()
+    switch returnPickerData.relationship
+    {
+    case .children:
+      print("picker returned children")
+    case .dependees:
+      print("picker returned dependees")
+    case .dependents:
+      print("picker returned dependents")
+    case .parents:
+        task.removeAsChildToAll()
+      for parent in returnPickerData.collection
+      {
+      task.addAsChildTo(newParent: parent)
+      }
+      print("picker returned parents")
+    }
+    refreshView()
+  }
   //MARK: Text Field Delegate
   func textFieldDidBeginEditing(_ textField: UITextField) {
     if textField == taskTitleText
@@ -219,12 +221,11 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     let destinationVC = segue.destination as! PickerTableViewController
     //delegate call
     
-    destinationVC.superSet = tasksData.serveTaskData()
     destinationVC.pickerTableViewDelegate = self
     switch segue.identifier
     {
-    case "pickerToParents":
-      destinationVC.provideUpdatedCollection(of: .parents, for: task, within taskList: tasksData.serveTaskData())
+    case "pickerFromParents":
+      destinationVC.provideUpdatedCollection(of: .parents, for: task, within: tasksData.serveTaskData())
     default:
       fatalError("Detail view prepared for undefined segue")
     }

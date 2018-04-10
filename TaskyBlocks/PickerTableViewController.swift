@@ -43,8 +43,7 @@ class PickerTableViewController: UITableViewController
     
     activeTasks = Array.init(delegateRequestedRelationshipsAmong)
     subArray = Array.init(delegateRequestedRelationshipsOf.parents)
-
-      self.tableView(self.tableView, sectionForSectionIndexTitle: delegateRequestedRelationshipType.rawValue, at: 0)
+  //    self.tableView(self.tableView, sectionForSectionIndexTitle: delegateRequestedRelationshipType.rawValue, at: 0)
   }
   
   override func didReceiveMemoryWarning()

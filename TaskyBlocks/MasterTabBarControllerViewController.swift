@@ -17,20 +17,20 @@ protocol TaskDataSource {
     func setComplete(for task: TaskyNode, on date: Date)
 }
 
-enum relation
-{case ancestors, descendants, brethren}
-
-enum dependency
-{case dependents, dependees}
-
-enum relativePriority
-{case greater, lesser, equal}
-
-enum relationalScheme
-{case all, mostDistant, immediate}
-
-enum relationErrors
-{case selfReference}
+//enum relation
+//{case ancestors, descendants, brethren}
+//
+//enum dependency
+//{case dependents, dependees}
+//
+//enum relativePriority
+//{case greater, lesser, equal}
+//
+//enum relationalScheme
+//{case all, mostDistant, immediate}
+//
+//enum relationErrors
+//{case selfReference}
 
 
 class MasterTabBarControllerViewController: UITabBarController, UITabBarControllerDelegate,  TaskDataSource {
@@ -69,10 +69,12 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
 
       for task in activeTaskySet
       {
-        let rand1 = Int(arc4random_uniform(14))
-        let rand2 = Int(arc4random_uniform(14))
-        let verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate"]
-        let nouns = ["Dog", "Dishes", "Car", "Neighbors", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws"]
+        let verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate", "Flog", "Threaten", "Pacify", "Enrage", "Bewilder", "Frighten", "Placate"]
+        let nouns = ["Dog", "Dishes", "Car", "Neighbors", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws", "Cat", "Baby", "Shed", "TV", "Light Fixtures"]
+        let verbQty = UInt32(verbs.count)
+        let nounQty = UInt32(nouns.count)
+        let rand1 = Int(arc4random_uniform(verbQty - 1))
+        let rand2 = Int(arc4random_uniform(nounQty - 1))
         let nameString = "\(verbs[rand1]) the \(nouns[rand2])"
         //task.addAsChildTo(newParent: nodeA)
         task.priorityDirect = Double(arc4random_uniform(99) + 1)
