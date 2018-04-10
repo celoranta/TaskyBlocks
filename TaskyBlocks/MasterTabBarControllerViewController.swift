@@ -71,7 +71,7 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
       {
         let rand1 = Int(arc4random_uniform(14))
         let rand2 = Int(arc4random_uniform(14))
-        let verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Encourage"]
+        let verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate"]
         let nouns = ["Dog", "Dishes", "Car", "Neighbors", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws"]
         let nameString = "\(verbs[rand1]) the \(nouns[rand2])"
         //task.addAsChildTo(newParent: nodeA)
