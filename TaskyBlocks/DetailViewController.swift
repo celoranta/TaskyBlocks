@@ -25,8 +25,8 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBOutlet weak var parentsListButton: UIButton!
 
   @IBOutlet weak var childrenListButton: UIButton!
-  @IBOutlet weak var dependeesListLabel: UILabel!
-  @IBOutlet weak var dependentsListLabel: UILabel!
+  @IBOutlet weak var dependeesListButton: UIButton!
+  @IBOutlet weak var dependentsListButton: UIButton!
   @IBOutlet weak var primalsListLabel: UILabel!
   @IBOutlet weak var taskDateLabel: UILabel!
   @IBOutlet weak var deleteButton: UIButton!
@@ -86,6 +86,14 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     pickerViewRelationshipType = .parents
     performSegue(withIdentifier: "toDetailPicker", sender: self)
   }
+  @IBAction func dependeesButton(_ sender: Any) {
+    pickerViewRelationshipType = .dependees
+    performSegue(withIdentifier: "toDetailPicker", sender: self)
+  }
+  @IBAction func dependentsButton(_ sender: Any) {
+    pickerViewRelationshipType = .dependents
+    performSegue(withIdentifier: "toDetailPicker", sender: self)
+  }
   
   fileprivate func refreshView() {
     
@@ -133,8 +141,16 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     let returnPickerData = table.postUpdatedTaskSubcollection()
     switch returnPickerData.relationship
     {
+    case .parents:
+      task.removeAsChildToAll()
+      for parent in returnPickerData.collection
+      {
+        task.addAsChildTo(newParent: parent)
+      }
+      print("picker returned parents")
     case .children:
       print("picker returned children")
+      
       task.removeAsParentToAll()
       for child in returnPickerData.collection
       {
@@ -144,13 +160,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       print("picker returned dependees")
     case .dependents:
       print("picker returned dependents")
-    case .parents:
-        task.removeAsChildToAll()
-      for parent in returnPickerData.collection
-      {
-      task.addAsChildTo(newParent: parent)
-      }
-      print("picker returned parents")
+
     }
     refreshView()
   }
