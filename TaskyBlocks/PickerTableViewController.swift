@@ -10,58 +10,61 @@ import UIKit
 
 protocol PickerTableViewDelegate
 {
-  // to replace the subset of the contextItem
-  // will be called by the pickerViewController upon save/close
-  func updatedSubset(from table: PickerTableViewController) -> ()
+  // call provideUpdatedCollection(of relationship: TaskRelationship, for task: TaskyNode)
+  func retrieveUpdatedCollection(from table: PickerTableViewController)//
+  // call postUpdatedTaskSubcollection() -> (focusTask: TaskyNode, relationship: TaskRelationship, collection: [TaskyNode])
+
+}
+
+enum TaskRelationship: String
+{
+  case parents = "Parents", children = "Children", dependents = "Dependents", dependees = "Dependees"
 }
 
 class PickerTableViewController: UITableViewController
 {
-  var superSet: Set<TaskyNode>?
-  var contextItem: TaskyNode?
+  //var superSet: Set<TaskyNode>?
+  //var contextItem: TaskyNode?
   var pickerTableViewDelegate: PickerTableViewDelegate!
-  var tableViewTitle: String?
+  //var tableViewTitle: String?
  
   var activeTasks: [TaskyNode]!
-  var selectedTask: TaskyNode!
+  //var selectedTask: TaskyNode!
   var subArray: [TaskyNode] = []  //copy of selected task's property
-  var updatedSubArray: [TaskyNode] = [] //for query by delegate
+  //var updatedSubArray: [TaskyNode] = [] //for query by delegate
   
+  var delegateRequestedRelationshipType: TaskRelationship!
+  var delegateRequestedRelationshipsOf: TaskyNode!
+  var delegateRequestedRelationshipsAmong: Set<TaskyNode>!
+
   override func viewDidLoad()
   {
     super.viewDidLoad()
     
-    guard let selectedTaskunwrapped = contextItem
-      else
-    {
-      fatalError("Fatal error: no task loaded")
-    }
-    selectedTask = selectedTaskunwrapped
-    subArray = Array.init(selectedTask.parents)
-    
-    guard let activeTasksUnwrapped = superSet
-      else
-    {
-      fatalError("Fatal error: no active task list loaded")
-    }
-    activeTasks = Array.init(activeTasksUnwrapped)
-    
-    guard (pickerTableViewDelegate) != nil
-      else
-    {
-      fatalError("Fatal error: no picker table view delegate assigned")
-    }
-    
-    if let unwrappedTitle = tableViewTitle
-    {
-      self.title = unwrappedTitle
-    }
+    activeTasks = Array.init(delegateRequestedRelationshipsAmong)
+    subArray = Array.init(delegateRequestedRelationshipsOf.parents)
+
+      self.tableView(self.tableView, sectionForSectionIndexTitle: delegateRequestedRelationshipType.rawValue, at: 0)
   }
   
   override func didReceiveMemoryWarning()
   {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
+  }
+  
+  //MARK: PickerTableView Delegate
+  
+  func postUpdatedTaskSubcollection() -> (focusTask: TaskyNode, relationship: TaskRelationship, collection: [TaskyNode])
+  {
+   return (delegateRequestedRelationshipsOf, delegateRequestedRelationshipType, subArray)
+  }
+  
+  func provideUpdatedCollection(of relationship: TaskRelationship, for task: TaskyNode, within taskList: Set<TaskyNode>)
+  {
+    delegateRequestedRelationshipType = relationship
+    delegateRequestedRelationshipsOf = task
+    delegateRequestedRelationshipsAmong = taskList
   }
   
   // MARK: - Table view data source
@@ -102,7 +105,7 @@ class PickerTableViewController: UITableViewController
       {
         cell.checkMarkButton.setTitle(checkMark, for: .normal)
       }
-      if activeTasks[indexPath.row] === contextItem
+      if activeTasks[indexPath.row] === delegateRequestedRelationshipsOf
       {
         cell.checkMarkButton.setTitle("X", for: .normal)
       }
@@ -119,7 +122,7 @@ class PickerTableViewController: UITableViewController
     case 1: task = activeTasks[indexPath.row]
     default: fatalError("Picker returned out-of-bounds selection")
     }
-    if task !== contextItem
+    if task !== delegateRequestedRelationshipsOf
     {
     self.toggleTaskInSubset(task: task)
     }
@@ -146,7 +149,6 @@ class PickerTableViewController: UITableViewController
   override func viewWillDisappear(_ animated: Bool)
   {
     super.viewWillDisappear(true)
-    let delegate = self.pickerTableViewDelegate!
-    delegate.updatedSubset(from: self)
+    pickerTableViewDelegate.retrieveUpdatedCollection(from: self)
   }
 }

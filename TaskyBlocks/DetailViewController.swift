@@ -14,6 +14,22 @@ protocol TaskDetailDataSource {
 
 class DetailViewController: UIViewController, PickerTableViewDelegate, UITextViewDelegate, UITextFieldDelegate {
   
+  func retrieveUpdatedCollection(from table: PickerTableViewController)
+  {
+    let returnPickerData = table.postUpdatedTaskSubcollection()
+    switch returnPickerData.relationship
+    {
+    case .children:
+      print("picker returned children")
+    case .dependees:
+      print("picker returned dependees")
+    case .dependents:
+      print("picker returned dependents")
+    case .parents:
+      print("picker returned parents")
+    }
+  }
+  
   //MARK: Outlets
   @IBOutlet weak var taskTitleText: UITextField!
   @IBOutlet weak var uuidLabel: UILabel!
@@ -35,6 +51,10 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   var task:TaskyNode!
   var taskDetailDataSource: TaskDetailDataSource!
   var tasksData: TaskDataSource!
+  var pickerTableViewController: PickerTableViewController!
+  
+  //MARK: PickerTableView
+  
   
   //MARK: Methods
   override func viewDidLoad() {
@@ -103,14 +123,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   
   //MARK: PickerTableView Delegate
-  func updatedSubset(from table: PickerTableViewController) {
-    let newParentList = table.subArray
-    task.removeAsChildToAll()
-    for parent in newParentList
-    {
-      task.addAsChildTo(newParent: parent)
-    }
-  }
+  
   
   //MARK: Text Field Delegate
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -131,36 +144,36 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     }
     if textField == priorityDirectText
     {
-        switch string {
-        case "0","1","2","3","4","5","6","7","8","9":
-          return true
-        case ".":
-          let array = Array(priorityDirectText.text!)
-          var decimalCount = 0
-          for character in array {
-            if character == "." {
-              decimalCount += 1
-            }
+      switch string {
+      case "0","1","2","3","4","5","6","7","8","9":
+        return true
+      case ".":
+        let array = Array(priorityDirectText.text!)
+        var decimalCount = 0
+        for character in array {
+          if character == "." {
+            decimalCount += 1
           }
-          
-          if decimalCount == 1 {
-            return false
-          } else {
-            return true
-          }
-        default:
-          let array = Array(string)
-          if array.count == 0 {
-            return true
-          }
-          return false
         }
+        
+        if decimalCount == 1 {
+          return false
+        } else {
+          return true
+        }
+      default:
+        let array = Array(string)
+        if array.count == 0 {
+          return true
+        }
+        return false
+      }
     }
     return true
   }
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-
+    
     taskTitleText.resignFirstResponder()
     priorityDirectText.resignFirstResponder()
     return true
@@ -174,8 +187,8 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
         task.priorityDirect = ((unwrappedText as NSString).doubleValue)
       }
     }
-        _ = task.updateMyPriorities()
-        refreshView()
+    _ = task.updateMyPriorities()
+    refreshView()
   }
   
   //MARK: Text View Delegate
@@ -204,13 +217,16 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   // MARK: - Navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let destinationVC = segue.destination as! PickerTableViewController
-    destinationVC.contextItem = task
+    //delegate call
+    
     destinationVC.superSet = tasksData.serveTaskData()
     destinationVC.pickerTableViewDelegate = self
-    if segue.identifier == "pickerToParents"
+    switch segue.identifier
     {
-      destinationVC.subArray = task.parents
-      destinationVC.title = "Task Parents"
+    case "pickerToParents":
+      destinationVC.provideUpdatedCollection(of: .parents, for: task, within taskList: tasksData.serveTaskData())
+    default:
+      fatalError("Detail view prepared for undefined segue")
     }
   }
 }

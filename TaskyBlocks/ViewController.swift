@@ -16,13 +16,14 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     taskyGraph.delegate = self
+    
     graphIt()
   }
   
   //  Tells the delegate that zooming of the content in the scroll view is about to commence.
   internal func scrollViewWillBeginZooming(_: UIScrollView, with: UIView?)
   {
-    
+  
   }
   
   //  Tells the delegate when zooming of the content in the scroll view completed.
