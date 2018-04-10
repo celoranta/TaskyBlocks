@@ -14,7 +14,7 @@ class TaskyNode: NSObject
   
   var title = "New Task"
   internal fileprivate(set) var taskId: String
-  var taskDescription: String!
+  var taskDescription = ""
   let taskDate = Date()
   
   internal fileprivate(set) var parents: [TaskyNode] = []

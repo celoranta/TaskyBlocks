@@ -14,11 +14,7 @@ protocol TaskDetailDataSource {
 
 class DetailViewController: UIViewController, PickerTableViewDelegate, UITextViewDelegate, UITextFieldDelegate {
   
-  
-  var task:TaskyNode!
-  var taskDetailDataSource: TaskDetailDataSource!
-  var tasksData: TaskDataSource!
-  
+  //MARK: Outlets
   @IBOutlet weak var taskTitleText: UITextField!
   @IBOutlet weak var uuidLabel: UILabel!
   @IBOutlet weak var taskDescription: UITextView!
@@ -35,34 +31,12 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBOutlet weak var priorityDirectText: UITextField!
   @IBOutlet weak var completedSwitch: UISwitch!
   
-  fileprivate func refreshView() {
-    
-    
-    self.priorityDirectText.clearsOnBeginEditing = true
-    self.priorityDirectText.keyboardType = .numbersAndPunctuation
-    self.priorityDirectText.text = task.priorityDirect?.description ?? "<not set>"
-    self.taskTitleText.text = task.title
-    self.taskTitleText.enablesReturnKeyAutomatically = true
-    self.taskDescription.text = task.taskDescription
-    self.uuidLabel.text = task.taskId
-    self.priorityLevelLabel.text = task.priorityApparent.description
-    self.isPrimalStatusLabel.text = task.isPrimal.description
-    self.isActionableStatusLabel.text = task.isActionable.description
-    self.taskDateLabel.text = task.taskDate.description
-    self.completedSwitch.isOn = task.isComplete
-    var parentsString = ""
-    for parent in task.parents
-    {
-      parentsString.append(parent.title + ", ")
-    }
-    if parentsString == ""
-    {
-      parentsString = "<none>"
-    }
-    parentsListButton.setTitle(parentsString, for: .normal)
-    deleteButton.isEnabled = tasksData.serveTaskData().count > 1
-  }
+  //MARK: Variables
+  var task:TaskyNode!
+  var taskDetailDataSource: TaskDetailDataSource!
+  var tasksData: TaskDataSource!
   
+  //MARK: Methods
   override func viewDidLoad() {
     super.viewDidLoad()
     guard taskDetailDataSource != nil
@@ -97,6 +71,34 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       tasksData.setComplete(for: task, on: Date())
       refreshView()
     }
+  }
+  
+  fileprivate func refreshView() {
+    
+    self.priorityDirectText.clearsOnBeginEditing = true
+    self.priorityDirectText.keyboardType = .numbersAndPunctuation
+    self.priorityDirectText.text = task.priorityDirect?.description ?? "<not set>"
+    self.taskTitleText.text = task.title
+    self.taskTitleText.enablesReturnKeyAutomatically = true
+    self.taskDescription.placeholder = "please enter a description"
+    self.taskDescription.text = task.taskDescription
+    self.uuidLabel.text = task.taskId
+    self.priorityLevelLabel.text = task.priorityApparent.description
+    self.isPrimalStatusLabel.text = task.isPrimal.description
+    self.isActionableStatusLabel.text = task.isActionable.description
+    self.taskDateLabel.text = task.taskDate.description
+    self.completedSwitch.isOn = task.isComplete
+    var parentsString = ""
+    for parent in task.parents
+    {
+      parentsString.append(parent.title + ", ")
+    }
+    if parentsString == ""
+    {
+      parentsString = "<none>"
+    }
+    parentsListButton.setTitle(parentsString, for: .normal)
+    deleteButton.isEnabled = tasksData.serveTaskData().count > 1
   }
   
   
@@ -158,8 +160,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   }
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    
-
 
     taskTitleText.resignFirstResponder()
     priorityDirectText.resignFirstResponder()
@@ -177,7 +177,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
         _ = task.updateMyPriorities()
         refreshView()
   }
-  
   
   //MARK: Text View Delegate
   

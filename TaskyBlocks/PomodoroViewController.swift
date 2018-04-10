@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, TaskDetailDataSource {
 
   
@@ -87,7 +88,14 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
       displayArray.append(task)
     }
     pickerArray = displayArray
+    if pickerArray.count != 0
+    {
     self.selectedItem = pickerArray[0]
+    }
+    else
+    {
+      
+    }
    // reloadInputViews()
   }
   

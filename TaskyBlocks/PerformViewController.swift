@@ -9,8 +9,11 @@
 import UIKit
 import AppusCircleTimer
 
-class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerViewDataSource, AppusCircleTimerDelegate {
   
+  
+  @IBOutlet weak var topScreenLabel2: UILabel!
+  @IBOutlet weak var topScreenLabel1: UILabel!
   @IBOutlet weak var sprintTimer: AppusCircleTimer!
   @IBOutlet weak var taskPicker: UIPickerView!
   @IBAction func taskDetailButton(_ sender: Any) {
@@ -18,32 +21,20 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
   
   var tasksData: TaskDataSource!
   var timeToSet: Double = 45.00 * 60
-  var pickerArray: [TaskyNode]?
-  var performedTask: TaskyNode?
-  
-  var unwrappedPickerArray: [TaskyNode]!
-  var unwrappedPerformedTask: TaskyNode!
+  var pickerArray: [TaskyNode]!
+  var performedTask: TaskyNode!
+
 
   override func viewDidLoad() {
         super.viewDidLoad()
-    guard let uPickerArray = pickerArray
-      else
-    {
-      fatalError("Fatal Error:  Perform VC was fed a nil picker Array")
-    }
     
-      guard let uPerformedTask = performedTask
-      else
-    {
-      fatalError("Fatal Error: Perform VC was fed a nil performedTask")
-    }
-    self.unwrappedPickerArray = uPickerArray
-    self.unwrappedPerformedTask = uPerformedTask
-
+      sprintTimer.delegate = self
       sprintTimer.elapsedTime = 0
       sprintTimer.isBackwards = true
       sprintTimer.totalTime = timeToSet
       sprintTimer.start()
+      topScreenLabel1.text = "Push yourself..."
+      topScreenLabel2.text = "How many tasks can you complete?"
       taskPicker.showsSelectionIndicator = true
       refreshView()
     }
@@ -52,6 +43,21 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
   {
     self.taskPicker.reloadAllComponents()
     self.taskPicker.setNeedsDisplay()
+    forceRow()
+  }
+  
+  //MARK: Timer delegate funtions
+  func circleCounterTimeDidExpire(circleTimer: AppusCircleTimer) {
+    taskPicker.isUserInteractionEnabled = false
+    topScreenLabel1.text = "Time's Up!"
+    topScreenLabel2.text = "You've earned a break."
+  }
+  
+  override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+    if motion == .motionShake
+    {
+      shuffle()
+    }
   }
 
   public func numberOfComponents(in pickerView: UIPickerView) -> Int
@@ -61,28 +67,66 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
   
   public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
   {
-    return unwrappedPickerArray.count
+    return self.pickerArray.count
   }
   
   public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
   {
-    return unwrappedPickerArray[row].title
+    return pickerArray[row].title
   }
   
   public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
   {
-    self.unwrappedPerformedTask = unwrappedPickerArray[row]
+    self.performedTask = pickerArray[row]
+    print("selected new task: \(performedTask)")
+  }
+  
+  func forceRow()
+  {
+    if let row = pickerArray.index(of: performedTask)
+    {
+    taskPicker.selectRow(row, inComponent: 0, animated: true)
+    self.pickerView(taskPicker, didSelectRow: row, inComponent: 1)
+    }
+  }
+  
+  func shuffle()
+  {
+    let arrayMaxIndexInt = (pickerArray.count - 1)
+    let arrayMaxIndexInt32 = UInt32(arrayMaxIndexInt)
+    let randomIndexUInt32 = arc4random_uniform(arrayMaxIndexInt32)
+    let randomIndex = Int(randomIndexUInt32)
+    performedTask = pickerArray[randomIndex]
+    refreshView()
+  }
+  
+  @IBAction func shuffleButton(_ sender: Any) {
+
   }
   
   @IBAction func markCompletePress(_ sender: Any) {
-    tasksData.setComplete(for: unwrappedPerformedTask, on: Date())
-    let index = unwrappedPickerArray.index(of: unwrappedPerformedTask)
+    tasksData.setComplete(for: performedTask, on: Date())
+    let index = pickerArray.index(of: performedTask)
+    var uindex2 = 0
     if let uindex = index
     {
-      unwrappedPickerArray.remove(at: uindex)
+      pickerArray.remove(at: uindex)
+      if uindex >= pickerArray.count
+      {
+        uindex2 = uindex - 1
+      }
     }
+    guard pickerArray.count != 0
+      else
+    {
+      quitButton(self)
+      return
+    }
+    performedTask = pickerArray[uindex2]
     refreshView()
   }
+
+  //Mark: Actions
   @IBAction func quitButton(_ sender: Any) {
     self.dismiss(animated: true, completion: nil)
   }
@@ -90,16 +134,4 @@ class PerformViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
