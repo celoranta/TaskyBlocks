@@ -8,7 +8,22 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIScrollViewDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSource {
+  
+  var selectedTask: TaskyNode?
+  
+  func returnSelectedTask() -> TaskyNode {
+    
+    //This method is an incomplete stub
+    print("New Task Returned to Priority VC")
+    guard let task = selectedTask
+    else
+    {
+      fatalError("detail view returned a nil task")
+    }
+    return task
+  }
+  
   
   @IBOutlet weak var taskyGraph: TaskyGraphView!
   var tasksData: TaskDataSource?
@@ -44,6 +59,27 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   //  {
   //    return taskyGraph
   //  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    switch segue.identifier
+  {
+    case "priorityToDetail":
+      guard tasksData != nil
+        else
+      {
+        fatalError("TasksData is set to nil")
+      }
+      selectedTask = tasksData?.newTask()
+      let detailNavController = segue.destination as! UINavigationController
+      let detailViewController = detailNavController.topViewController as! DetailViewController
+      detailViewController.taskDetailDataSource = self
+      detailViewController.tasksData = tasksData
+      
+      default:
+      fatalError("performVC Called an unknown segue")
+      
+  }
+  }
   
   override func viewWillAppear(_ animated: Bool) {
     graphIt()

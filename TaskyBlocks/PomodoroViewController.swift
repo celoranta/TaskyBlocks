@@ -33,6 +33,13 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   override func viewDidLoad() {
     super.viewDidLoad()
     prepareView()
+  self.goTimeButton.setTitle("Go Time!", for: .normal)
+  self.goTimeButton.setTitle("Choose" , for: .disabled)
+    if tasksData?.activeTaskySet.count == 0
+    {
+      
+    }
+
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +64,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
   public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
   {
+
     self.goTimeButton.isEnabled = true
     self.taskDetailButton.isEnabled = true
     self.goTimeButton.alpha = 1
@@ -65,6 +73,10 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   
   fileprivate func prepareView()
   {
+    if tasksData?.activeTaskySet.count == 1
+    {
+      super.tabBarController!.selectedIndex = 1
+    }
     taskDetailButton.isEnabled = false
     goTimeButton.isEnabled = false
     goTimeButton.alpha = 0.25
@@ -116,6 +128,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
       performViewController.pickerArray = self.pickerArray
       performViewController.performedTask = self.selectedItem
       performViewController.tasksData = self.tasksData
+      
     }
   }
   

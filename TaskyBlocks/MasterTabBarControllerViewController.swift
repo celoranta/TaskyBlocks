@@ -9,6 +9,13 @@
 import UIKit
 
 protocol TaskDataSource {
+  
+  var activeTaskySet: Set<TaskyNode>
+  {
+    get
+    set
+  }
+  
   func serveTaskData() -> (Set<TaskyNode>)
     func crucials() -> (Set<TaskyNode>)
     func primals() -> (Set<TaskyNode>)
@@ -19,8 +26,24 @@ protocol TaskDataSource {
 
 class MasterTabBarControllerViewController: UITabBarController, UITabBarControllerDelegate,  TaskDataSource {
   
-  var activeTaskySet: Set<TaskyNode> = []
+  var activeTaskySet: Set<TaskyNode>
+  {
+    get
+    {
+      return masterActiveTaskSet
+    }
+    set (newActiveTaskList)
+   {
+     masterActiveTaskSet = newActiveTaskList
+    }
+  }
+  
+  fileprivate var masterActiveTaskSet = Set<TaskyNode>()
   var completedTaskySet: Set<TaskyNode> = []
+  var activeTaskCount: Int
+  {
+   return activeTaskySet.count
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -49,20 +72,20 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
   func newTask() -> TaskyNode
   {
     let task = TaskyNode()
-    activeTaskySet.insert(task)
+    masterActiveTaskSet.insert(task)
     return task
   }
   
   func remove(task: TaskyNode)
   {
     task.prepareRemove()
-    activeTaskySet.remove(task)
+    masterActiveTaskSet.remove(task)
   }
   
   func setComplete(for task: TaskyNode, on date: Date = Date())
   {
     task.markAsCompleted(on: date)
-    let removedTask = activeTaskySet.remove(task)
+    let removedTask = masterActiveTaskSet.remove(task)
     if let uRemovedTask = removedTask
     {
       completedTaskySet.insert(uRemovedTask)
@@ -141,18 +164,18 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
   let nodeJ = TaskyNode()
   let nodeK = TaskyNode()
   let nodeL = TaskyNode()
-  activeTaskySet.insert(nodeA)
-  activeTaskySet.insert(nodeB)
-  activeTaskySet.insert(nodeC)
-  activeTaskySet.insert(nodeD)
-  activeTaskySet.insert(nodeE)
-  activeTaskySet.insert(nodeF)
-  activeTaskySet.insert(nodeG)
-  activeTaskySet.insert(nodeH)
-  activeTaskySet.insert(nodeI)
-  activeTaskySet.insert(nodeJ)
-  activeTaskySet.insert(nodeK)
-  activeTaskySet.insert(nodeL)
+  masterActiveTaskSet.insert(nodeA)
+  masterActiveTaskSet.insert(nodeB)
+  masterActiveTaskSet.insert(nodeC)
+  masterActiveTaskSet.insert(nodeD)
+  masterActiveTaskSet.insert(nodeE)
+  masterActiveTaskSet.insert(nodeF)
+  masterActiveTaskSet.insert(nodeG)
+  masterActiveTaskSet.insert(nodeH)
+  masterActiveTaskSet.insert(nodeI)
+  masterActiveTaskSet.insert(nodeJ)
+  masterActiveTaskSet.insert(nodeK)
+  masterActiveTaskSet.insert(nodeL)
   
   var verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate", "Flog", "Threaten", "Pacify", "Enrage", "Bewilder", "Frighten", "Placate", "Interrogate", "Moisten", "Shuck", "Wax", "Surveil", "Alarm", "Annoy", "Frustrate", "Telephone", "Buffalo", "Berate", "Seduce"]
   var nouns = ["Dog", "Dishes", "Car", "Neighbors", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws", "Cat", "Baby", "Shed", "TV", "Light Fixtures", "Neighborhood", "Rent", "China", "Taxes", "Deacon", "Postman", "Telephone", "Buffalo", "Local Urchins", "Garbage"]

@@ -53,10 +53,14 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="564"/>
                             </scrollView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HZr-Mr-xMs">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="Title" id="Skr-ue-Tyw">
-                                        <barButtonItem key="rightBarButtonItem" title="Item" id="kvY-Xv-VFT"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ij7-gB-4WE">
+                                            <connections>
+                                                <segue destination="myk-os-c8D" kind="presentation" identifier="priorityToDetail" id="Ns1-Lg-gt7"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -66,9 +70,9 @@
                             <constraint firstItem="hsO-3l-fmH" firstAttribute="leading" secondItem="HZr-Mr-xMs" secondAttribute="leading" id="FFr-GN-J2J"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hsO-3l-fmH" secondAttribute="bottom" constant="10" id="FQX-bI-Qhn"/>
                             <constraint firstItem="HZr-Mr-xMs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="S7R-Qx-6AE"/>
-                            <constraint firstItem="HZr-Mr-xMs" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="TSY-Cy-q3j"/>
+                            <constraint firstItem="HZr-Mr-xMs" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="TSY-Cy-q3j"/>
                             <constraint firstItem="hsO-3l-fmH" firstAttribute="trailing" secondItem="HZr-Mr-xMs" secondAttribute="trailing" id="UW2-Ft-9ad"/>
-                            <constraint firstItem="hsO-3l-fmH" firstAttribute="top" secondItem="HZr-Mr-xMs" secondAttribute="bottom" id="o3L-hi-t1e"/>
+                            <constraint firstItem="hsO-3l-fmH" firstAttribute="top" secondItem="HZr-Mr-xMs" secondAttribute="bottom" constant="-20" id="o3L-hi-t1e"/>
                             <constraint firstItem="HZr-Mr-xMs" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="yZY-qP-sWp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -539,18 +543,11 @@
                                     <action selector="durationStepper:" destination="Iwh-M0-5sB" eventType="valueChanged" id="5u9-YW-mdT"/>
                                 </connections>
                             </stepper>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a task and begin a sprint:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GNM-Tr-A3R">
-                                <rect key="frame" x="60" y="380" width="255" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="4j9-eo-pEQ" firstAttribute="leading" secondItem="svR-tq-aqj" secondAttribute="leading" id="1ES-8O-4Sk"/>
                             <constraint firstItem="YOr-qC-2hN" firstAttribute="top" secondItem="fri-Po-94e" secondAttribute="bottom" constant="16" id="425-C1-5mQ"/>
-                            <constraint firstItem="GNM-Tr-A3R" firstAttribute="centerX" secondItem="KM5-E7-Rjw" secondAttribute="centerX" id="4LG-XM-bNU"/>
                             <constraint firstItem="X0X-cx-HhM" firstAttribute="centerY" secondItem="YOr-qC-2hN" secondAttribute="centerY" id="8Gj-u9-3B0"/>
                             <constraint firstItem="svR-tq-aqj" firstAttribute="trailing" secondItem="YOr-qC-2hN" secondAttribute="trailing" constant="16" id="Eg6-dD-zm6"/>
                             <constraint firstItem="4j9-eo-pEQ" firstAttribute="trailing" secondItem="svR-tq-aqj" secondAttribute="trailing" id="Par-6G-ji9"/>
@@ -558,7 +555,6 @@
                             <constraint firstItem="fri-Po-94e" firstAttribute="top" secondItem="svR-tq-aqj" secondAttribute="top" id="Wnx-TZ-8hF"/>
                             <constraint firstItem="3lC-ad-qFG" firstAttribute="centerY" secondItem="X0X-cx-HhM" secondAttribute="centerY" id="akI-q2-0Kk"/>
                             <constraint firstItem="3lC-ad-qFG" firstAttribute="leading" secondItem="svR-tq-aqj" secondAttribute="leading" constant="16" id="dRo-N2-Eja"/>
-                            <constraint firstItem="4j9-eo-pEQ" firstAttribute="top" secondItem="GNM-Tr-A3R" secondAttribute="bottom" id="daM-vQ-ADF"/>
                             <constraint firstItem="svR-tq-aqj" firstAttribute="bottom" secondItem="Td4-Mv-l46" secondAttribute="bottom" constant="16" id="dwp-UA-wBT"/>
                             <constraint firstItem="Td4-Mv-l46" firstAttribute="centerX" secondItem="svR-tq-aqj" secondAttribute="centerX" id="ghb-VM-QJv"/>
                             <constraint firstItem="fri-Po-94e" firstAttribute="leading" secondItem="svR-tq-aqj" secondAttribute="leading" id="kG2-O4-e29"/>
@@ -763,4 +759,7 @@
             <point key="canvasLocation" x="3837.5999999999999" y="-896.40179910044981"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Ns1-Lg-gt7"/>
+    </inferredMetricsTieBreakers>
 </document>
