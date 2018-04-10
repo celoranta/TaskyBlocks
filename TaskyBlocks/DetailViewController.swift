@@ -23,7 +23,8 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBOutlet weak var isPrimalStatusLabel: UILabel!
   @IBOutlet weak var isActionableStatusLabel: UILabel!
   @IBOutlet weak var parentsListButton: UIButton!
-  @IBOutlet weak var childListLabel: UILabel!
+
+  @IBOutlet weak var childrenListButton: UIButton!
   @IBOutlet weak var dependeesListLabel: UILabel!
   @IBOutlet weak var dependentsListLabel: UILabel!
   @IBOutlet weak var primalsListLabel: UILabel!
@@ -37,6 +38,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   var taskDetailDataSource: TaskDetailDataSource!
   var tasksData: TaskDataSource!
   var pickerTableViewController: PickerTableViewController!
+  var pickerViewRelationshipType: TaskRelationship!
  
   //MARK: Methods
   override func viewDidLoad() {
@@ -73,6 +75,11 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       tasksData.setComplete(for: task, on: Date())
       refreshView()
     }
+  }
+  
+  @IBAction func childrenButton(_ sender: Any)
+  {
+    pickerViewRelationshipType = .children
   }
   
   fileprivate func refreshView() {
@@ -127,6 +134,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     }
     refreshView()
   }
+  
   //MARK: Text Field Delegate
   func textFieldDidBeginEditing(_ textField: UITextField) {
     if textField == taskTitleText
@@ -138,6 +146,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       textField.clearsOnBeginEditing = true
     }
   }
+  
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     if textField == taskTitleText
     {
