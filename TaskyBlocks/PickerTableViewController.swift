@@ -46,7 +46,7 @@ class PickerTableViewController: UITableViewController
     }
     activeTasks = Array.init(activeTasksUnwrapped)
     
-    guard let pickerTableViewDelegateUnwrapped = pickerTableViewDelegate
+    guard (pickerTableViewDelegate) != nil
       else
     {
       fatalError("Fatal error: no picker table view delegate assigned")

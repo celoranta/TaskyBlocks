@@ -588,20 +588,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mTV-6I-Xs1">
-                                <rect key="frame" x="0.0" y="329" width="375" height="216"/>
+                                <rect key="frame" x="0.0" y="451" width="375" height="216"/>
                                 <connections>
                                     <outlet property="dataSource" destination="67f-rh-Kw2" id="2FG-JF-coo"/>
                                     <outlet property="delegate" destination="67f-rh-Kw2" id="8PH-4q-Unm"/>
                                 </connections>
                             </pickerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sg8-GR-BpS" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
-                                <rect key="frame" x="87" y="117.5" width="200" height="200"/>
+                                <rect key="frame" x="87" y="165.5" width="200" height="200.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="sprint"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="Ms0-8c-k2F"/>
-                                    <constraint firstAttribute="height" constant="200" id="y9I-2k-bZ2"/>
-                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="inactiveColor">
                                         <color key="value" red="0.29952795358154499" green="0.95686274510000002" blue="0.46059545891032533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -620,55 +616,100 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WNa-U7-8Wx">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="naa-WT-xNy"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem title="Title" id="fmV-Oa-flz">
+                                        <barButtonItem key="leftBarButtonItem" style="plain" id="0KJ-Wx-U2Q">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hQN-Rw-bTu">
+                                                <rect key="frame" x="16" y="7" width="65" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Give up..."/>
+                                                <connections>
+                                                    <action selector="quitButton:" destination="67f-rh-Kw2" eventType="touchUpInside" id="l7E-pH-dOH"/>
+                                                </connections>
+                                            </button>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" style="plain" id="tJw-pH-Frf">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Bbu-nQ-g5l">
+                                                <rect key="frame" x="297" y="7" width="62" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Win Task"/>
+                                                <connections>
+                                                    <action selector="markCompletePress:" destination="67f-rh-Kw2" eventType="touchUpInside" id="dwu-cU-mUu"/>
+                                                </connections>
+                                            </button>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How many tasks can you complete?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p8K-yA-f4A">
-                                <rect key="frame" x="50.5" y="72.5" width="274" height="21"/>
+                                <rect key="frame" x="50" y="109.5" width="274" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Push yourself..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hFW-H8-lml">
-                                <rect key="frame" x="129" y="44" width="117" height="20.5"/>
+                                <rect key="frame" x="129" y="82" width="117" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hQN-Rw-bTu">
-                                <rect key="frame" x="50" y="579" width="65" height="30"/>
-                                <state key="normal" title="Give up..."/>
-                                <connections>
-                                    <action selector="quitButton:" destination="67f-rh-Kw2" eventType="touchUpInside" id="l7E-pH-dOH"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bbu-nQ-g5l">
-                                <rect key="frame" x="211" y="579" width="125" height="30"/>
-                                <state key="normal" title="Mark as Complete"/>
-                                <connections>
-                                    <action selector="markCompletePress:" destination="67f-rh-Kw2" eventType="touchUpInside" id="dwu-cU-mUu"/>
-                                </connections>
-                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Complete:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJc-GR-5Am">
+                                <rect key="frame" x="158" y="405" width="59" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tasks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6j-QE-Om6">
+                                <rect key="frame" x="172" y="391" width="32" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3LU-H5-htc">
+                                <rect key="frame" x="177.5" y="416" width="20" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="textColor" red="0.25807604287707331" green="0.82280103824720818" blue="0.40470430492558074" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="hQN-Rw-bTu" firstAttribute="leading" secondItem="NcY-hD-fHK" secondAttribute="leading" constant="50" id="0hd-FZ-d9V"/>
-                            <constraint firstItem="hFW-H8-lml" firstAttribute="centerX" secondItem="NcY-hD-fHK" secondAttribute="centerX" id="1Cl-ZH-XDn"/>
-                            <constraint firstItem="NcY-hD-fHK" firstAttribute="trailing" secondItem="Bbu-nQ-g5l" secondAttribute="trailing" constant="39" id="2B7-vX-8Pg"/>
-                            <constraint firstItem="p8K-yA-f4A" firstAttribute="top" secondItem="hFW-H8-lml" secondAttribute="bottom" constant="8" id="4XT-8A-apj"/>
-                            <constraint firstItem="NcY-hD-fHK" firstAttribute="bottom" secondItem="hQN-Rw-bTu" secondAttribute="bottom" constant="58" id="5yd-3f-7JK"/>
-                            <constraint firstItem="Bbu-nQ-g5l" firstAttribute="top" secondItem="mTV-6I-Xs1" secondAttribute="bottom" constant="34" id="DqQ-SC-ucZ"/>
-                            <constraint firstItem="hFW-H8-lml" firstAttribute="top" secondItem="NcY-hD-fHK" secondAttribute="top" constant="24" id="Fxs-dV-wzL"/>
-                            <constraint firstItem="NcY-hD-fHK" firstAttribute="bottom" secondItem="Bbu-nQ-g5l" secondAttribute="bottom" constant="58" id="GXs-ji-i2U"/>
-                            <constraint firstItem="sg8-GR-BpS" firstAttribute="centerX" secondItem="NcY-hD-fHK" secondAttribute="centerX" id="HKS-dN-Nmp"/>
-                            <constraint firstItem="p8K-yA-f4A" firstAttribute="centerX" secondItem="xEF-Up-xcy" secondAttribute="centerX" id="IEc-st-kvV"/>
-                            <constraint firstItem="mTV-6I-Xs1" firstAttribute="trailing" secondItem="NcY-hD-fHK" secondAttribute="trailing" id="WLW-Go-VSJ"/>
-                            <constraint firstItem="mTV-6I-Xs1" firstAttribute="leading" secondItem="NcY-hD-fHK" secondAttribute="leading" id="hAn-kx-Yyg"/>
-                            <constraint firstItem="sg8-GR-BpS" firstAttribute="top" secondItem="p8K-yA-f4A" secondAttribute="bottom" constant="24" id="sON-Kv-9Tv"/>
+                            <constraint firstItem="p8K-yA-f4A" firstAttribute="top" secondItem="hFW-H8-lml" secondAttribute="bottom" constant="7.5" id="7dh-wv-Z0t"/>
+                            <constraint firstItem="sg8-GR-BpS" firstAttribute="top" secondItem="p8K-yA-f4A" secondAttribute="bottom" constant="35" id="ESS-by-iq8"/>
+                            <constraint firstItem="mTV-6I-Xs1" firstAttribute="top" secondItem="sg8-GR-BpS" secondAttribute="bottom" constant="85" id="EfI-Kj-t0g"/>
+                            <constraint firstItem="3LU-H5-htc" firstAttribute="top" secondItem="a6j-QE-Om6" secondAttribute="bottom" constant="10" id="OJV-zn-wV1"/>
+                            <constraint firstItem="bJc-GR-5Am" firstAttribute="centerX" secondItem="3LU-H5-htc" secondAttribute="centerX" id="PCQ-33-1PM"/>
+                            <constraint firstItem="mTV-6I-Xs1" firstAttribute="top" secondItem="3LU-H5-htc" secondAttribute="bottom" constant="8" symbolic="YES" id="RVZ-Hh-DRD"/>
+                            <constraint firstItem="mTV-6I-Xs1" firstAttribute="trailing" secondItem="NcY-hD-fHK" secondAttribute="trailing" id="Sg9-zU-ogp"/>
+                            <constraint firstItem="hFW-H8-lml" firstAttribute="top" secondItem="WNa-U7-8Wx" secondAttribute="bottom" constant="18" id="W83-Pf-9Yn"/>
+                            <constraint firstItem="WNa-U7-8Wx" firstAttribute="leading" secondItem="xEF-Up-xcy" secondAttribute="leading" id="Y9c-Lw-IXR"/>
+                            <constraint firstItem="a6j-QE-Om6" firstAttribute="centerX" secondItem="bJc-GR-5Am" secondAttribute="centerX" id="cRF-MD-8Vm"/>
+                            <constraint firstItem="WNa-U7-8Wx" firstAttribute="top" secondItem="NcY-hD-fHK" secondAttribute="top" id="cXe-nz-XWR"/>
+                            <constraint firstItem="p8K-yA-f4A" firstAttribute="centerX" secondItem="xEF-Up-xcy" secondAttribute="centerX" id="gbY-6H-aQJ"/>
+                            <constraint firstItem="hFW-H8-lml" firstAttribute="centerX" secondItem="xEF-Up-xcy" secondAttribute="centerX" id="hCp-Vw-cCp"/>
+                            <constraint firstItem="mTV-6I-Xs1" firstAttribute="top" secondItem="bJc-GR-5Am" secondAttribute="bottom" constant="31" id="hjO-yC-9hx"/>
+                            <constraint firstItem="mTV-6I-Xs1" firstAttribute="leading" secondItem="NcY-hD-fHK" secondAttribute="leading" id="mI7-Lg-ECU"/>
+                            <constraint firstItem="sg8-GR-BpS" firstAttribute="leading" secondItem="NcY-hD-fHK" secondAttribute="leading" constant="87" id="n4v-r7-FzA"/>
+                            <constraint firstItem="NcY-hD-fHK" firstAttribute="trailing" secondItem="WNa-U7-8Wx" secondAttribute="trailing" id="pyh-qO-bLN"/>
+                            <constraint firstItem="3LU-H5-htc" firstAttribute="centerX" secondItem="mTV-6I-Xs1" secondAttribute="centerX" id="w5t-C5-tob"/>
+                            <constraint firstItem="NcY-hD-fHK" firstAttribute="trailing" secondItem="sg8-GR-BpS" secondAttribute="trailing" constant="88" id="x3h-Zg-eRV"/>
+                            <constraint firstItem="mTV-6I-Xs1" firstAttribute="bottom" secondItem="NcY-hD-fHK" secondAttribute="bottom" id="xpf-6u-GmG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NcY-hD-fHK"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="RZm-9B-vmy"/>
                     <connections>
+                        <outlet property="completeLabel" destination="bJc-GR-5Am" id="yqM-2q-jwF"/>
+                        <outlet property="navBar" destination="fmV-Oa-flz" id="2cH-fa-as3"/>
                         <outlet property="sprintTimer" destination="sg8-GR-BpS" id="vcR-VZ-Jzs"/>
                         <outlet property="taskPicker" destination="mTV-6I-Xs1" id="aNN-ca-IAO"/>
+                        <outlet property="tasksCompleteLabel" destination="3LU-H5-htc" id="tPA-wY-UbT"/>
+                        <outlet property="tasksLabel" destination="a6j-QE-Om6" id="FPz-bG-ISZ"/>
                         <outlet property="topScreenLabel1" destination="hFW-H8-lml" id="nQt-GJ-g2m"/>
                         <outlet property="topScreenLabel2" destination="p8K-yA-f4A" id="S1F-tj-tfz"/>
                     </connections>
