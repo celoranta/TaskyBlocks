@@ -9,8 +9,8 @@
 import UIKit
 
 
-class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, TaskDetailDataSource {
-
+class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, TaskDetailDataSource
+{
   
   @IBOutlet weak var goTimeButton: UIButton!
   @IBOutlet weak var taskPicker: UIPickerView!
@@ -54,7 +54,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   {
     return pickerArray[row].title
   }
-  
+
   public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
   {
     self.goTimeButton.isEnabled = true
@@ -63,7 +63,8 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     self.selectedItem = pickerArray[row]
   }
   
-  fileprivate func prepareView() {
+  fileprivate func prepareView()
+  {
     taskDetailButton.isEnabled = false
     goTimeButton.isEnabled = false
     goTimeButton.alpha = 0.25
@@ -90,22 +91,23 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     pickerArray = displayArray
     if pickerArray.count != 0
     {
-    self.selectedItem = pickerArray[0]
+      self.selectedItem = pickerArray[0]
     }
     else
     {
       
     }
-   // reloadInputViews()
+    // reloadInputViews()
   }
   
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+  {
     if segue.identifier == "detailSegueFromPomodoro"
     {
-        let detailNavController = segue.destination as! UINavigationController
-        let detailViewController = detailNavController.topViewController as! DetailViewController
-        detailViewController.taskDetailDataSource = self
-        detailViewController.tasksData = tasksData
+      let detailNavController = segue.destination as! UINavigationController
+      let detailViewController = detailNavController.topViewController as! DetailViewController
+      detailViewController.taskDetailDataSource = self
+      detailViewController.tasksData = tasksData
     }
     if segue.identifier == "pomodoroToPerform"
     {
@@ -116,9 +118,14 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
       performViewController.tasksData = self.tasksData
     }
   }
-
+  
+  @IBAction func goDoubleTap(_ sender: UIButton)
+  {
+  }
+  
   @IBOutlet weak var durationStepperOut: UIStepper!
-  @IBAction func durationStepper(_ sender: Any) {
+  @IBAction func durationStepper(_ sender: Any)
+  {
     let duration = durationStepperOut.value
     timerSetValue = duration * 60
     print(duration)
@@ -126,10 +133,12 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     durationTimeLabel.text = "\(roundedDuration) min"
   }
   
-  func returnSelectedTask() -> TaskyNode {
+  func returnSelectedTask() -> TaskyNode
+  {
     return self.selectedItem
   }
-  override func didReceiveMemoryWarning() {
+  override func didReceiveMemoryWarning()
+  {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }

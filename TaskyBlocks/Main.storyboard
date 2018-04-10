@@ -517,6 +517,7 @@
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
+                                    <action selector="goDoubleTap:" destination="Iwh-M0-5sB" eventType="touchDownRepeat" id="ivA-L1-IPn"/>
                                     <segue destination="67f-rh-Kw2" kind="presentation" identifier="pomodoroToPerform" id="OBK-7S-0yY"/>
                                 </connections>
                             </button>
