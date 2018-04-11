@@ -10,7 +10,7 @@ import UIKit
 
 class TaskyNode: NSObject
 {
-  typealias TaskRecord = (taskId: String, priority: Double)
+
   
   var title = "New Task"
   internal fileprivate(set) var taskId: String
@@ -85,10 +85,7 @@ class TaskyNode: NSObject
     }
     return
   }
-  enum RelationType
-  {
-    case parents, children, antecedents, consequents
-  }
+
   
   //Mark: Debugging Methods
   func soundOff()
