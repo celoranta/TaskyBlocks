@@ -13,7 +13,6 @@ protocol PickerTableViewDelegate
   // call provideUpdatedCollection(of relationship: TaskRelationship, for task: TaskyNode)
   func retrieveUpdatedCollection(from table: PickerTableViewController)//
   // call postUpdatedTaskSubcollection() -> (focusTask: TaskyNode, relationship: TaskRelationship, collection: [TaskyNode])
-  
 }
 
 enum TaskRelationship: String
