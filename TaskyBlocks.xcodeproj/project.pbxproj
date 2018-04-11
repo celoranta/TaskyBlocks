@@ -11,7 +11,6 @@
 		517211B36059D477D9D02E55 /* Pods_TaskyBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 100335919D82C4C02AD49442 /* Pods_TaskyBlocks.framework */; };
 		951099722075C0A10091DF49 /* TaskyBlocksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099712075C0A10091DF49 /* TaskyBlocksUITests.swift */; };
 		951099922075C14A0091DF49 /* PerformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510997F2075C1460091DF49 /* PerformViewController.swift */; };
-		951099952075C14A0091DF49 /* DataModel in Resources */ = {isa = PBXBuildFile; fileRef = 951099822075C1460091DF49 /* DataModel */; };
 		951099962075C14A0091DF49 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951099832075C1460091DF49 /* LaunchScreen.storyboard */; };
 		951099982075C14A0091DF49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 951099852075C1460091DF49 /* Assets.xcassets */; };
 		951099992075C14A0091DF49 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951099862075C1470091DF49 /* Main.storyboard */; };
@@ -71,7 +70,6 @@
 		951099712075C0A10091DF49 /* TaskyBlocksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyBlocksUITests.swift; sourceTree = "<group>"; };
 		951099732075C0A10091DF49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9510997F2075C1460091DF49 /* PerformViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerformViewController.swift; sourceTree = "<group>"; };
-		951099822075C1460091DF49 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DataModel; sourceTree = "<group>"; };
 		951099832075C1460091DF49 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		951099852075C1460091DF49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		951099862075C1470091DF49 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 			children = (
 				951099872075C1470091DF49 /* AppDelegate.swift */,
 				951099852075C1460091DF49 /* Assets.xcassets */,
-				951099822075C1460091DF49 /* DataModel */,
 				95DC88D820774E2800E346DB /* TaskyGraphView.swift */,
 				95DC88D020772A8A00E346DB /* ViewController.swift */,
 				9510998B2075C1480091DF49 /* HierarchyViewController.swift */,
@@ -338,7 +335,6 @@
 			files = (
 				951099962075C14A0091DF49 /* LaunchScreen.storyboard in Resources */,
 				951099992075C14A0091DF49 /* Main.storyboard in Resources */,
-				951099952075C14A0091DF49 /* DataModel in Resources */,
 				951099982075C14A0091DF49 /* Assets.xcassets in Resources */,
 				9510999D2075C14A0091DF49 /* TaskyBlock2.xib in Resources */,
 			);
