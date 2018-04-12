@@ -9,12 +9,28 @@
 import UIKit
 
 class SplashViewController: UIViewController {
-  
+    var taskManager = TaskyNodeManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+      taskManager.setupProcesses()
+     if let navController = self.navigationController
+     {
+    
+      
+      let unwrappedViewControllers = navController.viewControllers
+      if let unwrappedViewController = unwrappedViewControllers[0] as? ViewController
+      {
+        unwrappedViewController.tasksData = self.taskManager
+      }
+      if let unwrappedViewController = unwrappedViewControllers[0] as? PomodoroViewController
+      {
+        unwrappedViewController.tasksData = self.taskManager
+      }
+      
         // Do any additional setup after loading the view.
     }
+  }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -8,6 +8,7 @@
 
 import UIKit
 import AppusCircleTimer
+import RealmSwift //Remove once a read-only realm is created
 
 class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerViewDataSource, AppusCircleTimerDelegate {
   
@@ -30,9 +31,15 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   var titleButton: UIButton!
   var tasksComplete: Int = 0
   
+  var realm: Realm!
+  var activeTaskySet: Set<TaskyNode>!
+  
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    try! realm = Realm()
+    let tasks = realm.objects(TaskyNode.self)
+    activeTaskySet = Set(tasks)
     titleButton = UIButton()
     navBar.titleView = titleButton
     titleButton.translatesAutoresizingMaskIntoConstraints = false
@@ -146,30 +153,30 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   }
   
   @IBAction func markCompletePress(_ sender: Any) {
-    tasksData.setComplete(for: performedTask, on: Date())
-    completeLabel.isHidden = false
-    tasksLabel.isHidden = false
-    tasksCompleteLabel.isHidden = false
-    tasksComplete += 1
-    tasksCompleteLabel.text = "\(tasksComplete)"
-    let index = pickerArray.index(of: performedTask)
-    var uindex2 = 0
-    if let uindex = index
-    {
-      pickerArray.remove(at: uindex)
-      if uindex >= pickerArray.count
-      {
-        uindex2 = uindex - 1
-      }
-    }
-    guard pickerArray.count != 0
-      else
-    {
-      quitButton(self)
-      return
-    }
-    performedTask = pickerArray[uindex2]
-    refreshView()
+   // MIGRATE TO TASKYMANAGER tasksData.setComplete(for: performedTask, on: Date())
+//    completeLabel.isHidden = false
+//    tasksLabel.isHidden = false
+//    tasksCompleteLabel.isHidden = false
+//    tasksComplete += 1
+//    tasksCompleteLabel.text = "\(tasksComplete)"
+//    let index = pickerArray.index(of: performedTask)
+//    var uindex2 = 0
+//    if let uindex = index
+//    {
+//      pickerArray.remove(at: uindex)
+//      if uindex >= pickerArray.count
+//      {
+//        uindex2 = uindex - 1
+//      }
+//    }
+//    guard pickerArray.count != 0
+//      else
+//    {
+//      quitButton(self)
+//      return
+//    }
+//    performedTask = pickerArray[uindex2]
+//    refreshView()
   }
   
   //Mark: Actions

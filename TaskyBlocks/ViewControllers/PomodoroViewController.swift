@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import RealmSwift //To be removed once a read-only Realm is created for view controllers
 
 
-class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, TaskDetailDataSource
+class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource//, TaskDetailDataSource
 {
   
   @IBOutlet weak var goTimeButton: UIButton!
@@ -21,6 +22,8 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   var segueToDetail: UIStoryboardSegue!
   var timerSetValue: Double = 2700.00
   var performViewController: PerformViewController!
+  var realm: Realm!
+  var activeTaskySet: Set<TaskyNode>!
   
   //These two should be refactored out, as they don't need to be exposed
   var pickerData: Set<TaskyNode>?
@@ -32,10 +35,13 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    try! realm = Realm()
+    let tasks = realm.objects(TaskyNode.self)
+    activeTaskySet = Set(tasks)
     prepareView()
   self.goTimeButton.setTitle("Go Time!", for: .normal)
   self.goTimeButton.setTitle("Choose" , for: .disabled)
-    if tasksData?.activeTaskySet.count == 0
+    if activeTaskySet.count == 0
     {
       
     }
@@ -73,7 +79,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   
   fileprivate func prepareView()
   {
-    if tasksData?.activeTaskySet.count == 1
+    if activeTaskySet.count == 1
     {
       super.tabBarController!.selectedIndex = 1
     }
@@ -83,10 +89,9 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     goTimeButton.layer.cornerRadius = 25
     goTimeButton.layer.borderWidth = 5
     goTimeButton.layer.borderColor = UIColor.darkGray.cgColor
-    if let unwrappedTasksData = tasksData
-    {
-      pickerData = unwrappedTasksData.serveTaskData()
-    }
+
+      pickerData = activeTaskySet
+ 
     
     if let unwrappedPickerData = pickerData
     {
@@ -118,8 +123,8 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     {
       let detailNavController = segue.destination as! UINavigationController
       let detailViewController = detailNavController.topViewController as! DetailViewController
-      detailViewController.taskDetailDataSource = self
-      detailViewController.tasksData = tasksData
+ //     detailViewController.taskDetailDataSource = self
+//      detailViewController.tasksData = activeTaskySet
     }
     if segue.identifier == "pomodoroToPerform"
     {
@@ -127,7 +132,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
       performViewController.timeToSet = self.timerSetValue
       performViewController.pickerArray = self.pickerArray
       performViewController.performedTask = self.selectedItem
-      performViewController.tasksData = self.tasksData
+ //     performViewController.tasksData = self.tasksData
       
     }
   }

@@ -199,8 +199,8 @@
 		953B32C8207EBB0C00B24C81 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				95E5EFD02078164200CD8D6C /* MasterTabBarControllerViewController.swift */,
 				95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */,
+				95E5EFD02078164200CD8D6C /* MasterTabBarControllerViewController.swift */,
 				9510998B2075C1480091DF49 /* HierarchyViewController.swift */,
 				951099902075C1490091DF49 /* DependencyViewController.swift */,
 				95DC88D020772A8A00E346DB /* ViewController.swift */,

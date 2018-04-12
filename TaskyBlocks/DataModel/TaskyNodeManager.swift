@@ -71,6 +71,7 @@ func setupProcesses()
   // temp data test
     tasks = realm.objects(TaskyNode.self)
     let taskSet = Set(tasks)
+
     for task in taskSet
     { task.soundOff()
     }
