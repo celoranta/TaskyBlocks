@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift //To be removed once a read-only Realm is created for view controllers
 
 
-class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource//, TaskDetailDataSource
+class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, TaskDetailDataSource
 {
   
   @IBOutlet weak var goTimeButton: UIButton!
@@ -123,8 +123,8 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     {
       let detailNavController = segue.destination as! UINavigationController
       let detailViewController = detailNavController.topViewController as! DetailViewController
- //     detailViewController.taskDetailDataSource = self
-//      detailViewController.tasksData = activeTaskySet
+      detailViewController.taskDetailDataSource = self
+     // detailViewController.tasksData = activeTaskySet
     }
     if segue.identifier == "pomodoroToPerform"
     {

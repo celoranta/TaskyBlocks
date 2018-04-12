@@ -719,10 +719,10 @@
             </objects>
             <point key="canvasLocation" x="2290" y="72"/>
         </scene>
-        <!--Master Tab Bar Controller View Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="CHY-a5-uSU">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Xao-Xf-X2g" customClass="MasterTabBarControllerViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Xao-Xf-X2g" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="jjJ-0w-MMz"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cpa-6S-oe9">

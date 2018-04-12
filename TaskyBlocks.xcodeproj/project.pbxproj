@@ -35,7 +35,6 @@
 		95DC88D52077489B00E346DB /* TaskyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88D42077489B00E346DB /* TaskyNode.swift */; };
 		95DC88D920774E2900E346DB /* TaskyGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88D820774E2800E346DB /* TaskyGraphView.swift */; };
 		95E5EFCF20780CB700CD8D6C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */; };
-		95E5EFD12078164200CD8D6C /* MasterTabBarControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E5EFD02078164200CD8D6C /* MasterTabBarControllerViewController.swift */; };
 		A8FB86C5040C81C5F8BECB96 /* Pods_TaskyBlocksUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525EBF3C26B119C459668B45 /* Pods_TaskyBlocksUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -95,7 +94,6 @@
 		95DC88D42077489B00E346DB /* TaskyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyNode.swift; sourceTree = "<group>"; };
 		95DC88D820774E2800E346DB /* TaskyGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyGraphView.swift; sourceTree = "<group>"; };
 		95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
-		95E5EFD02078164200CD8D6C /* MasterTabBarControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterTabBarControllerViewController.swift; sourceTree = "<group>"; };
 		A72648820E802729DA3A0EBD /* Pods-TaskyBlocksUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocksUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F60413C7A89086E30F4D0CA1 /* Pods-TaskyBlocks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocks.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks.debug.xcconfig"; sourceTree = "<group>"; };
 		FB974643A72EBA075538E8B3 /* Pods-TaskyBlocks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocks.release.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks.release.xcconfig"; sourceTree = "<group>"; };
@@ -200,7 +198,6 @@
 			isa = PBXGroup;
 			children = (
 				95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */,
-				95E5EFD02078164200CD8D6C /* MasterTabBarControllerViewController.swift */,
 				9510998B2075C1480091DF49 /* HierarchyViewController.swift */,
 				951099902075C1490091DF49 /* DependencyViewController.swift */,
 				95DC88D020772A8A00E346DB /* ViewController.swift */,
@@ -554,7 +551,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9534855A2079859300A613B9 /* PickerTableViewCell.swift in Sources */,
-				95E5EFD12078164200CD8D6C /* MasterTabBarControllerViewController.swift in Sources */,
 				95DC88D120772A8B00E346DB /* ViewController.swift in Sources */,
 				9510999E2075C14A0091DF49 /* HierarchyViewController.swift in Sources */,
 				9510999A2075C14A0091DF49 /* AppDelegate.swift in Sources */,

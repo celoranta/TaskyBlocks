@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol TaskDetailDataSource {
   func returnSelectedTask () -> TaskyNode
@@ -40,9 +41,18 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   var pickerTableViewController: PickerTableViewController!
   var pickerViewRelationshipType: TaskRelationship!
  
+  //Realm
+  var realm: Realm!
+  var activeDataSet: Set<TaskyNode>!
+  
   //MARK: Methods
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    try! realm = Realm()
+    let tasks = realm.objects(TaskyNode.self)
+    activeDataSet = Set(tasks)
+    
     guard taskDetailDataSource != nil
       else
     {
@@ -66,14 +76,14 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     self.refreshView()
   }
   @IBAction func deleteButton(_ sender: Any) {
-    tasksData.remove(task: task)
-    self.dismiss(animated: true, completion: nil)
+//   DISABLED tasksData.remove(task: task)
+//    self.dismiss(animated: true, completion: nil)
   }
   @IBAction func completedSwitchThrown(_ sender: Any) {
     if completedSwitch.isOn == true
     {
-      tasksData.setComplete(for: task, on: Date())
-      refreshView()
+//   DISABLED   tasksData.setComplete(for: task, on: Date())
+//      refreshView()
     }
   }
   
@@ -135,7 +145,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     }
     parentsListButton.setTitle(parentsString, for: .normal)
     childrenListButton.setTitle(childrenString, for: .normal)
-    deleteButton.isEnabled = tasksData.serveTaskData().count > 1
+   // DISABLED deleteButton.isEnabled = tasksData.serveTaskData().count > 1
   }
   
   //MARK: PickerTableView Delegate
@@ -267,7 +277,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     
     destinationVC.pickerTableViewDelegate = self
 
-      destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: tasksData.serveTaskData())
+      destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: self.activeDataSet)
 
   }
 }
