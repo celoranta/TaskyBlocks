@@ -295,18 +295,5 @@ class TaskyNode: Object
     }
     return count
   }
-
-//  deinit
-//  {// prepareRemove()
-//  }
-  //
-} //MARK: End of Class Definition
-
-//extension TaskyNode
-//{ var uniqueKey: String
-//  { get
-//  { return "\(priorityApparent)\(taskId)"
-//  }
-//  }
-//}
+}
 

@@ -71,8 +71,8 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     self.dismiss(animated: true, completion: nil)
   }
   @IBAction func addButton(_ sender: Any) {
-    let newTask = tasksData.newTask()
-    self.task = newTask
+    //let newTask = tasksData.newTask()
+    //self.task = newTask
     self.refreshView()
   }
   @IBAction func deleteButton(_ sender: Any) {

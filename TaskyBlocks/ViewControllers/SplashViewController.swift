@@ -17,7 +17,6 @@ class SplashViewController: UIViewController {
      if let navController = self.navigationController
      {
     
-      
       let unwrappedViewControllers = navController.viewControllers
       if let unwrappedViewController = unwrappedViewControllers[0] as? ViewController
       {

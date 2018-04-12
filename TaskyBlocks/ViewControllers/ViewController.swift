@@ -7,13 +7,20 @@
 //
 
 import UIKit
+import RealmSwift
 
-class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSource {
-  
+class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSource{
+
+
+  var activeTaskySet: Set<TaskyNode>!
   var selectedTask: TaskyNode?
+  var realm: Realm!
   
+  func serveTaskData() -> (Set<TaskyNode>)
+  { return activeTaskySet
+  }
+
   func returnSelectedTask() -> TaskyNode {
-    
     //This method is an incomplete stub
     print("New Task Returned to Priority VC")
     guard let task = selectedTask
@@ -24,13 +31,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSour
     return task
   }
   
-  
   @IBOutlet weak var taskyGraph: TaskyGraphView!
   var tasksData: TaskDataSource?
   
   override func viewDidLoad() {
     super.viewDidLoad()
     taskyGraph.delegate = self
+    try! realm = Realm()
+    let tasks = realm.objects(TaskyNode.self)
+    activeTaskySet = Set(tasks)
     
     graphIt()
   }
@@ -69,7 +78,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSour
       {
         fatalError("TasksData is set to nil")
       }
-      selectedTask = tasksData?.newTask()
+      //selectedTask = tasksData?.newTask()
       let detailNavController = segue.destination as! UINavigationController
       let detailViewController = detailNavController.topViewController as! DetailViewController
       detailViewController.taskDetailDataSource = self
@@ -77,7 +86,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSour
       
       default:
       fatalError("performVC Called an unknown segue")
-      
   }
   }
   
@@ -92,13 +100,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSour
   
   func graphIt()
   {
-    guard let tasksDataUnwrapped = tasksData
-      else
-    {
-      fatalError("Data source is nil")
-    }
-    let displayTasks = tasksDataUnwrapped.serveTaskData()
-    taskyGraph.graphPriorityWith(taskSet: displayTasks)
+//    guard let tasksDataUnwrapped = tasksData
+//      else
+//    {
+//      fatalError("Data source is nil")
+//    }
+    let displayTasks = activeTaskySet
+    taskyGraph.graphPriorityWith(taskSet: activeTaskySet)
   }
 }
 
