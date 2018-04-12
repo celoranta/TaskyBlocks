@@ -63,6 +63,7 @@ class PickerTableViewController: UITableViewController
     delegateRequestedRelationshipType = relationship
     delegateRequestedRelationshipsOf = task
     delegateRequestedRelationshipsAmong = taskList
+    
     switch delegateRequestedRelationshipType
     {
     case .parents:

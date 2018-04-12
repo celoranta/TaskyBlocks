@@ -25,6 +25,7 @@ class TaskyNodeManager: TaskDataSource
     return activeTaskySet.count
   }
   
+  
   var activeTaskySet: Set<TaskyNode>
   {
     get
@@ -41,13 +42,13 @@ class TaskyNodeManager: TaskDataSource
   {
     var taskSet: Set<TaskyNode>!
     realm = try! Realm()
-    try! realm.write
-    {
+    realm.beginWrite()
+
       createRandomTasks()
       tasks = realm.objects(TaskyNode.self)
       taskSet = Set(tasks)
       TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)  //Only works on QUERIED REALM OBJECTS
-    }
+
     for task in taskSet
     { task.soundOff()
     }
@@ -61,18 +62,20 @@ class TaskyNodeManager: TaskDataSource
     addToRealm(taskyNode: task)
     return task
   }
-
-
+  
+  func deleteAllHistory()
+  {
+    realm.deleteAll()
+  }
   
   func addToRealm(taskyNode: TaskyNode)
-  {
-    try! realm.write
+    //try! realm.write
     {
-      realm.add(taskyNode)
+      self.realm.add(taskyNode)
       taskyNode.soundOff()
       updateAllTaskPriorities()
     }
-  }
+
   
   func updateAllTaskPriorities()
   {
@@ -141,18 +144,18 @@ class TaskyNodeManager: TaskDataSource
   func createRandomTasks()
   { realm = try! Realm()
     
-    let nodeA = TaskyNode()
-    let nodeB = TaskyNode()
-    let nodeC = TaskyNode()
-    let nodeD = TaskyNode()
-    let nodeE = TaskyNode()
-    let nodeF = TaskyNode()
-    let nodeG = TaskyNode()
-    let nodeH = TaskyNode()
-    let nodeI = TaskyNode()
-    let nodeJ = TaskyNode()
-    let nodeK = TaskyNode()
-    let nodeL = TaskyNode()
+    let nodeA = self.newTask()
+    let nodeB = self.newTask()
+    let nodeC = self.newTask()
+    let nodeD = self.newTask()
+    let nodeE = self.newTask()
+    let nodeF = self.newTask()
+    let nodeG = self.newTask()
+    let nodeH = self.newTask()
+    let nodeI = self.newTask()
+    let nodeJ = self.newTask()
+    let nodeK = self.newTask()
+    let nodeL = self.newTask()
     
     masterActiveTaskSet.insert(nodeA)
     masterActiveTaskSet.insert(nodeB)

@@ -125,6 +125,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     self.isActionableStatusLabel.text = task.isActionable.description
     self.taskDateLabel.text = task.taskDate.description
     self.completedSwitch.isOn = task.isComplete
+    
     var parentsString = ""
     for parent in task.parents
     {
@@ -134,6 +135,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     {
       parentsString = "<none>"
     }
+    
     var childrenString = ""
     for child in task.children
     {
@@ -143,8 +145,30 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     {
       childrenString = "<none>"
     }
+    
+    var antecedentString = ""
+    for antecedent in task.antecedents
+    {
+      antecedentString.append(antecedent.title + ", ")
+    }
+    if antecedentString == ""
+    {
+      antecedentString = "<none>"
+    }
+    
+    var consequentString = ""
+    for consequent in task.consequents
+    {
+      consequentString.append(consequent.title + ", ")
+    }
+    if consequentString == ""
+    {
+      consequentString = "<none>"
+    }
     parentsListButton.setTitle(parentsString, for: .normal)
     childrenListButton.setTitle(childrenString, for: .normal)
+    dependentsListButton.setTitle(consequentString, for: .normal)
+    dependeesListButton.setTitle(antecedentString, for: .normal)
    // DISABLED deleteButton.isEnabled = tasksData.serveTaskData().count > 1
   }
   
@@ -171,10 +195,21 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       {
         task.addAsParentTo(newChild: child)
       }
-    case .dependees:
-      print("picker returned dependees")
     case .dependents:
+      task.removeAsAntecedentToAll()
+      for consequent in returnPickerData.collection
+      {
+        task.addAsAntecedentTo(newConsequent: consequent)
+      }
       print("picker returned dependents")
+      
+    case .dependees:
+      task.removeAsConsequentToAll()
+      for antecedent in returnPickerData.collection
+      {
+        task.addAsConsequentTo(newAntecedent: antecedent)
+      }
+      print("picker returned dependees")
 
     }
     refreshView()

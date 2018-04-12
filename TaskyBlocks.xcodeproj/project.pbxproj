@@ -19,7 +19,6 @@
 		9510999C2075C14A0091DF49 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099892075C1470091DF49 /* DetailViewController.swift */; };
 		9510999D2075C14A0091DF49 /* TaskyBlock2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9510998A2075C1480091DF49 /* TaskyBlock2.xib */; };
 		9510999E2075C14A0091DF49 /* HierarchyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510998B2075C1480091DF49 /* HierarchyViewController.swift */; };
-		951099A12075C14A0091DF49 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510998E2075C1490091DF49 /* SettingsViewController.swift */; };
 		951099A32075C14A0091DF49 /* DependencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099902075C1490091DF49 /* DependencyViewController.swift */; };
 		951099A42075C14A0091DF49 /* TaskyBlock2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099912075C1490091DF49 /* TaskyBlock2.swift */; };
 		951099A62075C3600091DF49 /* TaskyBlocksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099662075C0A10091DF49 /* TaskyBlocksTests.swift */; };
@@ -27,6 +26,8 @@
 		9534855C20798A2F00A613B9 /* PickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9534855B20798A2F00A613B9 /* PickerTableViewController.swift */; };
 		953B32C3207EB4BB00B24C81 /* TaskyBlockLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953B32C2207EB4BA00B24C81 /* TaskyBlockLibrary.swift */; };
 		953B32C5207EB53800B24C81 /* TaskyNodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953B32C4207EB53800B24C81 /* TaskyNodeManager.swift */; };
+		9561F898207FB460003766B6 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561F897207FB460003766B6 /* SettingsTableViewController.swift */; };
+		9561F89C207FE43A003766B6 /* TaskyFilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561F89B207FE43A003766B6 /* TaskyFilterManager.swift */; };
 		95A1834B207C39F500F38ED3 /* UITextViewPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1834A207C39F500F38ED3 /* UITextViewPlaceholder.swift */; };
 		95BE0D2F2076027A0097937F /* TaskTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BE0D2E207602790097937F /* TaskTimer.swift */; };
 		95D05A7820789D220053593E /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D05A7720789D220053593E /* DetailTableViewCell.swift */; };
@@ -79,13 +80,14 @@
 		951099892075C1470091DF49 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9510998A2075C1480091DF49 /* TaskyBlock2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskyBlock2.xib; sourceTree = "<group>"; };
 		9510998B2075C1480091DF49 /* HierarchyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HierarchyViewController.swift; sourceTree = "<group>"; };
-		9510998E2075C1490091DF49 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		951099902075C1490091DF49 /* DependencyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyViewController.swift; sourceTree = "<group>"; };
 		951099912075C1490091DF49 /* TaskyBlock2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskyBlock2.swift; sourceTree = "<group>"; };
 		953485592079859300A613B9 /* PickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
 		9534855B20798A2F00A613B9 /* PickerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
 		953B32C2207EB4BA00B24C81 /* TaskyBlockLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TaskyBlockLibrary.swift; path = /Users/chriseloranta/Desktop/Lighthouse/FinalProject/TaskyBlocks/TaskyBlocks/TaskyBlockLibrary.swift; sourceTree = "<absolute>"; };
 		953B32C4207EB53800B24C81 /* TaskyNodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyNodeManager.swift; sourceTree = "<group>"; };
+		9561F897207FB460003766B6 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		9561F89B207FE43A003766B6 /* TaskyFilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TaskyFilterManager.swift; path = /Users/chriseloranta/Desktop/Lighthouse/FinalProject/TaskyBlocks/TaskyBlocks/ViewControllers/TaskyFilterManager.swift; sourceTree = "<absolute>"; };
 		95A1834A207C39F500F38ED3 /* UITextViewPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewPlaceholder.swift; sourceTree = "<group>"; };
 		95BE0D2E207602790097937F /* TaskTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTimer.swift; sourceTree = "<group>"; };
 		95D05A7720789D220053593E /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 		953B32C8207EBB0C00B24C81 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				9561F89B207FE43A003766B6 /* TaskyFilterManager.swift */,
 				95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */,
 				9510998B2075C1480091DF49 /* HierarchyViewController.swift */,
 				951099902075C1490091DF49 /* DependencyViewController.swift */,
@@ -205,10 +208,10 @@
 				9510997F2075C1460091DF49 /* PerformViewController.swift */,
 				95BE0D2E207602790097937F /* TaskTimer.swift */,
 				951099892075C1470091DF49 /* DetailViewController.swift */,
+				9561F897207FB460003766B6 /* SettingsTableViewController.swift */,
 				95D05A7720789D220053593E /* DetailTableViewCell.swift */,
 				9534855B20798A2F00A613B9 /* PickerTableViewController.swift */,
 				953485592079859300A613B9 /* PickerTableViewCell.swift */,
-				9510998E2075C1490091DF49 /* SettingsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -566,10 +569,11 @@
 				953B32C5207EB53800B24C81 /* TaskyNodeManager.swift in Sources */,
 				95D05A7820789D220053593E /* DetailTableViewCell.swift in Sources */,
 				95E5EFCF20780CB700CD8D6C /* SplashViewController.swift in Sources */,
+				9561F898207FB460003766B6 /* SettingsTableViewController.swift in Sources */,
 				95DC88CD20771D7B00E346DB /* GraphPageViewController.swift in Sources */,
+				9561F89C207FE43A003766B6 /* TaskyFilterManager.swift in Sources */,
 				951099922075C14A0091DF49 /* PerformViewController.swift in Sources */,
 				951099A42075C14A0091DF49 /* TaskyBlock2.swift in Sources */,
-				951099A12075C14A0091DF49 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
