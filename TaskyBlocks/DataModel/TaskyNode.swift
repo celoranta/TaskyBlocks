@@ -15,7 +15,7 @@ import RealmSwift
 class TaskyNode: Object
 
 {
-  //list of properties ignored in RealmSwift
+  //MAR: Ignored Properties: list of properties ignored in RealmSwift
   override static func ignoredProperties() -> [String]
   { return ["isComplete", "isPrimal", "isActionable"]
   }
@@ -26,6 +26,7 @@ class TaskyNode: Object
   @objc dynamic var taskDescription = ""
   @objc dynamic var taskDate = Date()
   @objc dynamic var completionDate: Date? = nil
+  var taskyNodeDelegate: TaskyNodeManager?
 
   let parents = List<TaskyNode>()
   let children = LinkingObjects(fromType: TaskyNode.self, property: "parents")
@@ -33,9 +34,9 @@ class TaskyNode: Object
   let consequents = LinkingObjects(fromType: TaskyNode.self, property: "antecedents")
 
   @objc dynamic var priorityApparent: Double = 0
-  @objc dynamic var priorityInherited: Double = 0
-  @objc dynamic var priorityConsequent: Double = 0
   @objc dynamic var priorityDirectDefault: Double = 50
+  let priorityInherited: RealmOptional<Double> = RealmOptional.init()
+  let priorityConsequent: RealmOptional<Double> = RealmOptional.init()
   let priorityDirect: RealmOptional<Double> = RealmOptional.init()  //currently no need to recalcutalate/update.  Revisit
   let priorityOverride: RealmOptional<Double> = RealmOptional.init()  //for testing by developer
 
@@ -43,7 +44,6 @@ class TaskyNode: Object
   var isPrimal: Bool  //included in 'ignore' by RealmSwift
   { return parents.count == 0
   }
-
   var isActionable: Bool  //included in 'ignore' by RealmSwift
   { return children.isEmpty
   }
@@ -56,81 +56,19 @@ class TaskyNode: Object
     }
   }
 
-  //MARK: Class Method Definition: TO BE MOVED TO MANAGER
-  class func updatePriorityFor(tasks: Set<TaskyNode>,limit:Int)
-  { var currentTaskRecords: [String:Double] = [:]
-    var previousTaskRecords = ["dummy": 99.9] //ensures the first pass has a non-nil unequal dict to compare against, as to to ensure we enter a second pass.
-    let anyNonZeroInt = 42 // Remove this and use "while repeat" below?
-    var recordsChanged = anyNonZeroInt //ensures that we enter the loop with a non-nil, non-zero value
-    var updatesPerformed: [String:Int] = [:]
-    while recordsChanged != 0
-    { for task in tasks
-    { let taskRecord: TaskRecord = task.updateMyPriorities()
-      currentTaskRecords.updateValue(taskRecord.priority, forKey: taskRecord.taskId)
-      if let oldCount = updatesPerformed.removeValue(forKey: taskRecord.taskId)
-      { let newCount = oldCount + 1
-        updatesPerformed.updateValue(newCount, forKey: taskRecord.taskId)
-      }
-      else
-      { updatesPerformed.updateValue(1, forKey:taskRecord.taskId)
-      }
-      // guard //counter is over limit & return updates performed
-      task.soundOff()
-      }
-      print(updatesPerformed) //this is calculating incorrectly, but error doesn't affect logic
-      recordsChanged = countNonMatchingKeyValuePairsBetween(dict1: currentTaskRecords, dict2: previousTaskRecords)
-      print(recordsChanged)
-      previousTaskRecords = currentTaskRecords
-      currentTaskRecords = [:]
-    }
-    return
+  //MARK: Methods
+  
+//  init(from delegate: TaskyNodeManager, with name: String = "New Task", and priority: Double = 50)
+//  {
+//    self.taskyNodeDelegate = delegate
+//    self.title = name
+//  }
+  
+  func markAsCompleted(on: Date = Date())
+  { completionDate = Date()
   }
-
-  //Mark: Debugging Methods
-  func soundOff()
-  { print("\nHi, I'm \(self.title).")
-    print("My ID is \(self.taskId)")
-    print("My parents are: \(self.printMy(kin: RelationType.parents))")
-    print("My children are: \(self.printMy(kin: RelationType.children))")
-    print("My antecedents are: \(self.printMy(kin: RelationType.antecedents))")
-    print("My consequents are: \(self.printMy(kin: RelationType.consequents))")
-    if let unwrappedPriorityOverride = priorityOverride.value    {
-      print("My override priority is \(unwrappedPriorityOverride)")
-    }
-    if let unwrappedPriorityDirect = priorityDirect.value
-    { print("My direct priority is \(unwrappedPriorityDirect)")
-    }
-    print("My consequent priority is \(self.priorityConsequent)")
-    print("My inherited priority is \(self.priorityInherited)")
-    print("My apparent priority is \(self.priorityApparent)")
-    print("Am I primal? (t/f) \(self.isPrimal).")
-    print("Am I actionable? (t/f) \(self.isActionable).")
-  }
-
-  private func printMy(kin: RelationType) -> String
-  { var returnString = ""
-    switch kin
-    { case RelationType.parents:
-      for parent in parents
-      { returnString += parent.title + " "
-      }
-    case RelationType.children:
-      for child in children
-      { returnString += child.title + " "
-      }
-    case RelationType.antecedents:
-      for antecedent in antecedents
-      {  returnString += antecedent.title + " "
-      }
-    case RelationType.consequents:
-      for consequent in consequents
-      { returnString += consequent.title + " "
-      }
-    }
-    return returnString
-  }
-
-  //MARK: TaskyNode Relational assignment methods
+  
+  //MARK: TaskyNode Relational assignment
   func addAsChildTo(newParent: TaskyNode)
   { if !self.parents.contains(newParent)
   { self.parents.append(newParent)
@@ -208,10 +146,88 @@ class TaskyNode: Object
     }
   }
 
-  func markAsCompleted(on: Date = Date())
-  { completionDate = Date()
+  // MARK: Priority Calculators:
+  // Danny suggests that these functions should return a value and not mutate properties.
+  // However, since the only purpose served by these methods is the calculating of
+  // Apparent priority, maybe I should try again to turn them into calculated properties.
+  //A task's inherited priority is the maximum of all parents' apparent priorities
+  
+  private func updatePriorityInherited()
+  {
+    self.priorityInherited.value = self.parents.max(ofProperty: "priorityApparent")
   }
 
+  private func updatePriorityConsequent()
+  {
+    self.priorityConsequent.value = self.consequents.max(ofProperty: "priorityApparent")
+  }
+
+  private func updatePriorityApparent()
+  {
+    var priority = priorityDirect.value ?? priorityDirectDefault
+    if let inherited = priorityInherited.value
+    {
+      priority = inherited < priority ? inherited : priority
+    }
+    if let consequent = priorityConsequent.value
+    {
+      priority = consequent > priority ? consequent : priority
+    }
+    self.priorityApparent = priorityOverride.value ?? priority
+  }
+  
+  //Mark: Debugging Methods
+  func soundOff()
+  { print("\nHi, I'm \(self.title).")
+    print("My ID is \(self.taskId)")
+    print("My parents are: \(self.printMy(kin: RelationType.parents))")
+    print("My children are: \(self.printMy(kin: RelationType.children))")
+    print("My antecedents are: \(self.printMy(kin: RelationType.antecedents))")
+    print("My consequents are: \(self.printMy(kin: RelationType.consequents))")
+    if let unwrappedPriorityOverride = priorityOverride.value    {
+      print("My override priority is \(unwrappedPriorityOverride)")
+    }
+    if let unwrappedPriorityDirect = priorityDirect.value
+    { print("My direct priority is \(unwrappedPriorityDirect)")
+    }
+    if let unwrappedPriorityConsequent = priorityConsequent.value
+    {
+      print("My consequent priority is \(unwrappedPriorityConsequent)")
+    }
+    if let unwrappedPriorityInherited = self.priorityInherited.value
+    {
+      print("My inherited priority is \(unwrappedPriorityInherited)")
+    }
+    print("My apparent priority is \(self.priorityApparent)")
+    print("Am I primal? (t/f) \(self.isPrimal).")
+    print("Am I actionable? (t/f) \(self.isActionable).")
+  }
+  
+  private func printMy(kin: RelationType) -> String
+  { var returnString = ""
+    switch kin
+    { case RelationType.parents:
+      for parent in parents
+      { returnString += parent.title + " "
+      }
+    case RelationType.children:
+      for child in children
+      { returnString += child.title + " "
+      }
+    case RelationType.antecedents:
+      for antecedent in antecedents
+      {  returnString += antecedent.title + " "
+      }
+    case RelationType.consequents:
+      for consequent in consequents
+      { returnString += consequent.title + " "
+      }
+    }
+    return returnString
+  }
+  
+  //MARK: Class Method Definitions: TO BE MOVED TO MANAGER
+  
   //Danny note:/master update instance method to call each priority update individually and return an update record
   func updateMyPriorities() -> (TaskRecord)  //Returns a tasks UUID and priorityApparent
   { updatePriorityInherited()
@@ -220,69 +236,36 @@ class TaskyNode: Object
     updatePriorityApparent()
     return (self.taskId, self.priorityApparent)
   }
-
-  //A task's inherited priority is the maximum of all parents' apparent priorities
-  private func updatePriorityInherited()
-  { var priorityRegister: Double = 0.00
-    for parent in parents
-    {
-      if parent.priorityApparent > priorityRegister
-      { priorityRegister = parent.priorityApparent
+  
+  class func updatePriorityFor(tasks: Set<TaskyNode>,limit:Int)
+  { var currentTaskRecords: [String:Double] = [:]
+    var previousTaskRecords = ["dummy": 99.9] //ensures the first pass has a non-nil unequal dict to compare against, as to to ensure we enter a second pass.
+    let anyNonZeroInt = 42 // Remove this and use "while repeat" below?
+    var recordsChanged = anyNonZeroInt //ensures that we enter the loop with a non-nil, non-zero value
+    var updatesPerformed: [String:Int] = [:]
+    while recordsChanged != 0
+    { for task in tasks
+    { let taskRecord: TaskRecord = task.updateMyPriorities()
+      currentTaskRecords.updateValue(taskRecord.priority, forKey: taskRecord.taskId)
+      if let oldCount = updatesPerformed.removeValue(forKey: taskRecord.taskId)
+      { let newCount = oldCount + 1
+        updatesPerformed.updateValue(newCount, forKey: taskRecord.taskId)
       }
-    }
-    self.priorityInherited = priorityRegister
-  }
-
-  // Danny note: //A task's inherited priority is the maximum of all parents' apparent priorities
-  //  private func updatePriorityInherited() -> Double
-  //  {
-  //    var priorityRegister: Double = 0.00
-  //    for parent in parents{
-  //      if parent.priorityApparent > priorityRegister
-  //      {
-  //        priorityRegister = parent.priorityApparent
-  //      }
-  //    }
-  //    return priorityRegister
-  //  }
-  //
-
-  //A tasks's consequent priority is the maximum of all consequents' apparent priorities
-  private func updatePriorityConsequent()
-  { var priorityRegister: Double = 0.0
-    for consequent in consequents
-    { if consequent.priorityApparent > priorityRegister
-    { priorityRegister = consequent.priorityApparent
+      else
+      { updatesPerformed.updateValue(1, forKey:taskRecord.taskId)
       }
+      // guard //counter is over limit & return updates performed
+      task.soundOff()
+      }
+      print(updatesPerformed) //this is calculating incorrectly, but error doesn't affect logic
+      recordsChanged = countNonMatchingKeyValuePairsBetween(dict1: currentTaskRecords, dict2: previousTaskRecords)
+      print(recordsChanged)
+      previousTaskRecords = currentTaskRecords
+      currentTaskRecords = [:]
     }
-    self.priorityConsequent = priorityRegister
+    return
   }
-
-  private func updatePriorityApparent()
-  { let maxInheritanceTask = parents.max { $0.priorityApparent < $1.priorityApparent
-    }
-    let maxDependenceTask = consequents.max { $0.priorityApparent < $1.priorityApparent
-    }
-    let inheritance = maxInheritanceTask?.priorityApparent ?? 100.00
-    let dependence = maxDependenceTask?.priorityApparent ?? 0.00
-    let direct = priorityDirect.value ?? priorityDirectDefault
-    let priorities = (dependence: dependence,inheritance: inheritance,direct: direct)
-    var priorityRegister: Double
-    if priorityOverride.value != nil
-    { priorityRegister = priorityOverride.value!
-    }
-    else if priorities.dependence >= priorities.direct
-    { priorityRegister = priorities.dependence
-    }
-    else if priorities.inheritance <= priorities.direct
-    { priorityRegister = priorities.inheritance
-    }
-    else
-    { priorityRegister = priorities.direct
-    }
-    self.priorityApparent = priorityRegister
-  }
-
+  
   class func countNonMatchingKeyValuePairsBetween(dict1: [String:Double], dict2: [String:Double]) -> Int
   {
     var count = 0

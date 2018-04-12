@@ -9,26 +9,22 @@
 import UIKit
 import RealmSwift
 
-protocol TaskDataSource
-{
-  var activeTaskySet: Set<TaskyNode>
-  { get
-    set
-  }
-  func serveTaskData() -> (Set<TaskyNode>)
-  //func crucials() -> (Set<TaskyNode>)
-  //func primals() -> (Set<TaskyNode>)
-  //func newTask() -> TaskyNode
-  //func remove(task: TaskyNode)
-  //func setComplete(for task: TaskyNode, on date: Date)
-}
 
 class TaskyNodeManager: TaskDataSource
 {
-  //testing
+
   var realm: Realm!
   var tasks: Results<TaskyNode>!
-
+  let beHappy = TaskyNode()
+  
+  fileprivate var masterActiveTaskSet = Set<TaskyNode>()
+  var completedTaskySet: Set<TaskyNode> = []
+  
+  var activeTaskCount: Int
+  {
+    return activeTaskySet.count
+  }
+  
   var activeTaskySet: Set<TaskyNode>
   {
     get
@@ -40,48 +36,33 @@ class TaskyNodeManager: TaskDataSource
       masterActiveTaskSet = newActiveTaskList
     }
   }
-  
-  fileprivate var masterActiveTaskSet = Set<TaskyNode>()
-  var completedTaskySet: Set<TaskyNode> = []
-  var activeTaskCount: Int
-  { return activeTaskySet.count
-  }
-  
-  fileprivate func temporaryDataTests() {
-    let node0 = activeTaskySet.removeFirst()
-    let node1 = activeTaskySet.removeFirst()
-    let node2 = activeTaskySet.removeFirst()
-    let node3 = activeTaskySet.removeFirst()
-    node0.addAsAntecedentTo(newConsequent: node1)
-    node2.addAsParentTo(newChild: node3)
-    let testTaskySet = [node0, node1, node2, node3]
-    for task in testTaskySet
-    { task.soundOff()
-    }
-    activeTaskySet.formUnion(testTaskySet)
-  }
 
-func setupProcesses()
-  { realm = try! Realm()
+  func setupProcesses()
+  {
+    var taskSet: Set<TaskyNode>!
+    realm = try! Realm()
     try! realm.write
-    { createRandomTasks()
-      TaskyNode.updatePriorityFor(tasks: masterActiveTaskSet, limit: 100)
+    {
+      createRandomTasks()
+      tasks = realm.objects(TaskyNode.self)
+      taskSet = Set(tasks)
+      TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)  //Only works on QUERIED REALM OBJECTS
     }
-    
-  // temp data test
-    tasks = realm.objects(TaskyNode.self)
-    let taskSet = Set(tasks)
-
     for task in taskSet
     { task.soundOff()
     }
   }
   
   //MARK: Task Creation and Deletion
-  
-  func newTask() -> TaskyNode
-  { let task = TaskyNode()
-    masterActiveTaskSet.insert(task)
+  func newTask(of parent: TaskyNode, with name: String = "New Task") -> TaskyNode
+  {
+    let task = TaskyNode()
+    try! realm.write
+    {
+      realm.add(task)
+    }
+    let taskResult: Results<TaskyNode>
+    //tasks.
     return task
   }
   
@@ -176,7 +157,7 @@ func setupProcesses()
       let rand1 = Int(arc4random_uniform(verbQty - 1))
       let rand2 = Int(arc4random_uniform(nounQty - 1))
       let nameString = "\(verbs.remove(at: Int(rand1))) the \(nouns.remove(at: rand2))"
-      //task.addAsChildTo(newParent: nodeA)
+      task.addAsParentTo(newChild: nodeA)
       task.priorityDirect.value = Double(arc4random_uniform(99) + 1)
       task.title = nameString
       task.taskDescription =
@@ -187,11 +168,10 @@ func setupProcesses()
       """
     }
     nodeA.removeAsChildToAll()
-    nodeK.priorityOverride.value = nodeA.priorityOverride.value
-    nodeB.priorityOverride.value = nodeC.priorityOverride.value
     nodeC.addAsChildTo(newParent: nodeB)
     nodeE.addAsConsequentTo(newAntecedent: nodeF)
     nodeF.addAsConsequentTo(newAntecedent: nodeG)
+    nodeH.addAsParentTo(newChild: nodeF)
     
     TaskyNode.updatePriorityFor(tasks: activeTaskySet, limit: 100)
     for task in activeTaskySet
