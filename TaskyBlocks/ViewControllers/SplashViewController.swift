@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import RealmSwift
 
 class SplashViewController: UIViewController {
     var taskManager = TaskyNodeManager()
+  var realm: Realm!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +39,7 @@ class SplashViewController: UIViewController {
     }
     
 
+  
     /*
     // MARK: - Navigation
 

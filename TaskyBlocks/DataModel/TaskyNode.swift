@@ -27,7 +27,7 @@ class TaskyNode: Object
   @objc dynamic var taskDescription = ""
   @objc dynamic var taskDate = Date()
   @objc dynamic var completionDate: Date? = nil
-  var taskyNodeDelegate: TaskyNodeManager?
+  //var taskyNodeDelegate: TaskyNodeManager?
 
   let parents = List<TaskyNode>()
   let children = LinkingObjects(fromType: TaskyNode.self, property: "parents")
@@ -59,15 +59,18 @@ class TaskyNode: Object
 
   //MARK: Methods
   
-  convenience init(from delegate: TaskyNodeManager, with name: String = "New Task", and priority: Double = 50)
+  convenience init(with name: String = "New Task", and priority: Double = 50)
   {
     self.init()
-    self.taskyNodeDelegate = delegate
     self.title = name
   }
   
+  
+  
   func markAsCompleted(on: Date = Date())
-  { completionDate = Date()
+  { realm?.beginWrite()
+    completionDate = Date()
+    self.prepareRemove()
   }
   
   //MARK: TaskyNode Relational assignment

@@ -8,13 +8,15 @@
 
 import UIKit
 
-class SettingsTableViewController: UITableViewController {
 
+class SettingsTableViewController: UITableViewController {
+  var taskManager: TaskyNodeManager!
   let settingsDictionary: [Int : Any] = [:]
-  
+  var tasksData: TaskDataSource!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+      
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -94,4 +96,5 @@ class SettingsTableViewController: UITableViewController {
     }
     */
 
+  
 }

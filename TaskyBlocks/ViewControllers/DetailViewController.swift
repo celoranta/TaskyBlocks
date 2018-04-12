@@ -86,6 +86,9 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
 //      refreshView()
     }
   }
+  @IBAction func priorityLabelTap(_ sender: Any) {
+    task.soundOff()
+  }
   
   @IBAction func childrenButton(_ sender: Any)
   {
@@ -177,6 +180,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   func retrieveUpdatedCollection(from table: PickerTableViewController)
   {
+    realm.beginWrite()
     let returnPickerData = table.postUpdatedTaskSubcollection()
     switch returnPickerData.relationship
     {
@@ -212,6 +216,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       print("picker returned dependees")
 
     }
+    try! realm.commitWrite()
     refreshView()
   }
   
@@ -235,9 +240,10 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     }
     if textField == priorityDirectText
     {
-      switch string {
+      switch string
+      {
       case "0","1","2","3","4","5","6","7","8","9":
-        return true
+        return true ///
       case ".":
         let array = Array(priorityDirectText.text!)
         var decimalCount = 0
@@ -246,31 +252,32 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
             decimalCount += 1
           }
         }
-        
         if decimalCount == 1 {
-          return false
+          return false ///
         } else {
-          return true
+          return true ///
         }
       default:
         let array = Array(string)
         if array.count == 0 {
-          return true
+          return true ///
         }
-        return false
+        return false ///
       }
     }
-    return true
+    return true ///
   }
   
-  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool
+  {
     taskTitleText.resignFirstResponder()
     priorityDirectText.resignFirstResponder()
     return true
   }
   
-  func textFieldDidEndEditing(_ textField: UITextField) {
+  func textFieldDidEndEditing(_ textField: UITextField)
+  {
+    realm.beginWrite()
     if textField == priorityDirectText
     {
       if let unwrappedText = priorityDirectText.text
@@ -279,6 +286,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       }
     }
     _ = task.updateMyPriorities()
+    try! realm.commitWrite()
     refreshView()
   }
   

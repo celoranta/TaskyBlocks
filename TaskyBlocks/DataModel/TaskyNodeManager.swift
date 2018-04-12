@@ -15,8 +15,7 @@ class TaskyNodeManager: TaskDataSource
 
   var realm: Realm!
   var tasks: Results<TaskyNode>!
-  let beHappy: TaskyNode = TaskyNode()
-  
+  var beHappy: TaskyNode!
   fileprivate var masterActiveTaskSet = Set<TaskyNode>()
   var completedTaskySet: Set<TaskyNode> = []
   
@@ -24,7 +23,6 @@ class TaskyNodeManager: TaskDataSource
   {
     return activeTaskySet.count
   }
-  
   
   var activeTaskySet: Set<TaskyNode>
   {
@@ -40,24 +38,33 @@ class TaskyNodeManager: TaskDataSource
 
   func setupProcesses()
   {
+
     var taskSet: Set<TaskyNode>!
     realm = try! Realm()
-    realm.beginWrite()
-
-      createRandomTasks()
-      tasks = realm.objects(TaskyNode.self)
-      taskSet = Set(tasks)
-      TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)  //Only works on QUERIED REALM OBJECTS
-
+    tasks = realm.objects(TaskyNode.self)
+    if tasks.count == 0
+    {
+    try! realm.write {
+    let task = configureInitialTask()
+      realm.add(task)
+      }
+    }
+    taskSet = Set(tasks)
+    try! realm.write
+    {
+    TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)  //Only works on QUERIED REALM OBJECTS
+    }
+    
     for task in taskSet
     { task.soundOff()
     }
   }
+
   
-  //MARK: Task Creation and Deletion
+ // MARK: Task Creation and Deletion
   func newTask(with name: String = "New Task", and priority: Double = 50) -> TaskyNode
   {
-    let task = TaskyNode.init(from: self, with: name, and: priority)
+    let task = TaskyNode.init(with: name, and: priority)
     task.addAsChildTo(newParent: beHappy)
     addToRealm(taskyNode: task)
     return task
@@ -75,6 +82,16 @@ class TaskyNodeManager: TaskDataSource
       taskyNode.soundOff()
       updateAllTaskPriorities()
     }
+  
+  
+  func markAsCompleted(task: TaskyNode)
+  { realm.beginWrite()
+    task.completionDate = Date()
+    task.prepareRemove()
+    try! realm.commitWrite()
+    activeTaskySet.remove(task)
+    completedTaskySet.insert(task)
+  }
 
   
   func updateAllTaskPriorities()
@@ -141,6 +158,15 @@ class TaskyNodeManager: TaskDataSource
     return taskArray[randomInteger]
   }
   
+  func configureInitialTask() -> TaskyNode
+  {
+    var task = TaskyNode()
+    task.title = "Be Happy"
+    task.taskDescription = "This is the only permanent task in 'TaskyBlocks.'  Please add tasks as 'children' to this task to begin."
+    task.priorityDirect.value = 100
+    return task
+  }
+  
   func createRandomTasks()
   { realm = try! Realm()
     
@@ -196,10 +222,10 @@ class TaskyNodeManager: TaskDataSource
     nodeH.addAsParentTo(newChild: nodeF)
     
     TaskyNode.updatePriorityFor(tasks: activeTaskySet, limit: 100)
-    for task in activeTaskySet
-    {
-      realm.add(task)
-    }
+//    for task in activeTaskySet
+//    {
+//     // realm.add(task)
+//    }
   }
 }
 

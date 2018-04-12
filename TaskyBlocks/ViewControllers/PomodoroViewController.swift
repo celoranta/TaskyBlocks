@@ -67,7 +67,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   {
     return pickerArray[row].title
   }
-
+  
   public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
   {
 
@@ -150,7 +150,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     let roundedDuration = Int(duration)
     durationTimeLabel.text = "\(roundedDuration) min"
   }
-  
+
   func returnSelectedTask() -> TaskyNode
   {
     return self.selectedItem

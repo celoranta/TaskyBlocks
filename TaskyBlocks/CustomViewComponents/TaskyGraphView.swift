@@ -108,6 +108,12 @@ class TaskyGraphView: UIScrollView {
     var blockColorString: String!
     var blockColor: UIColor!
     let priority = task.priorityApparent
+    if task.title == "Be Happy"
+    {
+      blockColorString = colorString.purple.rawValue
+    }
+    else
+    {
     switch priority
     {
     case 66.00...100.00:
@@ -118,6 +124,7 @@ class TaskyGraphView: UIScrollView {
       blockColorString = colorString.green.rawValue
     default: blockColor = UIColor.black
     }
+    }
     blockColor = hexStringToUIColor(hex: blockColorString)
     return blockColor
   }
@@ -126,6 +133,7 @@ class TaskyGraphView: UIScrollView {
     case green = "#cfffc9"
     case red = "#fad3d3"
     case yellow = "#ffffa2"
+    case purple = "dbd0f0"
   }
   
   func hexStringToUIColor (hex:String) -> UIColor {
