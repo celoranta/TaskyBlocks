@@ -45,10 +45,27 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
    return activeTaskySet.count
   }
   
+  fileprivate func temporaryDataTests() {
+    let node0 = activeTaskySet.removeFirst()
+    let node1 = activeTaskySet.removeFirst()
+    let node2 = activeTaskySet.removeFirst()
+    let node3 = activeTaskySet.removeFirst()
+    node0.addAsAntecedentTo(newConsequent: node1)
+    node2.addAsParentTo(newChild: node3)
+    let testTaskySet = [node0, node1, node2, node3]
+    for task in testTaskySet
+    { task.soundOff()
+    }
+    activeTaskySet.formUnion(testTaskySet)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     createRandomTasks()
+    TaskyNode.updatePriorityFor(tasks: masterActiveTaskSet, limit: 100)
     self.delegate = self
+    
+   // temporaryDataTests()
     
     if let unwrappedViewControllers = self.viewControllers
     {
@@ -189,7 +206,7 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
   let rand2 = Int(arc4random_uniform(nounQty - 1))
   let nameString = "\(verbs.remove(at: Int(rand1))) the \(nouns.remove(at: rand2))"
   //task.addAsChildTo(newParent: nodeA)
-  task.priorityDirect = Double(arc4random_uniform(99) + 1)
+  task.priorityDirect.value = Double(arc4random_uniform(99) + 1)
   task.title = nameString
   task.taskDescription =
   """

@@ -99,7 +99,12 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     
     self.priorityDirectText.clearsOnBeginEditing = true
     self.priorityDirectText.keyboardType = .numbersAndPunctuation
-    self.priorityDirectText.text = task.priorityDirect?.description ?? "<not set>"
+    if let uPriorityDirect = task.priorityDirect.value
+    { self.priorityDirectText.text = "\(uPriorityDirect)"
+    }
+    else
+    { self.priorityDirectText.text = "<not set>"
+    }
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
     self.taskDescription.placeholder = "please enter a description"
@@ -225,7 +230,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     {
       if let unwrappedText = priorityDirectText.text
       {
-        task.priorityDirect = ((unwrappedText as NSString).doubleValue)
+        task.priorityDirect.value = ((unwrappedText as NSString).doubleValue)
       }
     }
     _ = task.updateMyPriorities()
