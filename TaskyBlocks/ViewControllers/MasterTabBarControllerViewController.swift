@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol TaskDataSource {
   
@@ -25,6 +26,12 @@ protocol TaskDataSource {
 }
 
 class MasterTabBarControllerViewController: UITabBarController, UITabBarControllerDelegate,  TaskDataSource {
+  
+  var realm: Realm!
+  
+  //testing
+    var tasks: Results<TaskyNode>!
+  
   
   var activeTaskySet: Set<TaskyNode>
   {
@@ -59,10 +66,16 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
     activeTaskySet.formUnion(testTaskySet)
   }
   
-  override func viewDidLoad() {
+  override func viewDidLoad()
+  {
     super.viewDidLoad()
-    createRandomTasks()
-    TaskyNode.updatePriorityFor(tasks: masterActiveTaskSet, limit: 100)
+    
+    realm = try! Realm()
+    try! realm.write
+    {
+      createRandomTasks()
+      TaskyNode.updatePriorityFor(tasks: masterActiveTaskSet, limit: 100)
+    }
     self.delegate = self
     
    // temporaryDataTests()
@@ -78,6 +91,15 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
         unwrappedViewController.tasksData = self
       }
     }
+    
+
+    tasks = realm.objects(TaskyNode.self)
+    let taskSet = Set(tasks)
+    for task in taskSet
+    {
+      task.soundOff()
+    }
+  
   }
   
   override func didReceiveMemoryWarning() {
@@ -169,6 +191,10 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
   
   func createRandomTasks()
   {
+    
+    let realm = try! Realm()
+    
+
   let nodeA = TaskyNode()
   let nodeB = TaskyNode()
   let nodeC = TaskyNode()
@@ -197,6 +223,8 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
   var verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate", "Flog", "Threaten", "Pacify", "Enrage", "Bewilder", "Frighten", "Placate", "Interrogate", "Moisten", "Shuck", "Wax", "Surveil", "Alarm", "Annoy", "Frustrate", "Telephone", "Buffalo", "Berate", "Seduce"]
   var nouns = ["Dog", "Dishes", "Car", "Neighbors", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws", "Cat", "Baby", "Shed", "TV", "Light Fixtures", "Neighborhood", "Rent", "China", "Taxes", "Deacon", "Postman", "Telephone", "Buffalo", "Local Urchins", "Garbage"]
   
+
+    
   for task in activeTaskySet
   {
   
@@ -216,15 +244,22 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
   """
   }
   
-  //nodeA.removeAsChildToAll()
-  //nodeK.priorityOverride = nodeA.priorityOverride
-  //nodeB.priorityOverride = nodeC.priorityOverride
-  //nodeC.addAsChildTo(newParent: nodeB)
-  // nodeE.addAsConsequentTo(newAntecedent: nodeF)
-  //nodeF.addAsConsequentTo(newAntecedent: nodeG)
+  nodeA.removeAsChildToAll()
+  nodeK.priorityOverride.value = nodeA.priorityOverride.value
+  nodeB.priorityOverride.value = nodeC.priorityOverride.value
+  nodeC.addAsChildTo(newParent: nodeB)
+   nodeE.addAsConsequentTo(newAntecedent: nodeF)
+  nodeF.addAsConsequentTo(newAntecedent: nodeG)
   
   
   TaskyNode.updatePriorityFor(tasks: activeTaskySet, limit: 100)
-  // Do any additional setup after loading the view.
+    
+
+    for task in activeTaskySet
+    {
+      realm.add(task)
+    }
+
 }
+  
 }

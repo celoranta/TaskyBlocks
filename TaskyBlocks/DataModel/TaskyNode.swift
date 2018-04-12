@@ -296,9 +296,9 @@ class TaskyNode: Object
     return count
   }
 
-  deinit
-  { prepareRemove()
-  }
+//  deinit
+//  {// prepareRemove()
+//  }
   //
 } //MARK: End of Class Definition
 
