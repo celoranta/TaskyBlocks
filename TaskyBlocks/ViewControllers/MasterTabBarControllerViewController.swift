@@ -9,25 +9,11 @@
 import UIKit
 import RealmSwift
 
-protocol TaskDataSource {
-  
-  var activeTaskySet: Set<TaskyNode>
-  {
-    get
-    set
-  }
-  
-  func serveTaskData() -> (Set<TaskyNode>)
-    func crucials() -> (Set<TaskyNode>)
-    func primals() -> (Set<TaskyNode>)
-  func newTask() -> TaskyNode
-  func remove(task: TaskyNode)
-    func setComplete(for task: TaskyNode, on date: Date)
-}
 
-class MasterTabBarControllerViewController: UITabBarController, UITabBarControllerDelegate,  TaskDataSource {
-  
-  var realm: Realm!
+/////  \/
+class MasterTabBarControllerViewController: UITabBarController, UITabBarControllerDelegate,  TaskDataSource
+{
+ var realm: Realm!
   
   //testing
     var tasks: Results<TaskyNode>!
@@ -65,7 +51,7 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
     }
     activeTaskySet.formUnion(testTaskySet)
   }
-  
+  ////\/
   override func viewDidLoad()
   {
     super.viewDidLoad()
@@ -92,6 +78,7 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
       }
     }
     
+    /////\
 
     tasks = realm.objects(TaskyNode.self)
     let taskSet = Set(tasks)
@@ -102,9 +89,13 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
   
   }
   
+  ////\/keep
+  
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
   }
+  
+  /////\
   
   //MARK: Task Creation and Deletion
   
@@ -137,6 +128,8 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
     return self.activeTaskySet
   }
   
+  
+  ///\/KEEP
   func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
     if let selectedViewController = viewController as? ViewController
     {
@@ -148,6 +141,8 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
     }
     return true
   }
+  
+  /////\KEEP
   
   func crucials() -> (Set<TaskyNode>)
   {
@@ -189,6 +184,7 @@ class MasterTabBarControllerViewController: UITabBarController, UITabBarControll
     return taskArray[randomInteger]
   }
   
+  ///// /\
   func createRandomTasks()
   {
     
