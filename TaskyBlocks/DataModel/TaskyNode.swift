@@ -15,6 +15,7 @@ import RealmSwift
 class TaskyNode: Object
 
 {
+  
   //MAR: Ignored Properties: list of properties ignored in RealmSwift
   override static func ignoredProperties() -> [String]
   { return ["isComplete", "isPrimal", "isActionable"]
@@ -58,11 +59,12 @@ class TaskyNode: Object
 
   //MARK: Methods
   
-//  init(from delegate: TaskyNodeManager, with name: String = "New Task", and priority: Double = 50)
-//  {
-//    self.taskyNodeDelegate = delegate
-//    self.title = name
-//  }
+  convenience init(from delegate: TaskyNodeManager, with name: String = "New Task", and priority: Double = 50)
+  {
+    self.init()
+    self.taskyNodeDelegate = delegate
+    self.title = name
+  }
   
   func markAsCompleted(on: Date = Date())
   { completionDate = Date()

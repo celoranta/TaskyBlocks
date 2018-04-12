@@ -12,7 +12,10 @@ import RealmSwift
 
 
 
+
 class BasicTaskyNodeFunctionsTest: XCTestCase {
+  
+  var manager: TaskyNodeManager!
   
   var node0: TaskyNode!
   var node1: TaskyNode!
@@ -28,6 +31,7 @@ class BasicTaskyNodeFunctionsTest: XCTestCase {
   override func setUp()
   {
     super.setUp()
+    manager = TaskyNodeManager()
     
     node0 = TaskyNode()
     node1 = TaskyNode()

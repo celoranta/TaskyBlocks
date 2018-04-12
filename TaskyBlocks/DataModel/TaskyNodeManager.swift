@@ -15,7 +15,7 @@ class TaskyNodeManager: TaskDataSource
 
   var realm: Realm!
   var tasks: Results<TaskyNode>!
-  let beHappy = TaskyNode()
+  let beHappy: TaskyNode = TaskyNode()
   
   fileprivate var masterActiveTaskSet = Set<TaskyNode>()
   var completedTaskySet: Set<TaskyNode> = []
@@ -54,16 +54,35 @@ class TaskyNodeManager: TaskDataSource
   }
   
   //MARK: Task Creation and Deletion
-  func newTask(of parent: TaskyNode, with name: String = "New Task") -> TaskyNode
+  func newTask(with name: String = "New Task", and priority: Double = 50) -> TaskyNode
   {
-    let task = TaskyNode()
+    let task = TaskyNode.init(from: self, with: name, and: priority)
+    task.addAsChildTo(newParent: beHappy)
+    addToRealm(taskyNode: task)
+    return task
+  }
+
+
+  
+  func addToRealm(taskyNode: TaskyNode)
+  {
     try! realm.write
     {
-      realm.add(task)
+      realm.add(taskyNode)
+      taskyNode.soundOff()
+      updateAllTaskPriorities()
     }
-    let taskResult: Results<TaskyNode>
-    //tasks.
-    return task
+  }
+  
+  func updateAllTaskPriorities()
+  {
+    var taskSet: Set<TaskyNode>!
+    tasks = realm.objects(TaskyNode.self)
+    taskSet = Set(tasks)
+    TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)  //Only works on QUERIED REALM OBJECTS
+    for task in taskSet
+    { task.soundOff()
+    }
   }
   
   func remove(task: TaskyNode)
