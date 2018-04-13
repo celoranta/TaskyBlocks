@@ -40,7 +40,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PtA-Iv-NK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="921" y="-1774"/>
+            <point key="canvasLocation" x="353" y="-1774"/>
         </scene>
         <!--Priority-->
         <scene sceneID="tne-QT-ifu">
@@ -85,7 +85,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1661.5999999999999" y="-1774.3628185907048"/>
+            <point key="canvasLocation" x="2249" y="-1774"/>
         </scene>
         <!--Picker Table View Controller-->
         <scene sceneID="KzJ-GG-KMj">
@@ -455,7 +455,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0fl-hs-cQ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2430" y="-1774"/>
+            <point key="canvasLocation" x="1282" y="-1774"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="OQ0-Mq-RqQ">
@@ -601,7 +601,7 @@
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="920.79999999999995" y="-22.03898050974513"/>
+            <point key="canvasLocation" x="2249" y="-896"/>
         </scene>
         <!--Item-->
         <scene sceneID="hko-hj-wbx">
@@ -819,7 +819,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yKg-rk-N8w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1525" y="-917"/>
+            <point key="canvasLocation" x="818" y="5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IDV-Fe-vha">

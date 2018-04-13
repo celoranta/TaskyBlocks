@@ -9,26 +9,15 @@
 import UIKit
 import RealmSwift
 
-class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSource{
+class ViewController: UIViewController, UIScrollViewDelegate
+{
   
-  var activeTaskySet: Set<TaskyNode>!
+  var activeTaskySet: Results<TaskyNode>!
   var selectedTask: TaskyNode?
   var realm: Realm!
+  var filter = "completionDate == nil"
   
-  func serveTaskData() -> (Set<TaskyNode>)
-  { return activeTaskySet
-  }
-  
-  func returnSelectedTask() -> TaskyNode
-  { //This method is an incomplete stub
-    print("New Task Returned to Priority VC")
-    guard let task = selectedTask
-      else
-    { fatalError("detail view returned a nil task")
-    }
-    return task
-  }
-  
+  //MARK - Outlets
   @IBOutlet weak var taskyGraph: TaskyGraphView!
   var tasksData: TaskDataSource?
   
@@ -36,8 +25,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSour
   { super.viewDidLoad()
     taskyGraph.delegate = self
     try! realm = Realm()
-    let tasks = realm.objects(TaskyNode.self)
-    activeTaskySet = Set(tasks)
+    activeTaskySet = realm.objects(TaskyNode.self).filter(filter)
     graphIt()
   }
   
@@ -92,13 +80,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSour
   
   func graphIt()
   {
-    //    guard let tasksDataUnwrapped = tasksData
-    //      else
-    //    {
-    //      fatalError("Data source is nil")
-    //    }
-    let displayTasks = activeTaskySet
-    taskyGraph.graphPriorityWith(taskSet: activeTaskySet)
+
+  
+    taskyGraph.graphPriorityWith(taskSet: Set.init(activeTaskySet))
     
   }
   //MARK: Actions
