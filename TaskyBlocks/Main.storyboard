@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -103,7 +104,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ec-R9-oF6">
-                                            <rect key="frame" x="16" y="11" width="42" height="21"/>
+                                            <rect key="frame" x="16" y="11" width="42" height="22"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -114,8 +115,10 @@
                                         </button>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="4ec-R9-oF6" firstAttribute="top" secondItem="c30-li-0lE" secondAttribute="topMargin" id="7Ls-VZ-kRq"/>
                                         <constraint firstItem="4ec-R9-oF6" firstAttribute="centerY" secondItem="c30-li-0lE" secondAttribute="centerY" id="A8C-Kr-fFX"/>
                                         <constraint firstAttribute="trailing" secondItem="ASC-fS-29F" secondAttribute="trailing" constant="16" id="Fou-fm-ys9"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="4ec-R9-oF6" secondAttribute="bottom" id="GSq-Fb-JPv"/>
                                         <constraint firstItem="4ec-R9-oF6" firstAttribute="leading" secondItem="c30-li-0lE" secondAttribute="leading" constant="16" id="hXC-3W-CTV"/>
                                         <constraint firstItem="ASC-fS-29F" firstAttribute="centerY" secondItem="c30-li-0lE" secondAttribute="centerY" id="rFm-Vq-XRz"/>
                                     </constraints>
