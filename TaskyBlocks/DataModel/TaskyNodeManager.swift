@@ -10,37 +10,38 @@ import UIKit
 import RealmSwift
 
 
-class TaskyNodeManager: TaskDataSource
+class TaskyNodeManager: NSObject
+  
 {
-
   var realm: Realm!
   var tasks: Results<TaskyNode>!
   var beHappy: TaskyNode!
-  fileprivate var masterActiveTaskSet = Set<TaskyNode>()
-  var completedTaskySet: Set<TaskyNode> = []
+  var activeTaskySet: Set<TaskyNode>!
+  let filter = "completionDate == nil"
   
-  var activeTaskCount: Int
-  {
-    return activeTaskySet.count
-  }
+//  var activeTaskCount: Int
+//  {
+//    return activeTaskySet.count
+//  }
   
-  var activeTaskySet: Set<TaskyNode>
-  {
-    get
-    {
-      return masterActiveTaskSet
-    }
-    set (newActiveTaskList)
-    {
-      masterActiveTaskSet = newActiveTaskList
-    }
-  }
+//  var activeTaskySet: Set<TaskyNode>
+//  {
+//    get
+//    {
+//      return masterActiveTaskSet
+//    }
+//    set (newActiveTaskList)
+//    {
+//      masterActiveTaskSet = newActiveTaskList
+//    }
+//  }
 
   func setupProcesses()
   {
 
     var taskSet: Set<TaskyNode>!
     realm = try! Realm()
+    activeTaskySet = Set.init(realm.objects(TaskyNode.self))
     tasks = realm.objects(TaskyNode.self)
     if tasks.count == 0
     {
@@ -84,67 +85,62 @@ class TaskyNodeManager: TaskDataSource
     }
   
   
-  func markAsCompleted(task: TaskyNode)
-  { realm.beginWrite()
-    task.completionDate = Date()
-    task.prepareRemove()
-    try! realm.commitWrite()
-    activeTaskySet.remove(task)
-    completedTaskySet.insert(task)
-  }
+//  func markAsCompleted(task: TaskyNode)
+//  { realm.beginWrite()
+//    task.completionDate = Date()
+//    task.prepareRemove()
+//    try! realm.commitWrite()
+//    activeTaskySet.remove(task)
+//
+//  }
 
   
   func updateAllTaskPriorities()
   {
-    var taskSet: Set<TaskyNode>!
-    tasks = realm.objects(TaskyNode.self)
-    taskSet = Set(tasks)
-    TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)  //Only works on QUERIED REALM OBJECTS
-    for task in taskSet
+    TaskyNode.updatePriorityFor(tasks: Set.init(realm.objects(TaskyNode.self)), limit: 100)  //Only works on QUERIED REALM OBJECTS
+    for task in realm.objects(TaskyNode.self).filter(filter)
     { task.soundOff()
     }
   }
   
-  func remove(task: TaskyNode)
-  { task.prepareRemove()
-    masterActiveTaskSet.remove(task)
-  }
+//  func remove(task: TaskyNode)
+//  { task.prepareRemove()
+//    masterActiveTaskSet.remove(task)
+//  }
   
   func setComplete(for task: TaskyNode, on date: Date = Date())
   { task.markAsCompleted(on: date)
-    let removedTask = masterActiveTaskSet.remove(task)
-    if let uRemovedTask = removedTask
-    { completedTaskySet.insert(uRemovedTask)
-    }
+    
   }
+
   
   //MARK: TaskDataSource methods
   
-  func serveTaskData() -> Set<TaskyNode>
-  { return self.activeTaskySet
-  }
+//  func serveTaskData() -> Set<TaskyNode>
+//  { return self.activeTaskySet
+//  }
   
   //MARK: Data Server methods
-  func crucials() -> (Set<TaskyNode>)
-  { var crucials: Set<TaskyNode> = []
-    for taskyNode in activeTaskySet
-    { if taskyNode.priorityApparent > 66
-      { crucials.insert(taskyNode)
-      }
-    }
-    return crucials
-  }
+//  func crucials() -> (Set<TaskyNode>)
+//  { var crucials: Set<TaskyNode> = []
+//    for taskyNode in activeTaskySet
+//    { if taskyNode.priorityApparent > 66
+//      { crucials.insert(taskyNode)
+//      }
+//    }
+//    return crucials
+//  }
   
-  func primals() -> (Set<TaskyNode>)
-  {
-    var primals: Set<TaskyNode> = []
-    for taskyNode in activeTaskySet
-    { if taskyNode.parents.isEmpty == true
-      { primals.insert(taskyNode)
-      }
-    }
-    return primals
-  }
+//  func primals() -> (Set<TaskyNode>)
+//  {
+//    var primals: Set<TaskyNode> = []
+//    for taskyNode in activeTaskySet
+//    { if taskyNode.parents.isEmpty == true
+//      { primals.insert(taskyNode)
+//      }
+//    }
+//    return primals
+//  }
   
   func randomTask() -> TaskyNode
   { let unsignedIntTerminus = UInt32(self.activeTaskySet.count)
@@ -183,23 +179,25 @@ class TaskyNodeManager: TaskDataSource
     let nodeK = self.newTask()
     let nodeL = self.newTask()
     
-    masterActiveTaskSet.insert(nodeA)
-    masterActiveTaskSet.insert(nodeB)
-    masterActiveTaskSet.insert(nodeC)
-    masterActiveTaskSet.insert(nodeD)
-    masterActiveTaskSet.insert(nodeE)
-    masterActiveTaskSet.insert(nodeF)
-    masterActiveTaskSet.insert(nodeG)
-    masterActiveTaskSet.insert(nodeH)
-    masterActiveTaskSet.insert(nodeI)
-    masterActiveTaskSet.insert(nodeJ)
-    masterActiveTaskSet.insert(nodeK)
-    masterActiveTaskSet.insert(nodeL)
+    var randomTaskSet: Set<TaskyNode> = []
+    
+    randomTaskSet.insert(nodeA)
+    randomTaskSet.insert(nodeB)
+    randomTaskSet.insert(nodeC)
+    randomTaskSet.insert(nodeD)
+    randomTaskSet.insert(nodeE)
+    randomTaskSet.insert(nodeF)
+    randomTaskSet.insert(nodeG)
+    randomTaskSet.insert(nodeH)
+    randomTaskSet.insert(nodeI)
+    randomTaskSet.insert(nodeJ)
+    randomTaskSet.insert(nodeK)
+    randomTaskSet.insert(nodeL)
     
     var verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate", "Flog", "Threaten", "Pacify", "Enrage", "Bewilder", "Frighten", "Placate", "Interrogate", "Moisten", "Shuck", "Wax", "Surveil", "Alarm", "Annoy", "Frustrate", "Telephone", "Buffalo", "Berate", "Seduce"]
-    var nouns = ["Dog", "Dishes", "Car", "Neighbors", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws", "Cat", "Baby", "Shed", "TV", "Light Fixtures", "Neighborhood", "Rent", "China", "Taxes", "Deacon", "Postman", "Telephone", "Buffalo", "Local Urchins", "Garbage"]
+    var nouns = ["Dog", "Dishes", "Car", "Neighbors", "Scrub", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws", "Cat", "Baby", "Shed", "TV", "Light Fixtures", "Neighborhood", "Rent", "China", "Taxes", "Deacon", "Postman", "Telephone", "Buffalo", "Local Urchins", "Garbage"]
 
-    for task in activeTaskySet
+    for task in randomTaskSet
     { let verbQty = UInt32(verbs.count)
       let nounQty = UInt32(nouns.count)
       let rand1 = Int(arc4random_uniform(verbQty - 1))
@@ -221,8 +219,8 @@ class TaskyNodeManager: TaskDataSource
     nodeF.addAsConsequentTo(newAntecedent: nodeG)
     nodeH.addAsParentTo(newChild: nodeF)
     
-    TaskyNode.updatePriorityFor(tasks: activeTaskySet, limit: 100)
-//    for task in activeTaskySet
+    TaskyNode.updatePriorityFor(tasks: randomTaskSet, limit: 100)
+//    for task in randomTaskSet
 //    {
 //     // realm.add(task)
 //    }

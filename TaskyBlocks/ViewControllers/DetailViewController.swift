@@ -37,7 +37,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   //MARK: Variables
   var task:TaskyNode!
   var taskDetailDataSource: TaskDetailDataSource!
-  var tasksData: TaskDataSource!
+  //var tasksData: TaskDataSource!
   var pickerTableViewController: PickerTableViewController!
   var pickerViewRelationshipType: TaskRelationship!
  

@@ -12,7 +12,7 @@ import UIKit
 class SettingsTableViewController: UITableViewController {
   var taskManager: TaskyNodeManager!
   let settingsDictionary: [Int : Any] = [:]
-  var tasksData: TaskDataSource!
+ // var tasksData: TaskDataSource!
     override func viewDidLoad() {
         super.viewDidLoad()
         

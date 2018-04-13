@@ -19,7 +19,7 @@ class ViewController: UIViewController, UIScrollViewDelegate
   
   //MARK - Outlets
   @IBOutlet weak var taskyGraph: TaskyGraphView!
-  var tasksData: TaskDataSource?
+  //var tasksData: TaskDataSource?
   
   override func viewDidLoad()
   { super.viewDidLoad()
