@@ -18,16 +18,17 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   @IBOutlet weak var durationTimeLabel: UILabel!
   @IBOutlet weak var taskDetailButton: UIButton!
   
-  var tasksData: TaskDataSource?
+  //var tasksData: TaskDataSource?
   var segueToDetail: UIStoryboardSegue!
   var timerSetValue: Double = 2700.00
   var performViewController: PerformViewController!
   var realm: Realm!
-  var activeTaskySet: Set<TaskyNode>!
+  var activeTaskySet: Results<TaskyNode>!
+    var filter = "completionDate == nil"
   
   //These two should be refactored out, as they don't need to be exposed
-  var pickerData: Set<TaskyNode>?
-  var pickerSet: Set<TaskyNode>!
+ // var pickerData: Set<TaskyNode>?
+ // var pickerSet: Set<TaskyNode>!
   //
   
   var selectedItem: TaskyNode!
@@ -36,8 +37,8 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   override func viewDidLoad() {
     super.viewDidLoad()
     try! realm = Realm()
-    let tasks = realm.objects(TaskyNode.self)
-    activeTaskySet = Set(tasks)
+    //let tasks = realm.objects(TaskyNode.self).filter(filter)
+    activeTaskySet = realm.objects(TaskyNode.self).filter(filter)
     prepareView()
   self.goTimeButton.setTitle("Go Time!", for: .normal)
   self.goTimeButton.setTitle("Choose" , for: .disabled)
@@ -90,22 +91,23 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     goTimeButton.layer.borderWidth = 5
     goTimeButton.layer.borderColor = UIColor.darkGray.cgColor
 
-      pickerData = activeTaskySet
+     // pickerData = activeTaskySet
  
     
-    if let unwrappedPickerData = pickerData
-    {
-      pickerSet = unwrappedPickerData
-    }
+//    if let unwrappedPickerData = pickerData
+//    {
+//      pickerSet = unwrappedPickerData
+//    }
     taskPicker.dataSource = self
     taskPicker.delegate = self
     taskPicker.showsSelectionIndicator = true
-    var displayArray: [TaskyNode] = []
-    for task in pickerSet
-    {
-      displayArray.append(task)
-    }
-    pickerArray = displayArray
+//    var displayArray: [TaskyNode] = []
+//    for task in pickerSet
+//    {
+//      displayArray.append(task)
+//    }
+ 
+    pickerArray = Array.init(realm.objects(TaskyNode.self).filter(filter))
     if pickerArray.count != 0
     {
       self.selectedItem = pickerArray[0]
@@ -130,7 +132,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     {
       performViewController = segue.destination as! PerformViewController
       performViewController.timeToSet = self.timerSetValue
-      performViewController.pickerArray = self.pickerArray
+     // performViewController.pickerArray = self.pickerArray
       performViewController.performedTask = self.selectedItem
  //     performViewController.tasksData = self.tasksData
       

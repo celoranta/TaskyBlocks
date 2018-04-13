@@ -24,10 +24,10 @@ class SplashViewController: UIViewController {
       {
         unwrappedViewController.tasksData = self.taskManager
       }
-      if let unwrappedViewController = unwrappedViewControllers[0] as? PomodoroViewController
-      {
-        unwrappedViewController.tasksData = self.taskManager
-      }
+//      if let unwrappedViewController = unwrappedViewControllers[0] as? PomodoroViewController
+//      {
+//        unwrappedViewController.tasksData = self.taskManager
+//      }
       
         // Do any additional setup after loading the view.
     }

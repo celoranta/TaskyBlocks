@@ -26,10 +26,11 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   
   var tasksData: Results<TaskyNode>!
   var timeToSet: Double = 45.00 * 60
-  var pickerArray: [TaskyNode]!
+  var pickerArray: Results<TaskyNode>!
   var performedTask: TaskyNode!
   var titleButton: UIButton!
   var tasksComplete: Int = 0
+  var filter = "completionDate == nil"
   
   var realm: Realm!
   var activeTaskySet: Set<TaskyNode>!
@@ -38,9 +39,9 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   override func viewDidLoad() {
     super.viewDidLoad()
     try! realm = Realm()
-    let tasksData = realm.objects(TaskyNode.self)
+    let tasksData = realm.objects(TaskyNode.self).filter(filter)
     
-    pickerArray = Array.init(tasksData)
+    pickerArray = realm.objects(TaskyNode.self).filter(filter)
     //activeTaskySet = Set(tasks)
     titleButton = UIButton()
     navBar.titleView = titleButton
@@ -165,7 +166,8 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     var uindex2 = 0
     if let uindex = index
     {
-      pickerArray.remove(at: uindex)
+  
+      //pickerArray.remove(at: uindex)
       if uindex >= pickerArray.count
       {
         uindex2 = uindex - 1
