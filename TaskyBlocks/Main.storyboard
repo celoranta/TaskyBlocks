@@ -52,6 +52,11 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hsO-3l-fmH" customClass="TaskyGraphView" customModule="TaskyBlocks" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="375" height="544"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="lHz-Yz-RfM"/>
+                                    <outletCollection property="gestureRecognizers" destination="aYL-kT-zK4" appends="YES" id="vI1-Te-Jg6"/>
+                                </connections>
                             </scrollView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HZr-Mr-xMs">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -84,6 +89,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="aYL-kT-zK4">
+                    <connections>
+                        <action selector="pinch:" destination="BYZ-38-t0r" id="jf2-D8-Tud"/>
+                    </connections>
+                </pinchGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2249" y="-1774"/>
         </scene>

@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class ViewController: UIViewController, UIScrollViewDelegate
+class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate
 {
   
   var activeTaskySet: Results<TaskyNode>!
@@ -69,6 +69,13 @@ class ViewController: UIViewController, UIScrollViewDelegate
     self.graphIt()
   }
   
-  
+  @IBAction func pinch(_ sender: Any) {
+    print("Ouch!  A Pinch!")
+    let pinchObject = sender as! UIPinchGestureRecognizer
+    print(pinchObject.scale)
+    print(pinchObject.velocity)
+    print(pinchObject.location(in: self.view))
+    print(pinchObject.numberOfTouches)
+  }
 }
 
