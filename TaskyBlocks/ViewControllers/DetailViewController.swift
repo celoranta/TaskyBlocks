@@ -37,7 +37,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   //MARK: Variables
   var task:TaskyNode!
   var taskDetailDataSource: TaskDetailDataSource!
-  //var tasksData: TaskDataSource!
   var pickerTableViewController: PickerTableViewController!
   var pickerViewRelationshipType: TaskRelationship!
  
@@ -71,13 +70,10 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     self.dismiss(animated: true, completion: nil)
   }
   @IBAction func addButton(_ sender: Any) {
-    //let newTask = tasksData.newTask()
-    //self.task = newTask
     self.refreshView()
   }
   @IBAction func deleteButton(_ sender: Any) {
-//   DISABLED tasksData.remove(task: task)
-//    self.dismiss(animated: true, completion: nil)
+
   }
   @IBAction func completedSwitchThrown(_ sender: Any) {
     if completedSwitch.isOn == true
@@ -87,34 +83,35 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
         task.completionDate = Date()
       }
       }
-//   DISABLED   tasksData.setComplete(for: task, on: Date())
-//      refreshView()
     }
   
-  @IBAction func priorityLabelTap(_ sender: Any) {
+  @IBAction func priorityLabelTap(_ sender: Any)
+  {
     task.soundOff()
   }
-  
   @IBAction func childrenButton(_ sender: Any)
   {
     pickerViewRelationshipType = .children
     performSegue(withIdentifier: "toDetailPicker", sender: self)
   }
-  @IBAction func parentsButton(_ sender: Any) {
+  @IBAction func parentsButton(_ sender: Any)
+  {
     pickerViewRelationshipType = .parents
     performSegue(withIdentifier: "toDetailPicker", sender: self)
   }
-  @IBAction func dependeesButton(_ sender: Any) {
+  @IBAction func dependeesButton(_ sender: Any)
+  {
     pickerViewRelationshipType = .dependees
     performSegue(withIdentifier: "toDetailPicker", sender: self)
   }
-  @IBAction func dependentsButton(_ sender: Any) {
+  @IBAction func dependentsButton(_ sender: Any)
+  {
     pickerViewRelationshipType = .dependents
     performSegue(withIdentifier: "toDetailPicker", sender: self)
   }
   
-  fileprivate func refreshView() {
-    
+  fileprivate func refreshView()
+  {
     self.priorityDirectText.clearsOnBeginEditing = true
     self.priorityDirectText.keyboardType = .numbersAndPunctuation
     if let uPriorityDirect = task.priorityDirect.value

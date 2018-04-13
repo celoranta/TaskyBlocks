@@ -19,6 +19,7 @@ class TaskyGraphView: UIScrollView {
 
   func graphPriorityWith(taskSet: Set<TaskyNode>)
   {
+    
     let contentView = UIView()
     
     let priorityArray = taskSet.sorted(by: { (prior, subsequent) -> Bool in
@@ -72,6 +73,10 @@ class TaskyGraphView: UIScrollView {
       cell.taskyBlock.alpha = blockyAlpha
       cell.taskID = task.taskId
       cell.taskyBlock.backgroundColor = calculateBlockColorFrom(task: task)
+//      while contentView.subviews.count > 0
+//      {
+//        contentView.subviews[contentView.subviews.count - 1].removeFromSuperview()
+//      }
       contentView.addSubview(cell)
     }
     
@@ -98,6 +103,10 @@ class TaskyGraphView: UIScrollView {
     contentView.frame.size = contentViewSize
     contentView.frame.origin = contentViewOrigin
     
+    while self.subviews.count != 0
+    {
+      self.subviews[0].removeFromSuperview()
+    }
     self.addSubview(contentView)
     self.contentSize = contentView.frame.size
     self.layoutSubviews()
