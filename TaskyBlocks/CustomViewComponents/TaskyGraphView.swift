@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class TaskyGraphView: UIScrollView {
   
@@ -15,11 +16,12 @@ class TaskyGraphView: UIScrollView {
   let blockyHeight: CGFloat = 100.00
   let blockyWidth: CGFloat = 200.00
   let margin: CGFloat = 25
+  var filter = "completionDate == nil"
 
-
-  func graphPriorityWith(taskSet: Set<TaskyNode>)
+  func graphPriority()
   {
-    
+    let realm = try! Realm()
+    let taskSet = realm.objects(TaskyNode.self).filter(filter)
     let contentView = UIView()
     
     let priorityArray = taskSet.sorted(by: { (prior, subsequent) -> Bool in

@@ -158,6 +158,7 @@ class TaskyNodeManager: NSObject
   {
     var task = TaskyNode()
     task.title = "Be Happy"
+    //task.isPermanent = true
     task.taskDescription = "This is the only permanent task in 'TaskyBlocks.'  Please add tasks as 'children' to this task to begin."
     task.priorityDirect.value = 100
     return task

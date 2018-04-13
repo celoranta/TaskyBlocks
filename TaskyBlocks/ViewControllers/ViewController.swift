@@ -56,16 +56,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognize
   
   func graphIt()
   {
-    taskyGraph.graphPriorityWith(taskSet: Set.init(activeTaskySet))
+    taskyGraph.graphPriority()
   }
   
   //MARK: Actions
   @IBAction func addButton(_ sender: Any)
   {
-    realm.beginWrite()
-    let task = TaskyNode.init()
-    realm.add(task)
-    try! realm.commitWrite()
+    let _ = TaskyNode.init(forUse: true)
     self.graphIt()
   }
   

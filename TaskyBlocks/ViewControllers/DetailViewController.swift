@@ -80,7 +80,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     {
       try! realm.write
       {
-        task.completionDate = Date()
+        task.markAsCompleted(on: Date())
       }
       }
     }
