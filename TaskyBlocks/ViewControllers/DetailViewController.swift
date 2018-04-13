@@ -76,14 +76,10 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
 
   }
   @IBAction func completedSwitchThrown(_ sender: Any) {
-    if completedSwitch.isOn == true
-    {
-      try! realm.write
-      {
-        task.markAsCompleted(on: Date())
-      }
-      }
+    TaskyBlockLibrary.realmEdit {
+      self.task.markAsCompleted(on: Date())
     }
+  }
   
   @IBAction func priorityLabelTap(_ sender: Any)
   {

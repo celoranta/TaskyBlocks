@@ -69,11 +69,11 @@ class TaskyNode: Object
   
   func markAsCompleted(on date: Date = Date())
 
-  { let realm = try! Realm()
-    realm.beginWrite()
+  { //let realm = try! Realm()
+   // realm.beginWrite()
     completionDate = Date()
     self.prepareRemove()
-    try! realm.commitWrite()
+   // try! realm.commitWrite()
   }
   
   //MARK: TaskyNode Relational assignment
@@ -275,21 +275,19 @@ class TaskyNode: Object
   }
   
   required convenience init(forUse: Bool = true)
-{
-    let realm = try! Realm()
-    realm.beginWrite()
-  self.init()
-
-  let filter = "completionDate == nil"
-
-  self.priorityDirectDefault = 50.00 + (Double(arc4random_uniform(1000))/1000)
-
-  //let task = TaskyNode.init(forUse: true)
-  realm.add(self)
-  
-  TaskyNode.updatePriorityFor(tasks: Set(realm.objects(TaskyNode.self).filter(filter)), limit: 100)
-  realm.refresh()
-  try! realm.commitWrite()
+  {
+    //let filter = "completionDate == nil"
+    
+     let realm = try! Realm()
+   // realm.beginWrite()
+    
+    self.init()
+    self.priorityDirectDefault = 50.00 + (Double(arc4random_uniform(1000))/1000)
+    realm.add(self)
+    
+    //TaskyNode.updatePriorityFor(tasks: Set(realm.objects(TaskyNode.self).filter(filter)), limit: 100)
+   // realm.refresh()
+    //try! realm.commitWrite()
   }
   
   class func countNonMatchingKeyValuePairsBetween(dict1: [String:Double], dict2: [String:Double]) -> Int
