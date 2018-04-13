@@ -82,10 +82,15 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBAction func completedSwitchThrown(_ sender: Any) {
     if completedSwitch.isOn == true
     {
+      try! realm.write
+      {
+        task.completionDate = Date()
+      }
+      }
 //   DISABLED   tasksData.setComplete(for: task, on: Date())
 //      refreshView()
     }
-  }
+  
   @IBAction func priorityLabelTap(_ sender: Any) {
     task.soundOff()
   }
