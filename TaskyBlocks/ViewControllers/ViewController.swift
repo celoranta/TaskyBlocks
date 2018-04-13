@@ -99,6 +99,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSour
     //    }
     let displayTasks = activeTaskySet
     taskyGraph.graphPriorityWith(taskSet: activeTaskySet)
+    
   }
   //MARK: Actions
   @IBAction func addButton(_ sender: Any)

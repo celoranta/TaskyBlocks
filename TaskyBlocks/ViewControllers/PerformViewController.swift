@@ -24,7 +24,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   @IBAction func taskDetailButton(_ sender: Any) {
   }
   
-  var tasksData: TaskDataSource!
+  var tasksData: Results<TaskyNode>!
   var timeToSet: Double = 45.00 * 60
   var pickerArray: [TaskyNode]!
   var performedTask: TaskyNode!
@@ -38,8 +38,10 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   override func viewDidLoad() {
     super.viewDidLoad()
     try! realm = Realm()
-    let tasks = realm.objects(TaskyNode.self)
-    activeTaskySet = Set(tasks)
+    let tasksData = realm.objects(TaskyNode.self)
+    
+    pickerArray = Array.init(tasksData)
+    //activeTaskySet = Set(tasks)
     titleButton = UIButton()
     navBar.titleView = titleButton
     titleButton.translatesAutoresizingMaskIntoConstraints = false
@@ -153,30 +155,30 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   }
   
   @IBAction func markCompletePress(_ sender: Any) {
-   // MIGRATE TO TASKYMANAGER tasksData.setComplete(for: performedTask, on: Date())
-//    completeLabel.isHidden = false
-//    tasksLabel.isHidden = false
-//    tasksCompleteLabel.isHidden = false
-//    tasksComplete += 1
-//    tasksCompleteLabel.text = "\(tasksComplete)"
-//    let index = pickerArray.index(of: performedTask)
-//    var uindex2 = 0
-//    if let uindex = index
-//    {
-//      pickerArray.remove(at: uindex)
-//      if uindex >= pickerArray.count
-//      {
-//        uindex2 = uindex - 1
-//      }
-//    }
-//    guard pickerArray.count != 0
-//      else
-//    {
-//      quitButton(self)
-//      return
-//    }
-//    performedTask = pickerArray[uindex2]
-//    refreshView()
+    performedTask.markAsCompleted(on: Date())
+    completeLabel.isHidden = false
+    tasksLabel.isHidden = false
+    tasksCompleteLabel.isHidden = false
+    tasksComplete += 1
+    tasksCompleteLabel.text = "\(tasksComplete)"
+    let index = pickerArray.index(of: performedTask)
+    var uindex2 = 0
+    if let uindex = index
+    {
+      pickerArray.remove(at: uindex)
+      if uindex >= pickerArray.count
+      {
+        uindex2 = uindex - 1
+      }
+    }
+    guard pickerArray.count != 0
+      else
+    {
+      quitButton(self)
+      return
+    }
+    performedTask = pickerArray[uindex2]
+    refreshView()
   }
   
   //Mark: Actions

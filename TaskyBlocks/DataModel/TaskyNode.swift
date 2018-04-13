@@ -68,9 +68,12 @@ class TaskyNode: Object
   
   
   func markAsCompleted(on: Date = Date())
-  { realm?.beginWrite()
+
+  { let realm = try! Realm()
+    realm.beginWrite()
     completionDate = Date()
     self.prepareRemove()
+    try! realm.commitWrite()
   }
   
   //MARK: TaskyNode Relational assignment
