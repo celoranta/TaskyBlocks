@@ -58,10 +58,18 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       fatalError("No data source set for detail view")
     }
     task = taskDetailDataSource.returnSelectedTask()
-    refreshView()
+    //self.refreshView()
   }
-  
+
   override func viewWillAppear(_ animated: Bool) {
+   if task.isPermanent != 1
+    {
+      self.completedSwitch.isEnabled = false
+    }
+    else
+    {
+     self.completedSwitch.isEnabled = true
+    }
     self.refreshView()
   }
   
@@ -76,6 +84,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
 
   }
   @IBAction func completedSwitchThrown(_ sender: Any) {
+
     TaskyBlockLibrary.realmEdit {
       self.task.markAsCompleted(on: Date())
     }

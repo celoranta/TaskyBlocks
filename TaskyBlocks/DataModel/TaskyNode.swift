@@ -40,7 +40,7 @@ class TaskyNode: Object
   let priorityConsequent: RealmOptional<Double> = RealmOptional.init()
   let priorityDirect: RealmOptional<Double> = RealmOptional.init()  //currently no need to recalcutalate/update.  Revisit
   let priorityOverride: RealmOptional<Double> = RealmOptional.init()  //for testing by developer
-  var isPermanent: Bool?
+  @objc dynamic var isPermanent: Int = -1
   //MARK: Calculated properties
   var isPrimal: Bool  //included in 'ignore' by RealmSwift
   { return parents.count == 0
@@ -302,5 +302,14 @@ class TaskyNode: Object
     }
     return count
   }
+}
+
+extension TaskyNode {
+  
+  var uniqueKey: String {
+    get {
+      return "\(priorityApparent)\(taskId)"
+    }
+}
 }
 
