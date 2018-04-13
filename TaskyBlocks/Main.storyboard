@@ -58,7 +58,7 @@
                                     <navigationItem title="Title" id="Skr-ue-Tyw">
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ij7-gB-4WE">
                                             <connections>
-                                                <segue destination="myk-os-c8D" kind="presentation" identifier="priorityToDetail" id="Ns1-Lg-gt7"/>
+                                                <action selector="addButton:" destination="BYZ-38-t0r" id="M1c-EU-qko"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -838,7 +838,4 @@
             <point key="canvasLocation" x="3837.5999999999999" y="-896.40179910044981"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="dfP-nm-rYj"/>
-    </inferredMetricsTieBreakers>
 </document>

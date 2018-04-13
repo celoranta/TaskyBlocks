@@ -63,23 +63,23 @@ class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSour
   //    return taskyGraph
   //  }
   
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    switch segue.identifier
-    { case "priorityToDetail":
-      guard tasksData != nil
-        else
-      { fatalError("TasksData is set to nil")
-      }
-      //selectedTask = tasksData?.newTask()
-      let detailNavController = segue.destination as! UINavigationController
-      let detailViewController = detailNavController.topViewController as! DetailViewController
-      detailViewController.taskDetailDataSource = self
-      detailViewController.tasksData = tasksData
-      
-    default:
-      fatalError("performVC Called an unknown segue")
-    }
-  }
+//  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//    switch segue.identifier
+//    { case "priorityToDetail":
+//      guard tasksData != nil
+//        else
+//      { fatalError("TasksData is set to nil")
+//      }
+//      //selectedTask = tasksData?.newTask()
+//      let detailNavController = segue.destination as! UINavigationController
+//      let detailViewController = detailNavController.topViewController as! DetailViewController
+//      detailViewController.taskDetailDataSource = self
+////      detailViewController.tasksData = tasksData
+//
+//    default:
+//      fatalError("performVC Called an unknown segue")
+//    }
+//  }
   
   override func viewWillAppear(_ animated: Bool)
   { graphIt()
@@ -100,5 +100,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, TaskDetailDataSour
     let displayTasks = activeTaskySet
     taskyGraph.graphPriorityWith(taskSet: activeTaskySet)
   }
+  //MARK: Actions
+  @IBAction func addButton(_ sender: Any)
+  {
+    realm.beginWrite()
+    let task = TaskyNode.init()
+    realm.add(task)
+    try! realm.commitWrite()
+    self.graphIt()
+  }
+  
+  
 }
 
