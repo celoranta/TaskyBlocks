@@ -147,7 +147,7 @@ class TaskyNodeManager: NSObject
   func randomTask() -> TaskyNode
   { let unsignedIntTerminus = UInt32(self.activeTaskySet.count)
     var taskArray: [TaskyNode] = []
-    taskArray.append(contentsOf: self.activeTaskySet)
+    //taskArray.append(contentsOf: self.activeTaskySet)
     guard unsignedIntTerminus < 1
       else
     { fatalError("Error... no tasks in active set")
@@ -158,7 +158,7 @@ class TaskyNodeManager: NSObject
   
   func configureInitialTask() -> TaskyNode
   {
-    var task = TaskyNode()
+    let task = TaskyNode()
     task.title = "Be Happy"
     //task.isPermanent = true
     task.taskDescription = "This is the only permanent task in 'TaskyBlocks.'  Please add tasks as 'children' to this task to begin."
@@ -197,8 +197,8 @@ class TaskyNodeManager: NSObject
     randomTaskSet.insert(nodeK)
     randomTaskSet.insert(nodeL)
     
-    var verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate", "Flog", "Threaten", "Pacify", "Enrage", "Bewilder", "Frighten", "Placate", "Interrogate", "Moisten", "Shuck", "Wax", "Surveil", "Alarm", "Annoy", "Frustrate", "Telephone", "Buffalo", "Berate", "Seduce"]
-    var nouns = ["Dog", "Dishes", "Car", "Neighbors", "Scrub", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws", "Cat", "Baby", "Shed", "TV", "Light Fixtures", "Neighborhood", "Rent", "China", "Taxes", "Deacon", "Postman", "Telephone", "Buffalo", "Local Urchins", "Garbage"]
+    var verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate", "Flog", "Threaten", "Pacify", "Enrage", "Bewilder", "Frighten", "Placate", "Interrogate", "Moisten", "Shuck", "Wax", "Surveil", "Alarm", "Annoy", "Frustrate", "Telephone", "Buffalo", "Berate", "Seduce", "Scrub"]
+    var nouns = ["Dog", "Dishes", "Car", "Neighbors", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws", "Cat", "Baby", "Shed", "TV", "Light Fixtures", "Neighborhood", "Rent", "China", "Taxes", "Deacon", "Postman", "Telephone", "Buffalo", "Local Urchins", "Garbage"]
 
     for task in randomTaskSet
     { let verbQty = UInt32(verbs.count)

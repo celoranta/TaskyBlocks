@@ -14,9 +14,31 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   var realm: Realm!
   var activeTaskySet: Results<TaskyNode>!
   let blockyAlpha: CGFloat = 0.75
-  var blockyHeight: CGFloat = 50
-  var blockyWidth: CGFloat = 75
+  var blockyWidth: CGFloat = 123.5
+  
+  
   let layout = UICollectionViewFlowLayout()
+  var blockyBorder: CGFloat
+  {
+    get
+    {
+      return blockyHeight * 0.05
+    }
+  }
+  var blockyRadius: CGFloat
+  {
+    get
+    {
+      return blockyHeight * 0.2
+    }
+  }
+  var blockyHeight: CGFloat
+  {
+    get
+    {
+      return blockyWidth * 0.5
+    }
+  }
   var blockSize: CGSize
   {
     get
@@ -32,8 +54,8 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
 
     layout.itemSize = blockSize
     //layout.estimatedItemSize = CGSize.init(width: 500, height: 500)
-    layout.minimumInteritemSpacing = 0
-    layout.minimumLineSpacing = 0
+    layout.minimumInteritemSpacing = 2
+    layout.minimumLineSpacing = 2
     //layout.sectionInset = .init(top: blockyHeight, left: blockyHeight, bottom: blockyWidth, right: blockyWidth)
     
     
@@ -75,16 +97,19 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     taskyBlock.frame = cell.bounds
     taskyBlock.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-    taskyBlock.layer.borderWidth = 5.0
-    taskyBlock.layer.cornerRadius = 25.00
+    taskyBlock.layer.borderWidth = blockyBorder
+    taskyBlock.layer.cornerRadius = blockyRadius
     taskyBlock.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
     taskyBlock.autoresizesSubviews = true
     
     taskyLabel.frame = taskyBlock.bounds
     taskyLabel.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-    taskyLabel.text = "\(task.title): \(task.priorityApparent)"
+    taskyLabel.text = "\(task.title)"//"\(task.priorityApparent)"
     taskyLabel.textAlignment = .center
-    
+    taskyLabel.numberOfLines = 0
+    taskyLabel.lineBreakMode = .byWordWrapping
+    taskyLabel.font.withSize(blockyWidth / 12)
+  
 
     
     return cell
