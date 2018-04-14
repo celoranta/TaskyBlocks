@@ -16,10 +16,11 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   var activeTaskySet: Results<TaskyNode>!
   let filter = "completionDate != nil"
   
-  //let blockyBuffer: CGFloat = 6.0
+
   let blockyAlpha: CGFloat = 0.8
   let blockyHeight: CGFloat = 100.00
   let blockyWidth: CGFloat = 200.00
+    //let blockyBuffer: CGFloat = 6.0
   //let margin: CGFloat = 25
   //var filter = "completionDate == nil"
   
@@ -27,11 +28,9 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   
     override func viewDidLoad() {
         super.viewDidLoad()
-       //   Bundle.main.loadNibNamed("TaskyBlock2", owner: self, options: nil)
+      
       realm = try! Realm()
       activeTaskySet = realm.objects(TaskyNode.self)//.filter(filter)
-      
-        // Do any additional setup after loading the view.
     }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -48,10 +47,41 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    
+   
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionViewCell
-    cell.myLabel.text = activeTaskySet[indexPath.row].title
-    cell.backgroundColor = UIColor.red
+    let task = activeTaskySet[indexPath.row]
+    
+   
+    let taskyBlock = UIView()
+    cell.addSubview(taskyBlock)
+    
+    taskyBlock.frame = cell.bounds
+    //blockyLabel.text = "<default>"
+    
+    taskyBlock.layer.borderWidth = 5.0
+    taskyBlock.layer.cornerRadius = 25.00
+    
+    taskyBlock.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+    cell.myLabel.text = task.title
+    
+    taskyBlock.frame.size.height = blockyHeight
+    taskyBlock.frame.size.width = blockyWidth
+    let taskyLabel = UILabel.init(frame: cell.bounds)
+    taskyBlock.addSubview(taskyLabel)
+   // let HorizIndent = margin + CGFloat(Double(graphEntry.1) * Double(horizSpacing))
+   // let VertIndent = margin + CGFloat(Double(graphEntry.0) * Double(verticalSpacing))
+    //cell.frame.origin.x = HorizIndent
+    //cell.frame.origin.y = VertIndent
+
+   // let task = graphEntry.2
+    
+    taskyLabel.text = "\(task.title): \(task.priorityApparent)"
+    taskyLabel.textAlignment = .center
+    cell.alpha = blockyAlpha
+    //cell.taskID = task.taskId
+    taskyBlock.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
+    cell.backgroundColor = UIColor.clear
+
     return cell
   }
 }
@@ -60,94 +90,3 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
 
 
 
-
-
-
-//  func graphPriority()
-//  {
-//    let realm = try! Realm()
-//    let taskSet = realm.objects(TaskyNode.self).filter(filter)
-//    let contentView = UIView()
-//
-//    let priorityArray = taskSet.sorted(by: { (prior, subsequent) -> Bool in
-//      if(prior.priorityApparent == subsequent.priorityApparent)
-//      {return prior.taskId < subsequent.taskId}
-//      else
-//      {return prior.priorityApparent > subsequent.priorityApparent}
-//    })
-  
-//    var graphArray: [(Int,Int,TaskyNode)] = []
-//    var previousPriority:Double = 0.00
-//    var previousRow: Int = 0
-//    var previousColumn: Int = 0
-//    var column: Int = 0
-//    var row: Int = 0
-//    for task in priorityArray
-//    {
-//      if task.priorityApparent == previousPriority
-//      {
-//        column = previousColumn + 1
-//      }
-//      else
-//      {
-//        row = previousRow + 1
-//        column = 0
-//      }
-//      let entryRegister = (row: row - 1, column: column, task: task)
-//      graphArray.append(entryRegister)
-//      previousColumn = column
-//      previousRow = row
-//      previousPriority = task.priorityApparent
-//    }
-//
-//    let horizSpacing = blockyWidth + blockyBuffer
-//    let verticalSpacing = blockyHeight + blockyBuffer
-//
-//    for graphEntry in graphArray
-//    {
-//      let cell = TaskyBlock2()
-
-
-
-
-
-
-      //      while contentView.subviews.count > 0
-      //      {
-      //        contentView.subviews[contentView.subviews.count - 1].removeFromSuperview()
-      //      }
-//      contentView.addSubview(cell)
-//    }
-//
-//    let maxHeightBlock = (graphArray.max { (prior, consequent) -> Bool in
-//      prior.0 < consequent.0
-//    })
-//    let maxWidthBlock = (graphArray.max { (prior, consequent) -> Bool in
-//      prior.1 < consequent.1
-//    })
-//
-//
-//    let maxHeightInBlocks = maxHeightBlock!.0 + 1
-//    let maxWidthInBlocks = maxWidthBlock!.1 + 1
-//
-//    let totalBlocksHeight = CGFloat((blockyHeight + blockyBuffer) * CGFloat(maxHeightInBlocks))
-//    let totalBlocksWidth = CGFloat((blockyWidth + blockyBuffer) * CGFloat(maxWidthInBlocks))
-//
-//    let totalGraphHeight = totalBlocksHeight + (margin * 2)
-//    let totalGraphWidth = totalBlocksWidth + (margin * 2)
-//
-//    let contentViewSize = CGSize.init(width: totalGraphWidth, height: totalGraphHeight)
-//    let contentViewOrigin = CGPoint.init(x: 0.0, y: 0.0)
-//
-//    contentView.frame.size = contentViewSize
-//    contentView.frame.origin = contentViewOrigin
-//
-//    while self.subviews.count != 0
-//    {
-//      self.subviews[0].removeFromSuperview()
-//    }
-//    self.addSubview(contentView)
-//    self.contentSize = contentView.frame.size
-//    self.layoutSubviews()
-//  }
-//}
