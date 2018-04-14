@@ -54,14 +54,7 @@ class TaskyNode: Object
   @objc dynamic var isActionable: Bool  //included in 'ignore' by RealmSwift
   { return children.isEmpty
   }
-  @objc dynamic var isComplete: Bool  //included in 'ignore' by RealmSwift
-  { if completionDate == nil
-  { return false
-  }
-  else
-  { return true
-    }
-  }
+
 
   //MARK: Methods
   

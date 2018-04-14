@@ -13,8 +13,7 @@ class TaskyNodeEditor: NSObject {
 
 
   private let realm: Realm
-  private var filter: String
-  private let database: Results<TaskyNode>
+  let database: Results<TaskyNode>
   static let sharedInstance = TaskyNodeEditor()
 
   //MARK: Task Creation
@@ -69,7 +68,6 @@ class TaskyNodeEditor: NSObject {
     var i = 0
     var newRealmInstanceAttempt: Realm? = nil
     var realmInstance: Realm!
-    self.filter = "completionDate == nil"
     print("\n")
     while realmInstance == nil
     {
@@ -88,18 +86,13 @@ class TaskyNodeEditor: NSObject {
     }
     self.realm = realmInstance
     print("Realm instance created")
-    self.database = realm.objects(TaskyNode.self).filter(filter)
+    self.database = realm.objects(TaskyNode.self)
     print("Database created in memory")
     super.init()
     realm.beginWrite()
     print("New write session begun")
   }
-  
-  convenience init(with filter: String)
-  {
-    self.init()
-    self.filter = filter
-  }
+
   
   deinit
   {

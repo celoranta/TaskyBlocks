@@ -134,7 +134,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     self.isPrimalStatusLabel.text = task.isPrimal.description
     self.isActionableStatusLabel.text = task.isActionable.description
     self.taskDateLabel.text = task.taskDate.description
-    self.completedSwitch.isOn = task.isComplete
+    self.completedSwitch.isOn = task.completionDate != nil
     
     var parentsString = ""
     for parent in task.parents

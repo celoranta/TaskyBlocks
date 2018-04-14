@@ -11,8 +11,9 @@ import RealmSwift
 
 class PriorityViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
   
-  var realm: Realm!
+  //var realm: Realm!
   var activeTaskySet: Results<TaskyNode>!
+  let filter = "completionDate == nil"
   let blockyAlpha: CGFloat = 0.75
   var blockyWidth: CGFloat = 123.5
   
@@ -62,8 +63,8 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     priorityCollectionView.collectionViewLayout = layout
 
   
-    realm = try! Realm()
-    activeTaskySet = realm.objects(TaskyNode.self)//.filter(filter)
+    
+    activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -89,7 +90,6 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     cell.addSubview(taskyBlock)
     taskyBlock.addSubview(taskyLabel)
     
-    
     cell.frame.size = blockSize
     cell.alpha = blockyAlpha
     cell.backgroundColor = UIColor.clear
@@ -110,8 +110,6 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     taskyLabel.lineBreakMode = .byWordWrapping
     taskyLabel.font.withSize(blockyWidth / 12)
   
-
-    
     return cell
   }
 }
