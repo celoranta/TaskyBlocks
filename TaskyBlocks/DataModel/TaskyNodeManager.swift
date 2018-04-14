@@ -55,7 +55,9 @@ class TaskyNodeManager: NSObject
     {
     TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)  //Only works on QUERIED REALM OBJECTS
     }
-    
+    TaskyBlockLibrary.realmEdit {
+      self.createRandomTasks()
+    }
     for task in taskSet
     { task.soundOff()
     }
@@ -66,7 +68,7 @@ class TaskyNodeManager: NSObject
   func newTask(with name: String = "New Task", and priority: Double = 50) -> TaskyNode
   {
     let task = TaskyNode.init(with: name, and: priority)
-    task.addAsChildTo(newParent: beHappy)
+   // task.addAsChildTo(newParent: beHappy)
     addToRealm(taskyNode: task)
     return task
   }

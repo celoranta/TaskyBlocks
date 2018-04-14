@@ -12,6 +12,7 @@ import RealmSwift
 class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate
 {
   
+
   var activeTaskySet: Results<TaskyNode>!
   var selectedTask: TaskyNode?
   var realm: Realm!

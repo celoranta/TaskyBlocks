@@ -27,7 +27,7 @@ class TaskyNode: Object
   @objc dynamic var taskDescription = ""
   @objc dynamic private (set) var taskDate = Date()
   @objc dynamic var completionDate: Date? = nil
-  //var taskyNodeDelegate: TaskyNodeManager?
+
 
   let parents = List<TaskyNode>()
   let children = LinkingObjects(fromType: TaskyNode.self, property: "parents")

@@ -17,6 +17,7 @@ class TaskyBlock2: UIView {
   private func commonInit()
   {
     Bundle.main.loadNibNamed("TaskyBlock2", owner: self, options: nil)
+    
     addSubview(taskyBlock)
     taskyBlock.frame = self.bounds
     blockyLabel.text = "<default>"
