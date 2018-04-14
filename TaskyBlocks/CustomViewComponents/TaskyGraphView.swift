@@ -74,7 +74,9 @@ class TaskyGraphView: UIScrollView {
       cell.blockyLabel.text = "\(task.title): \(task.priorityApparent)"
       cell.taskyBlock.alpha = blockyAlpha
       cell.taskID = task.taskId
-      cell.taskyBlock.backgroundColor = calculateBlockColorFrom(task: task)
+      cell.taskyBlock.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
+      
+      
 //      while contentView.subviews.count > 0
 //      {
 //        contentView.subviews[contentView.subviews.count - 1].removeFromSuperview()
@@ -113,85 +115,4 @@ class TaskyGraphView: UIScrollView {
     self.contentSize = contentView.frame.size
     self.layoutSubviews()
   }
-  
-  private func calculateBlockColorFrom(task: TaskyNode) -> (UIColor)
-  {
-    var blockColorString: String!
-    var blockColor: UIColor!
-    let priority = task.priorityApparent
-    if task.title == "Be Happy"
-    {
-      blockColorString = colorString.purple.rawValue
-    }
-    else
-    {
-    switch priority
-    {
-    case 66.00...100.00:
-      blockColorString = colorString.red.rawValue
-    case 33.00..<66.00:
-      blockColorString = colorString.yellow.rawValue
-    case 0.00..<33.00:
-      blockColorString = colorString.green.rawValue
-    default: blockColor = UIColor.black
-    }
-    }
-    blockColor = hexStringToUIColor(hex: blockColorString)
-    return blockColor
-  }
-  enum colorString: String
-  {
-    case green = "#cfffc9"
-    case red = "#fad3d3"
-    case yellow = "#ffffa2"
-    case purple = "dbd0f0"
-  }
-  
-  func hexStringToUIColor (hex:String) -> UIColor {
-    var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-    if (cString.hasPrefix("#")) {
-      cString.remove(at: cString.startIndex)
-    }
-    if ((cString.count) != 6) {
-      return UIColor.gray
-    }
-    var rgbValue:UInt32 = 0
-    Scanner(string: cString).scanHexInt32(&rgbValue)
-    return UIColor(
-      red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-      green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-      blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-      alpha: CGFloat(1.0)
-    )
-  }
-  
-  //  func createDescendingPointer()
-  //  {
-  //    let path = UIBezierPath()
-  //    UIColor.black.setFill()
-  //    path.fill()
-  //    // Specify the point that the path should start get drawn.
-  //    path.move(to: CGPoint(x: 100.0, y: 100.0))
-  //
-  //    // Create a line between the starting point and the bottom-left side of the view.
-  //    path.addLine(to: CGPoint(x: 0.0, y: self.frame.size.height / 5))
-  //
-  //    // Create the bottom line (bottom-left to bottom-right).
-  //    path.addLine(to: CGPoint(x: self.frame.size.width / 5, y: self.frame.size.height / 5))
-  //
-  //    // Create the vertical line from the bottom-right to the top-right side.
-  //    path.addLine(to: CGPoint(x: self.frame.size.width / 5, y: 0.0))
-  //
-  //    // Close the path. This will create the last line automatically.
-  //    path.close()
-  //  }
-  
-  /*
-   // Only override draw() if you perform custom drawing.
-   // An empty implementation adversely affects performance during animation.
-   override func draw(_ rect: CGRect) {
-   // Drawing code
-   }
-   */
-  
 }
