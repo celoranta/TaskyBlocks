@@ -17,17 +17,22 @@ class TaskyNode: Object
 {
   
   //MAR: Ignored Properties: list of properties ignored in RealmSwift
-  override static func ignoredProperties() -> [String]
-  { return ["isPrimal", "isActionable", "isPermanent"]
-  }
+//  override static func ignoredProperties() -> [String]
+//  { return ["isPrimal", "isActionable"/*, "isPermanent"*/]
+//  }
 
   //MARK: Properties
+  
+  
   @objc dynamic var title = "New Task"
   @objc dynamic var taskId = String(UUID().uuidString)
   @objc dynamic var taskDescription = ""
   @objc dynamic private (set) var taskDate = Date()
   @objc dynamic var completionDate: Date? = nil
 
+  override static func primaryKey() -> String? {
+    return "taskId"
+  }
 
   let parents = List<TaskyNode>()
   let children = LinkingObjects(fromType: TaskyNode.self, property: "parents")
@@ -40,15 +45,16 @@ class TaskyNode: Object
   let priorityConsequent: RealmOptional<Double> = RealmOptional.init()
   let priorityDirect: RealmOptional<Double> = RealmOptional.init()  //currently no need to recalcutalate/update.  Revisit
   let priorityOverride: RealmOptional<Double> = RealmOptional.init()  //for testing by developer
+  
   @objc dynamic var isPermanent: Int = -1
   //MARK: Calculated properties
   var isPrimal: Bool  //included in 'ignore' by RealmSwift
   { return parents.count == 0
   }
-  var isActionable: Bool  //included in 'ignore' by RealmSwift
+  @objc dynamic var isActionable: Bool  //included in 'ignore' by RealmSwift
   { return children.isEmpty
   }
-  var isComplete: Bool  //included in 'ignore' by RealmSwift
+  @objc dynamic var isComplete: Bool  //included in 'ignore' by RealmSwift
   { if completionDate == nil
   { return false
   }
@@ -273,23 +279,23 @@ class TaskyNode: Object
     }
     return
   }
-  
-  required convenience init(forUse: Bool = true)
-  {
-    //let filter = "completionDate == nil"
-    
-     let realm = try! Realm()
-   // realm.beginWrite()
-    
-    self.init()
-    self.priorityDirectDefault = 50.00 + (Double(arc4random_uniform(1000))/1000)
-    realm.add(self)
-    
-    //TaskyNode.updatePriorityFor(tasks: Set(realm.objects(TaskyNode.self).filter(filter)), limit: 100)
-   // realm.refresh()
-    //try! realm.commitWrite()
-  }
-  
+//  
+//  required convenience init(forUse: Bool = true)
+//  {
+//    //let filter = "completionDate == nil"
+//    
+//     let realm = try! Realm()
+//   // realm.beginWrite()
+//    
+//    self.init()
+//    self.priorityDirectDefault = 50.00 + (Double(arc4random_uniform(1000))/1000)
+//    realm.add(self)
+//    
+//    //TaskyNode.updatePriorityFor(tasks: Set(realm.objects(TaskyNode.self).filter(filter)), limit: 100)
+//   // realm.refresh()
+//    //try! realm.commitWrite()
+//  }
+//  
   class func countNonMatchingKeyValuePairsBetween(dict1: [String:Double], dict2: [String:Double]) -> Int
   {
     var count = 0

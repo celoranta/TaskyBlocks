@@ -55,9 +55,9 @@ class TaskyNodeManager: NSObject
     {
     TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)  //Only works on QUERIED REALM OBJECTS
     }
-    TaskyBlockLibrary.realmEdit {
-      self.createRandomTasks()
-    }
+//    TaskyBlockLibrary.realmEdit {
+//      self.createRandomTasks()
+//    }
     for task in taskSet
     { task.soundOff()
     }

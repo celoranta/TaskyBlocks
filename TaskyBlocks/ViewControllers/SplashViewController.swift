@@ -14,7 +14,10 @@ class SplashViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-      taskManager.setupProcesses()
+      //taskManager.setupProcesses()
+      let testNewTask = TaskyNodeEditor.sharedInstance.newTask()
+      testNewTask.soundOff()
+      TaskyNodeEditor.sharedInstance.complete(task: testNewTask)
   }
 
     override func didReceiveMemoryWarning() {

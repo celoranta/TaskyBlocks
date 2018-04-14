@@ -63,11 +63,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognize
   //MARK: Actions
   @IBAction func addButton(_ sender: Any)
   {
-    //let _ = TaskyNode.init(forUse: true)
-    TaskyBlockLibrary.realmEdit {
-      let _ = TaskyNode.init(forUse: true)
-    }
-    self.graphIt()
+//    //let _ = TaskyNode.init(forUse: true)
+//    TaskyBlockLibrary.realmEdit {
+//      let _ = TaskyNode.init(forUse: true)
+//    }
+//    self.graphIt()
   }
   
   @IBAction func pinch(_ sender: Any) {

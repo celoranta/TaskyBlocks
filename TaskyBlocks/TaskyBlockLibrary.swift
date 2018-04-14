@@ -12,18 +12,18 @@ class TaskyBlockLibrary
 
 {
   
-  class func realmEdit(editfunction: @escaping () -> ())
-  {
-    let filter = "completionDate == nil"
-    let realm = try! Realm()
-    realm.beginWrite()
-
-    editfunction()
-    
-    TaskyNode.updatePriorityFor(tasks: Set(realm.objects(TaskyNode.self).filter(filter)), limit: 100)
-    realm.refresh()
-    try! realm.commitWrite()
-  }
+//  class func realmEdit(editfunction: @escaping () -> ())
+//  {
+//    let filter = "completionDate == nil"
+//    let realm = try! Realm()
+//    realm.beginWrite()
+//
+//    editfunction()
+//    
+//    TaskyNode.updatePriorityFor(tasks: Set(realm.objects(TaskyNode.self).filter(filter)), limit: 100)
+//    realm.refresh()
+//    try! realm.commitWrite()
+//  }
   class func calculateBlockColorFrom(task: TaskyNode) -> (UIColor)
   {
     var blockColorString: String!
