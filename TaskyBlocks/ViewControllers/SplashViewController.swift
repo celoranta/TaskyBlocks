@@ -18,10 +18,12 @@ class SplashViewController: UIViewController {
     if TaskyNodeEditor.sharedInstance.database.count == 0
     {
       let testNewTask = TaskyNodeEditor.sharedInstance.newTask()
-      testNewTask.soundOff()
+
       TaskyNodeEditor.sharedInstance.makePermanent(task: testNewTask)
       TaskyNodeEditor.sharedInstance.changeTitle(task: testNewTask, to: "Be Happy")
+      TaskyNodeEditor.sharedInstance.setDirectPriority(of: testNewTask, to: 100.00)
       TaskyNodeEditor.sharedInstance.complete(task: testNewTask)
+      testNewTask.soundOff()
     }
   }
 

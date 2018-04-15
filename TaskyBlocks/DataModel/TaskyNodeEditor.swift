@@ -89,11 +89,9 @@ class TaskyNodeEditor: NSObject {
     saveChanges()
   }
   
-  //Mark: Relationship Edits
+
+  //MARK: TaskyNode Relational Assignment Edits
   
-
-
-  //MARK: TaskyNode Relational assignment
   func add(task: TaskyNode, AsChildTo newParent: TaskyNode)
   { if !task.parents.contains(newParent)
   { task.parents.append(newParent)
