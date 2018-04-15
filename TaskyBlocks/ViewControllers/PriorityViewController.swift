@@ -105,9 +105,19 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   
     return cell
   }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+  {
+    print(indexPath)
+    let selectedTask = activeTaskySet[indexPath[1]]
+    print(selectedTask.title)
+    TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
+    self.priorityCollectionView.reloadData()
+  }
+  
   @IBAction func addButton(_ sender: Any)
   {
-_ = TaskyNodeEditor.sharedInstance.newTask()
+    _ = TaskyNodeEditor.sharedInstance.newTask()
     self.priorityCollectionView.reloadData()
   }
 }
