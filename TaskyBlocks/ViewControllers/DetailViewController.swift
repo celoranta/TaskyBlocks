@@ -61,7 +61,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   }
 
   override func viewWillAppear(_ animated: Bool) {
-   if task.isPermanent != 1
+   if task.isPermanent == 1
     {
       self.completedSwitch.isEnabled = false
     }
@@ -85,9 +85,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   }
   @IBAction func completedSwitchThrown(_ sender: Any) {
 
-//    TaskyBlockLibrary.realmEdit {
-//      self.task.markAsCompleted(on: Date())
-//    }
+    TaskyNodeEditor.sharedInstance.complete(task: task)
   }
   
   @IBAction func priorityLabelTap(_ sender: Any)
@@ -285,16 +283,13 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   func textFieldDidEndEditing(_ textField: UITextField)
   {
-    realm.beginWrite()
     if textField == priorityDirectText
     {
       if let unwrappedText = priorityDirectText.text
       {
-        task.priorityDirect.value = ((unwrappedText as NSString).doubleValue)
+        TaskyNodeEditor.sharedInstance.setDirectPriority(of: task, to: ((unwrappedText as NSString).doubleValue))
       }
     }
-    _ = task.updateMyPriorities()
-    try! realm.commitWrite()
     refreshView()
   }
   

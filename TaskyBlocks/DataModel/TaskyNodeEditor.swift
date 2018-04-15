@@ -65,7 +65,8 @@ class TaskyNodeEditor: NSObject {
       print("Tasky node \(task.title) with id: \(task.taskId) is permanent and cannot be marked complete")
     }
   }
-  
+  //MARK: Update Priorities
+
   //MARK: Write session management
   private func saveChanges()
   {
@@ -83,6 +84,8 @@ class TaskyNodeEditor: NSObject {
     realm.beginWrite()
     print("New write session opened")
   }
+
+  
   
   //MARK: Initializers
   override private init()

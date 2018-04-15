@@ -63,6 +63,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   }
   
   override func viewWillAppear(_ animated: Bool) {
+    TaskyNode.updatePriorityFor(tasks: Set.init(TaskyNodeEditor.sharedInstance.database.filter(self.filter)),limit: 100)
     priorityCollectionView.reloadData()
   }
   
@@ -131,7 +132,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     case "priorityToDetail":
       print("prepare for segue to detail with \(selectedTask.title) selected was called")
       let detailVC = segue.destination.childViewControllers.first as! DetailViewController
-      detailVC.taskDetailDataSource = self as! TaskDetailDataSource
+      detailVC.taskDetailDataSource = self as TaskDetailDataSource
       detailVC.task = selectedTask
     default:
       return
