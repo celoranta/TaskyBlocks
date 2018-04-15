@@ -38,6 +38,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   var taskDetailDataSource: TaskDetailDataSource!
   var pickerTableViewController: PickerTableViewController!
   var pickerViewRelationshipType: TaskRelationship!
+  var taskDescriptionString: String?
  
   //Realm
   var realm: Realm!
@@ -185,43 +186,43 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   func retrieveUpdatedCollection(from table: PickerTableViewController)
   {
-    realm.beginWrite()
+   // realm.beginWrite()
     let returnPickerData = table.postUpdatedTaskSubcollection()
     switch returnPickerData.relationship
     {
     case .parents:
-      task.removeAsChildToAll()
+      TaskyNodeEditor.sharedInstance.removeAsChildToAllParents(task: task)
       for parent in returnPickerData.collection
       {
-        task.addAsChildTo(newParent: parent)
+        TaskyNodeEditor.sharedInstance.add(task: task, AsChildTo: parent)
       }
       print("picker returned parents")
     case .children:
       print("picker returned children")
-      
-      task.removeAsParentToAll()
+      TaskyNodeEditor.sharedInstance.removeAsParentToAllChildren(task: task)
       for child in returnPickerData.collection
       {
-        task.addAsParentTo(newChild: child)
+        TaskyNodeEditor.sharedInstance.add(task: task, asParentTo: child)
+
       }
     case .dependents:
-      task.removeAsAntecedentToAll()
+      TaskyNodeEditor.sharedInstance.removeAsAntecedentToAll(task: task)
       for consequent in returnPickerData.collection
       {
-        task.addAsAntecedentTo(newConsequent: consequent)
+        TaskyNodeEditor.sharedInstance.add(task: task, asAntecedentTo: consequent)
       }
       print("picker returned dependents")
       
     case .dependees:
-      task.removeAsConsequentToAll()
+      TaskyNodeEditor.sharedInstance.removeAsConsequentToAll(task: task)
       for antecedent in returnPickerData.collection
       {
-        task.addAsConsequentTo(newAntecedent: antecedent)
+        TaskyNodeEditor.sharedInstance.add(task: task, asConsequentTo: antecedent)
       }
       print("picker returned dependees")
 
     }
-    try! realm.commitWrite()
+    //try! realm.commitWrite()
     refreshView()
   }
   
@@ -299,17 +300,19 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     if textView == taskDescription
     {
       let inputString = textView.text ?? ""
-      task.taskDescription = inputString
+      taskDescriptionString = inputString
     }
   }
   
   func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
     if textView == taskDescription
     {
+      TaskyNodeEditor.sharedInstance.updateTaskDescription(for: task, with: taskDescriptionString ?? "")
       taskDescription.resignFirstResponder()
     }
     return true
   }
+  
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesBegan(touches, with: event)
     taskDescription.resignFirstResponder()

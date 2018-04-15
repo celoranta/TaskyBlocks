@@ -57,6 +57,7 @@ class TaskyNodeEditor: NSObject {
     if task.isPermanent != 1
     {
     task.completionDate = Date()
+    realm.add(task, update: true)
     saveChanges()
     print("Tasky node \(task.title) with id: \(task.taskId) was marked complete")
     }
@@ -65,7 +66,124 @@ class TaskyNodeEditor: NSObject {
       print("Tasky node \(task.title) with id: \(task.taskId) is permanent and cannot be marked complete")
     }
   }
-  //MARK: Update Priorities
+  
+  //MARK: Task Removal prep
+  
+  func prepareRemove(task: TaskyNode)
+  { for parent in task.parents
+  { for child in task.children
+  { add(task: child, AsChildTo: parent)
+    }
+    }
+    for antecedent in task.antecedents
+    {for consequent in task.consequents
+    { add(task: consequent, asConsequentTo: antecedent)
+      }
+    }
+  }
+  //MARK: Task Description
+  func updateTaskDescription(for task: TaskyNode, with text: String)
+  {
+    task.taskDescription = text
+    realm.add(task, update: true)
+    saveChanges()
+  }
+  
+  //Mark: Relationship Edits
+  
+
+
+  //MARK: TaskyNode Relational assignment
+  func add(task: TaskyNode, AsChildTo newParent: TaskyNode)
+  { if !task.parents.contains(newParent)
+  { task.parents.append(newParent)
+    realm.add(task, update: true)
+    saveChanges()
+    }
+  }
+  
+  func add(task: TaskyNode, asParentTo newChild: TaskyNode)
+  { if !newChild.parents.contains(task)
+  { newChild.parents.append(task)
+    realm.add(task, update: true)
+    self.saveChanges()
+    }
+  }
+  
+  func remove(task: TaskyNode, asChildTo parent: TaskyNode)
+  { if let index = task.parents.index(of: parent)
+  { task.parents.remove(at: index)
+    realm.add(task, update: true)
+    self.saveChanges()
+    }
+  }
+  
+  func remove(task: TaskyNode, asParentTo child: TaskyNode)
+  { if !child.parents.contains(task)
+  { child.parents.append(task)
+    realm.add(task, update: true)
+    self.saveChanges()
+    }
+  }
+  
+  func removeAsChildToAllParents(task: TaskyNode)
+  { task.parents.removeAll()
+    realm.add(task, update: true)
+    self.saveChanges()
+  }
+  
+  func removeAsParentToAllChildren(task: TaskyNode)
+  { for child in task.children
+  { remove(task: child, asChildTo: task)
+    realm.add(task, update: true)
+    self.saveChanges()
+    }
+  }
+  
+  func add(task: TaskyNode, asConsequentTo newAntecedent: TaskyNode)
+  { if !task.antecedents.contains(newAntecedent)
+  { task.antecedents.append(newAntecedent)
+    realm.add(task, update: true)
+    self.saveChanges()
+    }
+  }
+  
+  func add(task: TaskyNode, asAntecedentTo newConsequent: TaskyNode)
+  {
+    TaskyNodeEditor.sharedInstance.add(task: newConsequent, asConsequentTo: task)
+    realm.add(task, update: true)
+    self.saveChanges()
+  }
+  
+  func remove(task: TaskyNode, asConsequentTo antecedent: TaskyNode)
+  { if let index = task.antecedents.index(of: antecedent)
+  { task.antecedents.remove(at: index)
+    realm.add(task, update: true)
+    self.saveChanges()
+    }
+  }
+  
+  func remove(task: TaskyNode, asAntecedentTo consequent: TaskyNode)
+  {
+    TaskyNodeEditor.sharedInstance.remove(task: consequent, asConsequentTo: task)
+    realm.add(task, update: true)
+    self.saveChanges()
+  }
+  
+  func removeAsConsequentToAll(task: TaskyNode)
+  { task.antecedents.removeAll()
+    realm.add(task, update: true)
+    self.saveChanges()
+  }
+  
+  func removeAsAntecedentToAll(task: TaskyNode)
+  { for consequent in task.consequents
+  {
+    TaskyNodeEditor.sharedInstance.remove(task: consequent, asConsequentTo: task)
+    realm.add(task, update: true)
+    self.saveChanges()
+    }
+  }
 
   //MARK: Write session management
   private func saveChanges()

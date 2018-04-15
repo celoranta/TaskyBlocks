@@ -206,7 +206,7 @@ class TaskyNodeManager: NSObject
       let rand1 = Int(arc4random_uniform(verbQty - 1))
       let rand2 = Int(arc4random_uniform(nounQty - 1))
       let nameString = "\(verbs.remove(at: Int(rand1))) the \(nouns.remove(at: rand2))"
-      task.addAsParentTo(newChild: nodeA)
+      //task.addAsParentTo(newChild: nodeA)
       let randomPriority = Double(arc4random_uniform(99) + 1)
       task.priorityDirect.value = randomPriority
       task.title = nameString
@@ -217,11 +217,12 @@ class TaskyNodeManager: NSObject
       Ullamco eiusmod alcatra veniam brisket, ad ipsum venison ea jowl. Officia laboris drumstick bacon, labore duis boudin tempor. Sirloin ut ball tip in corned beef. Officia elit eiusmod, nulla tri-tip swine aliquip. Officia consequat picanha esse in pastrami, biltong reprehende
       """
     }
-    nodeA.removeAsChildToAll()
-    nodeC.addAsChildTo(newParent: nodeB)
-    nodeE.addAsConsequentTo(newAntecedent: nodeF)
-    nodeF.addAsConsequentTo(newAntecedent: nodeG)
-    nodeH.addAsParentTo(newChild: nodeF)
+//    nodeA.removeAsChildToAll()
+//    TaskyNodeEditor.sharedInstance.add(task: nodeC, AsChildTo: )
+//    nodeC.addAsChildTo(newParent: nodeB)
+//    nodeE.addAsConsequentTo(newAntecedent: nodeF)
+//    nodeF.addAsConsequentTo(newAntecedent: nodeG)
+//    nodeH.addAsParentTo(newChild: nodeF)
     
     TaskyNode.updatePriorityFor(tasks: randomTaskSet, limit: 100)
 //    for task in randomTaskSet
