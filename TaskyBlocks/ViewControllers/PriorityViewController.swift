@@ -9,7 +9,8 @@
 import UIKit
 import RealmSwift
 
-class PriorityViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class PriorityViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource {
+  
   
   //var realm: Realm!
   var activeTaskySet: Results<TaskyNode>!
@@ -45,6 +46,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
       return CGSize.init(width: blockyWidth, height: blockyHeight)
     }
   }
+  var selectedTask: TaskyNode!
 
   @IBOutlet weak var priorityCollectionView: UICollectionView!
   
@@ -109,9 +111,11 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
   {
     print(indexPath)
-    let selectedTask = activeTaskySet[indexPath[1]]
+    self.selectedTask = activeTaskySet[indexPath[1]]
     print(selectedTask.title)
-    TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
+    
+    //TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
+    performSegue(withIdentifier: "priorityToDetail", sender: self)
     self.priorityCollectionView.reloadData()
   }
   
@@ -119,5 +123,23 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   {
     _ = TaskyNodeEditor.sharedInstance.newTask()
     self.priorityCollectionView.reloadData()
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    switch segue.identifier
+    {
+    case "priorityToDetail":
+      print("prepare for segue to detail with \(selectedTask.title) selected was called")
+      let detailVC = segue.destination.childViewControllers.first as! DetailViewController
+      detailVC.taskDetailDataSource = self as! TaskDetailDataSource
+      detailVC.task = selectedTask
+    default:
+      return
+    }
+  }
+  
+  //Task Detail View Delegate
+  func returnSelectedTask() -> TaskyNode {
+    return selectedTask
   }
 }

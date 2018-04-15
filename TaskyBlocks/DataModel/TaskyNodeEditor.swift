@@ -12,7 +12,6 @@ import RealmSwift
 
 class TaskyNodeEditor: NSObject {
 
-
   private let realm: Realm
   let database: Results<TaskyNode>
   static let sharedInstance = TaskyNodeEditor()
@@ -31,6 +30,7 @@ class TaskyNodeEditor: NSObject {
     return returnedTask
   }
   
+  //MARK: Task Editing
   func makePermanent(task: TaskyNode)
   {
     task.isPermanent = 1
@@ -41,6 +41,13 @@ class TaskyNodeEditor: NSObject {
   func changeTitle(task: TaskyNode, to title: String)
   {
     task.title = title
+    realm.add(task, update: true)
+    self.saveChanges()
+  }
+  
+  func setDirectPriority(of task: TaskyNode, to priority: Double)
+  {
+    task.priorityDirect.value = priority
     realm.add(task, update: true)
     self.saveChanges()
   }

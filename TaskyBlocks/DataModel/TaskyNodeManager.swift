@@ -43,13 +43,13 @@ class TaskyNodeManager: NSObject
     realm = try! Realm()
     activeTaskySet = Set.init(realm.objects(TaskyNode.self))
     tasks = realm.objects(TaskyNode.self)
-    if tasks.count == 0
-    {
-    try! realm.write {
-    let task = configureInitialTask()
-      realm.add(task)
-      }
-    }
+//    if tasks.count == 0
+//    {
+//    try! realm.write {
+//    let task = configureInitialTask()
+//      realm.add(task)
+//      }
+//    }
     taskSet = Set(tasks)
     try! realm.write
     {
@@ -65,13 +65,13 @@ class TaskyNodeManager: NSObject
 
   
  // MARK: Task Creation and Deletion
-  func newTask(with name: String = "New Task", and priority: Double = 50) -> TaskyNode
-  {
-    let task = TaskyNode.init(with: name, and: priority)
-   // task.addAsChildTo(newParent: beHappy)
-    addToRealm(taskyNode: task)
-    return task
-  }
+//  func newTask(with name: String = "New Task", and priority: Double = 50) -> TaskyNode
+//  {
+//    let task = TaskyNode.init(with: name, and: priority)
+//   // task.addAsChildTo(newParent: beHappy)
+//    addToRealm(taskyNode: task)
+//    return task
+//  }
   
   func deleteAllHistory()
   {
@@ -110,10 +110,10 @@ class TaskyNodeManager: NSObject
 //    masterActiveTaskSet.remove(task)
 //  }
   
-  func setComplete(for task: TaskyNode, on date: Date = Date())
-  { task.markAsCompleted(on: date)
-    
-  }
+//  func setComplete(for task: TaskyNode, on date: Date = Date())
+//  { task.markAsCompleted(on: date)
+//
+//  }
 
   
   //MARK: TaskDataSource methods
@@ -144,43 +144,43 @@ class TaskyNodeManager: NSObject
 //    return primals
 //  }
   
-  func randomTask() -> TaskyNode
-  { let unsignedIntTerminus = UInt32(self.activeTaskySet.count)
-    var taskArray: [TaskyNode] = []
-    //taskArray.append(contentsOf: self.activeTaskySet)
-    guard unsignedIntTerminus < 1
-      else
-    { fatalError("Error... no tasks in active set")
-    }
-    let randomInteger = Int(arc4random_uniform(unsignedIntTerminus))
-    return taskArray[randomInteger]
-  }
-  
-  func configureInitialTask() -> TaskyNode
-  {
-    let task = TaskyNode()
-    task.title = "Be Happy"
-    //task.isPermanent = true
-    task.taskDescription = "This is the only permanent task in 'TaskyBlocks.'  Please add tasks as 'children' to this task to begin."
-    task.priorityDirect.value = 100
-    return task
-  }
+//  func randomTask() -> TaskyNode
+//  { let unsignedIntTerminus = UInt32(self.activeTaskySet.count)
+//    var taskArray: [TaskyNode] = []
+//    //taskArray.append(contentsOf: self.activeTaskySet)
+//    guard unsignedIntTerminus < 1
+//      else
+//    { fatalError("Error... no tasks in active set")
+//    }
+//    let randomInteger = Int(arc4random_uniform(unsignedIntTerminus))
+//    return taskArray[randomInteger]
+//  }
+//  
+//  func configureInitialTask() -> TaskyNode
+//  {
+//    let task = TaskyNode()
+//    task.title = "Be Happy"
+//    //task.isPermanent = true
+//    task.taskDescription = "This is the only permanent task in 'TaskyBlocks.'  Please add tasks as 'children' to this task to begin."
+//    task.priorityDirect.value = 100.00
+//    return task
+//  }
   
   func createRandomTasks()
   { realm = try! Realm()
     
-    let nodeA = self.newTask()
-    let nodeB = self.newTask()
-    let nodeC = self.newTask()
-    let nodeD = self.newTask()
-    let nodeE = self.newTask()
-    let nodeF = self.newTask()
-    let nodeG = self.newTask()
-    let nodeH = self.newTask()
-    let nodeI = self.newTask()
-    let nodeJ = self.newTask()
-    let nodeK = self.newTask()
-    let nodeL = self.newTask()
+    let nodeA = TaskyNodeEditor.sharedInstance.newTask()
+    let nodeB = TaskyNodeEditor.sharedInstance.newTask()
+    let nodeC = TaskyNodeEditor.sharedInstance.newTask()
+    let nodeD = TaskyNodeEditor.sharedInstance.newTask()
+    let nodeE = TaskyNodeEditor.sharedInstance.newTask()
+    let nodeF = TaskyNodeEditor.sharedInstance.newTask()
+    let nodeG = TaskyNodeEditor.sharedInstance.newTask()
+    let nodeH = TaskyNodeEditor.sharedInstance.newTask()
+    let nodeI = TaskyNodeEditor.sharedInstance.newTask()
+    let nodeJ = TaskyNodeEditor.sharedInstance.newTask()
+    let nodeK = TaskyNodeEditor.sharedInstance.newTask()
+    let nodeL = TaskyNodeEditor.sharedInstance.newTask()
     
     var randomTaskSet: Set<TaskyNode> = []
     
@@ -207,7 +207,8 @@ class TaskyNodeManager: NSObject
       let rand2 = Int(arc4random_uniform(nounQty - 1))
       let nameString = "\(verbs.remove(at: Int(rand1))) the \(nouns.remove(at: rand2))"
       task.addAsParentTo(newChild: nodeA)
-      task.priorityDirect.value = Double(arc4random_uniform(99) + 1)
+      let randomPriority = Double(arc4random_uniform(99) + 1)
+      task.priorityDirect.value = randomPriority
       task.title = nameString
       task.taskDescription =
       """

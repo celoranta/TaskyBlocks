@@ -15,14 +15,7 @@ import RealmSwift
 class TaskyNode: Object
 
 {
-  
-  //MAR: Ignored Properties: list of properties ignored in RealmSwift
-//  override static func ignoredProperties() -> [String]
-//  { return ["isPrimal", "isActionable"/*, "isPermanent"*/]
-//  }
-
   //MARK: Properties
-  
   
   @objc dynamic var title = "New Task"
   @objc dynamic var taskId = String(UUID().uuidString)
@@ -43,7 +36,7 @@ class TaskyNode: Object
   @objc dynamic var priorityDirectDefault: Double = (50 + Double(arc4random_uniform(100)/10000))
   let priorityInherited: RealmOptional<Double> = RealmOptional.init()
   let priorityConsequent: RealmOptional<Double> = RealmOptional.init()
-  let priorityDirect: RealmOptional<Double> = RealmOptional.init()  //currently no need to recalcutalate/update.  Revisit
+  var priorityDirect: RealmOptional<Double> = RealmOptional.init()  //currently no need to recalcutalate/update.  Revisit
   let priorityOverride: RealmOptional<Double> = RealmOptional.init()  //for testing by developer
   
   @objc dynamic var isPermanent: Int = -1
@@ -65,14 +58,19 @@ class TaskyNode: Object
     self.soundOff()
   }
   
-  func markAsCompleted(on date: Date = Date())
-
-  { //let realm = try! Realm()
-   // realm.beginWrite()
-    completionDate = Date()
-    self.prepareRemove()
-   // try! realm.commitWrite()
+  func updatePriorityDirect(to value: Double)
+  {
+    self.priorityDirect.value = value
   }
+  
+//  func markAsCompleted(on date: Date = Date())
+//
+//  { //let realm = try! Realm()
+//   // realm.beginWrite()
+//    completionDate = Date()
+//    self.prepareRemove()
+//   // try! realm.commitWrite()
+//  }
   
   //MARK: TaskyNode Relational assignment
   func addAsChildTo(newParent: TaskyNode)

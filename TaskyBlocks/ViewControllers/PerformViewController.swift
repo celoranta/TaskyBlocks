@@ -39,7 +39,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   override func viewDidLoad() {
     super.viewDidLoad()
     try! realm = Realm()
-    let tasksData = realm.objects(TaskyNode.self).filter(filter)
+    //let tasksData = realm.objects(TaskyNode.self).filter(filter)
     
     pickerArray = realm.objects(TaskyNode.self).filter(filter)
     //activeTaskySet = Set(tasks)
@@ -156,7 +156,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   }
   
   @IBAction func markCompletePress(_ sender: Any) {
-    performedTask.markAsCompleted(on: Date())
+    TaskyNodeEditor.sharedInstance.complete(task: performedTask)
     completeLabel.isHidden = false
     tasksLabel.isHidden = false
     tasksCompleteLabel.isHidden = false

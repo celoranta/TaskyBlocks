@@ -24,7 +24,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBOutlet weak var isPrimalStatusLabel: UILabel!
   @IBOutlet weak var isActionableStatusLabel: UILabel!
   @IBOutlet weak var parentsListButton: UIButton!
-
   @IBOutlet weak var childrenListButton: UIButton!
   @IBOutlet weak var dependeesListButton: UIButton!
   @IBOutlet weak var dependentsListButton: UIButton!
@@ -48,8 +47,8 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    try! realm = Realm()
-    let tasks = realm.objects(TaskyNode.self)
+//    try! realm = Realm()
+    let tasks = TaskyNodeEditor.sharedInstance.database
     activeDataSet = Set(tasks)
     
     guard taskDetailDataSource != nil
@@ -78,10 +77,11 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     self.dismiss(animated: true, completion: nil)
   }
   @IBAction func addButton(_ sender: Any) {
+    task = TaskyNodeEditor.sharedInstance.newTask()
     self.refreshView()
   }
   @IBAction func deleteButton(_ sender: Any) {
-
+    
   }
   @IBAction func completedSwitchThrown(_ sender: Any) {
 
@@ -243,7 +243,8 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     if textField == taskTitleText
     {
       let inputString = textField.text ?? ""
-      task.title = inputString
+      TaskyNodeEditor.sharedInstance.changeTitle(task: task, to: inputString)
+
     }
     if textField == priorityDirectText
     {

@@ -158,6 +158,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="priorityCollectionView" destination="cBv-ss-brK" id="ghe-o8-8zZ"/>
+                        <segue destination="myk-os-c8D" kind="presentation" identifier="priorityToDetail" id="BRB-dk-8Xj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w5I-yB-mQa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -938,4 +939,7 @@
             <point key="canvasLocation" x="3333.5999999999999" y="-1819.3403298350827"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="BRB-dk-8Xj"/>
+    </inferredMetricsTieBreakers>
 </document>
