@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 
+
 class TaskyNodeEditor: NSObject {
 
 
@@ -28,6 +29,20 @@ class TaskyNodeEditor: NSObject {
       fatalError("Realm returned a non-task object")
     }
     return returnedTask
+  }
+  
+  func makePermanent(task: TaskyNode)
+  {
+    task.isPermanent = 1
+    realm.add(task, update: true)
+    self.saveChanges()
+  }
+  
+  func changeTitle(task: TaskyNode, to title: String)
+  {
+    task.title = title
+    realm.add(task, update: true)
+    self.saveChanges()
   }
   
   func complete(task: TaskyNode)
@@ -81,7 +96,7 @@ class TaskyNodeEditor: NSObject {
       guard i < 10
         else
       {
-      fatalError("Fatal Error:  Could not connect to realm")
+        fatalError("Fatal Error:  Could not connect to realm")
       }
     }
     self.realm = realmInstance
@@ -93,7 +108,6 @@ class TaskyNodeEditor: NSObject {
     print("New write session begun")
   }
 
-  
   deinit
   {
     try! realm.commitWrite()

@@ -55,7 +55,6 @@ class TaskyNode: Object
   { return children.isEmpty
   }
 
-
   //MARK: Methods
   
   convenience init(with name: String = "New Task", and priority: Double = 50)

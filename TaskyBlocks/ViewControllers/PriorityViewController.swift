@@ -16,8 +16,6 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   let filter = "completionDate == nil"
   let blockyAlpha: CGFloat = 0.75
   var blockyWidth: CGFloat = 123.5
-  
-  
   let layout = UICollectionViewFlowLayout()
   var blockyBorder: CGFloat
   {
@@ -58,12 +56,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     layout.minimumInteritemSpacing = 2
     layout.minimumLineSpacing = 2
     //layout.sectionInset = .init(top: blockyHeight, left: blockyHeight, bottom: blockyWidth, right: blockyWidth)
-    
-    
     priorityCollectionView.collectionViewLayout = layout
-
-  
-    
     activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
   }
   
@@ -112,9 +105,9 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   
     return cell
   }
+  @IBAction func addButton(_ sender: Any)
+  {
+_ = TaskyNodeEditor.sharedInstance.newTask()
+    self.priorityCollectionView.reloadData()
+  }
 }
-
-
-
-
-

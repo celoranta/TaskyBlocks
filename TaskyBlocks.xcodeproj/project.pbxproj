@@ -208,8 +208,8 @@
 			isa = PBXGroup;
 			children = (
 				9561F89B207FE43A003766B6 /* TaskyFilterManager.swift */,
-				9571D0CB20818573008272E8 /* PriorityViewController.swift */,
 				95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */,
+				9571D0CB20818573008272E8 /* PriorityViewController.swift */,
 				9510998B2075C1480091DF49 /* HierarchyViewController.swift */,
 				951099902075C1490091DF49 /* DependencyViewController.swift */,
 				95DC88D020772A8A00E346DB /* ViewController.swift */,

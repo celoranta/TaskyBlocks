@@ -29,7 +29,7 @@ class TaskyBlockLibrary
     var blockColorString: String!
     var blockColor: UIColor!
     let priority = task.priorityApparent
-    if task.title == "Be Happy"
+    if task.isPermanent == 1
     {
       blockColorString = colorString.purple.rawValue
     }

@@ -91,7 +91,6 @@ class TaskyGraphView: UIScrollView {
       prior.1 < consequent.1
     })
 
-
     let maxHeightInBlocks = maxHeightBlock!.0 + 1
     let maxWidthInBlocks = maxWidthBlock!.1 + 1
 
