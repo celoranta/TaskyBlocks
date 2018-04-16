@@ -13,7 +13,6 @@
 		95046CD920851C3B00237F31 /* MasterGraphingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95046CD820851C3B00237F31 /* MasterGraphingCollectionView.swift */; };
 		95046CDB20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95046CDA20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift */; };
 		95046CDD20851C9800237F31 /* MasterGraphingCollectionViewAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95046CDC20851C9800237F31 /* MasterGraphingCollectionViewAttributes.swift */; };
-		95046CE120851DAB00237F31 /* MasterGraphingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95046CE020851DAB00237F31 /* MasterGraphingCollectionViewCell.swift */; };
 		951099722075C0A10091DF49 /* TaskyBlocksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099712075C0A10091DF49 /* TaskyBlocksUITests.swift */; };
 		951099922075C14A0091DF49 /* PerformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510997F2075C1460091DF49 /* PerformViewController.swift */; };
 		951099962075C14A0091DF49 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951099832075C1460091DF49 /* LaunchScreen.storyboard */; };
@@ -40,6 +39,7 @@
 		95D05A7820789D220053593E /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D05A7720789D220053593E /* DetailTableViewCell.swift */; };
 		95DC88D52077489B00E346DB /* TaskyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88D42077489B00E346DB /* TaskyNode.swift */; };
 		95E5EFCF20780CB700CD8D6C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */; };
+		95F47C34208523F500827999 /* MasterGraphingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F47C33208523F500827999 /* MasterGraphingCollectionViewCell.swift */; };
 		A8FB86C5040C81C5F8BECB96 /* Pods_TaskyBlocksUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525EBF3C26B119C459668B45 /* Pods_TaskyBlocksUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,7 +71,6 @@
 		95046CD820851C3B00237F31 /* MasterGraphingCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGraphingCollectionView.swift; sourceTree = "<group>"; };
 		95046CDA20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGraphingCollectionViewLayout.swift; sourceTree = "<group>"; };
 		95046CDC20851C9800237F31 /* MasterGraphingCollectionViewAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGraphingCollectionViewAttributes.swift; sourceTree = "<group>"; };
-		95046CE020851DAB00237F31 /* MasterGraphingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGraphingCollectionViewCell.swift; sourceTree = "<group>"; };
 		9510994E2075C09F0091DF49 /* TaskyBlocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskyBlocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9510995D2075C0A10091DF49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		951099622075C0A10091DF49 /* TaskyBlocksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskyBlocksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +103,7 @@
 		95D05A7720789D220053593E /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		95DC88D42077489B00E346DB /* TaskyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyNode.swift; sourceTree = "<group>"; };
 		95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		95F47C33208523F500827999 /* MasterGraphingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGraphingCollectionViewCell.swift; sourceTree = "<group>"; };
 		A72648820E802729DA3A0EBD /* Pods-TaskyBlocksUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocksUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F60413C7A89086E30F4D0CA1 /* Pods-TaskyBlocks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocks.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks.debug.xcconfig"; sourceTree = "<group>"; };
 		FB974643A72EBA075538E8B3 /* Pods-TaskyBlocks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocks.release.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks.release.xcconfig"; sourceTree = "<group>"; };
@@ -238,10 +238,10 @@
 				951099912075C1490091DF49 /* TaskyBlock2.swift */,
 				9571D0C920818487008272E8 /* CollectionViewCell.swift */,
 				95046CD52085146E00237F31 /* MasterGraphingViewController.swift */,
+				95F47C33208523F500827999 /* MasterGraphingCollectionViewCell.swift */,
 				95046CD820851C3B00237F31 /* MasterGraphingCollectionView.swift */,
 				95046CDA20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift */,
 				95046CDC20851C9800237F31 /* MasterGraphingCollectionViewAttributes.swift */,
-				95046CE020851DAB00237F31 /* MasterGraphingCollectionViewCell.swift */,
 			);
 			path = GraphComponents;
 			sourceTree = "<group>";
@@ -580,6 +580,7 @@
 				9510999A2075C14A0091DF49 /* AppDelegate.swift in Sources */,
 				9510999B2075C14A0091DF49 /* PomodoroViewController.swift in Sources */,
 				953B32C3207EB4BB00B24C81 /* TaskyBlockLibrary.swift in Sources */,
+				95F47C34208523F500827999 /* MasterGraphingCollectionViewCell.swift in Sources */,
 				95046CD920851C3B00237F31 /* MasterGraphingCollectionView.swift in Sources */,
 				95A1834B207C39F500F38ED3 /* UITextViewPlaceholder.swift in Sources */,
 				95BE0D2F2076027A0097937F /* TaskTimer.swift in Sources */,
@@ -589,7 +590,6 @@
 				9510999C2075C14A0091DF49 /* DetailViewController.swift in Sources */,
 				9534855C20798A2F00A613B9 /* PickerTableViewController.swift in Sources */,
 				95D05A7820789D220053593E /* DetailTableViewCell.swift in Sources */,
-				95046CE120851DAB00237F31 /* MasterGraphingCollectionViewCell.swift in Sources */,
 				9583A27D20827948000F22EC /* TaskyNodeEditor.swift in Sources */,
 				95E5EFCF20780CB700CD8D6C /* SplashViewController.swift in Sources */,
 				95046CDB20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift in Sources */,

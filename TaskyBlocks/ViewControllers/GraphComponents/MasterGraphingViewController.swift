@@ -1,5 +1,5 @@
 //
-//  PriorityViewController.swift
+//  MasterGraphingViewController.swift
 //  TaskyBlocks
 //
 //  Created by Chris Eloranta on 2018-04-13.
@@ -49,7 +49,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   }
   var selectedTask: TaskyNode!
   
-  @IBOutlet weak var priorityCollectionView: UICollectionView!
+  @IBOutlet weak var collectionView: UICollectionView!
   @IBOutlet weak var deleteButton: UIBarButtonItem!
   
   override func viewDidLoad() {
@@ -60,14 +60,14 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     layout.minimumInteritemSpacing = 2
     layout.minimumLineSpacing = 2
     //layout.sectionInset = .init(top: blockyHeight, left: blockyHeight, bottom: blockyWidth, right: blockyWidth)
-    priorityCollectionView.collectionViewLayout = layout
+    collectionView.collectionViewLayout = layout
     activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
     deleteButton.isEnabled = false
   }
   
   override func viewWillAppear(_ animated: Bool) {
     TaskyNode.updatePriorityFor(tasks: Set.init(TaskyNodeEditor.sharedInstance.database.filter(self.filter)),limit: 100)
-    priorityCollectionView.reloadData()
+    collectionView.reloadData()
     if let nav = self.navigationController {
       nav.isToolbarHidden = false
     }
@@ -87,7 +87,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionViewCell
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "masterCollectionCell", for: indexPath) as! MasterGraphingCollectionViewCell
     let task = activeTaskySet[indexPath.row]
     let taskyLabel = UILabel.init(frame: cell.bounds)
     let taskyBlock = UIView()
@@ -126,7 +126,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     
     //TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
     performSegue(withIdentifier: "priorityToDetail", sender: self)
-    self.priorityCollectionView.reloadData()
+    self.collectionView.reloadData()
   }
   
   @IBAction func addButton(_ sender: Any)
@@ -142,7 +142,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     }
     let dataset = Set.init(TaskyNodeEditor.sharedInstance.database.filter(filter))
     TaskyNode.updatePriorityFor(tasks: dataset, limit: 100)
-    self.priorityCollectionView.reloadData()
+    self.collectionView.reloadData()
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

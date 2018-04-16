@@ -48,9 +48,6 @@
                                             <constraint firstItem="H20-06-pgY" firstAttribute="centerX" secondItem="4zH-z4-qgc" secondAttribute="centerX" id="Zj8-ql-e4Z"/>
                                         </constraints>
                                         <size key="customSize" width="0.0" height="0.0"/>
-                                        <connections>
-                                            <outlet property="myLabel" destination="H20-06-pgY" id="jD7-ni-Iac"/>
-                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -464,9 +461,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kAy-Ct-DCl">
-                                <rect key="frame" x="164" y="159" width="46" height="30"/>
+                                <rect key="frame" x="110" y="159" width="154" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="Master Graphing Suite"/>
                                 <connections>
                                     <segue destination="Ctb-Gs-A1V" kind="show" id="pyE-hz-i2K"/>
                                 </connections>
@@ -888,8 +885,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="boh-bg-ILP" customClass="MasterGraphingCollectionView" customModule="TaskyBlocks" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="masterGraphingCell" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="boh-bg-ILP" customClass="MasterGraphingCollectionView" customModule="TaskyBlocks" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5HO-jr-gYm">
                                     <size key="itemSize" width="50" height="50"/>
@@ -898,15 +895,31 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="W8j-JI-ov6" customClass="MasterGraphingCollectionViewCell" customModule="TaskyBlocks" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="masterCollectionCell" id="6V8-2k-vBY" customClass="MasterGraphingCollectionViewCell" customModule="TaskyBlocks" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U9O-1P-UFZ">
+                                                    <rect key="frame" x="4" y="15" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </view>
+                                        <connections>
+                                            <outlet property="cellTitleLabel" destination="U9O-1P-UFZ" id="7nb-OK-18H"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="Ctb-Gs-A1V" id="RDP-hJ-A1e"/>
+                                    <outlet property="delegate" destination="Ctb-Gs-A1V" id="noK-WD-Wri"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -918,6 +931,22 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="evK-rX-WZr"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem title="Delete" id="GIz-6N-gMD"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="3jm-Ni-17n"/>
+                        <barButtonItem title="Settings" id="hXc-K7-lTi"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="2X0-pi-mh1"/>
+                        <barButtonItem title="Add" id="807-Qd-Dh0">
+                            <connections>
+                                <action selector="addButton:" destination="Ctb-Gs-A1V" id="ouv-o9-5zY"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="collectionView" destination="boh-bg-ILP" id="btN-bp-Bdb"/>
+                        <outlet property="deleteButton" destination="GIz-6N-gMD" id="YuS-v8-Fgc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j3v-wv-CYp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
