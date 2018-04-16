@@ -463,6 +463,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kAy-Ct-DCl">
+                                <rect key="frame" x="164" y="159" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="Ctb-Gs-A1V" kind="show" id="pyE-hz-i2K"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
@@ -879,13 +887,41 @@
                     <view key="view" contentMode="scaleToFill" id="xYW-HL-rwl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="boh-bg-ILP" customClass="MasterGraphingCollectionView" customModule="TaskyBlocks" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5HO-jr-gYm">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="W8j-JI-ov6" customClass="MasterGraphingCollectionViewCell" customModule="TaskyBlocks" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="boh-bg-ILP" firstAttribute="bottom" secondItem="evK-rX-WZr" secondAttribute="bottom" id="3Cq-w8-Ynj"/>
+                            <constraint firstItem="boh-bg-ILP" firstAttribute="leading" secondItem="evK-rX-WZr" secondAttribute="leading" id="HUk-9s-ofI"/>
+                            <constraint firstItem="boh-bg-ILP" firstAttribute="top" secondItem="xYW-HL-rwl" secondAttribute="top" id="Wij-iO-QdQ"/>
+                            <constraint firstItem="boh-bg-ILP" firstAttribute="trailing" secondItem="evK-rX-WZr" secondAttribute="trailing" id="xpr-sb-Hgn"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="evK-rX-WZr"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j3v-wv-CYp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3354" y="-940"/>
+            <point key="canvasLocation" x="3352.8000000000002" y="-940.47976011994012"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IDV-Fe-vha">
