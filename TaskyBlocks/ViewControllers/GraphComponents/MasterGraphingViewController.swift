@@ -9,7 +9,9 @@
 import UIKit
 import RealmSwift
 
-class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource {
+class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource, LiquidLayoutDelegate {
+
+  
   
   
   //var realm: Realm!
@@ -17,8 +19,10 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   let filter = "completionDate == nil"
   let blockyAlpha: CGFloat = 0.75
   var blockyWidth: CGFloat = 123.5
-  let layout = UICollectionViewFlowLayout()
+  let layout = MasterGraphingCollectionViewLayout()
   //var subscription: NotificationToken?
+  let borderColor = UIColor.darkGray.cgColor
+  let highlightBorderColor = UIColor.yellow.cgColor
   var blockyBorder: CGFloat
   {
     get
@@ -44,7 +48,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   {
     get
     {
-      return CGSize.init(width: blockyWidth, height: blockyHeight)
+      return CGSize.init(width: blockyWidth, height: blockyHeight
+      )
     }
   }
   var selectedTask: TaskyNode!
@@ -55,10 +60,11 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    layout.itemSize = blockSize
+    layout.delegate = self
+    //layout.itemSize = blockSize
     //layout.estimatedItemSize = CGSize.init(width: 500, height: 500)
-    layout.minimumInteritemSpacing = 2
-    layout.minimumLineSpacing = 2
+    //layout.minimumInteritemSpacing = 2
+    //layout.minimumLineSpacing = 2
     //layout.sectionInset = .init(top: blockyHeight, left: blockyHeight, bottom: blockyWidth, right: blockyWidth)
     collectionView.collectionViewLayout = layout
     activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
@@ -78,6 +84,12 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     // Dispose of any resources that can be recreated.
   }
   
+ // MARK: Layout Tutorial method
+  func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat {
+    let randomHeight = Double((arc4random_uniform(3) + 1) * 100)
+    return CGFloat.init(randomHeight)
+  }
+  
   //MARK:  Realm notification
   
   //MARK: Collection View
@@ -89,31 +101,42 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "masterCollectionCell", for: indexPath) as! MasterGraphingCollectionViewCell
     let task = activeTaskySet[indexPath.row]
-    let taskyLabel = UILabel.init(frame: cell.bounds)
-    let taskyBlock = UIView()
     
-    cell.addSubview(taskyBlock)
-    taskyBlock.addSubview(taskyLabel)
+    if cell.isSelected
+    {
+      cell.layer.borderColor = highlightBorderColor
+    }
+    else
+    {
+      cell.layer.borderColor = borderColor
+    }
     
-    cell.frame.size = blockSize
+    cell.cellTitleLabel.text = task.title
+    
+    //let taskyLabel = UILabel.init(frame: cell.bounds)
+    //let taskyBlock = UIView()
+    
+    //cell.addSubview(taskyBlock)
+    //cell.addSubview(taskyLabel)
+    
+    //cell.frame.size = blockSize
     cell.alpha = blockyAlpha
     cell.backgroundColor = UIColor.clear
     cell.autoresizesSubviews = true
     
-    taskyBlock.frame = cell.bounds
-    taskyBlock.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-    taskyBlock.layer.borderWidth = blockyBorder
-    taskyBlock.layer.cornerRadius = blockyRadius
-    taskyBlock.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
-    taskyBlock.autoresizesSubviews = true
+    cell.layer.borderWidth = blockyBorder
+    cell.layer.cornerRadius = blockyRadius
+    cell.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
+    cell.autoresizesSubviews = true
     
-    taskyLabel.frame = taskyBlock.bounds
-    taskyLabel.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-    taskyLabel.text = "\(task.title)"//"\(task.priorityApparent)"
-    taskyLabel.textAlignment = .center
-    taskyLabel.numberOfLines = 0
-    taskyLabel.lineBreakMode = .byWordWrapping
-    taskyLabel.font.withSize(blockyWidth / 12)
+    cell.cellTitleLabel.frame = cell.bounds
+    cell.cellTitleLabel.frame.size.width = cell.frame.size.width - 4
+    cell.cellTitleLabel.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+    cell.cellTitleLabel.text = "\(task.title)"//"\(task.priorityApparent)"
+    cell.cellTitleLabel.textAlignment = .center
+    cell.cellTitleLabel.numberOfLines = 0
+    cell.cellTitleLabel.lineBreakMode = .byWordWrapping
+    cell.cellTitleLabel.font.withSize(blockyWidth / 12)
     
     return cell
   }
@@ -122,11 +145,20 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   {
     print(indexPath)
     self.selectedTask = activeTaskySet[indexPath[1]]
+    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
+    dataSetCell?.layer.borderColor = highlightBorderColor
     print(selectedTask.title)
     
     //TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
-    performSegue(withIdentifier: "priorityToDetail", sender: self)
-    self.collectionView.reloadData()
+    //performSegue(withIdentifier: "priorityToDetail", sender: self)
+    //DispatchQueue.main.async(execute: {)
+    //collectionView.reloadData()
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath)
+  {
+    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
+    dataSetCell?.layer.borderColor = borderColor
   }
   
   @IBAction func addButton(_ sender: Any)
@@ -157,6 +189,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
       return
     }
   }
+
   
   //Task Detail View Delegate
   func returnSelectedTask() -> TaskyNode {

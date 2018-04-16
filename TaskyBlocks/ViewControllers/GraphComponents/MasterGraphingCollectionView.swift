@@ -8,7 +8,13 @@
 
 import UIKit
 
-class MasterGraphingCollectionView: UICollectionView {
+class MasterGraphingCollectionView: UICollectionView, LiquidLayoutDelegate {
+  
+
+  func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat {
+   return CGFloat.init(10 % indexPath.row)
+  }
+  
 
     /*
     // Only override draw() if you perform custom drawing.
