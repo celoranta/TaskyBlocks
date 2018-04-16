@@ -50,6 +50,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   var selectedTask: TaskyNode!
 
   @IBOutlet weak var priorityCollectionView: UICollectionView!
+  @IBOutlet weak var deleteButton: UIBarButtonItem!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -61,6 +62,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     //layout.sectionInset = .init(top: blockyHeight, left: blockyHeight, bottom: blockyWidth, right: blockyWidth)
     priorityCollectionView.collectionViewLayout = layout
     activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
+    deleteButton.isEnabled = false
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -142,6 +144,8 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     case true:
       _ = TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
     }
+    var dataset = Set.init(TaskyNodeEditor.sharedInstance.database.filter(filter))
+    TaskyNode.updatePriorityFor(tasks: dataset, limit: 100)
     self.priorityCollectionView.reloadData()
   }
   

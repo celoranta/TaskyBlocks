@@ -100,14 +100,13 @@
         <!--Set Priority-->
         <scene sceneID="LIe-mk-t7V">
             <objects>
-                <viewController id="Wxc-uE-MJL" customClass="PriorityViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="Wxc-uE-MJL" customClass="PriorityViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Qru-TD-1LG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cBv-ss-brK">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cBv-ss-brK">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="luE-GL-NpW">
                                     <size key="itemSize" width="200" height="100"/>
@@ -147,6 +146,12 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="cBv-ss-brK" firstAttribute="top" secondItem="Qru-TD-1LG" secondAttribute="top" id="3aD-mu-UKd"/>
+                            <constraint firstAttribute="bottom" secondItem="cBv-ss-brK" secondAttribute="bottom" id="7Fg-2P-4pM"/>
+                            <constraint firstAttribute="trailing" secondItem="cBv-ss-brK" secondAttribute="trailing" id="fSL-HM-I8W"/>
+                            <constraint firstItem="cBv-ss-brK" firstAttribute="leading" secondItem="Qru-TD-1LG" secondAttribute="leading" id="zdJ-VE-QaX"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="rQn-3v-4Wt"/>
                     </view>
                     <toolbarItems>
@@ -173,6 +178,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="deleteButton" destination="cDF-Da-0wX" id="lpu-2R-BJf"/>
                         <outlet property="priorityCollectionView" destination="cBv-ss-brK" id="ghe-o8-8zZ"/>
                         <segue destination="myk-os-c8D" kind="presentation" identifier="priorityToDetail" id="BRB-dk-8Xj"/>
                     </connections>
@@ -633,7 +639,7 @@
                                     <segue destination="67f-rh-Kw2" kind="show" identifier="pomodoroToPerform" id="OBK-7S-0yY"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Td4-Mv-l46">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Td4-Mv-l46">
                                 <rect key="frame" x="146" y="577" width="83" height="30"/>
                                 <gestureRecognizers/>
                                 <state key="normal" title="Task Details"/>
@@ -688,10 +694,10 @@
             </objects>
             <point key="canvasLocation" x="5306" y="-1819"/>
         </scene>
-        <!--Sprint-->
+        <!--Item-->
         <scene sceneID="hko-hj-wbx">
             <objects>
-                <viewController title="Sprint" id="67f-rh-Kw2" customClass="PerformViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="67f-rh-Kw2" customClass="PerformViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xEF-Up-xcy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -827,7 +833,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ur-FN-S8h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6390" y="-1819"/>
+            <point key="canvasLocation" x="6230" y="-1819"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="CHY-a5-uSU">

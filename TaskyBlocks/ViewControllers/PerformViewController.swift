@@ -40,7 +40,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     super.viewDidLoad()
     try! realm = Realm()
     //let tasksData = realm.objects(TaskyNode.self).filter(filter)
-    
+    self.navigationController?.navigationBar.isHidden = true
     pickerArray = realm.objects(TaskyNode.self).filter(filter)
     //activeTaskySet = Set(tasks)
     titleButton = UIButton()
