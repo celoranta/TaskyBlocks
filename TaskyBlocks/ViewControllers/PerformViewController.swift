@@ -13,6 +13,7 @@ import RealmSwift //Remove once a read-only realm is created
 class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerViewDataSource, AppusCircleTimerDelegate {
   
   
+  @IBOutlet weak var winTasksButton: UIBarButtonItem!
   @IBOutlet weak var tasksLabel: UILabel!
   @IBOutlet weak var completeLabel: UILabel!
   @IBOutlet weak var tasksCompleteLabel: UILabel!
@@ -23,6 +24,8 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   @IBOutlet weak var taskPicker: UIPickerView!
   @IBAction func taskDetailButton(_ sender: Any) {
   }
+  @IBOutlet weak var leftSmallTimer: AppusCircleTimer!
+  @IBOutlet weak var rightSmalLTimer: AppusCircleTimer!
   
   var tasksData: Results<TaskyNode>!
   var timeToSet: Double = 45.00 * 60
@@ -56,6 +59,15 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     completeLabel.isHidden = true
     tasksCompleteLabel.isHidden = true
     
+    leftSmallTimer.thickness = 7
+    rightSmalLTimer.thickness = 7
+    leftSmallTimer.alpha = 0.4
+    rightSmalLTimer.alpha = 0.4
+    leftSmallTimer.isBackwards = true
+    rightSmalLTimer.isBackwards = true
+    leftSmallTimer.inactiveColor = UIColor.blue
+    rightSmalLTimer.inactiveColor = UIColor.blue
+    
     
     sprintTimer.delegate = self
     sprintTimer.elapsedTime = 0
@@ -70,13 +82,24 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     refreshView()
   }
   
+  fileprivate func checkPermanent() {
+    if self.performedTask.isPermanent == 1
+    {
+      self.winTasksButton.isEnabled = false
+    }
+    else
+    {
+      self.winTasksButton.isEnabled = true
+    }
+  }
+  
   func refreshView()
   {
     self.taskPicker.reloadAllComponents()
     self.taskPicker.setNeedsDisplay()
     tasksCompleteLabel.text = "\(tasksComplete)"
-    
     forceRow()
+    checkPermanent()
   }
   
   //MARK: Timer delegate funtions
@@ -112,9 +135,11 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   {
     self.performedTask = pickerArray[row]
     print("selected new task: \(performedTask)")
+    checkPermanent()
     titleButton.setTitle(performedTask.title, for: .normal)
     taskPicker.isHidden = true
     taskPicker.isUserInteractionEnabled = false
+    //refreshView()
     
   }
   

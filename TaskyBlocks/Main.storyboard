@@ -40,7 +40,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PtA-Iv-NK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9439" y="-1851"/>
+            <point key="canvasLocation" x="5311" y="5"/>
         </scene>
         <!--Priority-->
         <scene sceneID="tne-QT-ifu">
@@ -51,7 +51,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hsO-3l-fmH" customClass="TaskyGraphView" customModule="TaskyBlocks" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="375" height="544"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="593"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="lHz-Yz-RfM"/>
@@ -95,7 +95,7 @@
                     </connections>
                 </pinchGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="8498" y="-1852"/>
+            <point key="canvasLocation" x="4370" y="4"/>
         </scene>
         <!--Set Priority-->
         <scene sceneID="LIe-mk-t7V">
@@ -555,7 +555,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0fl-hs-cQ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10366" y="-1853"/>
+            <point key="canvasLocation" x="6239" y="3"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="OQ0-Mq-RqQ">
@@ -709,28 +709,6 @@
                                     <outlet property="delegate" destination="67f-rh-Kw2" id="8PH-4q-Unm"/>
                                 </connections>
                             </pickerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sg8-GR-BpS" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
-                                <rect key="frame" x="87" y="165.5" width="200" height="200.5"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <accessibility key="accessibilityConfiguration" identifier="sprint"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="inactiveColor">
-                                        <color key="value" red="0.29952795358154499" green="0.95686274510000002" blue="0.46059545891032533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="activeColor">
-                                        <color key="value" red="0.51645500690000001" green="1" blue="0.7007925277" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="pauseColor">
-                                        <color key="value" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="fontColor">
-                                        <color key="value" cocoaTouchSystemColor="darkTextColor"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="thickness">
-                                        <real key="value" value="11"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WNa-U7-8Wx">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <constraints>
@@ -791,14 +769,103 @@
                                 <color key="textColor" red="0.25807604287707331" green="0.82280103824720818" blue="0.40470430492558074" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uft-BK-o3M">
+                                <rect key="frame" x="87" y="157" width="200" height="201"/>
+                                <subviews>
+                                    <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="sg8-GR-BpS" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="201"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="sprint"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="inactiveColor">
+                                                <color key="value" red="0.29952795358154499" green="0.95686274510000002" blue="0.46059545891032533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="activeColor">
+                                                <color key="value" red="0.51645500690000001" green="1" blue="0.7007925277" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="pauseColor">
+                                                <color key="value" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="fontColor">
+                                                <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="thickness">
+                                                <real key="value" value="11"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="sg8-GR-BpS" secondAttribute="bottom" id="6tH-rX-mtf"/>
+                                    <constraint firstItem="sg8-GR-BpS" firstAttribute="top" secondItem="Uft-BK-o3M" secondAttribute="top" id="it6-Gh-nu9"/>
+                                    <constraint firstItem="sg8-GR-BpS" firstAttribute="leading" secondItem="Uft-BK-o3M" secondAttribute="leading" id="sYd-Kx-HHz"/>
+                                    <constraint firstAttribute="trailing" secondItem="sg8-GR-BpS" secondAttribute="trailing" id="zyi-hC-y4L"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="ZcO-lL-xd1" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
+                                <rect key="frame" x="38" y="308" width="89" height="90"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration" identifier="sprint"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="kPg-nH-kJs"/>
+                                    <constraint firstAttribute="width" constant="89" id="meY-rD-vAh"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="inactiveColor">
+                                        <color key="value" red="0.29952795360000001" green="0.95686274510000002" blue="0.46059545889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="activeColor">
+                                        <color key="value" red="0.51645500690000001" green="1" blue="0.7007925277" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="pauseColor">
+                                        <color key="value" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="fontColor">
+                                        <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="thickness">
+                                        <real key="value" value="11"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="xxj-Vh-hgt" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
+                                <rect key="frame" x="247" y="308" width="89" height="90"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration" identifier="sprint"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="ILx-1D-YNU"/>
+                                    <constraint firstAttribute="width" constant="89" id="WIw-eJ-FZ1"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="inactiveColor">
+                                        <color key="value" red="0.29952795360000001" green="0.95686274510000002" blue="0.46059545889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="activeColor">
+                                        <color key="value" red="0.51645500690000001" green="1" blue="0.7007925277" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="pauseColor">
+                                        <color key="value" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="fontColor">
+                                        <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="thickness">
+                                        <real key="value" value="11"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="sg8-GR-BpS" firstAttribute="leading" secondItem="ZcO-lL-xd1" secondAttribute="trailing" constant="-40" id="58Q-Vh-UlW"/>
                             <constraint firstItem="p8K-yA-f4A" firstAttribute="top" secondItem="hFW-H8-lml" secondAttribute="bottom" constant="7.5" id="7dh-wv-Z0t"/>
-                            <constraint firstItem="sg8-GR-BpS" firstAttribute="top" secondItem="p8K-yA-f4A" secondAttribute="bottom" constant="35" id="ESS-by-iq8"/>
-                            <constraint firstItem="mTV-6I-Xs1" firstAttribute="top" secondItem="sg8-GR-BpS" secondAttribute="bottom" constant="85" id="EfI-Kj-t0g"/>
+                            <constraint firstItem="xxj-Vh-hgt" firstAttribute="leading" secondItem="sg8-GR-BpS" secondAttribute="trailing" constant="-40" id="DyF-Ff-74V"/>
+                            <constraint firstItem="a6j-QE-Om6" firstAttribute="top" secondItem="sg8-GR-BpS" secondAttribute="bottom" constant="33" id="Ghc-du-Z7C"/>
+                            <constraint firstItem="Uft-BK-o3M" firstAttribute="top" secondItem="p8K-yA-f4A" secondAttribute="bottom" constant="26.5" id="LLr-1y-4MZ"/>
                             <constraint firstItem="3LU-H5-htc" firstAttribute="top" secondItem="a6j-QE-Om6" secondAttribute="bottom" constant="10" id="OJV-zn-wV1"/>
                             <constraint firstItem="bJc-GR-5Am" firstAttribute="centerX" secondItem="3LU-H5-htc" secondAttribute="centerX" id="PCQ-33-1PM"/>
+                            <constraint firstItem="xxj-Vh-hgt" firstAttribute="top" secondItem="sg8-GR-BpS" secondAttribute="bottom" constant="-50" id="R9p-LY-YYE"/>
                             <constraint firstItem="mTV-6I-Xs1" firstAttribute="top" secondItem="3LU-H5-htc" secondAttribute="bottom" constant="8" symbolic="YES" id="RVZ-Hh-DRD"/>
                             <constraint firstItem="mTV-6I-Xs1" firstAttribute="trailing" secondItem="NcY-hD-fHK" secondAttribute="trailing" id="Sg9-zU-ogp"/>
                             <constraint firstItem="hFW-H8-lml" firstAttribute="top" secondItem="WNa-U7-8Wx" secondAttribute="bottom" constant="18" id="W83-Pf-9Yn"/>
@@ -807,12 +874,14 @@
                             <constraint firstItem="WNa-U7-8Wx" firstAttribute="top" secondItem="NcY-hD-fHK" secondAttribute="top" id="cXe-nz-XWR"/>
                             <constraint firstItem="p8K-yA-f4A" firstAttribute="centerX" secondItem="xEF-Up-xcy" secondAttribute="centerX" id="gbY-6H-aQJ"/>
                             <constraint firstItem="hFW-H8-lml" firstAttribute="centerX" secondItem="xEF-Up-xcy" secondAttribute="centerX" id="hCp-Vw-cCp"/>
+                            <constraint firstItem="Uft-BK-o3M" firstAttribute="centerX" secondItem="NcY-hD-fHK" secondAttribute="centerX" id="hFn-lR-5AY"/>
                             <constraint firstItem="mTV-6I-Xs1" firstAttribute="top" secondItem="bJc-GR-5Am" secondAttribute="bottom" constant="31" id="hjO-yC-9hx"/>
                             <constraint firstItem="mTV-6I-Xs1" firstAttribute="leading" secondItem="NcY-hD-fHK" secondAttribute="leading" id="mI7-Lg-ECU"/>
-                            <constraint firstItem="sg8-GR-BpS" firstAttribute="leading" secondItem="NcY-hD-fHK" secondAttribute="leading" constant="87" id="n4v-r7-FzA"/>
+                            <constraint firstItem="Uft-BK-o3M" firstAttribute="leading" secondItem="NcY-hD-fHK" secondAttribute="leading" constant="87" id="p9u-ae-FXx"/>
                             <constraint firstItem="NcY-hD-fHK" firstAttribute="trailing" secondItem="WNa-U7-8Wx" secondAttribute="trailing" id="pyh-qO-bLN"/>
+                            <constraint firstItem="NcY-hD-fHK" firstAttribute="trailing" secondItem="Uft-BK-o3M" secondAttribute="trailing" constant="88" id="rgN-IX-IfX"/>
                             <constraint firstItem="3LU-H5-htc" firstAttribute="centerX" secondItem="mTV-6I-Xs1" secondAttribute="centerX" id="w5t-C5-tob"/>
-                            <constraint firstItem="NcY-hD-fHK" firstAttribute="trailing" secondItem="sg8-GR-BpS" secondAttribute="trailing" constant="88" id="x3h-Zg-eRV"/>
+                            <constraint firstItem="ZcO-lL-xd1" firstAttribute="top" secondItem="sg8-GR-BpS" secondAttribute="bottom" constant="-50" id="xYe-BP-9eO"/>
                             <constraint firstItem="mTV-6I-Xs1" firstAttribute="bottom" secondItem="NcY-hD-fHK" secondAttribute="bottom" id="xpf-6u-GmG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NcY-hD-fHK"/>
@@ -822,37 +891,21 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="completeLabel" destination="bJc-GR-5Am" id="yqM-2q-jwF"/>
+                        <outlet property="leftSmallTimer" destination="ZcO-lL-xd1" id="OA7-2c-kVe"/>
                         <outlet property="navBar" destination="fmV-Oa-flz" id="2cH-fa-as3"/>
+                        <outlet property="rightSmalLTimer" destination="xxj-Vh-hgt" id="Ayq-G9-f4E"/>
                         <outlet property="sprintTimer" destination="sg8-GR-BpS" id="vcR-VZ-Jzs"/>
                         <outlet property="taskPicker" destination="mTV-6I-Xs1" id="aNN-ca-IAO"/>
                         <outlet property="tasksCompleteLabel" destination="3LU-H5-htc" id="tPA-wY-UbT"/>
                         <outlet property="tasksLabel" destination="a6j-QE-Om6" id="FPz-bG-ISZ"/>
                         <outlet property="topScreenLabel1" destination="hFW-H8-lml" id="nQt-GJ-g2m"/>
                         <outlet property="topScreenLabel2" destination="p8K-yA-f4A" id="S1F-tj-tfz"/>
+                        <outlet property="winTasksButton" destination="tJw-pH-Frf" id="dgy-vP-vba"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ur-FN-S8h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6230" y="-1819"/>
-        </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="CHY-a5-uSU">
-            <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Xao-Xf-X2g" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="jjJ-0w-MMz"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cpa-6S-oe9">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="ubc-La-JBx"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="i97-ds-yIZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="7670" y="-1853"/>
+            <point key="canvasLocation" x="6229.6000000000004" y="-1819.3403298350827"/>
         </scene>
         <!--Settings Table View Controller-->
         <scene sceneID="hNT-Kw-7oV">
