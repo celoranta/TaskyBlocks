@@ -131,6 +131,8 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
       performViewController.timeToSet = self.timerSetValue
      // performViewController.pickerArray = self.pickerArray
       performViewController.performedTask = self.selectedItem
+      performViewController.previousViewController = self
+      performViewController.previousSegue = segue
  //     performViewController.tasksData = self.tasksData
       
     }

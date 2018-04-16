@@ -73,8 +73,6 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
   }
 
-  
-  
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
@@ -82,9 +80,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   
   //MARK:  Realm notification
 
-  
   //MARK: Collection View
-  
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return activeTaskySet.count
   }
@@ -144,11 +140,10 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     case true:
       _ = TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
     }
-    var dataset = Set.init(TaskyNodeEditor.sharedInstance.database.filter(filter))
+    let dataset = Set.init(TaskyNodeEditor.sharedInstance.database.filter(filter))
     TaskyNode.updatePriorityFor(tasks: dataset, limit: 100)
     self.priorityCollectionView.reloadData()
   }
-  
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     switch segue.identifier

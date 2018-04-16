@@ -34,6 +34,8 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   var titleButton: UIButton!
   var tasksComplete: Int = 0
   var filter = "completionDate == nil"
+  var previousViewController: UIViewController!
+  var previousSegue: UIStoryboardSegue!
   
   var realm: Realm!
   var activeTaskySet: Set<TaskyNode>!
@@ -154,11 +156,16 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   
   func shuffle()
   {
-    let arrayMaxIndexInt = (pickerArray.count - 1)
+    let arrayMaxIndexInt = (pickerArray.count)
     let arrayMaxIndexInt32 = UInt32(arrayMaxIndexInt)
     let randomIndexUInt32 = arc4random_uniform(arrayMaxIndexInt32)
     let randomIndex = Int(randomIndexUInt32)
     performedTask = pickerArray[randomIndex]
+    if performedTask.isPermanent == 1 && pickerArray.count > 1
+    {
+      shuffle()
+    }
+    
     refreshView()
   }
   
@@ -192,7 +199,6 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     if let uindex = index
     {
   
-      //pickerArray.remove(at: uindex)
       if uindex >= pickerArray.count
       {
         uindex2 = uindex - 1
@@ -204,13 +210,14 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
       quitButton(self)
       return
     }
-    performedTask = pickerArray[uindex2]
-    refreshView()
+    shuffle()
   }
   
   //Mark: Actions
   @IBAction func quitButton(_ sender: Any) {
-    self.dismiss(animated: true, completion: nil)
+   self.dismiss(animated: true, completion: nil)
+    //self.unwind(for: previousSegue, towardsViewController: previousViewController)
+
   }
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
