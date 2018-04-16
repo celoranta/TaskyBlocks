@@ -201,8 +201,6 @@ class TaskyNodeEditor: NSObject {
     print("New write session opened")
   }
 
-  
-  
   //MARK: Initializers
   override private init()
   {
@@ -240,5 +238,62 @@ class TaskyNodeEditor: NSObject {
     print("editor deinitialization:")
     print("Saved changes and closed write session")
     print("Realm instance closed")
+  }
+  
+  func createRandomTasks(qty: Int)
+  {
+    let nodeA = newTask()
+    let nodeB = newTask()
+    let nodeC = newTask()
+    let nodeD = newTask()
+    let nodeE = newTask()
+    let nodeF = newTask()
+    let nodeG = newTask()
+    let nodeH = newTask()
+    let nodeI = newTask()
+    let nodeJ = newTask()
+    let nodeK = newTask()
+    let nodeL = newTask()
+    
+    var randomTaskSet: Set<TaskyNode> = []
+    
+    randomTaskSet.insert(nodeA)
+    randomTaskSet.insert(nodeB)
+    randomTaskSet.insert(nodeC)
+    randomTaskSet.insert(nodeD)
+    randomTaskSet.insert(nodeE)
+    randomTaskSet.insert(nodeF)
+    randomTaskSet.insert(nodeG)
+    randomTaskSet.insert(nodeH)
+    randomTaskSet.insert(nodeI)
+    randomTaskSet.insert(nodeJ)
+    randomTaskSet.insert(nodeK)
+    randomTaskSet.insert(nodeL)
+    
+    var verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate", "Flog", "Threaten", "Pacify", "Enrage", "Bewilder", "Frighten", "Placate", "Interrogate", "Moisten", "Shuck", "Wax", "Surveil", "Alarm", "Annoy", "Frustrate", "Telephone", "Buffalo", "Berate", "Seduce", "Scrub"]
+    var nouns = ["Dog", "Dishes", "Car", "Neighbors", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws", "Cat", "Baby", "Shed", "TV", "Light Fixtures", "Neighborhood", "Rent", "China", "Taxes", "Deacon", "Postman", "Telephone", "Buffalo", "Local Urchins", "Garbage"]
+    
+    for task in randomTaskSet
+    {
+      realm.add(task, update: true)
+      let verbQty = UInt32(verbs.count)
+      let nounQty = UInt32(nouns.count)
+      let rand1 = Int(arc4random_uniform(verbQty - 1))
+      let rand2 = Int(arc4random_uniform(nounQty - 1))
+      let nameString = "\(verbs.remove(at: Int(rand1))) the \(nouns.remove(at: rand2))"
+      let randomPriority = Double(arc4random_uniform(99) + 1)
+      TaskyNodeEditor.sharedInstance.setDirectPriority(of: task, to: randomPriority)
+      TaskyNodeEditor.sharedInstance.changeTitle(task: task, to: nameString)
+      let taskDescription =
+      """
+      Spicy jalapeno bacon ipsum dolor amet consequat ipsum fugiat jowl ut elit occaecat strip steak. Reprehenderit chuck tempor laborum bresaola dolore irure. Brisket tenderloin esse kielbasa culpa mollit ut. Consectetur in ham pork loin, hamburger burgdoggen corned beef tempor dolore cupim laboris ut enim pork chop kevin.
+      
+      Ullamco eiusmod alcatra veniam brisket, ad ipsum venison ea jowl. Officia laboris drumstick bacon, labore duis boudin tempor. Sirloin ut ball tip in corned beef. Officia elit eiusmod, nulla tri-tip swine aliquip. Officia consequat picanha esse in pastrami, biltong reprehende
+      """
+   TaskyNodeEditor.sharedInstance.updateTaskDescription(for: task, with: taskDescription)
+
+    }
+    
+    saveChanges()
   }
 }

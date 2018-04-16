@@ -10,26 +10,28 @@ import UIKit
 import RealmSwift
 
 class SplashViewController: UIViewController {
-    var taskManager = TaskyNodeManager()
-
+  var taskManager = TaskyNodeManager()
+  
   override func viewDidLoad()
   {
     super.viewDidLoad()
     if TaskyNodeEditor.sharedInstance.database.count == 0
     {
       let testNewTask = TaskyNodeEditor.sharedInstance.newTask()
-
+      
       TaskyNodeEditor.sharedInstance.makePermanent(task: testNewTask)
       TaskyNodeEditor.sharedInstance.changeTitle(task: testNewTask, to: "Be Happy")
       TaskyNodeEditor.sharedInstance.setDirectPriority(of: testNewTask, to: 100.00)
       TaskyNodeEditor.sharedInstance.complete(task: testNewTask)
       testNewTask.soundOff()
     }
+    //TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
+    
   }
-
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+  
+  override func didReceiveMemoryWarning()
+  {
+    super.didReceiveMemoryWarning()
+    // Dispose of any resources that can be recreated.
+  }
 }

@@ -18,6 +18,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   let blockyAlpha: CGFloat = 0.75
   var blockyWidth: CGFloat = 123.5
   let layout = UICollectionViewFlowLayout()
+  //var subscription: NotificationToken?
   var blockyBorder: CGFloat
   {
     get
@@ -67,10 +68,16 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     priorityCollectionView.reloadData()
   }
   
+  
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
+  
+  //MARK:  Realm notification
+
+  
+  //MARK: Collection View
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return activeTaskySet.count
