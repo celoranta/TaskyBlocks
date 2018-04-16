@@ -8,14 +8,14 @@
 
 import UIKit
 
-public protocol LiquidLayoutDelegate {
+public protocol TaskyGraphingDelegate {
   func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat
 }
 
 public class MasterGraphingCollectionViewLayout: UICollectionViewLayout {
   
-  var delegate: LiquidLayoutDelegate!
-  var cellPadding: CGFloat = 10.0
+  var delegate: TaskyGraphingDelegate!
+  var cellPadding: CGFloat = 2
   var cellWidth: CGFloat = 150.0
   var cachedWidth: CGFloat = 0.0
   

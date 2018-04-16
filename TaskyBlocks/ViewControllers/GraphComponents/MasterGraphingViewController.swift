@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource, LiquidLayoutDelegate {
+class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource, TaskyGraphingDelegate {
 
   
   
@@ -23,6 +23,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   //var subscription: NotificationToken?
   let borderColor = UIColor.darkGray.cgColor
   let highlightBorderColor = UIColor.yellow.cgColor
+  var selectedTask: TaskyNode!
   var blockyBorder: CGFloat
   {
     get
@@ -52,7 +53,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
       )
     }
   }
-  var selectedTask: TaskyNode!
+
   
   @IBOutlet weak var collectionView: UICollectionView!
   @IBOutlet weak var deleteButton: UIBarButtonItem!
@@ -102,14 +103,14 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "masterCollectionCell", for: indexPath) as! MasterGraphingCollectionViewCell
     let task = activeTaskySet[indexPath.row]
     
-    if cell.isSelected
-    {
-      cell.layer.borderColor = highlightBorderColor
-    }
-    else
-    {
+//    if cell.isSelected
+//    {
+//      cell.layer.borderColor = highlightBorderColor
+//    }
+//    else
+//    {
       cell.layer.borderColor = borderColor
-    }
+//    }
     
     cell.cellTitleLabel.text = task.title
     
@@ -117,9 +118,11 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     //let taskyBlock = UIView()
     
     //cell.addSubview(taskyBlock)
-    //cell.addSubview(taskyLabel)
+    //taskyBlock.addSubview(taskyLabel)
+    //taskyBlock.color = UIColor.clear
+
     
-    //cell.frame.size = blockSize
+    //taskyBlock.frame.size = cell.frame.size
     cell.alpha = blockyAlpha
     cell.backgroundColor = UIColor.clear
     cell.autoresizesSubviews = true
@@ -130,7 +133,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     cell.autoresizesSubviews = true
     
     cell.cellTitleLabel.frame = cell.bounds
-    cell.cellTitleLabel.frame.size.width = cell.frame.size.width - 4
+    cell.cellTitleLabel.frame.size.width = blockyWidth
     cell.cellTitleLabel.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     cell.cellTitleLabel.text = "\(task.title)"//"\(task.priorityApparent)"
     cell.cellTitleLabel.textAlignment = .center
@@ -141,25 +144,38 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     return cell
   }
   
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
-  {
-    print(indexPath)
-    self.selectedTask = activeTaskySet[indexPath[1]]
-    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
-    dataSetCell?.layer.borderColor = highlightBorderColor
-    print(selectedTask.title)
-    
-    //TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
-    //performSegue(withIdentifier: "priorityToDetail", sender: self)
-    //DispatchQueue.main.async(execute: {)
-    //collectionView.reloadData()
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath)
-  {
-    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
-    dataSetCell?.layer.borderColor = borderColor
-  }
+//  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+//  {
+//    print(indexPath)
+//
+//    let newSelectedTask = activeTaskySet[indexPath[1]]
+//    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
+//
+//    print(newSelectedTask.title)
+//    if let newSelectedTask = selectedTask
+//    {
+//      selectedTask = newSelectedTask
+//      dataSetCell?.layer.borderColor = highlightBorderColor
+//      print("was selected")
+//      //TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
+//      //performSegue(withIdentifier: "priorityToDetail", sender: self)
+//      //DispatchQueue.main.async(execute: {)
+//      self.collectionView.reloadData()
+//
+//    }
+//    else
+//    {
+//      selectedTask = nil
+//      dataSetCell?.layer.borderColor = borderColor
+//      print("was deselected")
+//  }
+//  }
+//  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath)
+//  {
+//    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
+//    dataSetCell?.layer.borderColor = borderColor
+//    self.collectionView.reloadData()
+//  }
   
   @IBAction func addButton(_ sender: Any)
   {

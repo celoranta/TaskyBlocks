@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MasterGraphingCollectionView: UICollectionView, LiquidLayoutDelegate {
+class MasterGraphingCollectionView: UICollectionView, TaskyGraphingDelegate {
   
 
   func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat {
