@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class SplashViewController: UIViewController {
-  var taskManager = TaskyNodeManager()
+ // var taskManager = TaskyNodeManager()
   
   
   override func viewDidLoad()

@@ -872,10 +872,10 @@
             </objects>
             <point key="canvasLocation" x="5265" y="-2664"/>
         </scene>
-        <!--View Controller-->
+        <!--Master Graphing View Controller-->
         <scene sceneID="2wD-7d-ANa">
             <objects>
-                <viewController id="Ctb-Gs-A1V" sceneMemberID="viewController">
+                <viewController id="Ctb-Gs-A1V" customClass="MasterGraphingViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xYW-HL-rwl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -10,7 +10,7 @@ import UIKit
 
 
 class SettingsTableViewController: UITableViewController {
-  var taskManager: TaskyNodeManager!
+//  var taskManager: TaskyNodeManager!
   let settingsDictionary: [Int : Any] = [:]
  // var tasksData: TaskDataSource!
   
