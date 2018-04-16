@@ -66,7 +66,11 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   override func viewWillAppear(_ animated: Bool) {
     TaskyNode.updatePriorityFor(tasks: Set.init(TaskyNodeEditor.sharedInstance.database.filter(self.filter)),limit: 100)
     priorityCollectionView.reloadData()
+    if let nav = self.navigationController {
+      nav.isToolbarHidden = false
+    }
   }
+
   
   
   override func didReceiveMemoryWarning() {
@@ -129,9 +133,18 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   
   @IBAction func addButton(_ sender: Any)
   {
+    let userSettings = UserDefaults()
+    let random = userSettings.bool(forKey: "NewTasksAreRandom")
+    switch random
+    {
+    case false:
     _ = TaskyNodeEditor.sharedInstance.newTask()
+    case true:
+      _ = TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
+    }
     self.priorityCollectionView.reloadData()
   }
+  
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     switch segue.identifier

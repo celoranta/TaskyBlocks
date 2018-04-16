@@ -13,10 +13,14 @@ class SettingsTableViewController: UITableViewController {
   var taskManager: TaskyNodeManager!
   let settingsDictionary: [Int : Any] = [:]
  // var tasksData: TaskDataSource!
+  
+  
+  //MARK: Outlets
+  @IBOutlet weak var randomSwitchOutlet: UISwitch!
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
-      
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -28,6 +32,13 @@ class SettingsTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    let userSettings = UserDefaults()
+    let randomSwitchSetting = userSettings.bool(forKey: "NewTasksAreRandom")
+    self.randomSwitchOutlet.setOn(randomSwitchSetting, animated: false)
+
+  }
 
     // MARK: - Table view data source
 
@@ -41,7 +52,17 @@ class SettingsTableViewController: UITableViewController {
         return 1
     }
 
-    /*
+  @IBAction func exitButton(_ sender: Any) {
+    self.dismiss(animated: true, completion: nil)
+  }
+  
+  @IBAction func randomSwitch2(_ sender: UISwitch) {
+    let userSettings = UserDefaults()
+    print("RandomSwitch2 method thrown")
+    userSettings.set(sender.isOn, forKey: "NewTasksAreRandom")
+  }
+}
+  /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
@@ -96,5 +117,3 @@ class SettingsTableViewController: UITableViewController {
     }
     */
 
-  
-}

@@ -12,6 +12,7 @@ import RealmSwift
 class SplashViewController: UIViewController {
   var taskManager = TaskyNodeManager()
   
+  
   override func viewDidLoad()
   {
     super.viewDidLoad()
@@ -24,9 +25,19 @@ class SplashViewController: UIViewController {
       TaskyNodeEditor.sharedInstance.setDirectPriority(of: testNewTask, to: 100.00)
       TaskyNodeEditor.sharedInstance.complete(task: testNewTask)
       testNewTask.soundOff()
+      let userSettings = UserDefaults()
+      let settingsExist = userSettings.bool(forKey: "DefaultsPreviouslyLoaded")
+      if settingsExist == false
+      {
+        self.loadUserDefaults()
+      }
     }
-    //TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
-    
+  }
+  
+  fileprivate func loadUserDefaults() {
+    let userSettings = UserDefaults()
+    userSettings.set(false, forKey: "NewTasksAreRandom")
+    userSettings.set(true, forKey: "DefaultsPreviouslyLoaded")
   }
   
   override func didReceiveMemoryWarning()

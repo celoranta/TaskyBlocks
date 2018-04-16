@@ -242,33 +242,13 @@ class TaskyNodeEditor: NSObject {
   
   func createRandomTasks(qty: Int)
   {
-    let nodeA = newTask()
-    let nodeB = newTask()
-    let nodeC = newTask()
-    let nodeD = newTask()
-    let nodeE = newTask()
-    let nodeF = newTask()
-    let nodeG = newTask()
-    let nodeH = newTask()
-    let nodeI = newTask()
-    let nodeJ = newTask()
-    let nodeK = newTask()
-    let nodeL = newTask()
-    
-    var randomTaskSet: Set<TaskyNode> = []
-    
-    randomTaskSet.insert(nodeA)
-    randomTaskSet.insert(nodeB)
-    randomTaskSet.insert(nodeC)
-    randomTaskSet.insert(nodeD)
-    randomTaskSet.insert(nodeE)
-    randomTaskSet.insert(nodeF)
-    randomTaskSet.insert(nodeG)
-    randomTaskSet.insert(nodeH)
-    randomTaskSet.insert(nodeI)
-    randomTaskSet.insert(nodeJ)
-    randomTaskSet.insert(nodeK)
-    randomTaskSet.insert(nodeL)
+    var randomTaskSet: [TaskyNode] = []
+    for _ in 0..<qty
+    {
+      let newTasky = TaskyNode()
+      randomTaskSet.append(newTasky)
+    }
+
     
     var verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate", "Flog", "Threaten", "Pacify", "Enrage", "Bewilder", "Frighten", "Placate", "Interrogate", "Moisten", "Shuck", "Wax", "Surveil", "Alarm", "Annoy", "Frustrate", "Telephone", "Buffalo", "Berate", "Seduce", "Scrub"]
     var nouns = ["Dog", "Dishes", "Car", "Neighbors", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws", "Cat", "Baby", "Shed", "TV", "Light Fixtures", "Neighborhood", "Rent", "China", "Taxes", "Deacon", "Postman", "Telephone", "Buffalo", "Local Urchins", "Garbage"]

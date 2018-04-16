@@ -80,10 +80,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   
   fileprivate func prepareView()
   {
-    if activeTaskySet.count == 1
-    {
-      super.tabBarController!.selectedIndex = 1
-    }
+
     taskDetailButton.isEnabled = false
     goTimeButton.isEnabled = false
     goTimeButton.alpha = 0.25
