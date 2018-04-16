@@ -42,11 +42,6 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     prepareView()
   self.goTimeButton.setTitle("Go Time!", for: .normal)
   self.goTimeButton.setTitle("Choose" , for: .disabled)
-    if activeTaskySet.count == 0
-    {
-      
-    }
-
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -131,13 +126,14 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
       performViewController.timeToSet = self.timerSetValue
      // performViewController.pickerArray = self.pickerArray
       performViewController.performedTask = self.selectedItem
-      performViewController.previousViewController = self
-      performViewController.previousSegue = segue
  //     performViewController.tasksData = self.tasksData
       
     }
   }
-  
+  @IBAction func unwindSegue(segue: UIStoryboardSegue)
+  {
+   print("This is unwinding")
+  }
   @IBAction func goDoubleTap(_ sender: UIButton)
   {
   }

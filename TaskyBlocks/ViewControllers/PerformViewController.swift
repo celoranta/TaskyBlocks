@@ -13,6 +13,7 @@ import RealmSwift //Remove once a read-only realm is created
 class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerViewDataSource, AppusCircleTimerDelegate {
   
   
+  @IBOutlet weak var quitButtonOutlet: UIBarButtonItem!
   @IBOutlet weak var winTasksButton: UIBarButtonItem!
   @IBOutlet weak var tasksLabel: UILabel!
   @IBOutlet weak var completeLabel: UILabel!
@@ -22,8 +23,6 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   @IBOutlet weak var topScreenLabel1: UILabel!
   @IBOutlet weak var sprintTimer: AppusCircleTimer!
   @IBOutlet weak var taskPicker: UIPickerView!
-  @IBAction func taskDetailButton(_ sender: Any) {
-  }
   @IBOutlet weak var leftSmallTimer: AppusCircleTimer!
   @IBOutlet weak var rightSmalLTimer: AppusCircleTimer!
   
@@ -34,12 +33,9 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   var titleButton: UIButton!
   var tasksComplete: Int = 0
   var filter = "completionDate == nil"
-  var previousViewController: UIViewController!
-  var previousSegue: UIStoryboardSegue!
   
   var realm: Realm!
   var activeTaskySet: Set<TaskyNode>!
-  
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -169,6 +165,11 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     refreshView()
   }
   
+  func unwindSegueToPomodoro(sender: Any?)
+  {
+    self.performSegue(withIdentifier: "unwindToPomodoro", sender: sender)
+  }
+  
   @objc func titleButtonClick()
   {
     if taskPicker.isHidden == true
@@ -183,10 +184,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     }
   }
   
-  @IBAction func shuffleButton(_ sender: Any) {
-    
-  }
-  
+
   @IBAction func markCompletePress(_ sender: Any) {
     TaskyNodeEditor.sharedInstance.complete(task: performedTask)
     completeLabel.isHidden = false
@@ -194,20 +192,19 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     tasksCompleteLabel.isHidden = false
     tasksComplete += 1
     tasksCompleteLabel.text = "\(tasksComplete)"
-    let index = pickerArray.index(of: performedTask)
-    var uindex2 = 0
-    if let uindex = index
-    {
-  
-      if uindex >= pickerArray.count
-      {
-        uindex2 = uindex - 1
-      }
-    }
+//    let index = pickerArray.index(of: performedTask)
+//    var uindex2 = 0
+//    if let uindex = index
+//    {
+//      if uindex >= pickerArray.count
+//      {
+//        uindex2 = uindex - 1
+//      }
+//    }
     guard pickerArray.count != 0
       else
     {
-      quitButton(self)
+      unwindSegueToPomodoro(sender: self)
       return
     }
     shuffle()
@@ -215,8 +212,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   
   //Mark: Actions
   @IBAction func quitButton(_ sender: Any) {
-   self.dismiss(animated: true, completion: nil)
-    //self.unwind(for: previousSegue, towardsViewController: previousViewController)
+  unwindSegueToPomodoro(sender: self)
 
   }
   override func didReceiveMemoryWarning() {
