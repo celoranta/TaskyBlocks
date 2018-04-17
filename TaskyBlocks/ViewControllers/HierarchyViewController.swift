@@ -27,7 +27,7 @@ class HierarchyViewController: MasterGraphingViewController {
   override func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat
   {
     //set cell height here
-    return CGFloat(MasterGraphingCollectionViewCell.blockyHeight)
+    return CGFloat(blockyHeight)
   }
   
   //MARK: Actions

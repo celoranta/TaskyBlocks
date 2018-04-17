@@ -22,6 +22,24 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   let blockyAlpha: CGFloat = 0.75
   let highlightBorderColor = UIColor.yellow.cgColor
   var selectedTask: TaskyNode!
+  var cellTitleLabel: UILabel!
+  let borderColor = UIColor.darkGray.cgColor
+var blockyWidth: CGFloat = 123.5
+var blockyHeight: CGFloat
+  {get
+  {return blockyWidth * 0.5
+    }
+  }
+  var blockyBorder: CGFloat
+  {get
+  {return blockyHeight * 0.05
+    }
+  }
+  var blockyRadius: CGFloat
+  {get
+  {return blockyHeight * 0.2
+    }
+  }
 
   fileprivate var longPressGesture: UILongPressGestureRecognizer!
 
@@ -33,12 +51,16 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     filter = "completionDate == nil"
     collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
     self.view.addSubview(collectionView)
-  let cell = MasterGraphingCollectionViewCell()
-    collectionView.register(UICo, forCellWithReuseIdentifier: "masterCollectionCell")
+
+    collectionView.register(MasterGraphingCollectionViewCell.self, forCellWithReuseIdentifier: "masterCollectionCell")
     collectionView.backgroundColor = UIColor.white
     customLayout.delegate = self
+    collectionView.delegate = self
+    collectionView.dataSource = self
     activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
     self.navigationController?.toolbar.isHidden = false
+
+    
     
     //enable block dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
@@ -59,7 +81,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat
   {
     //set cell height here
-    return CGFloat(MasterGraphingCollectionViewCell.blockyHeight)
+    return CGFloat(blockyHeight)
   }
   
   //MARK: Collection View
@@ -72,7 +94,22 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
 
     let task = activeTaskySet[indexPath.row]
     cell.alpha = blockyAlpha
-    cell.setupCell(task: task)
+    cell.layer.borderColor = borderColor
+    cell.autoresizesSubviews = true
+    cell.layer.borderWidth = blockyBorder
+    cell.layer.cornerRadius = blockyRadius
+    cellTitleLabel = UILabel()
+    cell.addSubview(cellTitleLabel)
+    cellTitleLabel.frame = cell.bounds
+    cellTitleLabel.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+    cellTitleLabel.textAlignment = .center
+    cellTitleLabel.numberOfLines = 0
+    cellTitleLabel.lineBreakMode = .byWordWrapping
+
+    
+    self.cellTitleLabel.text = task.title
+    cell.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
+    
     return cell
   }
   
