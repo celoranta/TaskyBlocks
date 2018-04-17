@@ -1,18 +1,23 @@
 //
-//  DependencyViewController.swift
-//  TestOrdinatorGraphics
+//  FinalDependenceViewController.swift
+//  TaskyBlocks
 //
-//  Created by Chris Eloranta on 2018-04-03.
+//  Created by Chris Eloranta on 2018-04-17.
 //  Copyright © 2018 Christopher Eloranta. All rights reserved.
 //
 
 import UIKit
 
-class DependencyViewController: UIViewController {
+class FinalDependenceViewController: MasterGraphingViewController {
 
     override func viewDidLoad() {
+      filter = "completionDate == nil"
+      customLayout = FinalDependenceCollectionViewLayout()
+     // collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
+      nextViewController = FinalPriorityViewController()
         super.viewDidLoad()
 
+      
         // Do any additional setup after loading the view.
     }
 

@@ -1,5 +1,5 @@
 //
-//  HierarchyViewController.swift
+//  FinalHierarchyViewController.swift
 //  TestOrdinatorGraphics
 //
 //  Created by Chris Eloranta on 2018-04-03.
@@ -8,14 +8,17 @@
 
 import UIKit
 
-class HierarchyViewController: MasterGraphingViewController {
+class FinalHierarchyViewController: MasterGraphingViewController {
 
   
   override func viewDidLoad() {
-    super.viewDidLoad()
+    
     filter = "completionDate == nil"
     customLayout = HierarchyCollectionViewLayout()
-    // Do any additional setup after loading the view.
+   // collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
+    nextViewController = FinalDependenceViewController()
+    super.viewDidLoad()
+
 
   }
   
@@ -51,7 +54,7 @@ class HierarchyViewController: MasterGraphingViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     switch segue.identifier
     {
-    case "priorityToDetail":
+    case "HierarchyToDetail":
       print("prepare for segue to detail with \(selectedTask.title) selected was called")
       let detailVC = segue.destination.childViewControllers.first as! DetailViewController
       detailVC.taskDetailDataSource = self as TaskDetailDataSource

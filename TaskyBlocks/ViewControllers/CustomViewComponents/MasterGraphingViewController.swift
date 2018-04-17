@@ -5,7 +5,24 @@
 //  Created by Chris Eloranta on 2018-04-13.
 //  Copyright © 2018 Christopher Eloranta. All rights reserved.
 //
-
+/*
+ let rightBarButtonItem: UIBarButtonItem = {
+ let barButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: nil)
+ barButtonItem.tintColor = UIColor.blue
+ return barButtonItem
+ }()
+ 
+ override func viewDidLoad() {
+ super.viewDidLoad()
+ 
+ // Do any additional setup after loading the view.
+ view.backgroundColor = UIColor.blue
+ 
+ self.title = "Login"
+ 
+ self.navigationItem.rightBarButtonItem = rightBarButtonItem
+ }
+ */
 import UIKit
 import RealmSwift
 
@@ -13,11 +30,11 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
 
   //MARK: Dependency Injection / Override Properies
 
-  var customLayout: MasterGraphingCollectionViewLayout!
-  var filter: String!
+  var customLayout = MasterGraphingCollectionViewLayout()
+  var filter = "completionDate == nil"
   
   //MARK: Static and Calculated Properties
-    var collectionView: UICollectionView!
+  var collectionView: UICollectionView!
   var activeTaskySet: Results<TaskyNode>!
   let blockyAlpha: CGFloat = 0.75
   let highlightBorderColor = UIColor.yellow.cgColor
@@ -40,18 +57,23 @@ var blockyHeight: CGFloat
   {return blockyHeight * 0.2
     }
   }
-
+  
+  let rightBarButtonItem: UIBarButtonItem = {
+    let barButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: nil)
+    barButtonItem.tintColor = UIColor.blue
+    return barButtonItem
+    
+  }()
+  var nextViewController: UIViewController? = nil
+  
   fileprivate var longPressGesture: UILongPressGestureRecognizer!
 
   override func viewDidLoad()
   {
     super.viewDidLoad()
     
-    customLayout = MasterGraphingCollectionViewLayout()
-    filter = "completionDate == nil"
     collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
     self.view.addSubview(collectionView)
-
     collectionView.register(MasterGraphingCollectionViewCell.self, forCellWithReuseIdentifier: "masterCollectionCell")
     collectionView.backgroundColor = UIColor.white
     customLayout.delegate = self
@@ -59,8 +81,11 @@ var blockyHeight: CGFloat
     collectionView.dataSource = self
     activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
     self.navigationController?.toolbar.isHidden = false
-
+    self.title = "Login"
     
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem
+    rightBarButtonItem.target = self
+    rightBarButtonItem.action = #selector(doneButton(_:))
     
     //enable block dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
@@ -70,12 +95,23 @@ var blockyHeight: CGFloat
   
   override func viewWillAppear(_ animated: Bool)
   {
+    
     TaskyNode.updatePriorityFor(tasks: Set.init(TaskyNodeEditor.sharedInstance.database.filter("completionDate == nil")),limit: 100)
     collectionView.reloadData()
     if let nav = self.navigationController {
       nav.isToolbarHidden = false
     }
+    let activeTaskyCache = activeTaskySet
+    let nullFilter = NSPredicate.init(value: false)
+    activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(nullFilter)
+    self.collectionView.reloadData()
+    activeTaskySet = activeTaskyCache
+    self.collectionView.reloadData()
   }
+  
+//  override func viewWillDisappear(_ animated: true) {
+//
+//  }
   
  // MARK: Custom Layout Method
   func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat
@@ -91,7 +127,10 @@ var blockyHeight: CGFloat
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "masterCollectionCell", for: indexPath) as! MasterGraphingCollectionViewCell
-
+    for oldSubview in cell.subviews
+    {
+      oldSubview.removeFromSuperview()
+    }
     let task = activeTaskySet[indexPath.row]
     cell.alpha = blockyAlpha
     cell.layer.borderColor = borderColor
@@ -112,6 +151,8 @@ var blockyHeight: CGFloat
     
     return cell
   }
+  
+  
   
 //  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
 //  {
@@ -200,20 +241,36 @@ var blockyHeight: CGFloat
 //    TaskyNode.updatePriorityFor(tasks: dataset, limit: 100)
 //    self.collectionView.reloadData()
 //  }
+
+  //MARK: Actions
   
-//  //MARK: Segues
-//  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//    switch segue.identifier
-//    {
-//    case "priorityToDetail":
-//      print("prepare for segue to detail with \(selectedTask.title) selected was called")
-//      let detailVC = segue.destination.childViewControllers.first as! DetailViewController
-//      detailVC.taskDetailDataSource = self as TaskDetailDataSource
-//      detailVC.task = selectedTask
-//    default:
-//      return
-//    }
-//  }
+  @objc func doneButton(_ sender: UIBarButtonItem)
+  {
+    print("Done button pressed")
+    if let unwrappedNextVC = nextViewController
+    {
+        navigationController?.pushViewController(unwrappedNextVC, animated: true)
+   // let segue = UIStoryboardSegue.init(identifier: "ToNext", source: self, destination: unwrappedNextVC)
+   // performSegue(withIdentifier: "ToNext", sender: self)
+    }
+
+  }
+  
+  //MARK: Segues
+
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    switch segue.identifier
+    {
+    case "priorityToDetail":
+      print("prepare for segue to detail with \(selectedTask.title) selected was called")
+      let detailVC = segue.destination.childViewControllers.first as! DetailViewController
+      detailVC.taskDetailDataSource = self as TaskDetailDataSource
+      detailVC.task = selectedTask
+    default:
+      return
+    }
+  }
   
   //Task Detail View Delegate
   func returnSelectedTask() -> TaskyNode {
