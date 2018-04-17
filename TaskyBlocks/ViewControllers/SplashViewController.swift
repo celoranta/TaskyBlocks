@@ -29,12 +29,12 @@ class SplashViewController: UIViewController {
       let settingsExist = userSettings.bool(forKey: "DefaultsPreviouslyLoaded")
       if settingsExist == false
       {
-        self.loadUserDefaults()
+        self.configureInitialUserDefaults()
       }
     }
   }
   
-  fileprivate func loadUserDefaults() {
+  fileprivate func configureInitialUserDefaults() {
     let userSettings = UserDefaults()
     userSettings.set(false, forKey: "NewTasksAreRandom")
     userSettings.set(true, forKey: "DefaultsPreviouslyLoaded")

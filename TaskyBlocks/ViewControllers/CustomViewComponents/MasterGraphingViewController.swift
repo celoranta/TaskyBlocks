@@ -62,7 +62,20 @@ var blockyHeight: CGFloat
     let barButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: nil)
     barButtonItem.tintColor = UIColor.blue
     return barButtonItem
-    
+  }()
+  
+  let settingsButton: UIBarButtonItem =
+  {
+    let barButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: nil)
+    barButtonItem.tintColor = UIColor.blue
+    return barButtonItem
+  }()
+  
+  let addButton: UIBarButtonItem =
+  {
+    let barButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: nil)
+    barButtonItem.tintColor = UIColor.blue
+    return barButtonItem
   }()
   var nextViewController: UIViewController? = nil
   
@@ -87,10 +100,25 @@ var blockyHeight: CGFloat
     rightBarButtonItem.target = self
     rightBarButtonItem.action = #selector(doneButton(_:))
     
+    var toolbarItems = [UIBarButtonItem]()
+    toolbarItems.append(UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(modalToSettings(_:))))
+
+    toolbarItems.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTask(_:))))
+    self.toolbarItems = toolbarItems
+    
     //enable block dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
     collectionView.addGestureRecognizer(longPressGesture)
     self.view.layoutSubviews()
+  }
+  
+  fileprivate func redrawCollection() {
+    let activeTaskyCache = activeTaskySet
+    let nullFilter = NSPredicate.init(value: false)
+    activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(nullFilter)
+    self.collectionView.reloadData()
+    activeTaskySet = activeTaskyCache
+    self.collectionView.reloadData()
   }
   
   override func viewWillAppear(_ animated: Bool)
@@ -101,12 +129,7 @@ var blockyHeight: CGFloat
     if let nav = self.navigationController {
       nav.isToolbarHidden = false
     }
-    let activeTaskyCache = activeTaskySet
-    let nullFilter = NSPredicate.init(value: false)
-    activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(nullFilter)
-    self.collectionView.reloadData()
-    activeTaskySet = activeTaskyCache
-    self.collectionView.reloadData()
+    redrawCollection()
   }
   
 //  override func viewWillDisappear(_ animated: true) {
@@ -186,6 +209,11 @@ var blockyHeight: CGFloat
 //    dataSetCell?.layer.borderColor = borderColor
 //    self.collectionView.reloadData()
 //  }
+  @objc func addTask(_ sender: Any?)
+  {
+    let _ = TaskyNodeEditor.sharedInstance.newTask()
+    redrawCollection()
+  }
   
   //MARK: Drag items
   func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
@@ -253,6 +281,15 @@ var blockyHeight: CGFloat
    // let segue = UIStoryboardSegue.init(identifier: "ToNext", source: self, destination: unwrappedNextVC)
    // performSegue(withIdentifier: "ToNext", sender: self)
     }
+  }
+  
+  //Mark: Programmatic Navigation
+  
+  @objc func modalToSettings(_ sender: UIBarButtonItem)
+  {
+    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+  //  let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
+  //  self.navigationController?.pushViewController(settingsViewController, animated: true)
 
   }
   

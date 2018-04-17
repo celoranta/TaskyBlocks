@@ -9,6 +9,10 @@
 import UIKit
 import RealmSwift
 
+enum NewTaskyType
+{
+case normal, random
+}
 
 class TaskyNodeEditor: NSObject {
 
@@ -19,17 +23,45 @@ class TaskyNodeEditor: NSObject {
   //MARK: Task Creation
   func newTask() -> TaskyNode
   {
-    let newTaskyNode = TaskyNode()
+    let newTaskyNode: TaskyNode!
+    let userSettings = UserDefaults()
+    var taskType: NewTaskyType
+    switch userSettings.bool(forKey: "NewTasksAreRandom")
+    {
+    case true:
+      taskType = NewTaskyType.random
+      
+    case false:
+      taskType = NewTaskyType.normal
+    }
+    
+    switch taskType
+    {
+    case .normal:
+      newTaskyNode = TaskyNode()
+    case .random:
+      let newTaskyNodeArray = createRandomTasks(qty: 1)
+      newTaskyNode = newTaskyNodeArray[0]
+      
+    }
+    
+    
+//    guard let _ = realm.object(ofType: TaskyNode.self, forPrimaryKey: newTaskyNode.taskId)
+//      else
+//    {
+//      fatalError("Realm returned a non-task object")
+//    }
     realm.add(newTaskyNode)
     self.saveChanges()
-    guard let returnedTask = realm.object(ofType: TaskyNode.self, forPrimaryKey: newTaskyNode.taskId)
-      else
+    TaskyNodeEditor.sharedInstance.updateAllActivePriorities()
+    guard let returnTask = realm.object(ofType: TaskyNode.self, forPrimaryKey: newTaskyNode.taskId)
+    else
     {
-      fatalError("Realm returned a non-task object")
+      fatalError("Realm returned a non-Task object")
     }
-    return returnedTask
+    return returnTask
   }
-  
+
   //MARK: Task Editing
   func makePermanent(task: TaskyNode)
   {
@@ -240,7 +272,12 @@ class TaskyNodeEditor: NSObject {
     print("Realm instance closed")
   }
   
-  func createRandomTasks(qty: Int)
+  func updateAllActivePriorities()
+  {
+    TaskyNode.updatePriorityFor(tasks: Set(self.database.filter("completionDate == nil")), limit: 100)
+  }
+  
+  func createRandomTasks(qty: Int = 1) -> [TaskyNode]
   {
     var randomTaskSet: [TaskyNode] = []
     for _ in 0..<qty
@@ -275,5 +312,6 @@ class TaskyNodeEditor: NSObject {
     }
     
     saveChanges()
+    return randomTaskSet
   }
 }
