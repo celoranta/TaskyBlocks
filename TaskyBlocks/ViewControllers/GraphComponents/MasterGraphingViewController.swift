@@ -24,6 +24,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   let borderColor = UIColor.darkGray.cgColor
   let highlightBorderColor = UIColor.yellow.cgColor
   var selectedTask: TaskyNode!
+  //var collectionView = UICollectionView()
+  fileprivate var longPressGesture: UILongPressGestureRecognizer!
   var blockyBorder: CGFloat
   {
     get
@@ -70,6 +72,12 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     collectionView.collectionViewLayout = layout
     activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
     deleteButton.isEnabled = false
+    
+    //for dragging
+    self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
+    
+    
+    collectionView.addGestureRecognizer(longPressGesture)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -87,8 +95,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   
  // MARK: Layout Tutorial method
   func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat {
-    let randomHeight = Double((arc4random_uniform(3) + 1) * 100)
-    return CGFloat.init(randomHeight)
+    //let randomHeight = Double((arc4random_uniform(3) + 1) * 100)
+    return CGFloat.init(blockyHeight)
   }
   
   //MARK:  Realm notification
@@ -176,6 +184,44 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
 //    dataSetCell?.layer.borderColor = borderColor
 //    self.collectionView.reloadData()
 //  }
+  
+  //MARK: Drag items
+  
+  func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+    let task = activeTaskySet[indexPath.row]
+    if task.isPermanent != 1
+    {
+      return true
+    }
+    else
+    {
+      return false
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    print("drag began at \(sourceIndexPath) and ended at \(destinationIndexPath)")
+  }
+  @objc func handleLongGesture(gesture: UILongPressGestureRecognizer)
+  {
+    switch(gesture.state)
+    {
+    case .began:
+      guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else {
+        break
+      }
+      collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+    case .changed:
+      collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+    case .ended:
+      collectionView.endInteractiveMovement()
+    default:
+      collectionView.cancelInteractiveMovement()
+    }
+  }
+  
+ 
+  
   
   @IBAction func addButton(_ sender: Any)
   {
