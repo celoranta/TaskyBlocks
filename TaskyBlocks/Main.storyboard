@@ -911,8 +911,9 @@
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="U9O-1P-UFZ" firstAttribute="centerX" secondItem="6V8-2k-vBY" secondAttribute="centerX" id="LsY-RE-ft2"/>
+                                            <constraint firstAttribute="trailing" secondItem="U9O-1P-UFZ" secondAttribute="trailing" constant="4" id="41E-Pv-IYD"/>
                                             <constraint firstItem="U9O-1P-UFZ" firstAttribute="centerY" secondItem="6V8-2k-vBY" secondAttribute="centerY" id="e3i-X0-LPf"/>
+                                            <constraint firstItem="U9O-1P-UFZ" firstAttribute="leading" secondItem="6V8-2k-vBY" secondAttribute="leading" constant="4" id="hmC-sE-BR5"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="cellTitleLabel" destination="U9O-1P-UFZ" id="7nb-OK-18H"/>
@@ -934,7 +935,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="evK-rX-WZr"/>
                     </view>
-                    <toolbarItems/>
+                    <toolbarItems>
+                        <barButtonItem systemItem="add" id="gZe-S2-Mot"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Mbm-RI-MPA"/>
+                        <barButtonItem title="-" id="UqH-mJ-yHh"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" id="TDn-Cc-J3x"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>

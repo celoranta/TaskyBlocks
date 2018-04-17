@@ -238,9 +238,9 @@
 				951099912075C1490091DF49 /* TaskyBlock2.swift */,
 				9571D0C920818487008272E8 /* CollectionViewCell.swift */,
 				95046CD52085146E00237F31 /* MasterGraphingViewController.swift */,
+				95046CDA20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift */,
 				95F47C33208523F500827999 /* MasterGraphingCollectionViewCell.swift */,
 				95046CD820851C3B00237F31 /* MasterGraphingCollectionView.swift */,
-				95046CDA20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift */,
 				95046CDC20851C9800237F31 /* MasterGraphingCollectionViewAttributes.swift */,
 			);
 			path = GraphComponents;

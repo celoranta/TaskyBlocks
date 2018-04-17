@@ -8,12 +8,12 @@
 
 import UIKit
 
-class MasterGraphingCollectionView: UICollectionView, TaskyGraphingDelegate {
+class MasterGraphingCollectionView: UICollectionView/*, TaskyGraphingDelegate*/ {
   
 
-  func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat {
-   return CGFloat.init(10 % indexPath.row)
-  }
+//  func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat {
+//   return CGFloat.init(10 % indexPath.row)
+//  }
   
 
     /*

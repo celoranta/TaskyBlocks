@@ -11,83 +11,41 @@ import RealmSwift
 
 class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource, TaskyGraphingDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
 
-  
-  
-  
   //var realm: Realm!
   var activeTaskySet: Results<TaskyNode>!
-  let filter = "completionDate == nil"
+  var filter = "completionDate == nil"
   let blockyAlpha: CGFloat = 0.75
-  var blockyWidth: CGFloat = 123.5
-  let layout = MasterGraphingCollectionViewLayout()
-  //var subscription: NotificationToken?
-  let borderColor = UIColor.darkGray.cgColor
+  var layout = MasterGraphingCollectionViewLayout()
+
   let highlightBorderColor = UIColor.yellow.cgColor
   var selectedTask: TaskyNode!
-  //var collectionView = UICollectionView()
   fileprivate var longPressGesture: UILongPressGestureRecognizer!
-  var blockyBorder: CGFloat
-  {
-    get
-    {
-      return blockyHeight * 0.05
-    }
-  }
-  var blockyRadius: CGFloat
-  {
-    get
-    {
-      return blockyHeight * 0.2
-    }
-  }
-  var blockyHeight: CGFloat
-  {
-    get
-    {
-      return blockyWidth * 0.5
-    }
-  }
-  var blockSize: CGSize
-  {
-    get
-    {
-      return CGSize.init(width: blockyWidth, height: blockyHeight
-      )
-    }
-  }
 
-  
+
+//  var blockSize: CGSize
+//  {get
+//    {return CGSize.init(width: blockyWidth, height: blockyHeight)
+//    }
+//  }
+
+  //MARK: Outlets
   @IBOutlet weak var collectionView: UICollectionView!
-  @IBOutlet weak var deleteButton: UIBarButtonItem!
-  
-  override func viewDidLoad() {
+
+  override func viewDidLoad()
+  {
     super.viewDidLoad()
-    
     layout.delegate = self
-    //layout.itemSize = blockSize
-    //layout.estimatedItemSize = CGSize.init(width: 500, height: 500)
-    //layout.minimumInteritemSpacing = 2
-    //layout.minimumLineSpacing = 2
-    //layout.sectionInset = .init(top: blockyHeight, left: blockyHeight, bottom: blockyWidth, right: blockyWidth)
     collectionView.collectionViewLayout = layout
     activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
-    //deleteButton.isEnabled = false
     self.navigationController?.toolbar.isHidden = false
-    //collectionView.minimumZoomScale = 0.5
-    //collectionView.maximumZoomScale = 6.0
-    //collectionView.isUserInteractionEnabled = true
     
     //for dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
-    
-    //var pinchGesture = UIPinchGestureRecognizer()
-    
-    
-    
     collectionView.addGestureRecognizer(longPressGesture)
   }
   
-  override func viewWillAppear(_ animated: Bool) {
+  override func viewWillAppear(_ animated: Bool)
+  {
     TaskyNode.updatePriorityFor(tasks: Set.init(TaskyNodeEditor.sharedInstance.database.filter(self.filter)),limit: 100)
     collectionView.reloadData()
     if let nav = self.navigationController {
@@ -95,18 +53,12 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     }
   }
   
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
-  
  // MARK: Layout Tutorial method
-  func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat {
-    //let randomHeight = Double((arc4random_uniform(3) + 1) * 100)
-    return CGFloat.init(blockyHeight)
+  func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat
+  {
+    //set cell height here
+    return CGFloat(MasterGraphingCollectionViewCell.blockyHeight)
   }
-  
-  //MARK:  Realm notification
   
   //MARK: Collection View
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -124,37 +76,16 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
 //    }
 //    else
 //    {
-      cell.layer.borderColor = borderColor
+
 //    }
     
     cell.cellTitleLabel.text = task.title
-    
-    //let taskyLabel = UILabel.init(frame: cell.bounds)
-    //let taskyBlock = UIView()
-    
-    //cell.addSubview(taskyBlock)
-    //taskyBlock.addSubview(taskyLabel)
-    //taskyBlock.color = UIColor.clear
-
-    
-    //taskyBlock.frame.size = cell.frame.size
     cell.alpha = blockyAlpha
-    cell.backgroundColor = UIColor.clear
-    cell.autoresizesSubviews = true
-    
-    cell.layer.borderWidth = blockyBorder
-    cell.layer.cornerRadius = blockyRadius
+    cell.cellTitleLabel.frame.size.width = MasterGraphingCollectionViewCell.blockyWidth
     cell.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
-    cell.autoresizesSubviews = true
+       cell.cellTitleLabel.text = "\(task.title)"//"\(task.priorityApparent)"
     
-    cell.cellTitleLabel.frame = cell.bounds
-    cell.cellTitleLabel.frame.size.width = blockyWidth
-    cell.cellTitleLabel.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-    cell.cellTitleLabel.text = "\(task.title)"//"\(task.priorityApparent)"
-    cell.cellTitleLabel.textAlignment = .center
-    cell.cellTitleLabel.numberOfLines = 0
-    cell.cellTitleLabel.lineBreakMode = .byWordWrapping
-    cell.cellTitleLabel.font.withSize(blockyWidth / 12)
+
     
     return cell
   }
@@ -193,7 +124,6 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
 //  }
   
   //MARK: Drag items
-  
   func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
     let task = activeTaskySet[indexPath.row]
     if task.isPermanent != 1
@@ -228,14 +158,11 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   }
   
   //MARK:  Zoom
-  
 //  func viewForZooming(in scrollView: UIScrollView) -> UIView? {
 //  return collectionView
 //  }
   
-  
-  
-  
+  //MARK: Actions
   @IBAction func addButton(_ sender: Any)
   {
     let userSettings = UserDefaults()
@@ -252,6 +179,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     self.collectionView.reloadData()
   }
   
+  //MARK: Segues
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     switch segue.identifier
     {
@@ -264,7 +192,6 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
       return
     }
   }
-
   
   //Task Detail View Delegate
   func returnSelectedTask() -> TaskyNode {
