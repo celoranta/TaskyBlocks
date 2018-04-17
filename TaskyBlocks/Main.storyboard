@@ -148,7 +148,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DSe-O8-uz1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6390" y="-896"/>
+            <point key="canvasLocation" x="7328.8000000000002" y="-896.40179910044981"/>
         </scene>
         <!--Detail-->
         <scene sceneID="bM6-0x-0wJ">
@@ -435,7 +435,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="5305" y="-896"/>
+            <point key="canvasLocation" x="6244" y="-896.40179910044981"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="OQ0-Mq-RqQ">
@@ -465,7 +465,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Master Graphing Suite"/>
                                 <connections>
-                                    <segue destination="Ctb-Gs-A1V" kind="show" id="pyE-hz-i2K"/>
+                                    <segue destination="HjK-aU-Z4h" kind="show" id="pyE-hz-i2K"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -934,26 +934,16 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="evK-rX-WZr"/>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem title="Delete" id="GIz-6N-gMD"/>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="3jm-Ni-17n"/>
-                        <barButtonItem title="Settings" id="hXc-K7-lTi"/>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="2X0-pi-mh1"/>
-                        <barButtonItem title="Add" id="807-Qd-Dh0">
-                            <connections>
-                                <action selector="addButton:" destination="Ctb-Gs-A1V" id="ouv-o9-5zY"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="TDn-Cc-J3x"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="boh-bg-ILP" id="btN-bp-Bdb"/>
-                        <outlet property="deleteButton" destination="GIz-6N-gMD" id="YuS-v8-Fgc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j3v-wv-CYp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3352.8000000000002" y="-940.47976011994012"/>
+            <point key="canvasLocation" x="4292" y="-940.47976011994012"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IDV-Fe-vha">
@@ -972,7 +962,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I8B-k5-HDv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4273" y="-896"/>
+            <point key="canvasLocation" x="5212" y="-896.40179910044981"/>
         </scene>
         <!--Item-->
         <scene sceneID="oMe-ep-rsW">
@@ -1011,6 +1001,29 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D8o-q9-vmI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4272.8000000000002" y="-2664.0179910044981"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="F8U-wU-13K">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="HjK-aU-Z4h" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lcm-JK-e1c">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XId-7u-6aR">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="Ctb-Gs-A1V" kind="relationship" relationship="rootViewController" id="ZBj-xR-MwY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SBA-9H-x4R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3352.8000000000002" y="-940.47976011994012"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

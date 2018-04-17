@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource, TaskyGraphingDelegate {
+class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource, TaskyGraphingDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
 
   
   
@@ -71,10 +71,17 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     //layout.sectionInset = .init(top: blockyHeight, left: blockyHeight, bottom: blockyWidth, right: blockyWidth)
     collectionView.collectionViewLayout = layout
     activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
-    deleteButton.isEnabled = false
+    //deleteButton.isEnabled = false
+    self.navigationController?.toolbar.isHidden = false
+    //collectionView.minimumZoomScale = 0.5
+    //collectionView.maximumZoomScale = 6.0
+    //collectionView.isUserInteractionEnabled = true
     
     //for dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
+    
+    //var pinchGesture = UIPinchGestureRecognizer()
+    
     
     
     collectionView.addGestureRecognizer(longPressGesture)
@@ -220,7 +227,13 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     }
   }
   
- 
+  //MARK:  Zoom
+  
+//  func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+//  return collectionView
+//  }
+  
+  
   
   
   @IBAction func addButton(_ sender: Any)
