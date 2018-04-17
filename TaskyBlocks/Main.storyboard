@@ -492,7 +492,7 @@
         <!--Prepare Sprint-->
         <scene sceneID="ggL-SU-EAI">
             <objects>
-                <viewController title="Prepare Sprint" id="Iwh-M0-5sB" customClass="PomodoroViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="pomodoroViewController" title="Prepare Sprint" id="Iwh-M0-5sB" customClass="PomodoroViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KM5-E7-Rjw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -547,6 +547,14 @@
                                     <action selector="durationStepper:" destination="Iwh-M0-5sB" eventType="valueChanged" id="5u9-YW-mdT"/>
                                 </connections>
                             </stepper>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0PA-ds-eKf">
+                                <rect key="frame" x="164" y="318" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="manageTasksButton:" destination="Iwh-M0-5sB" eventType="touchUpInside" id="dzG-do-dTh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -1009,6 +1017,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="BRB-dk-8Xj"/>
+        <segue reference="dfP-nm-rYj"/>
     </inferredMetricsTieBreakers>
 </document>

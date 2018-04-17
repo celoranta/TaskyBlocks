@@ -167,7 +167,8 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   
   func unwindSegueToPomodoro(sender: Any?)
   {
-    self.performSegue(withIdentifier: "unwindToPomodoro", sender: sender)
+    //self.performSegue(withIdentifier: "unwindToPomodoro", sender: sender)
+    self.navigationController?.popViewController(animated: true)
   }
   
   @objc func titleButtonClick()

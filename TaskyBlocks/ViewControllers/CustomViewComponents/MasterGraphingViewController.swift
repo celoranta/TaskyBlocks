@@ -78,6 +78,7 @@ var blockyHeight: CGFloat
     return barButtonItem
   }()
   var nextViewController: UIViewController? = nil
+  var nextViewControllerId: String?
   
   fileprivate var longPressGesture: UILongPressGestureRecognizer!
 
@@ -275,11 +276,17 @@ var blockyHeight: CGFloat
   @objc func doneButton(_ sender: UIBarButtonItem)
   {
     print("Done button pressed")
-    if let unwrappedNextVC = nextViewController
+    if let unwrappedNextVCId = self.nextViewControllerId
+    {
+      let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+      let nextVC = storyBoard.instantiateViewController(withIdentifier: unwrappedNextVCId)
+      navigationController?.pushViewController(nextVC, animated: true)
+    }
+    else if let unwrappedNextVC = nextViewController
     {
         navigationController?.pushViewController(unwrappedNextVC, animated: true)
-   // let segue = UIStoryboardSegue.init(identifier: "ToNext", source: self, destination: unwrappedNextVC)
-   // performSegue(withIdentifier: "ToNext", sender: self)
+
+    //  let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
     }
   }
   
@@ -288,7 +295,7 @@ var blockyHeight: CGFloat
   @objc func modalToSettings(_ sender: UIBarButtonItem)
   {
     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-  //  let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
+//    let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
   //  self.navigationController?.pushViewController(settingsViewController, animated: true)
 
   }

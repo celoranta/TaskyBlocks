@@ -46,6 +46,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    self.navigationController?.navigationBar.isHidden = false
     prepareView()
   }
   
@@ -136,6 +137,10 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   }
   @IBAction func goDoubleTap(_ sender: UIButton)
   {
+  }
+
+  @IBAction func manageTasksButton(_ sender: Any) {
+    self.navigationController?.popToViewController((navigationController?.viewControllers[1])!, animated: true)
   }
   
   @IBOutlet weak var durationStepperOut: UIStepper!
