@@ -11,49 +11,51 @@ import RealmSwift
 
 class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource, TaskyGraphingDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
 
-  //var realm: Realm!
-  var activeTaskySet: Results<TaskyNode>!
-  var filter = "completionDate == nil"
-  let blockyAlpha: CGFloat = 0.75
-  var layout = MasterGraphingCollectionViewLayout()
+  //MARK: Dependency Injection / Override Properies
 
+  var customLayout: MasterGraphingCollectionViewLayout!
+  var filter: String!
+  
+  //MARK: Static and Calculated Properties
+    var collectionView: UICollectionView!
+  var activeTaskySet: Results<TaskyNode>!
+  let blockyAlpha: CGFloat = 0.75
   let highlightBorderColor = UIColor.yellow.cgColor
   var selectedTask: TaskyNode!
+
   fileprivate var longPressGesture: UILongPressGestureRecognizer!
-
-
-//  var blockSize: CGSize
-//  {get
-//    {return CGSize.init(width: blockyWidth, height: blockyHeight)
-//    }
-//  }
-
-  //MARK: Outlets
-  @IBOutlet weak var collectionView: UICollectionView!
 
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    layout.delegate = self
-    collectionView.collectionViewLayout = layout
+    
+    customLayout = MasterGraphingCollectionViewLayout()
+    filter = "completionDate == nil"
+    collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
+    self.view.addSubview(collectionView)
+  let cell = MasterGraphingCollectionViewCell()
+    collectionView.register(UICo, forCellWithReuseIdentifier: "masterCollectionCell")
+    collectionView.backgroundColor = UIColor.white
+    customLayout.delegate = self
     activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
     self.navigationController?.toolbar.isHidden = false
     
-    //for dragging
+    //enable block dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
     collectionView.addGestureRecognizer(longPressGesture)
+    self.view.layoutSubviews()
   }
   
   override func viewWillAppear(_ animated: Bool)
   {
-    TaskyNode.updatePriorityFor(tasks: Set.init(TaskyNodeEditor.sharedInstance.database.filter(self.filter)),limit: 100)
+    TaskyNode.updatePriorityFor(tasks: Set.init(TaskyNodeEditor.sharedInstance.database.filter("completionDate == nil")),limit: 100)
     collectionView.reloadData()
     if let nav = self.navigationController {
       nav.isToolbarHidden = false
     }
   }
   
- // MARK: Layout Tutorial method
+ // MARK: Custom Layout Method
   func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat
   {
     //set cell height here
@@ -66,27 +68,11 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "masterCollectionCell", for: indexPath) as! MasterGraphingCollectionViewCell
+
     let task = activeTaskySet[indexPath.row]
-    
-//    if cell.isSelected
-//    {
-//      cell.layer.borderColor = highlightBorderColor
-//    }
-//    else
-//    {
-
-//    }
-    
-    cell.cellTitleLabel.text = task.title
     cell.alpha = blockyAlpha
-    cell.cellTitleLabel.frame.size.width = MasterGraphingCollectionViewCell.blockyWidth
-    cell.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
-       cell.cellTitleLabel.text = "\(task.title)"//"\(task.priorityApparent)"
-    
-
-    
+    cell.setupCell(task: task)
     return cell
   }
   
@@ -127,18 +113,17 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
     let task = activeTaskySet[indexPath.row]
     if task.isPermanent != 1
-    {
-      return true
+    { return true
     }
     else
-    {
-      return false
+    { return false
     }
   }
   
   func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
     print("drag began at \(sourceIndexPath) and ended at \(destinationIndexPath)")
   }
+  
   @objc func handleLongGesture(gesture: UILongPressGestureRecognizer)
   {
     switch(gesture.state)
@@ -162,36 +147,36 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
 //  return collectionView
 //  }
   
-  //MARK: Actions
-  @IBAction func addButton(_ sender: Any)
-  {
-    let userSettings = UserDefaults()
-    let random = userSettings.bool(forKey: "NewTasksAreRandom")
-    switch random
-    {
-    case false:
-      _ = TaskyNodeEditor.sharedInstance.newTask()
-    case true:
-      _ = TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
-    }
-    let dataset = Set.init(TaskyNodeEditor.sharedInstance.database.filter(filter))
-    TaskyNode.updatePriorityFor(tasks: dataset, limit: 100)
-    self.collectionView.reloadData()
-  }
+//  //MARK: Actions
+//  @IBAction func addButton(_ sender: Any)
+//  {
+//    let userSettings = UserDefaults()
+//    let random = userSettings.bool(forKey: "NewTasksAreRandom")
+//    switch random
+//    {
+//    case false:
+//      _ = TaskyNodeEditor.sharedInstance.newTask()
+//    case true:
+//      _ = TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
+//    }
+//    let dataset = Set.init(TaskyNodeEditor.sharedInstance.database.filter(filter))
+//    TaskyNode.updatePriorityFor(tasks: dataset, limit: 100)
+//    self.collectionView.reloadData()
+//  }
   
-  //MARK: Segues
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    switch segue.identifier
-    {
-    case "priorityToDetail":
-      print("prepare for segue to detail with \(selectedTask.title) selected was called")
-      let detailVC = segue.destination.childViewControllers.first as! DetailViewController
-      detailVC.taskDetailDataSource = self as TaskDetailDataSource
-      detailVC.task = selectedTask
-    default:
-      return
-    }
-  }
+//  //MARK: Segues
+//  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//    switch segue.identifier
+//    {
+//    case "priorityToDetail":
+//      print("prepare for segue to detail with \(selectedTask.title) selected was called")
+//      let detailVC = segue.destination.childViewControllers.first as! DetailViewController
+//      detailVC.taskDetailDataSource = self as TaskDetailDataSource
+//      detailVC.task = selectedTask
+//    default:
+//      return
+//    }
+//  }
   
   //Task Detail View Delegate
   func returnSelectedTask() -> TaskyNode {

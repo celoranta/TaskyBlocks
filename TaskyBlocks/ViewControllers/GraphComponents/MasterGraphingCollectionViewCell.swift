@@ -46,4 +46,10 @@ class MasterGraphingCollectionViewCell: UICollectionViewCell {
     cellTitleLabel.font.withSize(MasterGraphingCollectionViewCell.blockyWidth / 12)
   }
   
+  func setupCell(task: TaskyNode)
+  {
+    cellTitleLabel.text = task.title
+    backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
+  }
+  
 }

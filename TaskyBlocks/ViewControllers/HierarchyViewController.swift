@@ -8,28 +8,56 @@
 
 import UIKit
 
-class HierarchyViewController: UIViewController {
+class HierarchyViewController: MasterGraphingViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    filter = "completionDate == nil"
+    customLayout = HierarchyCollectionViewLayout()
+    // Do any additional setup after loading the view.
 
-        // Do any additional setup after loading the view.
+  }
+  
+  override func didReceiveMemoryWarning() {
+    super.didReceiveMemoryWarning()
+    // Dispose of any resources that can be recreated.
+  }
+  
+  override func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat
+  {
+    //set cell height here
+    return CGFloat(MasterGraphingCollectionViewCell.blockyHeight)
+  }
+  
+  //MARK: Actions
+  @IBAction func addButton(_ sender: Any)
+  {
+    let userSettings = UserDefaults()
+    let random = userSettings.bool(forKey: "NewTasksAreRandom")
+    switch random
+    {
+    case false:
+      _ = TaskyNodeEditor.sharedInstance.newTask()
+    case true:
+      _ = TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    let dataset = Set.init(TaskyNodeEditor.sharedInstance.database.filter(filter))
+    TaskyNode.updatePriorityFor(tasks: dataset, limit: 100)
+    self.collectionView.reloadData()
+  }
+  
+  //MARK: Segues
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    switch segue.identifier
+    {
+    case "priorityToDetail":
+      print("prepare for segue to detail with \(selectedTask.title) selected was called")
+      let detailVC = segue.destination.childViewControllers.first as! DetailViewController
+      detailVC.taskDetailDataSource = self as TaskDetailDataSource
+      detailVC.task = selectedTask
+    default:
+      return
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+  }
 }
