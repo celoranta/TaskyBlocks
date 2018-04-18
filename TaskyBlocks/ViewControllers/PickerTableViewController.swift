@@ -24,7 +24,6 @@ enum TaskRelationship: String
 class PickerTableViewController: UITableViewController
 {
   var pickerTableViewDelegate: PickerTableViewDelegate!
-  //var taskSuperListFilter: NSPredicate = NSPredicate.init(format: "completionDate == nil")
   var taskSubListFilter: String!  //All tasks selected on this page
   var activeTasks: Results<TaskyNode>!
   var subArray: [TaskyNode] = []  //copy of selected task's property
@@ -35,15 +34,7 @@ class PickerTableViewController: UITableViewController
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    
     activeTasks = delegateRequestedRelationshipsAmong
-    //    self.tableView(self.tableView, sectionForSectionIndexTitle: delegateRequestedRelationshipType.rawValue, at: 0)
-  }
-  
-  override func didReceiveMemoryWarning()
-  {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
   
   //MARK: PickerTableView Delegate

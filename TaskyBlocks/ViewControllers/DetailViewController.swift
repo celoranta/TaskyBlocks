@@ -29,7 +29,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBOutlet weak var dependentsListButton: UIButton!
   @IBOutlet weak var primalsListLabel: UILabel!
   @IBOutlet weak var taskDateLabel: UILabel!
-  @IBOutlet weak var deleteButton: UIButton!
   @IBOutlet weak var priorityDirectText: UITextField!
   @IBOutlet weak var completedSwitch: UISwitch!
   
@@ -95,10 +94,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   {
     task = TaskyNodeEditor.sharedInstance.newTask()
     self.refreshView()
-  }
-  
-  @IBAction func deleteButton(_ sender: Any)
-  {
   }
   
   @IBAction func completedSwitchThrown(_ sender: Any)

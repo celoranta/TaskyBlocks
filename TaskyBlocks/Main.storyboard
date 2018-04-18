@@ -184,13 +184,6 @@
                                     <action selector="parentsButton:" destination="1Gi-xi-kOP" eventType="touchUpInside" id="7xq-Jr-yhi"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydM-le-0DW">
-                                <rect key="frame" x="165" y="558" width="45" height="30"/>
-                                <state key="normal" title="Delete"/>
-                                <connections>
-                                    <action selector="deleteButton:" destination="1Gi-xi-kOP" eventType="touchUpInside" id="Mvc-mU-ds4"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Direct Priority" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vH3-ak-7OY">
                                 <rect key="frame" x="16" y="463" width="105" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -279,7 +272,6 @@
                             <constraint firstItem="bI7-Sk-97c" firstAttribute="top" secondItem="eWG-c6-3rV" secondAttribute="bottom" constant="8" id="Qpv-0X-Zql"/>
                             <constraint firstItem="G4S-0z-Kvl" firstAttribute="trailing" secondItem="Yve-mN-trh" secondAttribute="trailing" constant="16" id="RQX-7P-czE"/>
                             <constraint firstItem="G4S-0z-Kvl" firstAttribute="trailing" secondItem="dPx-Zb-Gw6" secondAttribute="trailing" constant="16" id="SFR-xf-TSE"/>
-                            <constraint firstItem="ydM-le-0DW" firstAttribute="centerX" secondItem="sPJ-jN-FKk" secondAttribute="centerX" id="V8s-V5-f6O"/>
                             <constraint firstItem="Wh1-6P-uTn" firstAttribute="leading" secondItem="G4S-0z-Kvl" secondAttribute="leading" constant="16" id="VmC-aL-UEX"/>
                             <constraint firstItem="r6X-to-wo1" firstAttribute="top" secondItem="G4S-0z-Kvl" secondAttribute="top" constant="8" id="bak-WI-6n6"/>
                             <constraint firstItem="NcQ-ae-2MY" firstAttribute="centerY" secondItem="wzl-Os-7sW" secondAttribute="centerY" id="d2H-2t-h9h"/>
@@ -292,7 +284,6 @@
                             <constraint firstItem="mEU-gN-c2z" firstAttribute="centerY" secondItem="rJP-8M-Pcs" secondAttribute="centerY" id="jIY-zI-DKQ"/>
                             <constraint firstItem="r6X-to-wo1" firstAttribute="leading" secondItem="G4S-0z-Kvl" secondAttribute="leading" constant="16" id="kaG-9Y-6gV"/>
                             <constraint firstItem="1ek-nh-aG6" firstAttribute="leading" secondItem="G4S-0z-Kvl" secondAttribute="leading" constant="14" id="mV7-hL-ggf"/>
-                            <constraint firstItem="JFd-5f-eJ1" firstAttribute="top" secondItem="ydM-le-0DW" secondAttribute="bottom" constant="60" id="mzr-ev-6d3"/>
                             <constraint firstItem="eWG-c6-3rV" firstAttribute="top" secondItem="Yve-mN-trh" secondAttribute="bottom" constant="4" id="n0C-W0-PXT"/>
                             <constraint firstItem="tu8-U6-Ydy" firstAttribute="top" secondItem="rJP-8M-Pcs" secondAttribute="bottom" constant="-1" id="okO-nF-Nk3"/>
                             <constraint firstItem="wzl-Os-7sW" firstAttribute="top" secondItem="tu8-U6-Ydy" secondAttribute="bottom" constant="-1" id="sEA-Fo-P9X"/>
@@ -326,7 +317,6 @@
                     <connections>
                         <outlet property="childrenListButton" destination="tu8-U6-Ydy" id="vQG-mT-VQB"/>
                         <outlet property="completedSwitch" destination="bL9-mF-K5d" id="O8C-Dc-OqF"/>
-                        <outlet property="deleteButton" destination="ydM-le-0DW" id="5X1-ed-lXn"/>
                         <outlet property="dependeesListButton" destination="wzl-Os-7sW" id="8zt-8O-ptm"/>
                         <outlet property="dependentsListButton" destination="Yve-mN-trh" id="iBD-Q1-Uz8"/>
                         <outlet property="isActionableStatusLabel" destination="dPx-Zb-Gw6" id="SMb-5s-Wna"/>
