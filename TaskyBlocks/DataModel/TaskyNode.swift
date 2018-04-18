@@ -13,16 +13,25 @@ import UIKit
 import RealmSwift
 
 
+
+
+
 class TaskyNode: Object
   
 {
+  
+  override static func ignoredProperties() -> [String] {
+    return ["priorityApparent", "priorityInherited", "priorityConsequent"]
+  }
+
+
   //MARK: Properties
   @objc dynamic var title = "New Task"
   @objc dynamic var taskId = String(UUID().uuidString)
   @objc dynamic var taskDescription = ""
   @objc dynamic private (set) var taskDate = Date()
   @objc dynamic var completionDate: Date? = nil
-  @objc dynamic var priorityApparent: Double = 0
+  //@objc dynamic var priorityApparent: Double = 0
   @objc dynamic var priorityDirectDefault: Double = (50 + Double(arc4random_uniform(100)/10000))
   @objc dynamic var isPermanent: Int = -1
   
@@ -30,9 +39,9 @@ class TaskyNode: Object
   let children = LinkingObjects(fromType: TaskyNode.self, property: "parents")
   let antecedents = List<TaskyNode>()
   let consequents = LinkingObjects(fromType: TaskyNode.self, property: "antecedents")
-  let priorityInherited: RealmOptional<Double> = RealmOptional.init()
-  let priorityConsequent: RealmOptional<Double> = RealmOptional.init()
-  var priorityDirect: RealmOptional<Double> = RealmOptional.init()  //currently no need to recalcutalate/update.  Revisit
+//  let priorityInherited: RealmOptional<Double> = RealmOptional.init()
+//  let priorityConsequent: RealmOptional<Double> = RealmOptional.init()
+   var priorityDirect: RealmOptional<Double> = RealmOptional.init()  //currently no need to recalcutalate/update.  Revisit
   let priorityOverride: RealmOptional<Double> = RealmOptional.init()  //for testing by developer
   
   override static func primaryKey() -> String?
@@ -49,16 +58,45 @@ class TaskyNode: Object
   {
     return children.isEmpty
   }
+  var priorityInherited: Double?
+  {
+    get
+    {
+      return  (Array(parents).max { $0.priorityApparent < $1.priorityApparent})?.priorityApparent
+    
+    }
+  }
+   var priorityConsequent: Double?
+  {
+        return  (Array(consequents).max { $0.priorityApparent < $1.priorityApparent})?.priorityApparent
+  }
+   var priorityApparent: Double
+  {
+    var priority = priorityDirect.value ?? priorityDirectDefault
+    if let inherited = priorityInherited
+    {
+      priority = inherited < priority ? inherited : priority
+    }
+    if let consequent = priorityConsequent
+    {
+      priority = consequent > priority ? consequent : priority
+    }
+     return  priorityOverride.value ?? priority
+  }
+
+  
+  //private func updatePriorityApparent(of task: TaskyNode)
+
   
   //MARK: Methods
   
-  //  convenience init(with name: String = "New Task", and priority: Double = 50)
-  //  {
-  //    self.init()
-  //    self.title = name
-  //    print("New!")
-  //    self.soundOff()
-  //  }
+    convenience init(with name: String = "New Task", and priority: Double = 50)
+    {
+      self.init()
+      self.title = name
+      print("New!")
+      self.soundOff()
+    }
   
   //Mark: Debugging Methods
   func soundOff()
@@ -74,11 +112,11 @@ class TaskyNode: Object
     if let unwrappedPriorityDirect = priorityDirect.value
     { print("My direct priority is \(unwrappedPriorityDirect)")
     }
-    if let unwrappedPriorityConsequent = priorityConsequent.value
+    if let unwrappedPriorityConsequent = priorityConsequent
     {
       print("My consequent priority is \(unwrappedPriorityConsequent)")
     }
-    if let unwrappedPriorityInherited = self.priorityInherited.value
+    if let unwrappedPriorityInherited = self.priorityInherited
     {
       print("My inherited priority is \(unwrappedPriorityInherited)")
     }

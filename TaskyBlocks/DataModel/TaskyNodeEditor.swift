@@ -264,77 +264,77 @@ class TaskyNodeEditor: NSObject {
   // However, since the only purpose served by these methods is the calculating of
   // Apparent priority, maybe I should try again to turn them into calculated properties.
   
-  private func updatePriorityInherited(of task: TaskyNode)
-  {
-    try! realm.write{
-      task.priorityInherited.value = task.parents.max(ofProperty: "priorityApparent")
-    }
-  }
-  
-  private func updatePriorityConsequent(of task: TaskyNode)
-  {
-    try! realm.write {
-      task.priorityConsequent.value = task.consequents.max(ofProperty: "priorityApparent")
-    }
-  }
-  
-  private func updatePriorityApparent(of task: TaskyNode)
-  {
-    var priority = task.priorityDirect.value ?? task.priorityDirectDefault
-    if let inherited = task.priorityInherited.value
-    {
-      priority = inherited < priority ? inherited : priority
-    }
-    if let consequent = task.priorityConsequent.value
-    {
-      priority = consequent > priority ? consequent : priority
-    }
-    try! realm.write {
-      task.priorityApparent = task.priorityOverride.value ?? priority
-    }
-  }
+//  private func updatePriorityInherited(of task: TaskyNode)
+//  {
+//    try! realm.write{
+//      task.priorityInherited.value = task.parents.max(ofProperty: "priorityApparent")
+//    }
+//  }
+//
+//  private func updatePriorityConsequent(of task: TaskyNode)
+//  {
+//    try! realm.write {
+//      task.priorityConsequent.value = task.consequents.max(ofProperty: "priorityApparent")
+//    }
+//  }
+//
+//  private func updatePriorityApparent(of task: TaskyNode)
+//  {
+//    var priority = task.priorityDirect.value ?? task.priorityDirectDefault
+//    if let inherited = task.priorityInherited.value
+//    {
+//      priority = inherited < priority ? inherited : priority
+//    }
+//    if let consequent = task.priorityConsequent.value
+//    {
+//      priority = consequent > priority ? consequent : priority
+//    }
+//    try! realm.write {
+//      task.priorityApparent = task.priorityOverride.value ?? priority
+//    }
+//  }
   
   //MARK: Class Method Definitions
   //Danny note:/master update instance method to call each priority update individually and return an update record
-  func updatePriorities(of task: TaskyNode) -> (TaskRecord)  //Returns a tasks UUID and priorityApparent
-  {
-    print("Updating task \(task.title)")
-    updatePriorityInherited(of: task)
-    //   DannyNote: let newPritoryApprent = updatePriorityInherited()
-    updatePriorityConsequent(of: task)
-    updatePriorityApparent(of: task)
-    print("task \(task.title) updated")
-    return (task.taskId, task.priorityApparent)
-  }
+//  func updatePriorities(of task: TaskyNode) -> (TaskRecord)  //Returns a tasks UUID and priorityApparent
+//  {
+//    print("Updating task \(task.title)")
+//    updatePriorityInherited(of: task)
+//    //   DannyNote: let newPritoryApprent = updatePriorityInherited()
+//    updatePriorityConsequent(of: task)
+//    updatePriorityApparent(of: task)
+//    print("task \(task.title) updated")
+//    return (task.taskId, task.priorityApparent)
+//  }
   
-  func updatePriorityFor(tasks: [TaskyNode],limit:Int)
-  { var currentTaskRecords: [String:Double] = [:]
-    var previousTaskRecords = ["dummy": 99.9] //ensures the first pass has a non-nil unequal dict to compare against, as to to ensure we enter a second pass.
-    let anyNonZeroInt = 42 // Remove this and use "while repeat" below?
-    var recordsChanged = anyNonZeroInt //ensures that we enter the loop with a non-nil, non-zero value
-    var updatesPerformed: [String:Int] = [:]
-    while recordsChanged != 0
-    { for task in tasks
-    { let taskRecord: TaskRecord = updatePriorities(of: task)
-      currentTaskRecords.updateValue(taskRecord.priority, forKey: taskRecord.taskId)
-      if let oldCount = updatesPerformed.removeValue(forKey: taskRecord.taskId)
-      { let newCount = oldCount + 1
-        updatesPerformed.updateValue(newCount, forKey: taskRecord.taskId)
-      }
-      else
-      { updatesPerformed.updateValue(1, forKey:taskRecord.taskId)
-      }
-      // guard //counter is over limit & return updates performed
-      task.soundOff()
-      }
-      print(updatesPerformed) //this is calculating incorrectly, but error doesn't affect logic
-      recordsChanged = countNonMatchingKeyValuePairsBetween(dict1: currentTaskRecords, dict2: previousTaskRecords)
-      print(recordsChanged)
-      previousTaskRecords = currentTaskRecords
-      currentTaskRecords = [:]
-    }
-    return
-  }
+//  func updatePriorityFor(tasks: [TaskyNode],limit:Int)
+//  { var currentTaskRecords: [String:Double] = [:]
+//    var previousTaskRecords = ["dummy": 99.9] //ensures the first pass has a non-nil unequal dict to compare against, as to to ensure we enter a second pass.
+//    let anyNonZeroInt = 42 // Remove this and use "while repeat" below?
+//    var recordsChanged = anyNonZeroInt //ensures that we enter the loop with a non-nil, non-zero value
+//    var updatesPerformed: [String:Int] = [:]
+//    while recordsChanged != 0
+//    { for task in tasks
+//    { let taskRecord: TaskRecord = updatePriorities(of: task)
+//      currentTaskRecords.updateValue(taskRecord.priority, forKey: taskRecord.taskId)
+//      if let oldCount = updatesPerformed.removeValue(forKey: taskRecord.taskId)
+//      { let newCount = oldCount + 1
+//        updatesPerformed.updateValue(newCount, forKey: taskRecord.taskId)
+//      }
+//      else
+//      { updatesPerformed.updateValue(1, forKey:taskRecord.taskId)
+//      }
+//      // guard //counter is over limit & return updates performed
+//      task.soundOff()
+//      }
+//      print(updatesPerformed) //this is calculating incorrectly, but error doesn't affect logic
+//      recordsChanged = countNonMatchingKeyValuePairsBetween(dict1: currentTaskRecords, dict2: previousTaskRecords)
+//      print(recordsChanged)
+//      previousTaskRecords = currentTaskRecords
+//      currentTaskRecords = [:]
+//    }
+//    return
+//  }
   
   func countNonMatchingKeyValuePairsBetween(dict1: [String:Double], dict2: [String:Double]) -> Int
   {
@@ -351,7 +351,7 @@ class TaskyNodeEditor: NSObject {
   
   func updateAllActivePriorities()
   {
-    updatePriorityFor(tasks: Array(self.database.filter("completionDate == nil")), limit: 100)
+   // updatePriorityFor(tasks: Array(self.database.filter("completionDate == nil")), limit: 100)
   }
   
   func createRandomTasks(qty: Int = 1) -> [TaskyNode]
