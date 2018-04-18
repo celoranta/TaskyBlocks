@@ -10,6 +10,7 @@ import UIKit
 
 class SettingsViewController: UIViewController
 {
+
   let settings = UserDefaults()
   @IBOutlet weak var randomTasksSwitch: UISwitch!
   
@@ -27,5 +28,10 @@ class SettingsViewController: UIViewController
   @IBAction func randomTasksSwitchThrown(_ sender: Any)
   {
     settings.set(randomTasksSwitch.isOn, forKey: "NewTasksAreRandom")
+  }
+  @IBAction func factoryResetButton(_ sender: Any)
+  {
+    print("Resetting to Factory Defaults")
+    TaskyNodeEditor.sharedInstance.deleteDatabase()
   }
 }

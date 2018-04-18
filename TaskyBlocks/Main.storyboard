@@ -753,13 +753,30 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Factory Reset" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="07R-U2-n1e">
+                                <rect key="frame" x="17" y="105" width="106" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Df3-p5-afX">
+                                <rect key="frame" x="318" y="100" width="39" height="30"/>
+                                <state key="normal" title="Reset"/>
+                                <connections>
+                                    <action selector="factoryResetButton:" destination="YJd-7i-fax" eventType="touchUpInside" id="9lj-jq-0Wv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="07R-U2-n1e" firstAttribute="leading" secondItem="Q9O-gC-OEl" secondAttribute="leading" constant="17" id="4d2-gA-DAG"/>
                             <constraint firstItem="6Vj-MJ-fJu" firstAttribute="top" secondItem="Q9O-gC-OEl" secondAttribute="top" constant="41" id="53t-de-bCk"/>
                             <constraint firstItem="Q9O-gC-OEl" firstAttribute="trailing" secondItem="6Vj-MJ-fJu" secondAttribute="trailing" constant="18" id="E3m-iH-xEb"/>
+                            <constraint firstItem="Df3-p5-afX" firstAttribute="centerY" secondItem="07R-U2-n1e" secondAttribute="centerY" id="a8a-tF-eKF"/>
+                            <constraint firstItem="Q9O-gC-OEl" firstAttribute="trailing" secondItem="Df3-p5-afX" secondAttribute="trailing" constant="18" id="jEs-ll-lMd"/>
                             <constraint firstItem="Kd7-5d-ZLc" firstAttribute="leading" secondItem="Q9O-gC-OEl" secondAttribute="leading" constant="16" id="kCm-tX-IYF"/>
                             <constraint firstItem="6Vj-MJ-fJu" firstAttribute="centerY" secondItem="Kd7-5d-ZLc" secondAttribute="centerY" id="xfe-oZ-wbu"/>
+                            <constraint firstItem="07R-U2-n1e" firstAttribute="top" secondItem="Kd7-5d-ZLc" secondAttribute="bottom" constant="18" id="yHs-EG-ab9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Q9O-gC-OEl"/>
                     </view>
