@@ -11,16 +11,16 @@ import RealmSwift
 
 enum NewTaskyType
 {
-case normal, random
+  case normal, random
 }
 
 class TaskyNodeEditor: NSObject {
-
+  
   private let realm: Realm
   let database: Results<TaskyNode>
   static let sharedInstance = TaskyNodeEditor()
-    var notificationToken: NotificationToken? = nil
-
+  var notificationToken: NotificationToken? = nil
+  
   //MARK: Task Creation
   func newTask() -> TaskyNode
   {
@@ -39,8 +39,8 @@ class TaskyNodeEditor: NSObject {
     {
     case .normal:
       try! realm.write {
-      newTaskyNode = TaskyNode()
-      realm.add(newTaskyNode, update: true)
+        newTaskyNode = TaskyNode()
+        realm.add(newTaskyNode, update: true)
       }
     case .random:
       let newTaskyNodeArray = createRandomTasks(qty: 1)
@@ -48,13 +48,13 @@ class TaskyNodeEditor: NSObject {
     }
     TaskyNodeEditor.sharedInstance.updateAllActivePriorities()
     guard let returnTask = realm.object(ofType: TaskyNode.self, forPrimaryKey: newTaskyNode.taskId)
-    else
+      else
     {
       fatalError("Realm returned a non-Task object")
     }
     return returnTask
   }
-
+  
   //MARK: Task Editing
   func makePermanent(task: TaskyNode)
   {
@@ -84,11 +84,11 @@ class TaskyNodeEditor: NSObject {
   {
     if task.isPermanent != 1
     {
-    realm.beginWrite()
-    task.completionDate = Date()
-    realm.add(task, update: true)
-    try! realm.commitWrite()
-    print("Tasky node \(task.title) with id: \(task.taskId) was marked complete")
+      realm.beginWrite()
+      task.completionDate = Date()
+      realm.add(task, update: true)
+      try! realm.commitWrite()
+      print("Tasky node \(task.title) with id: \(task.taskId) was marked complete")
     }
     else
     {
@@ -101,9 +101,9 @@ class TaskyNodeEditor: NSObject {
   func prepareRemove(task: TaskyNode)
   {
     for parent in task.parents
-  { for child in task.children
-  { add(task: child, AsChildTo: parent)
-    }
+    { for child in task.children
+    { add(task: child, AsChildTo: parent)
+      }
     }
     for antecedent in task.antecedents
     {for consequent in task.consequents
@@ -126,8 +126,8 @@ class TaskyNodeEditor: NSObject {
   func add(task: TaskyNode, AsChildTo newParent: TaskyNode)
   { realm.beginWrite()
     if !task.parents.contains(newParent)
-  { task.parents.append(newParent)
-    realm.add(task, update: true)
+    { task.parents.append(newParent)
+      realm.add(task, update: true)
     }
     try! realm.commitWrite()
   }
@@ -136,8 +136,8 @@ class TaskyNodeEditor: NSObject {
   {
     realm.beginWrite()
     if !newChild.parents.contains(task)
-  { newChild.parents.append(task)
-    realm.add(task, update: true)
+    { newChild.parents.append(task)
+      realm.add(task, update: true)
     }
     try! realm.commitWrite()
   }
@@ -145,8 +145,8 @@ class TaskyNodeEditor: NSObject {
   func remove(task: TaskyNode, asChildTo parent: TaskyNode)
   { realm.beginWrite()
     if let index = task.parents.index(of: parent)
-  { task.parents.remove(at: index)
-    realm.add(task, update: true)
+    { task.parents.remove(at: index)
+      realm.add(task, update: true)
     }
     try! realm.commitWrite()
   }
@@ -154,8 +154,8 @@ class TaskyNodeEditor: NSObject {
   func remove(task: TaskyNode, asParentTo child: TaskyNode)
   { realm.beginWrite()
     if !child.parents.contains(task)
-  { child.parents.append(task)
-    realm.add(task, update: true)
+    { child.parents.append(task)
+      realm.add(task, update: true)
     }
     try! realm.commitWrite()
   }
@@ -170,15 +170,15 @@ class TaskyNodeEditor: NSObject {
   func removeAsParentToAllChildren(task: TaskyNode)
   {
     for child in task.children
-  { remove(task: child, asChildTo: task)
+    { remove(task: child, asChildTo: task)
     }
   }
   
   func add(task: TaskyNode, asConsequentTo newAntecedent: TaskyNode)
   { realm.beginWrite()
     if !task.antecedents.contains(newAntecedent)
-  { task.antecedents.append(newAntecedent)
-    realm.add(task, update: true)
+    { task.antecedents.append(newAntecedent)
+      realm.add(task, update: true)
     }
     try! realm.commitWrite()
   }
@@ -191,8 +191,8 @@ class TaskyNodeEditor: NSObject {
   func remove(task: TaskyNode, asConsequentTo antecedent: TaskyNode)
   { realm.beginWrite()
     if let index = task.antecedents.index(of: antecedent)
-  { task.antecedents.remove(at: index)
-    realm.add(task, update: true)
+    { task.antecedents.remove(at: index)
+      realm.add(task, update: true)
     }
     try! realm.commitWrite()
   }
@@ -215,25 +215,7 @@ class TaskyNodeEditor: NSObject {
     TaskyNodeEditor.sharedInstance.remove(task: consequent, asConsequentTo: task)
     }
   }
-
-  //MARK: Write session management
-//  private func saveChanges()
-//  {
-//   // try! realm.commitWrite()
-//    print("Write session committed")
-//   // realm.beginWrite()
-//    print("New write session opened")
-//    // call update priorities here
-//  }
   
-//  private func abandonChanges()
-//  {
-//    realm.cancelWrite()
-//    print("Write session abandoned")
-//    realm.beginWrite()
-//    print("New write session opened")
-//  }
-
   //MARK: Initializers
   override private init()
   {
@@ -263,7 +245,7 @@ class TaskyNodeEditor: NSObject {
     super.init()
     print("New write session begun")
   }
-
+  
   deinit
   {
     print("editor deinitialization:")
@@ -271,92 +253,86 @@ class TaskyNodeEditor: NSObject {
     print("Realm instance closed")
   }
   
-  /////
-
-
   func updatePriorityDirect(of task: TaskyNode, to value: Double)
-{
-  try! realm.write {
-    task.priorityDirect.value = value
-  }
-  }
-
-// MARK: Priority Calculators:
-// Danny suggests that these functions should return a value and not mutate properties.
-// However, since the only purpose served by these methods is the calculating of
-// Apparent priority, maybe I should try again to turn them into calculated properties.
-//A task's inherited priority is the maximum of all parents' apparent priorities
-
-private func updatePriorityInherited(of task: TaskyNode)
-{
-  try! realm.write{
-  task.priorityInherited.value = task.parents.max(ofProperty: "priorityApparent")
-}
-}
-
-private func updatePriorityConsequent(of task: TaskyNode)
-{
-  try! realm.write {
-  task.priorityConsequent.value = task.consequents.max(ofProperty: "priorityApparent")
-}
-  }
-
-private func updatePriorityApparent(of task: TaskyNode)
-{
-  var priority = task.priorityDirect.value ?? task.priorityDirectDefault
-  if let inherited = task.priorityInherited.value
   {
-    priority = inherited < priority ? inherited : priority
+    try! realm.write {
+      task.priorityDirect.value = value
+    }
   }
-  if let consequent = task.priorityConsequent.value
+  
+  // MARK: Priority Calculators:
+  // Danny suggests that these functions should return a value and not mutate properties.
+  // However, since the only purpose served by these methods is the calculating of
+  // Apparent priority, maybe I should try again to turn them into calculated properties.
+  
+  private func updatePriorityInherited(of task: TaskyNode)
   {
-    priority = consequent > priority ? consequent : priority
+    try! realm.write{
+      task.priorityInherited.value = task.parents.max(ofProperty: "priorityApparent")
+    }
   }
-  try! realm.write {
-  task.priorityApparent = task.priorityOverride.value ?? priority
-}
+  
+  private func updatePriorityConsequent(of task: TaskyNode)
+  {
+    try! realm.write {
+      task.priorityConsequent.value = task.consequents.max(ofProperty: "priorityApparent")
+    }
   }
-
-
-//MARK: Class Method Definitions: TO BE MOVED TO MANAGER
-
-//Danny note:/master update instance method to call each priority update individually and return an update record
+  
+  private func updatePriorityApparent(of task: TaskyNode)
+  {
+    var priority = task.priorityDirect.value ?? task.priorityDirectDefault
+    if let inherited = task.priorityInherited.value
+    {
+      priority = inherited < priority ? inherited : priority
+    }
+    if let consequent = task.priorityConsequent.value
+    {
+      priority = consequent > priority ? consequent : priority
+    }
+    try! realm.write {
+      task.priorityApparent = task.priorityOverride.value ?? priority
+    }
+  }
+  
+  //MARK: Class Method Definitions
+  //Danny note:/master update instance method to call each priority update individually and return an update record
   func updatePriorities(of task: TaskyNode) -> (TaskRecord)  //Returns a tasks UUID and priorityApparent
   { updatePriorityInherited(of: task)
-  //   DannyNote: let newPritoryApprent = updatePriorityInherited()
+    //   DannyNote: let newPritoryApprent = updatePriorityInherited()
     updatePriorityConsequent(of: task)
     updatePriorityApparent(of: task)
-  return (task.taskId, task.priorityApparent)
-}
-
-func updatePriorityFor(tasks: Set<TaskyNode>,limit:Int)
-{ var currentTaskRecords: [String:Double] = [:]
-  var previousTaskRecords = ["dummy": 99.9] //ensures the first pass has a non-nil unequal dict to compare against, as to to ensure we enter a second pass.
-  let anyNonZeroInt = 42 // Remove this and use "while repeat" below?
-  var recordsChanged = anyNonZeroInt //ensures that we enter the loop with a non-nil, non-zero value
-  var updatesPerformed: [String:Int] = [:]
-  while recordsChanged != 0
-  { for task in tasks
-  { let taskRecord: TaskRecord = updatePriorities(of: task)
-    currentTaskRecords.updateValue(taskRecord.priority, forKey: taskRecord.taskId)
-    if let oldCount = updatesPerformed.removeValue(forKey: taskRecord.taskId)
-    { let newCount = oldCount + 1
-      updatesPerformed.updateValue(newCount, forKey: taskRecord.taskId)
-    }
-    else
-    { updatesPerformed.updateValue(1, forKey:taskRecord.taskId)
-    }
-    // guard //counter is over limit & return updates performed
-    task.soundOff()
-    }
-    print(updatesPerformed) //this is calculating incorrectly, but error doesn't affect logic
-    recordsChanged = countNonMatchingKeyValuePairsBetween(dict1: currentTaskRecords, dict2: previousTaskRecords)
-    print(recordsChanged)
-    previousTaskRecords = currentTaskRecords
-    currentTaskRecords = [:]
+    return (task.taskId, task.priorityApparent)
   }
-  return
-}
+  
+  func updatePriorityFor(tasks: Set<TaskyNode>,limit:Int)
+  { var currentTaskRecords: [String:Double] = [:]
+    var previousTaskRecords = ["dummy": 99.9] //ensures the first pass has a non-nil unequal dict to compare against, as to to ensure we enter a second pass.
+    let anyNonZeroInt = 42 // Remove this and use "while repeat" below?
+    var recordsChanged = anyNonZeroInt //ensures that we enter the loop with a non-nil, non-zero value
+    var updatesPerformed: [String:Int] = [:]
+    while recordsChanged != 0
+    { for task in tasks
+    { let taskRecord: TaskRecord = updatePriorities(of: task)
+      currentTaskRecords.updateValue(taskRecord.priority, forKey: taskRecord.taskId)
+      if let oldCount = updatesPerformed.removeValue(forKey: taskRecord.taskId)
+      { let newCount = oldCount + 1
+        updatesPerformed.updateValue(newCount, forKey: taskRecord.taskId)
+      }
+      else
+      { updatesPerformed.updateValue(1, forKey:taskRecord.taskId)
+      }
+      // guard //counter is over limit & return updates performed
+      task.soundOff()
+      }
+      print(updatesPerformed) //this is calculating incorrectly, but error doesn't affect logic
+      recordsChanged = countNonMatchingKeyValuePairsBetween(dict1: currentTaskRecords, dict2: previousTaskRecords)
+      print(recordsChanged)
+      previousTaskRecords = currentTaskRecords
+      currentTaskRecords = [:]
+    }
+    return
+  }
   
   func countNonMatchingKeyValuePairsBetween(dict1: [String:Double], dict2: [String:Double]) -> Int
   {
@@ -370,9 +346,6 @@ func updatePriorityFor(tasks: Set<TaskyNode>,limit:Int)
     }
     return count
   }
-
-  /////
-  
   
   func updateAllActivePriorities()
   {
@@ -387,11 +360,9 @@ func updatePriorityFor(tasks: Set<TaskyNode>,limit:Int)
       let newTasky = TaskyNode()
       randomTaskSet.append(newTasky)
     }
-
-    
     var verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate", "Flog", "Threaten", "Pacify", "Enrage", "Bewilder", "Frighten", "Placate", "Interrogate", "Moisten", "Shuck", "Wax", "Surveil", "Alarm", "Annoy", "Frustrate", "Telephone", "Buffalo", "Berate", "Seduce", "Scrub"]
     var nouns = ["Dog", "Dishes", "Car", "Neighbors", "Laundry", "Bathroom", "Bills", "Kids", "Boss", "Pool", "Yard", "Garage", "Garden", "Fridge", "Inlaws", "Cat", "Baby", "Shed", "TV", "Light Fixtures", "Neighborhood", "Rent", "China", "Taxes", "Deacon", "Postman", "Telephone", "Buffalo", "Local Urchins", "Garbage"]
-
+    
     for task in randomTaskSet
     {
       let verbQty = UInt32(verbs.count)
@@ -403,7 +374,6 @@ func updatePriorityFor(tasks: Set<TaskyNode>,limit:Int)
       try! realm.write {
         realm.add(task, update: true)
       }
-
       TaskyNodeEditor.sharedInstance.setDirectPriority(of: task, to: randomPriority)
       TaskyNodeEditor.sharedInstance.changeTitle(task: task, to: nameString)
       let taskDescription =
