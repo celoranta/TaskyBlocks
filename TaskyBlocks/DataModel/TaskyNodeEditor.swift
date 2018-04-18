@@ -243,7 +243,6 @@ class TaskyNodeEditor: NSObject {
     self.database = realm.objects(TaskyNode.self)
     print("Database created in memory")
     super.init()
-    print("New write session begun")
   }
   
   deinit
@@ -298,14 +297,17 @@ class TaskyNodeEditor: NSObject {
   //MARK: Class Method Definitions
   //Danny note:/master update instance method to call each priority update individually and return an update record
   func updatePriorities(of task: TaskyNode) -> (TaskRecord)  //Returns a tasks UUID and priorityApparent
-  { updatePriorityInherited(of: task)
+  {
+    print("Updating task \(task.title)")
+    updatePriorityInherited(of: task)
     //   DannyNote: let newPritoryApprent = updatePriorityInherited()
     updatePriorityConsequent(of: task)
     updatePriorityApparent(of: task)
+    print("task \(task.title) updated")
     return (task.taskId, task.priorityApparent)
   }
   
-  func updatePriorityFor(tasks: Set<TaskyNode>,limit:Int)
+  func updatePriorityFor(tasks: [TaskyNode],limit:Int)
   { var currentTaskRecords: [String:Double] = [:]
     var previousTaskRecords = ["dummy": 99.9] //ensures the first pass has a non-nil unequal dict to compare against, as to to ensure we enter a second pass.
     let anyNonZeroInt = 42 // Remove this and use "while repeat" below?
@@ -349,7 +351,7 @@ class TaskyNodeEditor: NSObject {
   
   func updateAllActivePriorities()
   {
-    updatePriorityFor(tasks: Set(self.database.filter("completionDate == nil")), limit: 100)
+    updatePriorityFor(tasks: Array(self.database.filter("completionDate == nil")), limit: 100)
   }
   
   func createRandomTasks(qty: Int = 1) -> [TaskyNode]

@@ -41,9 +41,11 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   var taskDescriptionString: String?
   
   //Realm
-  var realm: Realm!
+  let realm = try! Realm()
   var activeDataSet: Set<TaskyNode>!
-  var resultsTest = TaskyNodeEditor.sharedInstance.database.filter("completionDate == nil")
+  var notificationToken: NotificationToken? = nil
+  var detailViewController: DetailViewController? = nil
+  
   
   //MARK: Methods
   override func viewDidLoad() {
@@ -56,17 +58,19 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     taskDescription.enablesReturnKeyAutomatically = true
     taskDescription.returnKeyType = .done
     
-    
     let tasks = TaskyNodeEditor.sharedInstance.database
     activeDataSet = Set(tasks)
-
+    
+    
     guard taskDetailDataSource != nil
       else
     {
       fatalError("No data source set for detail view")
     }
     task = taskDetailDataSource.returnSelectedTask()
-    //self.refreshView()
+    subscribeToNotifications()
+    
+    self.refreshView()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -95,6 +99,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBAction func completedSwitchThrown(_ sender: Any) {
     
     TaskyNodeEditor.sharedInstance.complete(task: task)
+    
   }
   
   @IBAction func priorityLabelTap(_ sender: Any)
@@ -124,8 +129,10 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   fileprivate func refreshView()
   {
-    self.priorityDirectText.clearsOnBeginEditing = true
-    self.priorityDirectText.keyboardType = .decimalPad
+    print("temporarily ceasing notifications")
+    notificationToken?.invalidate()
+    TaskyNodeEditor.sharedInstance.updateAllActivePriorities()
+    subscribeToNotifications()
     if let uPriorityDirect = task.priorityDirect.value
     { self.priorityDirectText.text = "\(uPriorityDirect)"
     }
@@ -344,158 +351,26 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     destinationVC.pickerTableViewDelegate = self
     destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: self.activeDataSet)
   }
+  
+  fileprivate func subscribeToNotifications() {
+    print("Subscribing to notifications")
+    let filter = NSPredicate.init(format: "taskId == %@", self.task.taskId)
+    let results = realm.objects(TaskyNode.self).filter(filter)
+    task = results[0]
+    detailViewController = self
+    notificationToken = results.observe { [weak self] (changes: RealmCollectionChange) in
+      guard let detailViewController = self?.detailViewController else { return }
+      switch changes
+      {
+      case .initial:
+        print("Initial")
+        
+      case . update:
+        print("Update")
+        detailViewController.refreshView()
+      case .error(let error):
+        print(error)
+      }
+    }
+  }
 }
-
-
-////
-//// UIKeyboardType
-////
-//// Requests that a particular keyboard type be displayed when a text widget
-//// becomes first responder.
-//// Note: Some keyboard/input methods types may not support every variant.
-//// In such cases, the input method will make a best effort to find a close
-//// match to the requested type (e.g. displaying UIKeyboardTypeNumbersAndPunctuation
-//// type if UIKeyboardTypeNumberPad is not supported).
-////
-//public enum UIKeyboardType : Int {
-//
-//
-//  case `default` // Default type for the current input method.
-//
-//  case asciiCapable // Displays a keyboard which can enter ASCII characters
-//
-//  case numbersAndPunctuation // Numbers and assorted punctuation.
-//
-//  case URL // A type optimized for URL entry (shows . / .com prominently).
-//
-//  case numberPad // A number pad with locale-appropriate digits (0-9, ۰-۹, ०-९, etc.). Suitable for PIN entry.
-//
-//  case phonePad // A phone pad (1-9, *, 0, #, with letters under the numbers).
-//
-//  case namePhonePad // A type optimized for entering a person's name or phone number.
-//
-//  case emailAddress // A type optimized for multiple email address entry (shows space @ . prominently).
-//
-//  @available(iOS 4.1, *)
-//  case decimalPad // A number pad with a decimal point.
-//
-//  @available(iOS 5.0, *)
-//  case twitter // A type optimized for twitter text entry (easy access to @ #)
-//
-//  @available(iOS 7.0, *)
-//  case webSearch // A default keyboard type with URL-oriented addition (shows space . prominently).
-//
-//  @available(iOS 10.0, *)
-//  case asciiCapableNumberPad // A number pad (0-9) that will always be ASCII digits.
-//
-//
-//  public static var alphabet: UIKeyboardType { get } // Deprecated
-//}
-//
-////
-//// UIKeyboardAppearance
-////
-//// Requests a keyboard appearance be used when a text widget
-//// becomes first responder..
-//// Note: Some keyboard/input methods types may not support every variant.
-//// In such cases, the input method will make a best effort to find a close
-//// match to the requested type.
-////
-//public enum UIKeyboardAppearance : Int {
-//
-//
-//  case `default` // Default apperance for the current input method.
-//
-//  @available(iOS 7.0, *)
-//  case dark
-//
-//  @available(iOS 7.0, *)
-//  case light
-//
-//  public static var alert: UIKeyboardAppearance { get } // Deprecated
-//}
-//
-////
-//// UIReturnKeyType
-////
-//// Controls the display of the return key.
-////
-//// Note: This enum is under discussion and may be replaced with a
-//// different implementation.
-////
-//public enum UIReturnKeyType : Int {
-//
-//
-//  case `default`
-//
-//  case go
-//
-//  case google
-//
-//  case join
-//
-//  case next
-//
-//  case route
-//
-//  case search
-//
-//  case send
-//
-//  case yahoo
-//
-//  case done
-//
-//  case emergencyCall
-//
-//  @available(iOS 9.0, *)
-//  case `continue`
-//}
-//
-//public struct UITextContentType : Hashable, Equatable, RawRepresentable {
-//
-//  public init(_ rawValue: String)
-//
-//  public init(rawValue: String)
-//}
-//
-////
-//// UITextInputTraits
-////
-//// Controls features of text widgets (or other custom objects that might wish
-//// to respond to keyboard input).
-////
-//public protocol UITextInputTraits : NSObjectProtocol {
-//
-//
-//  optional public var autocapitalizationType: UITextAutocapitalizationType { get set } // default is UITextAutocapitalizationTypeSentences
-//
-//  optional public var autocorrectionType: UITextAutocorrectionType { get set } // default is UITextAutocorrectionTypeDefault
-//
-//  @available(iOS 5.0, *)
-//  optional public var spellCheckingType: UITextSpellCheckingType { get set } // default is UITextSpellCheckingTypeDefault;
-//
-//  @available(iOS 11.0, *)
-//  optional public var smartQuotesType: UITextSmartQuotesType { get set } // default is UITextSmartQuotesTypeDefault;
-//
-//  @available(iOS 11.0, *)
-//  optional public var smartDashesType: UITextSmartDashesType { get set } // default is UITextSmartDashesTypeDefault;
-//
-//  @available(iOS 11.0, *)
-//  optional public var smartInsertDeleteType: UITextSmartInsertDeleteType { get set } // default is UITextSmartInsertDeleteTypeDefault;
-//
-//  optional public var keyboardType: UIKeyboardType { get set } // default is UIKeyboardTypeDefault
-//
-//  optional public var keyboardAppearance: UIKeyboardAppearance { get set } // default is UIKeyboardAppearanceDefault
-//
-//  optional public var returnKeyType: UIReturnKeyType { get set } // default is UIReturnKeyDefault (See note under UIReturnKeyType enum)
-//
-//  optional public var enablesReturnKeyAutomatically: Bool { get set } // default is NO (when YES, will automatically disable return key when text widget has zero-length contents, and will automatically enable when text widget has non-zero-length contents)
-//
-//  optional public var isSecureTextEntry: Bool { get set } // default is NO
-//
-//
-//  // The textContentType property is to provide the keyboard with extra information about the semantic intent of the text document.
-//  @available(iOS 10.0, *)
-//  optional public var textContentType: UITextContentType! { get set } // default is nil
-//}
