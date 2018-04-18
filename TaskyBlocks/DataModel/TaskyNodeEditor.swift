@@ -381,7 +381,6 @@ func updatePriorityFor(tasks: Set<TaskyNode>,limit:Int)
   
   func createRandomTasks(qty: Int = 1) -> [TaskyNode]
   {
-    realm.beginWrite()
     var randomTaskSet: [TaskyNode] = []
     for _ in 0..<qty
     {
