@@ -36,7 +36,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   
   var realm: Realm!
   var activeTaskySet: Set<TaskyNode>!
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     try! realm = Realm()
@@ -51,7 +51,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     titleButton.setTitleColor(UIColor.black, for: .normal)
     let titleButtonSelector = NSSelectorFromString("titleButtonClick")
     titleButton.addTarget(self, action: titleButtonSelector, for: .touchUpInside)
-   // quitButtonOutlet.title = "Give up..."
+    // quitButtonOutlet.title = "Give up..."
     //let titleSize = CGSize.init(width: 100, height: 50)
     tasksLabel.isHidden = true
     completeLabel.isHidden = true
@@ -98,7 +98,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     tasksCompleteLabel.text = "\(tasksComplete)"
     forceRow()
     checkPermanent()
-
+    
   }
   
   //MARK: Timer delegate funtions
@@ -165,10 +165,9 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     
     refreshView()
   }
-
+  
   @objc func unwindSegueToPomodoro(sender: Any?)
   {
-    //self.performSegue(withIdentifier: "unwindToPomodoro", sender: sender)
     self.navigationController?.popViewController(animated: true)
   }
   
@@ -176,8 +175,8 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   {
     if taskPicker.isHidden == true
     {
-    taskPicker.isHidden = false
-    taskPicker.isUserInteractionEnabled = true
+      taskPicker.isHidden = false
+      taskPicker.isUserInteractionEnabled = true
     }
     else
     {
@@ -188,32 +187,10 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   
   func changeBackButton()
   {
-    //let backButton = UIBarButtonItem.init(title: "Good Work.", style: .plain, target: self, action: #selector(quitButton(_:)))
     quitButtonOutlet.title = "Good Work."
-//    if let nav = self.navigationController,
-//      let item = nav.navigationBar.topItem {
-//      item.backBarButtonItem  = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.plain, target: self, action:
-//        #selector(unwindSegueToPomodoro(sender:)))
-    
-      
-    
     refreshView()
   }
-
-
-//  func addBackbutton(title: String) {
-//    if let nav = self.navigationController,
-//      let item = nav.navigationBar.topItem {
-//      item.backBarButtonItem  = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.Plain, target: self, action:
-//        #selector(self.backButtonAction))
-//    } else {
-//      if let nav = self.navigationController,
-//        let _ = nav.navigationBar.backItem {
-//        self.navigationController!.navigationBar.backItem!.title = title
-//      }
-//    }
-//  }
-
+  
   @IBAction func markCompletePress(_ sender: Any) {
     TaskyNodeEditor.sharedInstance.complete(task: performedTask)
     completeLabel.isHidden = false
@@ -225,15 +202,6 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     {
       changeBackButton()
     }
-//    let index = pickerArray.index(of: performedTask)
-//    var uindex2 = 0
-//    if let uindex = index
-//    {
-//      if uindex >= pickerArray.count
-//      {
-//        uindex2 = uindex - 1
-//      }
-//    }
     guard pickerArray.count != 0
       else
     {
@@ -244,13 +212,9 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   }
   
   //Mark: Actions
-  @IBAction func quitButton(_ sender: Any) {
-  unwindSegueToPomodoro(sender: self)
-
+  @IBAction func quitButton(_ sender: Any)
+  {
+    unwindSegueToPomodoro(sender: self)
+    
   }
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
-  
 }

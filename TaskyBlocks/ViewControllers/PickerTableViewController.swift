@@ -80,7 +80,6 @@ class PickerTableViewController: UITableViewController
     case .some(_):
       fatalError("delegate requested unknown type or types")
     }
-    
   }
   
   // MARK: - Table view data source
@@ -130,7 +129,8 @@ class PickerTableViewController: UITableViewController
   }
   
   // MARK: -Table View Delegate
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+  {
     var task: TaskyNode
     switch indexPath.section
     {
