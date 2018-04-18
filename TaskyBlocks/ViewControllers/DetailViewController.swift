@@ -129,10 +129,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   fileprivate func refreshView()
   {
-    print("temporarily ceasing notifications")
-    notificationToken?.invalidate()
-    TaskyNodeEditor.sharedInstance.updateAllActivePriorities()
-    subscribeToNotifications()
     if let uPriorityDirect = task.priorityDirect.value
     { self.priorityDirectText.text = "\(uPriorityDirect)"
     }
@@ -353,7 +349,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   }
   
   fileprivate func subscribeToNotifications() {
-    print("Subscribing to notifications")
     let filter = NSPredicate.init(format: "taskId == %@", self.task.taskId)
     let results = realm.objects(TaskyNode.self).filter(filter)
     task = results[0]
