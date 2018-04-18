@@ -40,6 +40,10 @@ class SplashViewController: UIViewController {
     userSettings.set(true, forKey: "DefaultsPreviouslyLoaded")
   }
   
+  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    performSegue(withIdentifier: "toHierarchy", sender: self)
+  }
+  
   override func didReceiveMemoryWarning()
   {
     super.didReceiveMemoryWarning()

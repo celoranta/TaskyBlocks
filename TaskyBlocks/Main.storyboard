@@ -61,7 +61,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DSe-O8-uz1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7328.8000000000002" y="-896.40179910044981"/>
+            <point key="canvasLocation" x="4455" y="-1986"/>
         </scene>
         <!--Detail-->
         <scene sceneID="bM6-0x-0wJ">
@@ -348,7 +348,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="6244" y="-896.40179910044981"/>
+            <point key="canvasLocation" x="3370" y="-1986"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="OQ0-Mq-RqQ">
@@ -358,16 +358,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q5e-wY-cAf">
-                                <rect key="frame" x="132" y="95" width="111" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="New subclasses"/>
-                                <connections>
-                                    <segue destination="OB1-YU-3TI" kind="show" id="dTS-gj-fRS"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Splash Screen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23O-5m-GJQ">
-                                <rect key="frame" x="124" y="306" width="110" height="21"/>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Splash Screen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23O-5m-GJQ">
+                                <rect key="frame" x="132.5" y="333" width="110" height="21"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -382,6 +374,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BrQ-zR-3nX"/>
                     </view>
+                    <connections>
+                        <segue destination="OB1-YU-3TI" kind="show" identifier="toHierarchy" id="C0Z-Ey-w7a"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7BF-c9-PSa" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="dbo-Z7-VR9"/>
@@ -482,7 +477,7 @@
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="5306" y="-1819"/>
+            <point key="canvasLocation" x="5514" y="-2830"/>
         </scene>
         <!--Item-->
         <scene sceneID="hko-hj-wbx">
@@ -699,12 +694,12 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ur-FN-S8h" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="tb0-L2-8JC" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="6229.6000000000004" y="-1819.3403298350827"/>
+            <point key="canvasLocation" x="6439" y="-2830"/>
         </scene>
         <!--Final Hierarchy View Controller-->
         <scene sceneID="O9Q-ZA-OtI">
             <objects>
-                <viewController id="rBu-Ze-elH" customClass="FinalHierarchyViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="hierarchy" id="rBu-Ze-elH" customClass="FinalHierarchyViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eK7-GS-LjY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -721,6 +716,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tRW-pO-7lu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3150" y="-2830"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="OKW-md-k33">
+            <objects>
+                <viewController storyboardIdentifier="settings" id="YJd-7i-fax" customClass="SettingsViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Xiz-oI-m9y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Vj-MJ-fJu">
+                                <rect key="frame" x="308" y="61" width="51" height="31"/>
+                                <connections>
+                                    <action selector="randomTasksSwitchThrown:" destination="YJd-7i-fax" eventType="valueChanged" id="Hcl-H8-Ip8"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Tasks are Random" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kd7-5d-ZLc">
+                                <rect key="frame" x="16" y="66" width="179" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="6Vj-MJ-fJu" firstAttribute="top" secondItem="Q9O-gC-OEl" secondAttribute="top" constant="41" id="53t-de-bCk"/>
+                            <constraint firstItem="Q9O-gC-OEl" firstAttribute="trailing" secondItem="6Vj-MJ-fJu" secondAttribute="trailing" constant="18" id="E3m-iH-xEb"/>
+                            <constraint firstItem="Kd7-5d-ZLc" firstAttribute="leading" secondItem="Q9O-gC-OEl" secondAttribute="leading" constant="16" id="kCm-tX-IYF"/>
+                            <constraint firstItem="6Vj-MJ-fJu" firstAttribute="centerY" secondItem="Kd7-5d-ZLc" secondAttribute="centerY" id="xfe-oZ-wbu"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Q9O-gC-OEl"/>
+                    </view>
+                    <connections>
+                        <outlet property="randomTasksSwitch" destination="6Vj-MJ-fJu" id="la8-D0-81c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3ty-Up-TZQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3902" y="-3617"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="bOI-vA-fi1">

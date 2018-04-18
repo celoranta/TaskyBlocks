@@ -59,7 +59,7 @@ var blockyHeight: CGFloat
   }
   
   let rightBarButtonItem: UIBarButtonItem = {
-    let barButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: nil)
+    let barButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: nil)
     barButtonItem.tintColor = UIColor.blue
     return barButtonItem
   }()
@@ -77,6 +77,8 @@ var blockyHeight: CGFloat
     barButtonItem.tintColor = UIColor.blue
     return barButtonItem
   }()
+  
+  
   var nextViewController: UIViewController? = nil
   var nextViewControllerId: String?
   
@@ -103,9 +105,8 @@ var blockyHeight: CGFloat
         self.navigationItem.setHidesBackButton(true, animated: true)
     
     var toolbarItems = [UIBarButtonItem]()
-    //toolbarItems.append(UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(modalToSettings(_:))))
-
     toolbarItems.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTask(_:))))
+    toolbarItems.append(UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(pushToSettings(_:))))
     self.toolbarItems = toolbarItems
     
     //enable block dragging
@@ -313,15 +314,15 @@ var blockyHeight: CGFloat
 
   }
   //Mark: Programmatic Navigation
-//
-//  @objc func modalToSettings(_ sender: UIBarButtonItem)
-//  {
-//    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-////    let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
-//  //  self.navigationController?.pushViewController(settingsViewController, animated: true)
-//
-//  }
-//
+
+  @objc func pushToSettings(_ sender: UIBarButtonItem)
+  {
+    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
+    self.navigationController?.pushViewController(settingsViewController, animated: true)
+
+  }
+
   //MARK: Segues
 
   
