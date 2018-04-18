@@ -37,8 +37,6 @@ class FinalHierarchyViewController: MasterGraphingViewController
     case true:
       _ = TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
     }
-    let dataset = Set.init(TaskyNodeEditor.sharedInstance.database.filter(filter))
-    //TaskyNodeEditor.sharedInstance.updatePriorityFor(tasks: Array(dataset), limit: 100)
     self.collectionView.reloadData()
   }
   

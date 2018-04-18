@@ -332,7 +332,8 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   {
     let destinationVC = segue.destination as! PickerTableViewController
     destinationVC.pickerTableViewDelegate = self
-    destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: Set(TaskyNodeEditor.sharedInstance.database))
+    let predicate = NSPredicate.init(format: "completionDate == nil AND taskId != %@",self.task.taskId)
+    destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: TaskyNodeEditor.sharedInstance.database.filter(predicate))
   }
   
   fileprivate func subscribeToNotifications()

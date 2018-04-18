@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import RealmSwift
+import RealmSwift
 
 protocol PickerTableViewDelegate
 {
@@ -23,26 +23,20 @@ enum TaskRelationship: String
 
 class PickerTableViewController: UITableViewController
 {
-  //var superSet: Set<TaskyNode>?
-  //var contextItem: TaskyNode?
   var pickerTableViewDelegate: PickerTableViewDelegate!
-  //var tableViewTitle: String?
-  
-  var activeTasks: [TaskyNode]!
-  //var selectedTask: TaskyNode!
+  //var taskSuperListFilter: NSPredicate = NSPredicate.init(format: "completionDate == nil")
+  var taskSubListFilter: String!  //All tasks selected on this page
+  var activeTasks: Results<TaskyNode>!
   var subArray: [TaskyNode] = []  //copy of selected task's property
-  //var updatedSubArray: [TaskyNode] = [] //for query by delegate
-  
   var delegateRequestedRelationshipType: TaskRelationship!
   var delegateRequestedRelationshipsOf: TaskyNode!
-  var delegateRequestedRelationshipsAmong: Set<TaskyNode>!
+  var delegateRequestedRelationshipsAmong: Results<TaskyNode>!
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
     
-    activeTasks = Array.init(delegateRequestedRelationshipsAmong)
-    
+    activeTasks = delegateRequestedRelationshipsAmong
     //    self.tableView(self.tableView, sectionForSectionIndexTitle: delegateRequestedRelationshipType.rawValue, at: 0)
   }
   
@@ -59,12 +53,12 @@ class PickerTableViewController: UITableViewController
     return (delegateRequestedRelationshipsOf, delegateRequestedRelationshipType, subArray)
   }
   
-  func provideUpdatedCollection(of relationship: TaskRelationship, for task: TaskyNode, within taskList: Set<TaskyNode>)
+  func provideUpdatedCollection(of relationship: TaskRelationship, for task: TaskyNode, within taskList: Results<TaskyNode>)
   {
     delegateRequestedRelationshipType = relationship
     delegateRequestedRelationshipsOf = task
     delegateRequestedRelationshipsAmong = taskList
-    
+
     switch delegateRequestedRelationshipType
     {
     case .parents:
