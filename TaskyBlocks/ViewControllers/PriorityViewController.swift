@@ -9,16 +9,16 @@
 import UIKit
 import RealmSwift
 
-class PriorityViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource {
-  
-  
-  //var realm: Realm!
+class PriorityViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource
+{
+  //MARK: Static Properties
   var activeTaskySet: Results<TaskyNode>!
   let filter = "completionDate == nil"
   let blockyAlpha: CGFloat = 0.75
   var blockyWidth: CGFloat = 123.5
   let layout = UICollectionViewFlowLayout()
-  //var subscription: NotificationToken?
+
+  //MARK: Set Properties
   var blockyBorder: CGFloat
   {
     get
@@ -26,6 +26,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
       return blockyHeight * 0.05
     }
   }
+  
   var blockyRadius: CGFloat
   {
     get
@@ -33,6 +34,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
       return blockyHeight * 0.2
     }
   }
+  
   var blockyHeight: CGFloat
   {
     get
@@ -40,6 +42,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
       return blockyWidth * 0.5
     }
   }
+  
   var blockSize: CGSize
   {
     get
@@ -47,46 +50,42 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
       return CGSize.init(width: blockyWidth, height: blockyHeight)
     }
   }
+  
   var selectedTask: TaskyNode!
 
+  //MARK: Outlets
   @IBOutlet weak var priorityCollectionView: UICollectionView!
   @IBOutlet weak var deleteButton: UIBarButtonItem!
   
-  override func viewDidLoad() {
+  //MARK: Life Cycle Methods
+  override func viewDidLoad()
+  {
     super.viewDidLoad()
-
     layout.itemSize = blockSize
-    //layout.estimatedItemSize = CGSize.init(width: 500, height: 500)
     layout.minimumInteritemSpacing = 2
     layout.minimumLineSpacing = 2
-    //layout.sectionInset = .init(top: blockyHeight, left: blockyHeight, bottom: blockyWidth, right: blockyWidth)
     priorityCollectionView.collectionViewLayout = layout
     activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
     deleteButton.isEnabled = false
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-//    TaskyNodeEditor.sharedInstance.updatePriorityFor(tasks: Array.init(TaskyNodeEditor.sharedInstance.database.filter(self.filter)),limit: 100)
+  override func viewWillAppear(_ animated: Bool)
+  {
     priorityCollectionView.reloadData()
-    if let nav = self.navigationController {
+    if let nav = self.navigationController
+    {
       nav.isToolbarHidden = false
     }
   }
 
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
-  
-  //MARK:  Realm notification
-
-  //MARK: Collection View
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  //MARK: Collection View Methods
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+  {
     return activeTaskySet.count
   }
   
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+  {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionViewCell
     let task = activeTaskySet[indexPath.row]
     let taskyLabel = UILabel.init(frame: cell.bounds)
@@ -123,12 +122,17 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     print(indexPath)
     self.selectedTask = activeTaskySet[indexPath[1]]
     print(selectedTask.title)
-    
-    //TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
     performSegue(withIdentifier: "priorityToDetail", sender: self)
     self.priorityCollectionView.reloadData()
   }
   
+  //MARK: Task Detail View Delegate Methods
+  func returnSelectedTask() -> TaskyNode {
+    return selectedTask
+  }
+}
+  
+  //MARK: Actions
   @IBAction func addButton(_ sender: Any)
   {
     let userSettings = UserDefaults()
@@ -141,11 +145,11 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
       _ = TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
     }
     let dataset = Set.init(TaskyNodeEditor.sharedInstance.database.filter(filter))
-    //TaskyNodeEditor.sharedInstance.updatePriorityFor(tasks: Array(dataset), limit: 100)
     self.priorityCollectionView.reloadData()
   }
   
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+  {
     switch segue.identifier
     {
     case "priorityToDetail":
@@ -158,8 +162,4 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
   }
   
-  //Task Detail View Delegate
-  func returnSelectedTask() -> TaskyNode {
-    return selectedTask
-  }
-}
+

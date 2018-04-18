@@ -10,8 +10,6 @@ import UIKit
 import RealmSwift
 
 class SplashViewController: UIViewController {
- // var taskManager = TaskyNodeManager()
-  //var notificationToken: NotificationToken? = nil
   
   override func viewDidLoad()
   {
@@ -19,12 +17,13 @@ class SplashViewController: UIViewController {
     if TaskyNodeEditor.sharedInstance.database.count == 0
     {
       let testNewTask = TaskyNodeEditor.sharedInstance.newTask()
-      
       TaskyNodeEditor.sharedInstance.makePermanent(task: testNewTask)
       TaskyNodeEditor.sharedInstance.changeTitle(task: testNewTask, to: "Be Happy")
       TaskyNodeEditor.sharedInstance.setDirectPriority(of: testNewTask, to: 100.00)
       TaskyNodeEditor.sharedInstance.complete(task: testNewTask)
+      print("\nNew primal value created: ")
       testNewTask.soundOff()
+      
       let userSettings = UserDefaults()
       let settingsExist = userSettings.bool(forKey: "DefaultsPreviouslyLoaded")
       if settingsExist == false
@@ -32,23 +31,17 @@ class SplashViewController: UIViewController {
         self.configureInitialUserDefaults()
       }
     }
-    
-
   }
   
-  fileprivate func configureInitialUserDefaults() {
+  fileprivate func configureInitialUserDefaults()
+  {
     let userSettings = UserDefaults()
     userSettings.set(false, forKey: "NewTasksAreRandom")
     userSettings.set(true, forKey: "DefaultsPreviouslyLoaded")
   }
   
-  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    performSegue(withIdentifier: "toHierarchy", sender: self)
-  }
-  
-  override func didReceiveMemoryWarning()
+  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
   {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+    performSegue(withIdentifier: "toHierarchy", sender: self)
   }
 }
