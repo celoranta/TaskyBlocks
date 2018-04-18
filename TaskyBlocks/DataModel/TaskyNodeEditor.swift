@@ -273,7 +273,8 @@ class TaskyNodeEditor: NSObject {
   
   func updatePriorityDirect(of task: TaskyNode, to value: Double)
   {
-    try! realm.write {
+    try! realm.write
+    {
       task.priorityDirect.value = value
     }
   }
@@ -340,6 +341,7 @@ class TaskyNodeEditor: NSObject {
     userSettings.set(false, forKey: "NewTasksAreRandom")
     userSettings.set(true, forKey: "DefaultsPreviouslyLoaded")
   }
+  
   func deleteDatabase()
   {
     try! realm.write

@@ -27,6 +27,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   var blockyWidth: CGFloat = 123.5
   var nextViewController: UIViewController? = nil
   var nextViewControllerId: String?
+  let newPlusImage = UIImage.init(named: "greyPlus")
+  
   fileprivate var longPressGesture: UILongPressGestureRecognizer!
   
   //MARK: CalculatedProperties
@@ -66,13 +68,6 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     return barButtonItem
   }()
   
-//  let addButton: UIBarButtonItem =
-//  {
-//    let barButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: nil)
-//    barButtonItem.tintColor = UIColor.blue
-//    return barButtonItem
-//  }()
-  
   override func viewDidLoad()
   {
     super.viewDidLoad()
@@ -107,6 +102,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     {
       task.soundOff()
     }
+    
+
   }
   
   fileprivate func redrawCollection() {
@@ -138,31 +135,46 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   //MARK: Collection View
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
   {
-    return activeTaskySet.count
+    return activeTaskySet.count + 1
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
   {
+    
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "masterCollectionCell", for: indexPath) as! MasterGraphingCollectionViewCell
     for oldSubview in cell.subviews
     {
       oldSubview.removeFromSuperview()
     }
-    let task = activeTaskySet[indexPath.row]
-    cell.alpha = blockyAlpha
-    cell.layer.borderColor = borderColor
-    cell.autoresizesSubviews = true
-    cell.layer.borderWidth = blockyBorder
-    cell.layer.cornerRadius = blockyRadius
-    cellTitleLabel = UILabel()
-    cell.addSubview(cellTitleLabel)
-    cellTitleLabel.frame = cell.bounds
-    cellTitleLabel.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-    cellTitleLabel.textAlignment = .center
-    cellTitleLabel.numberOfLines = 0
-    cellTitleLabel.lineBreakMode = .byWordWrapping
-    self.cellTitleLabel.text = task.title
-    cell.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
+    switch indexPath.row == activeTaskySet.count
+    {
+    case false:
+      let task = activeTaskySet[indexPath.row]
+      cell.alpha = blockyAlpha
+      cell.layer.borderColor = borderColor
+      cell.autoresizesSubviews = true
+      cell.layer.borderWidth = blockyBorder
+      cell.layer.cornerRadius = blockyRadius
+      cellTitleLabel = UILabel()
+      cell.addSubview(cellTitleLabel)
+      cellTitleLabel.frame = cell.bounds
+      cellTitleLabel.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+      cellTitleLabel.textAlignment = .center
+      cellTitleLabel.numberOfLines = 0
+      cellTitleLabel.lineBreakMode = .byWordWrapping
+      self.cellTitleLabel.text = task.title
+      cell.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
+    case true:
+      cell.alpha = blockyAlpha
+      cell.layer.borderColor = borderColor
+      cell.autoresizesSubviews = true
+      cell.layer.borderWidth = blockyBorder
+      cell.layer.cornerRadius = blockyRadius
+      cellTitleLabel = UILabel()
+      cell.addSubview(cellTitleLabel)
+      self.cellTitleLabel.text = "Add New"
+      cell.backgroundColor = TaskyBlockLibrary.hexStringToUIColor(hex: colorString.purple.rawValue)
+    }
     return cell
   }
   

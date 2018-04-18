@@ -115,19 +115,8 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     return self.selectedItem
   }
   
-  
   //MARK: Action Methods
   @objc func backToTasks()
-  {
-    self.navigationController?.popToRootViewController(animated: true)
-  }
-  
-  @IBAction func unwindSegue(segue: UIStoryboardSegue)
-  {
-    print("This is unwinding")
-  }
-  
-  @IBAction func manageTasksButton(_ sender: Any)
   {
     self.navigationController?.popToRootViewController(animated: true)
   }

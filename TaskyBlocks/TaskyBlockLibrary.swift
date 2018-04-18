@@ -8,6 +8,15 @@
 import Foundation
 import RealmSwift
 
+
+enum colorString: String
+{
+  case green = "#cfffc9"
+  case red = "#fad3d3"
+  case yellow = "#ffffa2"
+  case purple = "dbd0f0"
+}
+
 class TaskyBlockLibrary
 {
   class func calculateBlockColorFrom(task: TaskyNode) -> (UIColor)
@@ -35,15 +44,8 @@ class TaskyBlockLibrary
     blockColor = hexStringToUIColor(hex: blockColorString)
     return blockColor
   }
-  enum colorString: String
-  {
-    case green = "#cfffc9"
-    case red = "#fad3d3"
-    case yellow = "#ffffa2"
-    case purple = "dbd0f0"
-  }
-  
-  class func hexStringToUIColor (hex:String) -> UIColor {
+
+  class func hexStringToUIColor(hex:String) -> UIColor {
     var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
     if (cString.hasPrefix("#")) {
       cString.remove(at: cString.startIndex)
@@ -61,7 +63,6 @@ class TaskyBlockLibrary
     )
   }
 }
-
 
 typealias TaskRecord = (taskId: String, priority: Double)
 
