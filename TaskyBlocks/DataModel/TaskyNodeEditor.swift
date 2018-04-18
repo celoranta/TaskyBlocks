@@ -101,13 +101,17 @@ class TaskyNodeEditor: NSObject {
   func prepareRemove(task: TaskyNode)
   {
     for parent in task.parents
-    { for child in task.children
-    { add(task: child, AsChildTo: parent)
+    {
+      for child in task.children
+    {
+      add(task: child, AsChildTo: parent)
       }
     }
     for antecedent in task.antecedents
-    {for consequent in task.consequents
-    { add(task: consequent, asConsequentTo: antecedent)
+    {
+      for consequent in task.consequents
+    {
+      add(task: consequent, asConsequentTo: antecedent)
       }
     }
   }
@@ -124,9 +128,11 @@ class TaskyNodeEditor: NSObject {
   //MARK: TaskyNode Relational Assignment Edits
   
   func add(task: TaskyNode, AsChildTo newParent: TaskyNode)
-  { realm.beginWrite()
+  {
+    realm.beginWrite()
     if !task.parents.contains(newParent)
-    { task.parents.append(newParent)
+    {
+      task.parents.append(newParent)
       realm.add(task, update: true)
     }
     try! realm.commitWrite()
@@ -136,32 +142,38 @@ class TaskyNodeEditor: NSObject {
   {
     realm.beginWrite()
     if !newChild.parents.contains(task)
-    { newChild.parents.append(task)
+    {
+      newChild.parents.append(task)
       realm.add(task, update: true)
     }
     try! realm.commitWrite()
   }
   
   func remove(task: TaskyNode, asChildTo parent: TaskyNode)
-  { realm.beginWrite()
+  {
+    realm.beginWrite()
     if let index = task.parents.index(of: parent)
-    { task.parents.remove(at: index)
+    {
+      task.parents.remove(at: index)
       realm.add(task, update: true)
     }
     try! realm.commitWrite()
   }
   
   func remove(task: TaskyNode, asParentTo child: TaskyNode)
-  { realm.beginWrite()
+  {
+    realm.beginWrite()
     if !child.parents.contains(task)
-    { child.parents.append(task)
+    {
+      child.parents.append(task)
       realm.add(task, update: true)
     }
     try! realm.commitWrite()
   }
   
   func removeAsChildToAllParents(task: TaskyNode)
-  { realm.beginWrite()
+  {
+    realm.beginWrite()
     task.parents.removeAll()
     realm.add(task, update: true)
     try! realm.commitWrite()
@@ -170,14 +182,17 @@ class TaskyNodeEditor: NSObject {
   func removeAsParentToAllChildren(task: TaskyNode)
   {
     for child in task.children
-    { remove(task: child, asChildTo: task)
+    {
+      remove(task: child, asChildTo: task)
     }
   }
   
   func add(task: TaskyNode, asConsequentTo newAntecedent: TaskyNode)
-  { realm.beginWrite()
+  {
+    realm.beginWrite()
     if !task.antecedents.contains(newAntecedent)
-    { task.antecedents.append(newAntecedent)
+    {
+      task.antecedents.append(newAntecedent)
       realm.add(task, update: true)
     }
     try! realm.commitWrite()
@@ -189,9 +204,11 @@ class TaskyNodeEditor: NSObject {
   }
   
   func remove(task: TaskyNode, asConsequentTo antecedent: TaskyNode)
-  { realm.beginWrite()
+  {
+    realm.beginWrite()
     if let index = task.antecedents.index(of: antecedent)
-    { task.antecedents.remove(at: index)
+    {
+      task.antecedents.remove(at: index)
       realm.add(task, update: true)
     }
     try! realm.commitWrite()
@@ -203,14 +220,16 @@ class TaskyNodeEditor: NSObject {
   }
   
   func removeAsConsequentToAll(task: TaskyNode)
-  { realm.beginWrite()
+  {
+    realm.beginWrite()
     task.antecedents.removeAll()
     realm.add(task, update: true)
     try! realm.commitWrite()
   }
   
   func removeAsAntecedentToAll(task: TaskyNode)
-  { for consequent in task.consequents
+  {
+    for consequent in task.consequents
   {
     TaskyNodeEditor.sharedInstance.remove(task: consequent, asConsequentTo: task)
     }
