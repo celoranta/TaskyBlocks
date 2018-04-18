@@ -66,7 +66,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    TaskyNode.updatePriorityFor(tasks: Set.init(TaskyNodeEditor.sharedInstance.database.filter(self.filter)),limit: 100)
+    TaskyNodeEditor.sharedInstance.updatePriorityFor(tasks: Set.init(TaskyNodeEditor.sharedInstance.database.filter(self.filter)),limit: 100)
     priorityCollectionView.reloadData()
     if let nav = self.navigationController {
       nav.isToolbarHidden = false
@@ -141,7 +141,7 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
       _ = TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
     }
     let dataset = Set.init(TaskyNodeEditor.sharedInstance.database.filter(filter))
-    TaskyNode.updatePriorityFor(tasks: dataset, limit: 100)
+    TaskyNodeEditor.sharedInstance.updatePriorityFor(tasks: dataset, limit: 100)
     self.priorityCollectionView.reloadData()
   }
   

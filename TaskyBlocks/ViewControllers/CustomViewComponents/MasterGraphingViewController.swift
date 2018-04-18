@@ -127,7 +127,7 @@ var blockyHeight: CGFloat
   override func viewWillAppear(_ animated: Bool)
   {
     
-    TaskyNode.updatePriorityFor(tasks: Set.init(TaskyNodeEditor.sharedInstance.database.filter("completionDate == nil")),limit: 100)
+    TaskyNodeEditor.sharedInstance.updatePriorityFor(tasks: Set.init(TaskyNodeEditor.sharedInstance.database.filter("completionDate == nil")),limit: 100)
     collectionView.reloadData()
     if let nav = self.navigationController {
       nav.isToolbarHidden = false
