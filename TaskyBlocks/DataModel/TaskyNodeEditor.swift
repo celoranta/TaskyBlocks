@@ -15,7 +15,6 @@ enum NewTaskyType
 }
 
 class TaskyNodeEditor: NSObject {
-  
   private let realm: Realm
   let database: Results<TaskyNode>
   static let sharedInstance = TaskyNodeEditor()
@@ -31,14 +30,14 @@ class TaskyNodeEditor: NSObject {
     {
     case true:
       taskType = NewTaskyType.random
-      
     case false:
       taskType = NewTaskyType.normal
     }
     switch taskType
     {
     case .normal:
-      try! realm.write {
+      try! realm.write
+      {
         newTaskyNode = TaskyNode()
         realm.add(newTaskyNode, update: true)
       }
@@ -84,6 +83,7 @@ class TaskyNodeEditor: NSObject {
   {
     if task.isPermanent != 1
     {
+      prepareRemove(task: task)
       realm.beginWrite()
       task.completionDate = Date()
       realm.add(task, update: true)
@@ -103,15 +103,15 @@ class TaskyNodeEditor: NSObject {
     for parent in task.parents
     {
       for child in task.children
-    {
-      add(task: child, AsChildTo: parent)
+      {
+        add(task: child, AsChildTo: parent)
       }
     }
     for antecedent in task.antecedents
     {
       for consequent in task.consequents
-    {
-      add(task: consequent, asConsequentTo: antecedent)
+      {
+        add(task: consequent, asConsequentTo: antecedent)
       }
     }
   }
@@ -163,9 +163,9 @@ class TaskyNodeEditor: NSObject {
   func remove(task: TaskyNode, asParentTo child: TaskyNode)
   {
     realm.beginWrite()
-    if !child.parents.contains(task)
+    if let uindex = child.parents.index(of: task)
     {
-      child.parents.append(task)
+      child.parents.remove(at: uindex)
       realm.add(task, update: true)
     }
     try! realm.commitWrite()
@@ -230,8 +230,8 @@ class TaskyNodeEditor: NSObject {
   func removeAsAntecedentToAll(task: TaskyNode)
   {
     for consequent in task.consequents
-  {
-    TaskyNodeEditor.sharedInstance.remove(task: consequent, asConsequentTo: task)
+    {
+      TaskyNodeEditor.sharedInstance.remove(task: consequent, asConsequentTo: task)
     }
   }
   

@@ -105,7 +105,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     topScreenLabel1.text = "Time's Up!"
     topScreenLabel2.text = "You've earned a break."
   }
-  
+
   override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?)
   {
     if motion == .motionShake
