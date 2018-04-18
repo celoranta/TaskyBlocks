@@ -127,10 +127,10 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
   }
   
   //MARK: Task Detail View Delegate Methods
-  func returnSelectedTask() -> TaskyNode {
+  func returnSelectedTask() -> TaskyNode
+  {
     return selectedTask
   }
-}
   
   //MARK: Actions
   @IBAction func addButton(_ sender: Any)
@@ -161,5 +161,5 @@ class PriorityViewController: UIViewController, UICollectionViewDelegate, UIColl
       return
     }
   }
-  
+}
 
