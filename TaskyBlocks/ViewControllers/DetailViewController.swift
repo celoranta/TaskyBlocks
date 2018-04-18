@@ -41,10 +41,9 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   //Realm
   let realm = try! Realm()
-  var activeDataSet: Set<TaskyNode>!
+  var activeDataSet: Results<TaskyNode>!
   var notificationToken: NotificationToken? = nil
   var detailViewController: DetailViewController? = nil
-  
   
   //MARK: Methods
   override func viewDidLoad()
@@ -57,9 +56,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     taskDescription.autocapitalizationType = .sentences
     taskDescription.enablesReturnKeyAutomatically = true
     taskDescription.returnKeyType = .done
-    
-    let tasks = TaskyNodeEditor.sharedInstance.database
-    
+    self.navigationItem.rightBarButtonItem = nil ;
     guard taskDetailDataSource != nil
       else
     {
@@ -67,7 +64,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     }
     task = taskDetailDataSource.returnSelectedTask()
     subscribeToNotifications()
-    
     self.refreshView()
   }
   
@@ -129,7 +125,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     pickerViewRelationshipType = .dependents
     performSegue(withIdentifier: "toDetailPicker", sender: self)
   }
-  
   
   fileprivate func refreshView()
   {
@@ -320,6 +315,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     super.touchesBegan(touches, with: event)
     taskDescription.resignFirstResponder()
     taskTitleText.resignFirstResponder()
+    priorityDirectText.resignFirstResponder()
   }
   
   // MARK: - Navigation
@@ -331,6 +327,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: TaskyNodeEditor.sharedInstance.database.filter(predicate))
   }
   
+  //MARK: Realm Notifications
   fileprivate func subscribeToNotifications()
   {
     let filter = NSPredicate.init(format: "taskId == %@", self.task.taskId)

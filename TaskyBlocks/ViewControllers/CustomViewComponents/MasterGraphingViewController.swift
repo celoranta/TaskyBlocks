@@ -5,65 +5,55 @@
 //  Created by Chris Eloranta on 2018-04-13.
 //  Copyright © 2018 Christopher Eloranta. All rights reserved.
 //
-/*
- let rightBarButtonItem: UIBarButtonItem = {
- let barButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: nil)
- barButtonItem.tintColor = UIColor.blue
- return barButtonItem
- }()
- 
- override func viewDidLoad() {
- super.viewDidLoad()
- 
- // Do any additional setup after loading the view.
- view.backgroundColor = UIColor.blue
- 
- self.title = "Login"
- 
- self.navigationItem.rightBarButtonItem = rightBarButtonItem
- }
- */
+
 import UIKit
 import RealmSwift
 
-class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskyGraphingDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, TaskDetailDataSource {
-
+class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskyGraphingDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, TaskDetailDataSource
+{
   //MARK: Dependency Injection / Override Properies
-
   var customLayout = MasterGraphingCollectionViewLayout()
   var filter = "completionDate == nil"
   var sorter = ""
   
-  //MARK: Static and Calculated Properties
+  //MARK: Static Properties
   var collectionView: UICollectionView!
   var activeTaskySet: Results<TaskyNode>!
-
   var selectedTask: TaskyNode!
-  
-  
   let blockyAlpha: CGFloat = 0.75
   let highlightBorderColor = UIColor.yellow.cgColor
-
   var cellTitleLabel: UILabel!
   let borderColor = UIColor.darkGray.cgColor
-var blockyWidth: CGFloat = 123.5
-var blockyHeight: CGFloat
-  {get
-  {return blockyWidth * 0.5
+  var blockyWidth: CGFloat = 123.5
+  var nextViewController: UIViewController? = nil
+  var nextViewControllerId: String?
+  fileprivate var longPressGesture: UILongPressGestureRecognizer!
+  
+  //MARK: CalculatedProperties
+  var blockyHeight: CGFloat
+  {
+    get
+    {
+      return blockyWidth * 0.5
     }
   }
   var blockyBorder: CGFloat
-  {get
-  {return blockyHeight * 0.05
+  {
+    get
+    {
+      return blockyHeight * 0.05
     }
   }
   var blockyRadius: CGFloat
-  {get
-  {return blockyHeight * 0.2
+  {
+    get
+    {
+      return blockyHeight * 0.2
     }
   }
   
-  let rightBarButtonItem: UIBarButtonItem = {
+  let rightBarButtonItem: UIBarButtonItem =
+  {
     let barButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: nil)
     barButtonItem.tintColor = UIColor.blue
     return barButtonItem
@@ -76,19 +66,13 @@ var blockyHeight: CGFloat
     return barButtonItem
   }()
   
-  let addButton: UIBarButtonItem =
-  {
-    let barButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: nil)
-    barButtonItem.tintColor = UIColor.blue
-    return barButtonItem
-  }()
+//  let addButton: UIBarButtonItem =
+//  {
+//    let barButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: nil)
+//    barButtonItem.tintColor = UIColor.blue
+//    return barButtonItem
+//  }()
   
-  
-  var nextViewController: UIViewController? = nil
-  var nextViewControllerId: String?
-  
-  fileprivate var longPressGesture: UILongPressGestureRecognizer!
-
   override func viewDidLoad()
   {
     super.viewDidLoad()
@@ -107,7 +91,7 @@ var blockyHeight: CGFloat
     self.navigationItem.rightBarButtonItem = rightBarButtonItem
     rightBarButtonItem.target = self
     rightBarButtonItem.action = #selector(doneButton(_:))
-        self.navigationItem.setHidesBackButton(true, animated: true)
+    self.navigationItem.setHidesBackButton(true, animated: true)
     
     var toolbarItems = [UIBarButtonItem]()
     toolbarItems.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTask(_:))))
@@ -133,23 +117,18 @@ var blockyHeight: CGFloat
     activeTaskySet = activeTaskyCache
     self.collectionView.reloadData()
   }
-  
   override func viewWillAppear(_ animated: Bool)
   {
     
-//    TaskyNodeEditor.sharedInstance.updatePriorityFor(tasks: Array.init(TaskyNodeEditor.sharedInstance.database.filter("completionDate == nil")),limit: 100)
     collectionView.reloadData()
-    if let nav = self.navigationController {
+    if let nav = self.navigationController
+    {
       nav.isToolbarHidden = false
     }
     redrawCollection()
   }
   
-//  override func viewWillDisappear(_ animated: true) {
-//
-//  }
-  
- // MARK: Custom Layout Method
+  // MARK: Custom Layout Method
   func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat
   {
     //set cell height here
@@ -157,11 +136,13 @@ var blockyHeight: CGFloat
   }
   
   //MARK: Collection View
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+  {
     return activeTaskySet.count
   }
   
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+  {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "masterCollectionCell", for: indexPath) as! MasterGraphingCollectionViewCell
     for oldSubview in cell.subviews
     {
@@ -180,14 +161,10 @@ var blockyHeight: CGFloat
     cellTitleLabel.textAlignment = .center
     cellTitleLabel.numberOfLines = 0
     cellTitleLabel.lineBreakMode = .byWordWrapping
-
-    
     self.cellTitleLabel.text = task.title
     cell.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
-    
     return cell
   }
-  
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
   {
@@ -195,43 +172,41 @@ var blockyHeight: CGFloat
     self.selectedTask = activeTaskySet[indexPath[1]]
     print(selectedTask.title)
     detailView(task: selectedTask)
-    //TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
-    //performSegue(withIdentifier: "priorityToDetail", sender: self)
     redrawCollection()
   }
   
-//  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
-//  {
-//    print(indexPath)
-//
-//    let newSelectedTask = activeTaskySet[indexPath[1]]
-//    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
-//
-//    print(newSelectedTask.title)
-//    if let newSelectedTask = selectedTask
-//    {
-//      selectedTask = newSelectedTask
-//      dataSetCell?.layer.borderColor = highlightBorderColor
-//      print("was selected")
-//      //TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
-//      //performSegue(withIdentifier: "priorityToDetail", sender: self)
-//      //DispatchQueue.main.async(execute: {)
-//      self.collectionView.reloadData()
-//
-//    }
-//    else
-//    {
-//      selectedTask = nil
-//      dataSetCell?.layer.borderColor = borderColor
-//      print("was deselected")
-//  }
-//  }
-//  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath)
-//  {
-//    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
-//    dataSetCell?.layer.borderColor = borderColor
-//    self.collectionView.reloadData()
-//  }
+  //  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+  //  {
+  //    print(indexPath)
+  //
+  //    let newSelectedTask = activeTaskySet[indexPath[1]]
+  //    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
+  //
+  //    print(newSelectedTask.title)
+  //    if let newSelectedTask = selectedTask
+  //    {
+  //      selectedTask = newSelectedTask
+  //      dataSetCell?.layer.borderColor = highlightBorderColor
+  //      print("was selected")
+  //      //TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
+  //      //performSegue(withIdentifier: "priorityToDetail", sender: self)
+  //      //DispatchQueue.main.async(execute: {)
+  //      self.collectionView.reloadData()
+  //
+  //    }
+  //    else
+  //    {
+  //      selectedTask = nil
+  //      dataSetCell?.layer.borderColor = borderColor
+  //      print("was deselected")
+  //  }
+  //  }
+  //  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath)
+  //  {
+  //    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
+  //    dataSetCell?.layer.borderColor = borderColor
+  //    self.collectionView.reloadData()
+  //  }
   @objc func addTask(_ sender: Any?)
   {
     let _ = TaskyNodeEditor.sharedInstance.newTask()
@@ -239,17 +214,21 @@ var blockyHeight: CGFloat
   }
   
   //MARK: Drag items
-  func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+  func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool
+  {
     let task = activeTaskySet[indexPath.row]
     if task.isPermanent != 1
-    { return true
+    {
+      return true
     }
     else
-    { return false
+    {
+      return false
     }
   }
   
-  func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+  func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
+  {
     print("drag began at \(sourceIndexPath) and ended at \(destinationIndexPath)")
   }
   
@@ -258,7 +237,8 @@ var blockyHeight: CGFloat
     switch(gesture.state)
     {
     case .began:
-      guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else {
+      guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else
+      {
         break
       }
       collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
@@ -271,28 +251,6 @@ var blockyHeight: CGFloat
     }
   }
   
-  //MARK:  Zoom
-//  func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-//  return collectionView
-//  }
-  
-//  //MARK: Actions
-//  @IBAction func addButton(_ sender: Any)
-//  {
-//    let userSettings = UserDefaults()
-//    let random = userSettings.bool(forKey: "NewTasksAreRandom")
-//    switch random
-//    {
-//    case false:
-//      _ = TaskyNodeEditor.sharedInstance.newTask()
-//    case true:
-//      _ = TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
-//    }
-//    let dataset = Set.init(TaskyNodeEditor.sharedInstance.database.filter(filter))
-//    TaskyNode.updatePriorityFor(tasks: dataset, limit: 100)
-//    self.collectionView.reloadData()
-//  }
-
   //MARK: Actions
   
   @objc func doneButton(_ sender: UIBarButtonItem)
@@ -306,37 +264,31 @@ var blockyHeight: CGFloat
     }
     else if let unwrappedNextVC = nextViewController
     {
-        navigationController?.pushViewController(unwrappedNextVC, animated: true)
-
-    //  let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
+      navigationController?.pushViewController(unwrappedNextVC, animated: true)
     }
   }
   
   @objc func detailView(task: TaskyNode)
   {
     print("Detail View Selected")
-
-      let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-      let nextVC = storyBoard.instantiateViewController(withIdentifier: "detailView") as! DetailViewController
-      nextVC.task = task
+    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    let nextVC = storyBoard.instantiateViewController(withIdentifier: "detailView") as! DetailViewController
+    nextVC.task = task
     nextVC.taskDetailDataSource = self
-      navigationController?.pushViewController(nextVC, animated: true)
-
+    navigationController?.pushViewController(nextVC, animated: true)
   }
+  
   //Mark: Programmatic Navigation
-
   @objc func pushToSettings(_ sender: UIBarButtonItem)
   {
     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
     let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
     self.navigationController?.pushViewController(settingsViewController, animated: true)
-
   }
-
-  //MARK: Segues
-
   
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+  //MARK: Segues
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+  {
     switch segue.identifier
     {
     case "priorityToDetail":
@@ -350,7 +302,8 @@ var blockyHeight: CGFloat
   }
   
   //Task Detail View Delegate
-  func returnSelectedTask() -> TaskyNode {
+  func returnSelectedTask() -> TaskyNode
+  {
     return selectedTask
   }
 }

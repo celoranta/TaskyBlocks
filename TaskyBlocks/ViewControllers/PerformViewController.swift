@@ -10,9 +10,9 @@ import UIKit
 import AppusCircleTimer
 import RealmSwift //Remove once a read-only realm is created
 
-class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerViewDataSource, AppusCircleTimerDelegate {
+class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerViewDataSource, AppusCircleTimerDelegate
   
-  
+{
   @IBOutlet weak var quitButtonOutlet: UIBarButtonItem!
   @IBOutlet weak var winTasksButton: UIBarButtonItem!
   @IBOutlet weak var tasksLabel: UILabel!
@@ -81,6 +81,8 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     if self.performedTask.isPermanent == 1
     {
       self.winTasksButton.isEnabled = false
+      self.navigationController?.navigationBar.isHidden = false
+      self.navigationController?.popToRootViewController(animated: true)
     }
     else
     {
@@ -95,7 +97,6 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     tasksCompleteLabel.text = "\(tasksComplete)"
     forceRow()
     checkPermanent()
-    
   }
   
   //MARK: Timer delegate funtions
@@ -105,7 +106,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     topScreenLabel1.text = "Time's Up!"
     topScreenLabel2.text = "You've earned a break."
   }
-
+  
   override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?)
   {
     if motion == .motionShake
@@ -159,7 +160,6 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     {
       shuffle()
     }
-    
     refreshView()
   }
   
