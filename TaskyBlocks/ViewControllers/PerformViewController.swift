@@ -51,7 +51,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     titleButton.setTitleColor(UIColor.black, for: .normal)
     let titleButtonSelector = NSSelectorFromString("titleButtonClick")
     titleButton.addTarget(self, action: titleButtonSelector, for: .touchUpInside)
-    
+   // quitButtonOutlet.title = "Give up..."
     //let titleSize = CGSize.init(width: 100, height: 50)
     tasksLabel.isHidden = true
     completeLabel.isHidden = true
@@ -98,6 +98,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     tasksCompleteLabel.text = "\(tasksComplete)"
     forceRow()
     checkPermanent()
+
   }
   
   //MARK: Timer delegate funtions
@@ -164,8 +165,8 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     
     refreshView()
   }
-  
-  func unwindSegueToPomodoro(sender: Any?)
+
+  @objc func unwindSegueToPomodoro(sender: Any?)
   {
     //self.performSegue(withIdentifier: "unwindToPomodoro", sender: sender)
     self.navigationController?.popViewController(animated: true)
@@ -185,6 +186,33 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     }
   }
   
+  func changeBackButton()
+  {
+    //let backButton = UIBarButtonItem.init(title: "Good Work.", style: .plain, target: self, action: #selector(quitButton(_:)))
+    quitButtonOutlet.title = "Good Work."
+//    if let nav = self.navigationController,
+//      let item = nav.navigationBar.topItem {
+//      item.backBarButtonItem  = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.plain, target: self, action:
+//        #selector(unwindSegueToPomodoro(sender:)))
+    
+      
+    
+    refreshView()
+  }
+
+
+//  func addBackbutton(title: String) {
+//    if let nav = self.navigationController,
+//      let item = nav.navigationBar.topItem {
+//      item.backBarButtonItem  = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.Plain, target: self, action:
+//        #selector(self.backButtonAction))
+//    } else {
+//      if let nav = self.navigationController,
+//        let _ = nav.navigationBar.backItem {
+//        self.navigationController!.navigationBar.backItem!.title = title
+//      }
+//    }
+//  }
 
   @IBAction func markCompletePress(_ sender: Any) {
     TaskyNodeEditor.sharedInstance.complete(task: performedTask)
@@ -193,6 +221,10 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     tasksCompleteLabel.isHidden = false
     tasksComplete += 1
     tasksCompleteLabel.text = "\(tasksComplete)"
+    if self.pickerArray.filter("isPermanent == -1").count == 0
+    {
+      changeBackButton()
+    }
 //    let index = pickerArray.index(of: performedTask)
 //    var uindex2 = 0
 //    if let uindex = index

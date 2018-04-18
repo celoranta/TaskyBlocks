@@ -11,11 +11,13 @@ import UIKit
 class FinalPriorityViewController: MasterGraphingViewController {
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+
         self.customLayout = FinalPriorityCollectionViewLayout()
             nextViewController = PomodoroViewController()
         customLayout.delegate = self
       self.nextViewControllerId = "pomodoroViewController"
+              super.viewDidLoad()
+      self.title = "Set Priority"
         // Do any additional setup after loading the view.
     }
 

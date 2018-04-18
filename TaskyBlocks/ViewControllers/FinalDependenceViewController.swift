@@ -15,8 +15,9 @@ class FinalDependenceViewController: MasterGraphingViewController {
       customLayout = FinalDependenceCollectionViewLayout()
      // collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
       nextViewController = FinalPriorityViewController()
-        super.viewDidLoad()
 
+        super.viewDidLoad()
+      self.title = "Set Dependence"
       
         // Do any additional setup after loading the view.
     }

@@ -18,6 +18,8 @@ class FinalHierarchyViewController: MasterGraphingViewController {
    // collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
     nextViewController = FinalDependenceViewController()
     super.viewDidLoad()
+    self.title = "Set Hierarchy"
+
 
 
   }

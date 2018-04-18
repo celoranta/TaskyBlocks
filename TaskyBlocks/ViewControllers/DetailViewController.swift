@@ -75,7 +75,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   //MARK: Actions
   @IBAction func backButton(_ sender: Any) {
-    self.dismiss(animated: true, completion: nil)
+    self.navigationController?.popViewController(animated: true)
   }
   @IBAction func addButton(_ sender: Any) {
     task = TaskyNodeEditor.sharedInstance.newTask()

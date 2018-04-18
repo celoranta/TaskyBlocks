@@ -26,7 +26,7 @@
 import UIKit
 import RealmSwift
 
-class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskDetailDataSource, TaskyGraphingDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
+class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskyGraphingDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, TaskDetailDataSource {
 
   //MARK: Dependency Injection / Override Properies
 
@@ -100,9 +100,10 @@ var blockyHeight: CGFloat
     self.navigationItem.rightBarButtonItem = rightBarButtonItem
     rightBarButtonItem.target = self
     rightBarButtonItem.action = #selector(doneButton(_:))
+        self.navigationItem.setHidesBackButton(true, animated: true)
     
     var toolbarItems = [UIBarButtonItem]()
-    toolbarItems.append(UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(modalToSettings(_:))))
+    //toolbarItems.append(UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(modalToSettings(_:))))
 
     toolbarItems.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTask(_:))))
     self.toolbarItems = toolbarItems
@@ -177,6 +178,16 @@ var blockyHeight: CGFloat
   }
   
   
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+  {
+    print(indexPath)
+    self.selectedTask = activeTaskySet[indexPath[1]]
+    print(selectedTask.title)
+    detailView(task: selectedTask)
+    //TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
+    //performSegue(withIdentifier: "priorityToDetail", sender: self)
+    redrawCollection()
+  }
   
 //  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
 //  {
@@ -290,16 +301,27 @@ var blockyHeight: CGFloat
     }
   }
   
-  //Mark: Programmatic Navigation
-  
-  @objc func modalToSettings(_ sender: UIBarButtonItem)
+  @objc func detailView(task: TaskyNode)
   {
-    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//    let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
-  //  self.navigationController?.pushViewController(settingsViewController, animated: true)
+    print("Detail View Selected")
+
+      let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+      let nextVC = storyBoard.instantiateViewController(withIdentifier: "detailView") as! DetailViewController
+      nextVC.task = task
+    nextVC.taskDetailDataSource = self
+      navigationController?.pushViewController(nextVC, animated: true)
 
   }
-  
+  //Mark: Programmatic Navigation
+//
+//  @objc func modalToSettings(_ sender: UIBarButtonItem)
+//  {
+//    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+////    let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
+//  //  self.navigationController?.pushViewController(settingsViewController, animated: true)
+//
+//  }
+//
   //MARK: Segues
 
   
@@ -309,7 +331,7 @@ var blockyHeight: CGFloat
     case "priorityToDetail":
       print("prepare for segue to detail with \(selectedTask.title) selected was called")
       let detailVC = segue.destination.childViewControllers.first as! DetailViewController
-      detailVC.taskDetailDataSource = self as TaskDetailDataSource
+      detailVC.taskDetailDataSource = self
       detailVC.task = selectedTask
     default:
       return

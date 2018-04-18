@@ -40,8 +40,13 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     //let tasks = realm.objects(TaskyNode.self).filter(filter)
     activeTaskySet = realm.objects(TaskyNode.self).filter(filter)
     prepareView()
+    self.navigationItem.hidesBackButton = true
   self.goTimeButton.setTitle("Go Time!", for: .normal)
   self.goTimeButton.setTitle("Choose" , for: .disabled)
+    
+    let backButton = UIBarButtonItem.init(title: "Tasks", style: .plain, target: self, action: #selector(backToTasks))
+    self.navigationItem.leftBarButtonItem = backButton
+    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -131,6 +136,13 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
       
     }
   }
+  
+  
+  @objc func backToTasks()
+  {
+    self.navigationController?.popToRootViewController(animated: true)
+  }
+  
   @IBAction func unwindSegue(segue: UIStoryboardSegue)
   {
    print("This is unwinding")
@@ -140,7 +152,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   }
 
   @IBAction func manageTasksButton(_ sender: Any) {
-    self.navigationController?.popToViewController((navigationController?.viewControllers[1])!, animated: true)
+    self.navigationController?.popToRootViewController(animated: true)
   }
   
   @IBOutlet weak var durationStepperOut: UIStepper!
