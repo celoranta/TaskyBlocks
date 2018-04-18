@@ -48,7 +48,8 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   
   //MARK: Methods
-  override func viewDidLoad() {
+  override func viewDidLoad()
+  {
     super.viewDidLoad()
     
     priorityDirectText.clearsOnBeginEditing = true

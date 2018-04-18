@@ -37,13 +37,12 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   var realm: Realm!
   var activeTaskySet: Set<TaskyNode>!
   
-  override func viewDidLoad() {
+  override func viewDidLoad()
+  {
     super.viewDidLoad()
     try! realm = Realm()
-    //let tasksData = realm.objects(TaskyNode.self).filter(filter)
     self.navigationController?.navigationBar.isHidden = true
     pickerArray = realm.objects(TaskyNode.self).filter(filter)
-    //activeTaskySet = Set(tasks)
     titleButton = UIButton()
     navBar.titleView = titleButton
     titleButton.translatesAutoresizingMaskIntoConstraints = false
@@ -51,8 +50,6 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     titleButton.setTitleColor(UIColor.black, for: .normal)
     let titleButtonSelector = NSSelectorFromString("titleButtonClick")
     titleButton.addTarget(self, action: titleButtonSelector, for: .touchUpInside)
-    // quitButtonOutlet.title = "Give up..."
-    //let titleSize = CGSize.init(width: 100, height: 50)
     tasksLabel.isHidden = true
     completeLabel.isHidden = true
     tasksCompleteLabel.isHidden = true
@@ -65,7 +62,6 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     rightSmalLTimer.isBackwards = true
     leftSmallTimer.inactiveColor = UIColor.blue
     rightSmalLTimer.inactiveColor = UIColor.blue
-    
     
     sprintTimer.delegate = self
     sprintTimer.elapsedTime = 0
@@ -80,7 +76,8 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     refreshView()
   }
   
-  fileprivate func checkPermanent() {
+  fileprivate func checkPermanent()
+  {
     if self.performedTask.isPermanent == 1
     {
       self.winTasksButton.isEnabled = false
@@ -102,13 +99,15 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   }
   
   //MARK: Timer delegate funtions
-  func circleCounterTimeDidExpire(circleTimer: AppusCircleTimer) {
+  func circleCounterTimeDidExpire(circleTimer: AppusCircleTimer)
+  {
     taskPicker.isUserInteractionEnabled = false
     topScreenLabel1.text = "Time's Up!"
     topScreenLabel2.text = "You've earned a break."
   }
   
-  override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+  override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?)
+  {
     if motion == .motionShake
     {
       shuffle()
@@ -138,8 +137,6 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     titleButton.setTitle(performedTask.title, for: .normal)
     taskPicker.isHidden = true
     taskPicker.isUserInteractionEnabled = false
-    //refreshView()
-    
   }
   
   func forceRow()
@@ -191,7 +188,8 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     refreshView()
   }
   
-  @IBAction func markCompletePress(_ sender: Any) {
+  @IBAction func markCompletePress(_ sender: Any)
+  {
     TaskyNodeEditor.sharedInstance.complete(task: performedTask)
     completeLabel.isHidden = false
     tasksLabel.isHidden = false
@@ -215,6 +213,5 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   @IBAction func quitButton(_ sender: Any)
   {
     unwindSegueToPomodoro(sender: self)
-    
   }
 }
