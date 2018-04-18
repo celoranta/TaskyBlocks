@@ -19,6 +19,7 @@ class TaskyNodeEditor: NSObject {
   private let realm: Realm
   let database: Results<TaskyNode>
   static let sharedInstance = TaskyNodeEditor()
+    var notificationToken: NotificationToken? = nil
 
   //MARK: Task Creation
   func newTask() -> TaskyNode
@@ -44,13 +45,6 @@ class TaskyNodeEditor: NSObject {
       newTaskyNode = newTaskyNodeArray[0]
       
     }
-    
-    
-//    guard let _ = realm.object(ofType: TaskyNode.self, forPrimaryKey: newTaskyNode.taskId)
-//      else
-//    {
-//      fatalError("Realm returned a non-task object")
-//    }
     realm.add(newTaskyNode)
     self.saveChanges()
     TaskyNodeEditor.sharedInstance.updateAllActivePriorities()
@@ -308,9 +302,7 @@ class TaskyNodeEditor: NSObject {
       Ullamco eiusmod alcatra veniam brisket, ad ipsum venison ea jowl. Officia laboris drumstick bacon, labore duis boudin tempor. Sirloin ut ball tip in corned beef. Officia elit eiusmod, nulla tri-tip swine aliquip. Officia consequat picanha esse in pastrami, biltong reprehende
       """
    TaskyNodeEditor.sharedInstance.updateTaskDescription(for: task, with: taskDescription)
-
     }
-    
     saveChanges()
     return randomTaskSet
   }

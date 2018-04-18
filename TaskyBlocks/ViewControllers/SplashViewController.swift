@@ -11,7 +11,7 @@ import RealmSwift
 
 class SplashViewController: UIViewController {
  // var taskManager = TaskyNodeManager()
-  
+  var notificationToken: NotificationToken? = nil
   
   override func viewDidLoad()
   {
@@ -32,6 +32,8 @@ class SplashViewController: UIViewController {
         self.configureInitialUserDefaults()
       }
     }
+    
+
   }
   
   fileprivate func configureInitialUserDefaults() {

@@ -358,11 +358,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Splash Screen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23O-5m-GJQ">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23O-5m-GJQ">
                                 <rect key="frame" x="132.5" y="333" width="110" height="21"/>
                                 <gestureRecognizers/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Splash Screen">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="system" size="17"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -501,7 +506,7 @@
                                 </constraints>
                                 <items>
                                     <navigationItem title="Title" id="fmV-Oa-flz">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" id="0KJ-Wx-U2Q">
+                                        <barButtonItem key="leftBarButtonItem" id="0KJ-Wx-U2Q">
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hQN-Rw-bTu">
                                                 <rect key="frame" x="16" y="7" width="30" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -511,7 +516,7 @@
                                                 </connections>
                                             </button>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="plain" id="tJw-pH-Frf">
+                                        <barButtonItem key="rightBarButtonItem" id="tJw-pH-Frf">
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Bbu-nQ-g5l">
                                                 <rect key="frame" x="297" y="7" width="62" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -710,7 +715,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="XUo-2m-UAv"/>
                     </navigationItem>
                     <connections>
-                        <segue destination="mS3-ba-KlM" kind="show" id="mHz-rE-Ott"/>
+                        <segue destination="mS3-ba-KlM" kind="show" identifier="hierarchyToVC" id="mHz-rE-Ott"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tRW-pO-7lu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -766,7 +771,7 @@
                         <viewLayoutGuide key="safeArea" id="hsW-1E-cLy"/>
                     </view>
                     <connections>
-                        <segue destination="zEJ-FY-FiZ" kind="show" id="yZb-Og-5XU"/>
+                        <segue destination="zEJ-FY-FiZ" kind="show" identifier="toPriority" id="yZb-Og-5XU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Wh-Vu-EXP" userLabel="First Responder" sceneMemberID="firstResponder"/>

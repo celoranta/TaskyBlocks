@@ -14,7 +14,7 @@ protocol TaskDetailDataSource {
 }
 
 class DetailViewController: UIViewController, PickerTableViewDelegate, UITextViewDelegate, UITextFieldDelegate, UITextInputTraits {
-
+  
   
   //MARK: Outlets
   @IBOutlet weak var taskTitleText: UITextField!
@@ -39,14 +39,16 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   var pickerTableViewController: PickerTableViewController!
   var pickerViewRelationshipType: TaskRelationship!
   var taskDescriptionString: String?
- 
+  
   //Realm
   var realm: Realm!
   var activeDataSet: Set<TaskyNode>!
+  var resultsTest = TaskyNodeEditor.sharedInstance.database.filter("completionDate == nil")
   
   //MARK: Methods
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     priorityDirectText.clearsOnBeginEditing = true
     priorityDirectText.keyboardType = .decimalPad
     taskTitleText.clearsOnBeginEditing = true
@@ -54,10 +56,10 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     taskDescription.enablesReturnKeyAutomatically = true
     taskDescription.returnKeyType = .done
     
-//    try! realm = Realm()
+    
     let tasks = TaskyNodeEditor.sharedInstance.database
     activeDataSet = Set(tasks)
-    
+
     guard taskDetailDataSource != nil
       else
     {
@@ -66,15 +68,15 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     task = taskDetailDataSource.returnSelectedTask()
     //self.refreshView()
   }
-
+  
   override func viewWillAppear(_ animated: Bool) {
-   if task.isPermanent == 1
+    if task.isPermanent == 1
     {
       self.completedSwitch.isEnabled = false
     }
     else
     {
-     self.completedSwitch.isEnabled = true
+      self.completedSwitch.isEnabled = true
     }
     self.refreshView()
   }
@@ -91,7 +93,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     
   }
   @IBAction func completedSwitchThrown(_ sender: Any) {
-
+    
     TaskyNodeEditor.sharedInstance.complete(task: task)
   }
   
@@ -184,7 +186,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     childrenListButton.setTitle(childrenString, for: .normal)
     dependentsListButton.setTitle(consequentString, for: .normal)
     dependeesListButton.setTitle(antecedentString, for: .normal)
-   // DISABLED deleteButton.isEnabled = tasksData.serveTaskData().count > 1
+    // DISABLED deleteButton.isEnabled = tasksData.serveTaskData().count > 1
   }
   
   //MARK: PickerTableView Delegate
@@ -192,7 +194,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   func retrieveUpdatedCollection(from table: PickerTableViewController)
   {
-   // realm.beginWrite()
+    // realm.beginWrite()
     let returnPickerData = table.postUpdatedTaskSubcollection()
     switch returnPickerData.relationship
     {
@@ -209,7 +211,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       for child in returnPickerData.collection
       {
         TaskyNodeEditor.sharedInstance.add(task: task, asParentTo: child)
-
+        
       }
     case .dependents:
       TaskyNodeEditor.sharedInstance.removeAsAntecedentToAll(task: task)
@@ -226,30 +228,30 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
         TaskyNodeEditor.sharedInstance.add(task: task, asConsequentTo: antecedent)
       }
       print("picker returned dependees")
-
+      
     }
     //try! realm.commitWrite()
     refreshView()
   }
   
   //MARK: Text Field Delegate
-//  func textFieldDidBeginEditing(_ textField: UITextField) {
-//    if textField == taskTitleText
-//    {
-//      textField.clearsOnBeginEditing = true
-//    }
-//    if textField == priorityDirectText
-//    {
-//      textField.clearsOnBeginEditing = true
-//    }
-//  }
+  //  func textFieldDidBeginEditing(_ textField: UITextField) {
+  //    if textField == taskTitleText
+  //    {
+  //      textField.clearsOnBeginEditing = true
+  //    }
+  //    if textField == priorityDirectText
+  //    {
+  //      textField.clearsOnBeginEditing = true
+  //    }
+  //  }
   
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     if textField == taskTitleText
     {
       let inputString = textField.text ?? ""
       TaskyNodeEditor.sharedInstance.changeTitle(task: task, to: inputString)
-
+      
     }
     if textField == priorityDirectText
     {
@@ -310,13 +312,13 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   //MARK: Text View Delegate
   
   
-//  func textViewDidChange(_ textView: UITextView) {
-//    if textView == taskDescription
-//    {
-//      let inputString = textView.text ?? ""
-//      taskDescriptionString = inputString
-//    }
-//  }
+  //  func textViewDidChange(_ textView: UITextView) {
+  //    if textView == taskDescription
+  //    {
+  //      let inputString = textView.text ?? ""
+  //      taskDescriptionString = inputString
+  //    }
+  //  }
   
   func textViewDidEndEditing(_ textView: UITextView) {
     if textView == taskDescription
@@ -327,8 +329,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       refreshView()
     }
   }
-  
-  
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesBegan(touches, with: event)
@@ -342,9 +342,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     //delegate call
     
     destinationVC.pickerTableViewDelegate = self
-
-      destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: self.activeDataSet)
-
+    destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: self.activeDataSet)
   }
 }
 
