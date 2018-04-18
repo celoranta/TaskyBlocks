@@ -32,13 +32,18 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
 
   var customLayout = MasterGraphingCollectionViewLayout()
   var filter = "completionDate == nil"
+  var sorter = ""
   
   //MARK: Static and Calculated Properties
   var collectionView: UICollectionView!
   var activeTaskySet: Results<TaskyNode>!
+
+  var selectedTask: TaskyNode!
+  
+  
   let blockyAlpha: CGFloat = 0.75
   let highlightBorderColor = UIColor.yellow.cgColor
-  var selectedTask: TaskyNode!
+
   var cellTitleLabel: UILabel!
   let borderColor = UIColor.darkGray.cgColor
 var blockyWidth: CGFloat = 123.5
@@ -113,6 +118,11 @@ var blockyHeight: CGFloat
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
     collectionView.addGestureRecognizer(longPressGesture)
     self.view.layoutSubviews()
+    print("\nOpening new graphing view with data: ")
+    for task in activeTaskySet
+    {
+      task.soundOff()
+    }
   }
   
   fileprivate func redrawCollection() {

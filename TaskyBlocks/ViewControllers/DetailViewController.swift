@@ -59,7 +59,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     taskDescription.returnKeyType = .done
     
     let tasks = TaskyNodeEditor.sharedInstance.database
-    activeDataSet = Set(tasks)
+    
     
     
     guard taskDetailDataSource != nil
@@ -345,7 +345,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     //delegate call
     
     destinationVC.pickerTableViewDelegate = self
-    destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: self.activeDataSet)
+    destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: Set(TaskyNodeEditor.sharedInstance.database))
   }
   
   fileprivate func subscribeToNotifications() {

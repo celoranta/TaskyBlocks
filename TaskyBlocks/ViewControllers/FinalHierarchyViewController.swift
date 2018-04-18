@@ -10,20 +10,24 @@ import UIKit
 
 class FinalHierarchyViewController: MasterGraphingViewController {
 
-  
   override func viewDidLoad() {
     
     filter = "completionDate == nil"
+    
     customLayout = HierarchyCollectionViewLayout()
    // collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
     nextViewController = FinalDependenceViewController()
+    
+//    let sortedData = Array(activeTaskySet.sorted(byKeyPath: "apparentPriority", ascending: true))
     super.viewDidLoad()
     self.title = "Set Hierarchy"
-
-
+//    for task in sortedData
+//    {
+//      task.soundOff()
+//    }
 
   }
-  
+
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
@@ -60,7 +64,7 @@ class FinalHierarchyViewController: MasterGraphingViewController {
       print("prepare for segue to detail with \(selectedTask.title) selected was called")
       let detailVC = segue.destination.childViewControllers.first as! DetailViewController
       detailVC.taskDetailDataSource = self as TaskDetailDataSource
-      detailVC.task = selectedTask
+
     default:
       return
     }

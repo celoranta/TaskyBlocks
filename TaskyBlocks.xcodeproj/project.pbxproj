@@ -227,7 +227,6 @@
 			isa = PBXGroup;
 			children = (
 				95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */,
-				95F0291E2086DDBB00FE9A0C /* SettingsViewController.swift */,
 				95B145432086619200467D36 /* FinalHierarchyViewController.swift */,
 				95B1453920865CE700467D36 /* FinalDependenceViewController.swift */,
 				95B1453D20865D4100467D36 /* FinalPriorityViewController.swift */,
@@ -236,6 +235,7 @@
 				9510997F2075C1460091DF49 /* PerformViewController.swift */,
 				951099892075C1470091DF49 /* DetailViewController.swift */,
 				9534855B20798A2F00A613B9 /* PickerTableViewController.swift */,
+				95F0291E2086DDBB00FE9A0C /* SettingsViewController.swift */,
 				953B32C9207EBB3C00B24C81 /* GraphComponents */,
 				95046CD7208518AE00237F31 /* CustomViewComponents */,
 			);

@@ -12,18 +12,13 @@
 import UIKit
 import RealmSwift
 
-
-
-
-
 class TaskyNode: Object
   
 {
   
   override static func ignoredProperties() -> [String] {
-    return ["priorityApparent", "priorityInherited", "priorityConsequent"]
+    return ["priorityInherited", "priorityConsequent"]
   }
-
 
   //MARK: Properties
   @objc dynamic var title = "New Task"
@@ -70,7 +65,7 @@ class TaskyNode: Object
   {
         return  (Array(consequents).max { $0.priorityApparent < $1.priorityApparent})?.priorityApparent
   }
-   var priorityApparent: Double
+   @objc dynamic var priorityApparent: Double
   {
     var priority = priorityDirect.value ?? priorityDirectDefault
     if let inherited = priorityInherited
