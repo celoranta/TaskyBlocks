@@ -12,6 +12,7 @@ class FinalHierarchyViewController: MasterGraphingViewController
 {
   override func viewDidLoad()
   {
+
     filter = "completionDate == nil"
     customLayout = HierarchyCollectionViewLayout()
     nextViewController = FinalDependenceViewController()
