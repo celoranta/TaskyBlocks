@@ -94,7 +94,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     toolbarItems.append(UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(pushToSettings(_:))))
     self.toolbarItems = toolbarItems
     
-     self.collectionView.register(UINib(nibName: "plusIcon", bundle: nil), forCellWithReuseIdentifier: "<#T##String#>")
+    self.collectionView.register(UINib(nibName: "plusIcon", bundle: nil), forCellWithReuseIdentifier: "<#T##String#>")
     
     //enable block dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
@@ -105,8 +105,6 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     {
       task.soundOff()
     }
-    
-
   }
   
   fileprivate func redrawCollection() {
@@ -143,79 +141,55 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
   {
-
+    
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "masterCollectionCell", for: indexPath) as! MasterGraphingCollectionViewCell
     for oldSubview in cell.subviews
     {
       oldSubview.removeFromSuperview()
     }
-      cell.alpha = blockyAlpha
-      cell.layer.borderColor = borderColor
-      cell.autoresizesSubviews = true
-      cell.layer.borderWidth = blockyBorder
-      cell.layer.cornerRadius = blockyRadius
-      cellTitleLabel = UILabel()
-      cell.addSubview(cellTitleLabel)
-      cellTitleLabel.frame = cell.bounds
-      cellTitleLabel.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-      cellTitleLabel.textAlignment = .center
-      cellTitleLabel.numberOfLines = 0
-      cellTitleLabel.lineBreakMode = .byWordWrapping
+    cell.alpha = blockyAlpha
+    cell.layer.borderColor = borderColor
+    cell.autoresizesSubviews = true
+    cell.layer.borderWidth = blockyBorder
+    cell.layer.cornerRadius = blockyRadius
+    cellTitleLabel = UILabel()
+    cell.addSubview(cellTitleLabel)
+    cellTitleLabel.frame = cell.bounds
+    cellTitleLabel.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+    cellTitleLabel.textAlignment = .center
+    cellTitleLabel.numberOfLines = 0
+    cellTitleLabel.lineBreakMode = .byWordWrapping
     switch indexPath.row == activeTaskySet.count
     {
-     case false:
+    case false:
       let task = activeTaskySet[indexPath.row]
       self.cellTitleLabel.text = task.title
       cell.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
-
-      case true:
+      
+    case true:
       self.cellTitleLabel.text = "<add new>"
+      self.cellTitleLabel.textColor = UIColor.gray
       cell.backgroundColor = TaskyBlockLibrary.hexStringToUIColor(hex: colorString.purple.rawValue)
     }
     return cell
-    }
+  }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
   {
     print(indexPath)
-    self.selectedTask = activeTaskySet[indexPath[1]]
-    print(selectedTask.title)
-    detailView(task: selectedTask)
+    let addButtonIndex = self.activeTaskySet.count
+    switch indexPath.row == addButtonIndex
+    {
+    case false:
+      self.selectedTask = activeTaskySet[indexPath[1]]
+      print(selectedTask.title)
+      detailView(task: selectedTask)
+    case true:
+      self.addTask(nil)
+    }
     redrawCollection()
   }
   
-  //  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
-  //  {
-  //    print(indexPath)
-  //
-  //    let newSelectedTask = activeTaskySet[indexPath[1]]
-  //    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
-  //
-  //    print(newSelectedTask.title)
-  //    if let newSelectedTask = selectedTask
-  //    {
-  //      selectedTask = newSelectedTask
-  //      dataSetCell?.layer.borderColor = highlightBorderColor
-  //      print("was selected")
-  //      //TaskyNodeEditor.sharedInstance.complete(task: selectedTask)
-  //      //performSegue(withIdentifier: "priorityToDetail", sender: self)
-  //      //DispatchQueue.main.async(execute: {)
-  //      self.collectionView.reloadData()
-  //
-  //    }
-  //    else
-  //    {
-  //      selectedTask = nil
-  //      dataSetCell?.layer.borderColor = borderColor
-  //      print("was deselected")
-  //  }
-  //  }
-  //  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath)
-  //  {
-  //    let dataSetCell: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
-  //    dataSetCell?.layer.borderColor = borderColor
-  //    self.collectionView.reloadData()
-  //  }
   @objc func addTask(_ sender: Any?)
   {
     let _ = TaskyNodeEditor.sharedInstance.newTask()
