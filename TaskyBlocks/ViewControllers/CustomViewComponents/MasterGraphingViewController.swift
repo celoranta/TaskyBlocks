@@ -73,9 +73,6 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   {
     super.viewDidLoad()
     
-    //test
-    print("includes add block? \(includesAddBlock)")
-    
     collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
     self.view.addSubview(collectionView)
     collectionView.register(MasterGraphingCollectionViewCell.self, forCellWithReuseIdentifier: "masterCollectionCell")
@@ -96,6 +93,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     toolbarItems.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTask(_:))))
     toolbarItems.append(UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(pushToSettings(_:))))
     self.toolbarItems = toolbarItems
+    
+     self.collectionView.register(UINib(nibName: "plusIcon", bundle: nil), forCellWithReuseIdentifier: "plusIcon")
     
     //enable block dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
@@ -144,7 +143,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
   {
-    
+
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "masterCollectionCell", for: indexPath) as! MasterGraphingCollectionViewCell
     for oldSubview in cell.subviews
     {
