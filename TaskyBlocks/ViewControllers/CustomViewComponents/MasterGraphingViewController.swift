@@ -244,13 +244,14 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
       {
         break
       }
+      
       collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
     case .changed:
       collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
     case .ended:
       collectionView.endInteractiveMovement()
     default:
-      collectionView.cancelInteractiveMovement()
+      collectionView.endInteractiveMovement()
     }
   }
   

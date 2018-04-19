@@ -25,6 +25,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   @IBOutlet weak var taskPicker: UIPickerView!
   @IBOutlet weak var leftSmallTimer: AppusCircleTimer!
   @IBOutlet weak var rightSmalLTimer: AppusCircleTimer!
+  @IBOutlet weak var descriptionOutlet: UILabel!
   
   var tasksData: Results<TaskyNode>!
   var timeToSet: Double = 45.00 * 60
@@ -39,6 +40,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   
   override func viewDidLoad()
   {
+    self.descriptionOutlet.text = "Task Desription: " + performedTask.taskDescription
     super.viewDidLoad()
     try! realm = Realm()
     self.navigationController?.navigationBar.isHidden = true
@@ -137,6 +139,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     checkPermanent()
     titleButton.setTitle(performedTask.title, for: .normal)
     taskPicker.isHidden = true
+    descriptionOutlet.isHidden = false
     taskPicker.isUserInteractionEnabled = false
   }
   
@@ -174,6 +177,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     {
       taskPicker.isHidden = false
       taskPicker.isUserInteractionEnabled = true
+      descriptionOutlet.isHidden = true
     }
     else
     {
