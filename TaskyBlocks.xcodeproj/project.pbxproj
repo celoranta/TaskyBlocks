@@ -24,8 +24,6 @@
 		9534855A2079859300A613B9 /* PickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953485592079859300A613B9 /* PickerTableViewCell.swift */; };
 		9534855C20798A2F00A613B9 /* PickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9534855B20798A2F00A613B9 /* PickerTableViewController.swift */; };
 		953B32C3207EB4BB00B24C81 /* TaskyBlockLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953B32C2207EB4BA00B24C81 /* TaskyBlockLibrary.swift */; };
-		955D7A33208856A900D9B158 /* AddBlockViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955D7A32208856A900D9B158 /* AddBlockViewCell.swift */; };
-		955D7A352088591900D9B158 /* AddBlock.xib in Resources */ = {isa = PBXBuildFile; fileRef = 955D7A342088591900D9B158 /* AddBlock.xib */; };
 		9583A27D20827948000F22EC /* TaskyNodeEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583A27C20827948000F22EC /* TaskyNodeEditor.swift */; };
 		95A1834B207C39F500F38ED3 /* UITextViewPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1834A207C39F500F38ED3 /* UITextViewPlaceholder.swift */; };
 		95B1453A20865CE700467D36 /* FinalDependenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453920865CE700467D36 /* FinalDependenceViewController.swift */; };
@@ -88,8 +86,6 @@
 		953485592079859300A613B9 /* PickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
 		9534855B20798A2F00A613B9 /* PickerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
 		953B32C2207EB4BA00B24C81 /* TaskyBlockLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TaskyBlockLibrary.swift; path = /Users/chriseloranta/Desktop/Lighthouse/FinalProject/TaskyBlocks/TaskyBlocks/TaskyBlockLibrary.swift; sourceTree = "<absolute>"; };
-		955D7A32208856A900D9B158 /* AddBlockViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBlockViewCell.swift; sourceTree = "<group>"; };
-		955D7A342088591900D9B158 /* AddBlock.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddBlock.xib; sourceTree = "<group>"; };
 		9583A27C20827948000F22EC /* TaskyNodeEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyNodeEditor.swift; sourceTree = "<group>"; };
 		95A1834A207C39F500F38ED3 /* UITextViewPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewPlaceholder.swift; sourceTree = "<group>"; };
 		95B1453920865CE700467D36 /* FinalDependenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalDependenceViewController.swift; sourceTree = "<group>"; };
@@ -193,7 +189,6 @@
 				953B32CB207EBB7700B24C81 /* LaunchItems */,
 				953B32CA207EBB5A00B24C81 /* DataModel */,
 				951099862075C1470091DF49 /* Main.storyboard */,
-				955D7A342088591900D9B158 /* AddBlock.xib */,
 				953B32C8207EBB0C00B24C81 /* ViewControllers */,
 				9510995D2075C0A10091DF49 /* Info.plist */,
 			);
@@ -240,7 +235,6 @@
 			isa = PBXGroup;
 			children = (
 				95B1454120865E8400467D36 /* FinalHierarchyCollectionViewLayout.swift */,
-				955D7A32208856A900D9B158 /* AddBlockViewCell.swift */,
 				95B1453B20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift */,
 				95B1453F20865D6700467D36 /* FinalPriorityCollectionViewLayout.swift */,
 			);
@@ -392,7 +386,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				951099962075C14A0091DF49 /* LaunchScreen.storyboard in Resources */,
-				955D7A352088591900D9B158 /* AddBlock.xib in Resources */,
 				951099992075C14A0091DF49 /* Main.storyboard in Resources */,
 				951099982075C14A0091DF49 /* Assets.xcassets in Resources */,
 			);
@@ -578,7 +571,6 @@
 				95046CD62085146E00237F31 /* MasterGraphingViewController.swift in Sources */,
 				95B1453E20865D4100467D36 /* FinalPriorityViewController.swift in Sources */,
 				9510999A2075C14A0091DF49 /* AppDelegate.swift in Sources */,
-				955D7A33208856A900D9B158 /* AddBlockViewCell.swift in Sources */,
 				9510999B2075C14A0091DF49 /* PomodoroViewController.swift in Sources */,
 				953B32C3207EB4BB00B24C81 /* TaskyBlockLibrary.swift in Sources */,
 				95F47C34208523F500827999 /* MasterGraphingCollectionViewCell.swift in Sources */,

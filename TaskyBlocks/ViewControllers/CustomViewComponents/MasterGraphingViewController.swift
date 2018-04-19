@@ -94,7 +94,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     toolbarItems.append(UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(pushToSettings(_:))))
     self.toolbarItems = toolbarItems
     
-     self.collectionView.register(UINib(nibName: "plusIcon", bundle: nil), forCellWithReuseIdentifier: "plusIcon")
+     self.collectionView.register(UINib(nibName: "plusIcon", bundle: nil), forCellWithReuseIdentifier: "<#T##String#>")
     
     //enable block dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
@@ -149,10 +149,6 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     {
       oldSubview.removeFromSuperview()
     }
-    switch indexPath.row == activeTaskySet.count
-    {
-    case false:
-      let task = activeTaskySet[indexPath.row]
       cell.alpha = blockyAlpha
       cell.layer.borderColor = borderColor
       cell.autoresizesSubviews = true
@@ -165,21 +161,19 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
       cellTitleLabel.textAlignment = .center
       cellTitleLabel.numberOfLines = 0
       cellTitleLabel.lineBreakMode = .byWordWrapping
+    switch indexPath.row == activeTaskySet.count
+    {
+     case false:
+      let task = activeTaskySet[indexPath.row]
       self.cellTitleLabel.text = task.title
       cell.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
-    case true:
-      cell.alpha = blockyAlpha
-      cell.layer.borderColor = borderColor
-      cell.autoresizesSubviews = true
-      cell.layer.borderWidth = blockyBorder
-      cell.layer.cornerRadius = blockyRadius
-      cellTitleLabel = UILabel()
-      cell.addSubview(cellTitleLabel)
-      self.cellTitleLabel.text = "Add New"
+
+      case true:
+      self.cellTitleLabel.text = "<add new>"
       cell.backgroundColor = TaskyBlockLibrary.hexStringToUIColor(hex: colorString.purple.rawValue)
     }
     return cell
-  }
+    }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
   {
