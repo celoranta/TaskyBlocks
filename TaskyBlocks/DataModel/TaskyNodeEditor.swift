@@ -349,8 +349,10 @@ class TaskyNodeEditor: NSObject {
   {
     try! realm.write
     {
+      notificationToken?.invalidate()
       let nonPermanentTasks = database.filter("isPermanent == -1")
       realm.delete(nonPermanentTasks)
+      
     }
   }
 }
