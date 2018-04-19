@@ -17,6 +17,7 @@ class FinalHierarchyViewController: MasterGraphingViewController
     nextViewController = FinalDependenceViewController()
     super.viewDidLoad()
     self.title = "Set Hierarchy"
+    self.includesAddBlock = true
   }
   
   override func collectionView(collectionView: UICollectionView, heightForCellAtIndexPath indexPath: IndexPath, width: CGFloat) -> CGFloat

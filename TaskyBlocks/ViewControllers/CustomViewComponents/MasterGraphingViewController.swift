@@ -28,6 +28,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   var nextViewController: UIViewController? = nil
   var nextViewControllerId: String?
   let newPlusImage = UIImage.init(named: "greyPlus")
+  var includesAddBlock: Bool = false
   
   fileprivate var longPressGesture: UILongPressGestureRecognizer!
   
@@ -71,6 +72,9 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   override func viewDidLoad()
   {
     super.viewDidLoad()
+    
+    //test
+    print("includes add block? \(includesAddBlock)")
     
     collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
     self.view.addSubview(collectionView)
@@ -135,7 +139,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   //MARK: Collection View
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
   {
-    return activeTaskySet.count + 1
+    return activeTaskySet.count + self.includesAddBlock.hashValue
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
