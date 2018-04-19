@@ -128,6 +128,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     currentDataModel = Array(activeResults)
     currentDataModel.sort(by: { $0.priorityApparent > $1.priorityApparent})
     self.collectionView.reloadData()
+    self.collectionView.layoutIfNeeded()
   }
   
   override func viewWillAppear(_ animated: Bool)

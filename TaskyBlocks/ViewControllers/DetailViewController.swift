@@ -147,7 +147,8 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
     self.uuidLabel.text = task.taskId
-    self.priorityLevelLabel.text = task.priorityApparent.description
+    let roundedPriority = round(task.priorityApparent)
+    self.priorityLevelLabel.text = roundedPriority.description
     self.isPrimalStatusLabel.text = task.isPrimal.description
     self.isActionableStatusLabel.text = task.isActionable.description
     let dateString = DateFormatter.localizedString(from: task.taskDate, dateStyle: .medium, timeStyle: .short)

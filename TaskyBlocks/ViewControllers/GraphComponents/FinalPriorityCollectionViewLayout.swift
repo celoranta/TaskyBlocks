@@ -31,8 +31,9 @@ class FinalPriorityCollectionViewLayout: MasterGraphingCollectionViewLayout {
   }
   
   override public func prepare() {
+    cellWidth = contentWidth * 0.85
     guard let collectionView = collectionView else { return }
-    let numberOfColumns = Int(contentWidth / cellWidth) // The number of columns is calculated by rounding off the contentWidth/CellWidth
+    let numberOfColumns = 1
     let totalSpaceWidth = contentWidth - CGFloat(numberOfColumns) * cellWidth
     let horizontalPadding = totalSpaceWidth / CGFloat(numberOfColumns + 1)
     let numberOfItems = collectionView.numberOfItems(inSection: 0)

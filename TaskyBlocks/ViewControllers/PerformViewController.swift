@@ -37,6 +37,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
   
   var realm: Realm!
   var activeTaskySet: Set<TaskyNode>!
+
   
   override func viewDidLoad()
   {
@@ -44,7 +45,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     super.viewDidLoad()
     try! realm = Realm()
     self.navigationController?.navigationBar.isHidden = true
-    pickerArray = realm.objects(TaskyNode.self).filter(filter)
+    pickerArray = Array(realm.objects(TaskyNode.self).filter(filter)
     titleButton = UIButton()
     navBar.titleView = titleButton
     titleButton.translatesAutoresizingMaskIntoConstraints = false

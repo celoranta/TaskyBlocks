@@ -17,7 +17,6 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   @IBOutlet weak var goTimeButton: UIButton!
   @IBOutlet weak var taskPicker: UIPickerView!
   @IBOutlet weak var durationTimeLabel: UILabel!
-  @IBOutlet weak var taskDetailButton: UIButton!
   @IBOutlet weak var durationStepperOut: UIStepper!
   
   //MARK: Properties
@@ -68,10 +67,13 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     taskPicker.showsSelectionIndicator = true
     
     pickerArray = Array.init(realm.objects(TaskyNode.self).filter(filter))
-    if pickerArray.count != 0
-    {
-      self.selectedItem = pickerArray[0]
-    }
+    pickerArray.sort(by: { $0.priorityApparent > $1.priorityApparent})
+    pickerArray = pickerArray.filter({pickerArray.index(of: $0)! < 5})
+
+//    if pickerArray.count != 0
+//    {
+//      self.selectedItem = pickerArray[0]
+//    }
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
