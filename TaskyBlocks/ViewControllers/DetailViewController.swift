@@ -14,7 +14,7 @@ protocol TaskDetailDataSource
   func returnSelectedTask () -> TaskyNode
 }
 
-class DetailViewController: UIViewController, PickerTableViewDelegate, UITextViewDelegate, UITextFieldDelegate, UITextInputTraits
+class DetailViewController: UIViewController, PickerTableViewDelegate, UITextViewDelegate, UITextFieldDelegate
 {
   //MARK: Outlets
   @IBOutlet weak var taskTitleText: UITextField!
@@ -56,6 +56,13 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     taskDescription.autocapitalizationType = .sentences
     taskDescription.enablesReturnKeyAutomatically = true
     taskDescription.returnKeyType = .done
+    taskDescription.delegate = self
+    taskDescription.text = task.taskDescription
+    let borderColor : UIColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.0)
+    taskDescription.layer.borderWidth = 0.5
+    taskDescription.layer.borderColor = borderColor.cgColor
+    taskDescription.layer.cornerRadius = 5.0
+    taskTitleText.delegate = self
     self.navigationItem.rightBarButtonItem = nil ;
     guard taskDetailDataSource != nil
       else
@@ -65,6 +72,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     task = taskDetailDataSource.returnSelectedTask()
     subscribeToNotifications()
     self.refreshView()
+
   }
   
   override func viewWillAppear(_ animated: Bool)
@@ -138,12 +146,12 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     }
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
-    self.taskDescription.placeholder = "please enter a description"
     self.uuidLabel.text = task.taskId
     self.priorityLevelLabel.text = task.priorityApparent.description
     self.isPrimalStatusLabel.text = task.isPrimal.description
     self.isActionableStatusLabel.text = task.isActionable.description
-    self.taskDateLabel.text = task.taskDate.description
+    let dateString = DateFormatter.localizedString(from: task.taskDate, dateStyle: .medium, timeStyle: .short)
+    self.taskDateLabel.text = dateString
     self.completedSwitch.isOn = task.completionDate != nil
     
     var parentsString = ""
@@ -186,9 +194,13 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
       consequentString = "<none>"
     }
     parentsListButton.setTitle(parentsString, for: .normal)
+    parentsListButton.setTitleColor(UIColor.black, for: .normal)
     childrenListButton.setTitle(childrenString, for: .normal)
+    childrenListButton.setTitleColor(UIColor.black, for: .normal)
     dependentsListButton.setTitle(consequentString, for: .normal)
+    dependentsListButton.setTitleColor(UIColor.black, for: .normal)
     dependeesListButton.setTitle(antecedentString, for: .normal)
+    dependeesListButton.setTitleColor(UIColor.black, for: .normal)
   }
   
   //MARK: PickerTableView Delegate
@@ -301,15 +313,21 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   func textViewDidEndEditing(_ textView: UITextView)
   {
-    if textView == taskDescription
-    {
-      let taskDescriptionString = textView.text ?? ""
+    print("Called textViewDidEndEditing")
+
+
+      let taskDescriptionString = taskDescription.text ?? ""
       TaskyNodeEditor.sharedInstance.updateTaskDescription(for: task, with: taskDescriptionString)
       taskDescription.resignFirstResponder()
       refreshView()
-    }
+
   }
   
+  func textViewDidChange(_ textView: UITextView) {
+    print("Called textViewDidChange")
+    
+  }
+
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
   {
     super.touchesBegan(touches, with: event)

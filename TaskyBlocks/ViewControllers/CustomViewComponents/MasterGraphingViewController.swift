@@ -30,6 +30,9 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   let newPlusImage = UIImage.init(named: "greyPlus")
   var includesAddBlock: Bool = false
   
+  //MARK: Database
+  let realm: Realm!
+  
   fileprivate var longPressGesture: UILongPressGestureRecognizer!
   
   //MARK: CalculatedProperties
@@ -73,6 +76,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   {
     super.viewDidLoad()
     
+    try! realm == Realm()
+    
     collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
     self.view.addSubview(collectionView)
     collectionView.register(MasterGraphingCollectionViewCell.self, forCellWithReuseIdentifier: "masterCollectionCell")
@@ -90,14 +95,15 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     self.navigationItem.setHidesBackButton(true, animated: true)
     
     var toolbarItems = [UIBarButtonItem]()
-    toolbarItems.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTask(_:))))
-    toolbarItems.append(UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(pushToSettings(_:))))
+    let leftSpacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let rightSpacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let settings = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(pushToSettings(_:)))
+    toolbarItems.append(contentsOf: [leftSpacer, settings, rightSpacer])
     self.toolbarItems = toolbarItems
-    
-    self.collectionView.register(UINib(nibName: "plusIcon", bundle: nil), forCellWithReuseIdentifier: "<#T##String#>")
     
     //enable block dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
+    self.longPressGesture.minimumPressDuration = 0.08
     collectionView.addGestureRecognizer(longPressGesture)
     self.view.layoutSubviews()
     print("\nOpening new graphing view with data: ")

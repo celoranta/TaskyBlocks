@@ -120,6 +120,7 @@ class TaskyNodeEditor: NSObject {
   func updateTaskDescription(for task: TaskyNode, with text: String)
   {
     realm.beginWrite()
+    print("writing to realm")
     task.taskDescription = text
     realm.add(task, update: true)
     try! realm.commitWrite()

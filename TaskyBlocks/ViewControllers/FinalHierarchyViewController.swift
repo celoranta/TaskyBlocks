@@ -27,19 +27,7 @@ class FinalHierarchyViewController: MasterGraphingViewController
   }
   
   //MARK: Actions
-  @IBAction func addButton(_ sender: Any)
-  {
-    let userSettings = UserDefaults()
-    let random = userSettings.bool(forKey: "NewTasksAreRandom")
-    switch random
-    {
-    case false:
-      _ = TaskyNodeEditor.sharedInstance.newTask()
-    case true:
-      _ = TaskyNodeEditor.sharedInstance.createRandomTasks(qty: 1)
-    }
-    self.collectionView.reloadData()
-  }
+
   
   //MARK: Segues
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
