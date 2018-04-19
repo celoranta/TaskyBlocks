@@ -18,24 +18,27 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   
   //MARK: Static Properties
   var collectionView: UICollectionView!
-  var activeTaskySet: Results<TaskyNode>!
+  var activeResults: Results<TaskyNode>!
+  var currentDataModel: [TaskyNode]!
   var selectedTask: TaskyNode!
-  let blockyAlpha: CGFloat = 0.75
+  var nextViewController: UIViewController? = nil
+  var nextViewControllerId: String?
+  var includesAddBlock: Bool = false
+  
+  //MARK: Database
+  var realm: Realm!
+  var notificationToken: NotificationToken!
+  var masterGraphingViewController: MasterGraphingViewController? = nil
+  
+  fileprivate var longPressGesture: UILongPressGestureRecognizer!
+  
+  //MARK: CollectionView Cell parameters
+  let newPlusImage = UIImage.init(named: "greyPlus")
   let highlightBorderColor = UIColor.yellow.cgColor
   var cellTitleLabel: UILabel!
   let borderColor = UIColor.darkGray.cgColor
   var blockyWidth: CGFloat = 123.5
-  var nextViewController: UIViewController? = nil
-  var nextViewControllerId: String?
-  let newPlusImage = UIImage.init(named: "greyPlus")
-  var includesAddBlock: Bool = false
-  
-  //MARK: Database
-  let realm: Realm!
-  
-  fileprivate var longPressGesture: UILongPressGestureRecognizer!
-  
-  //MARK: CalculatedProperties
+  let blockyAlpha: CGFloat = 0.75
   var blockyHeight: CGFloat
   {
     get
@@ -58,6 +61,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     }
   }
   
+  
+  //MARK: Nav Controller and Tool Bar Properties
   let rightBarButtonItem: UIBarButtonItem =
   {
     let barButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: nil)
@@ -76,7 +81,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   {
     super.viewDidLoad()
     
-    try! realm == Realm()
+    try! realm = Realm()
+    
     
     collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
     self.view.addSubview(collectionView)
@@ -85,7 +91,10 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     customLayout.delegate = self
     collectionView.delegate = self
     collectionView.dataSource = self
-    activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
+    activeResults = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
+    currentDataModel = Array(activeResults)
+    currentDataModel.sort(by: { $0.priorityApparent < $1.priorityApparent})
+    self.subscribeToNotifications()
     self.navigationController?.toolbar.isHidden = false
     self.title = "Login"
     
@@ -103,28 +112,26 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     
     //enable block dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
-    self.longPressGesture.minimumPressDuration = 0.08
+    self.longPressGesture.minimumPressDuration = 0.12
     collectionView.addGestureRecognizer(longPressGesture)
     self.view.layoutSubviews()
     print("\nOpening new graphing view with data: ")
-    for task in activeTaskySet
+    for task in currentDataModel
     {
       task.soundOff()
     }
   }
   
   fileprivate func redrawCollection() {
-    let activeTaskyCache = activeTaskySet
-    let nullFilter = NSPredicate.init(value: false)
-    activeTaskySet = TaskyNodeEditor.sharedInstance.database.filter(nullFilter)
+    currentDataModel = []
     self.collectionView.reloadData()
-    activeTaskySet = activeTaskyCache
+    currentDataModel = Array(activeResults)
+    currentDataModel.sort(by: { $0.priorityApparent > $1.priorityApparent})
     self.collectionView.reloadData()
   }
+  
   override func viewWillAppear(_ animated: Bool)
   {
-    
-    collectionView.reloadData()
     if let nav = self.navigationController
     {
       nav.isToolbarHidden = false
@@ -142,7 +149,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   //MARK: Collection View
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
   {
-    return activeTaskySet.count + self.includesAddBlock.hashValue
+    return currentDataModel.count + self.includesAddBlock.hashValue
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
@@ -165,10 +172,10 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     cellTitleLabel.textAlignment = .center
     cellTitleLabel.numberOfLines = 0
     cellTitleLabel.lineBreakMode = .byWordWrapping
-    switch indexPath.row == activeTaskySet.count
+    switch indexPath.row == currentDataModel.count
     {
     case false:
-      let task = activeTaskySet[indexPath.row]
+      let task = currentDataModel[indexPath.row]
       self.cellTitleLabel.text = task.title
       cell.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
       
@@ -183,11 +190,11 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
   {
     print(indexPath)
-    let addButtonIndex = self.activeTaskySet.count
-    switch indexPath.row == addButtonIndex
+    let addButtonIndex = self.currentDataModel.count
+    switch indexPath.row >= addButtonIndex
     {
     case false:
-      self.selectedTask = activeTaskySet[indexPath[1]]
+      self.selectedTask = currentDataModel[indexPath[1]]
       print(selectedTask.title)
       detailView(task: selectedTask)
     case true:
@@ -205,7 +212,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   //MARK: Drag items
   func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool
   {
-    let task = activeTaskySet[indexPath.row]
+    let task = currentDataModel[indexPath.row]
     if task.isPermanent != 1
     {
       return true
@@ -219,6 +226,13 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
   {
     print("drag began at \(sourceIndexPath) and ended at \(destinationIndexPath)")
+    //currentDataModel.insert(currentDataModel.remove(at: sourceIndexPath.row), at: destinationIndexPath.row)
+    let task1 = currentDataModel[destinationIndexPath.row]
+    let task2 = currentDataModel[destinationIndexPath.row - 1]
+    let meanAverage = (task1.priorityApparent + task2.priorityApparent) * 0.5
+    let editedTask = currentDataModel[sourceIndexPath.row]
+    TaskyNodeEditor.sharedInstance.updatePriorityDirect(of: editedTask, to: meanAverage)
+    
   }
   
   @objc func handleLongGesture(gesture: UILongPressGestureRecognizer)
@@ -294,5 +308,37 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   func returnSelectedTask() -> TaskyNode
   {
     return selectedTask
+  }
+  
+  //MARK: Realm Notifications
+  func subscribeToNotifications()
+  {
+    masterGraphingViewController = self
+    notificationToken = activeResults.observe { [weak self] (changes: RealmCollectionChange) in
+      guard let masterGraphingViewController = self?.masterGraphingViewController else
+      {
+        print("guard statement did not allow further processing")
+        return
+      }
+      switch changes
+      {
+      case .initial:
+        print("Initial")
+        masterGraphingViewController.processRealmNotificationReceipt()
+      case . update:
+        print("Update")
+        masterGraphingViewController.processRealmNotificationReceipt()
+      case .error(let error):
+        print(error)
+      }
+    }
+  }
+  
+  func processRealmNotificationReceipt()
+  {
+  print("Realm notification received!")
+ // notificationToken.invalidate()
+    redrawCollection()
+   // subscribeToNotifications()
   }
 }
