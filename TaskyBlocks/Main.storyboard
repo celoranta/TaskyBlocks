@@ -191,7 +191,7 @@
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FtN-gm-hqJ">
                                 <rect key="frame" x="310" y="456.5" width="49" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="49" id="EV8-iI-zkB"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="49" id="EV8-iI-zkB"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -391,19 +391,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4j9-eo-pEQ">
-                                <rect key="frame" x="0.0" y="450" width="375" height="102"/>
+                                <rect key="frame" x="0.0" y="425" width="375" height="102"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="102" id="PZ9-ky-5WW"/>
                                 </constraints>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a Duration:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3lC-ad-qFG">
-                                <rect key="frame" x="16" y="415" width="147" height="21"/>
+                                <rect key="frame" x="16" y="390" width="147" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="45 min" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X0X-cx-HhM">
-                                <rect key="frame" x="204" y="415" width="53" height="21"/>
+                                <rect key="frame" x="204" y="390" width="53" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -424,17 +424,8 @@
                                     <segue destination="67f-rh-Kw2" kind="show" identifier="pomodoroToPerform" id="OBK-7S-0yY"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Td4-Mv-l46">
-                                <rect key="frame" x="146" y="621" width="83" height="30"/>
-                                <gestureRecognizers/>
-                                <state key="normal" title="Task Details"/>
-                                <connections>
-                                    <action selector="taskDetailButton:" destination="Fgx-Ef-YMG" eventType="touchUpInside" id="FPn-5g-Sxj"/>
-                                    <outletCollection property="gestureRecognizers" destination="E2B-L1-yse" appends="YES" id="KG7-uN-bfh"/>
-                                </connections>
-                            </button>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="45" minimumValue="5" maximumValue="100" stepValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="YOr-qC-2hN">
-                                <rect key="frame" x="265" y="411" width="94" height="29"/>
+                                <rect key="frame" x="265" y="386" width="94" height="29"/>
                                 <connections>
                                     <action selector="durationStepper:" destination="Iwh-M0-5sB" eventType="valueChanged" id="5u9-YW-mdT"/>
                                 </connections>
@@ -447,14 +438,12 @@
                             <constraint firstItem="svR-tq-aqj" firstAttribute="trailing" secondItem="YOr-qC-2hN" secondAttribute="trailing" constant="16" id="Eg6-dD-zm6"/>
                             <constraint firstItem="4j9-eo-pEQ" firstAttribute="trailing" secondItem="svR-tq-aqj" secondAttribute="trailing" id="Par-6G-ji9"/>
                             <constraint firstItem="YOr-qC-2hN" firstAttribute="leading" secondItem="X0X-cx-HhM" secondAttribute="trailing" constant="8" id="WQ5-FL-aUi"/>
+                            <constraint firstItem="svR-tq-aqj" firstAttribute="bottom" secondItem="ngI-qK-1UD" secondAttribute="bottom" constant="54" id="XCP-ld-FYC"/>
                             <constraint firstItem="3lC-ad-qFG" firstAttribute="centerY" secondItem="X0X-cx-HhM" secondAttribute="centerY" id="akI-q2-0Kk"/>
                             <constraint firstItem="3lC-ad-qFG" firstAttribute="leading" secondItem="svR-tq-aqj" secondAttribute="leading" constant="16" id="dRo-N2-Eja"/>
-                            <constraint firstItem="svR-tq-aqj" firstAttribute="bottom" secondItem="Td4-Mv-l46" secondAttribute="bottom" constant="16" id="dwp-UA-wBT"/>
-                            <constraint firstItem="Td4-Mv-l46" firstAttribute="centerX" secondItem="svR-tq-aqj" secondAttribute="centerX" id="ghb-VM-QJv"/>
                             <constraint firstItem="4j9-eo-pEQ" firstAttribute="top" secondItem="YOr-qC-2hN" secondAttribute="bottom" constant="10" id="lFh-Bi-ewj"/>
                             <constraint firstItem="ngI-qK-1UD" firstAttribute="centerX" secondItem="svR-tq-aqj" secondAttribute="centerX" id="lKs-Vp-i7Y"/>
-                            <constraint firstItem="ngI-qK-1UD" firstAttribute="top" secondItem="4j9-eo-pEQ" secondAttribute="bottom" id="pN7-Kc-Yvy"/>
-                            <constraint firstItem="Td4-Mv-l46" firstAttribute="top" secondItem="ngI-qK-1UD" secondAttribute="bottom" constant="8" id="rDJ-jB-Hs6"/>
+                            <constraint firstItem="ngI-qK-1UD" firstAttribute="top" secondItem="4j9-eo-pEQ" secondAttribute="bottom" constant="25" id="pN7-Kc-Yvy"/>
                             <constraint firstItem="3lC-ad-qFG" firstAttribute="leading" secondItem="svR-tq-aqj" secondAttribute="leading" constant="16" id="rmv-el-Rdk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="svR-tq-aqj"/>
@@ -464,12 +453,10 @@
                         <outlet property="durationStepperOut" destination="YOr-qC-2hN" id="4YA-Jf-hMA"/>
                         <outlet property="durationTimeLabel" destination="X0X-cx-HhM" id="X6U-3O-9Vf"/>
                         <outlet property="goTimeButton" destination="ngI-qK-1UD" id="UXa-5K-96k"/>
-                        <outlet property="taskDetailButton" destination="Td4-Mv-l46" id="J4z-2d-j2M"/>
                         <outlet property="taskPicker" destination="4j9-eo-pEQ" id="OJ9-TI-Rga"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="14a-SN-Dg3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="Fgx-Ef-YMG" userLabel="Exit" sceneMemberID="exit"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="E2B-L1-yse">
                     <connections>
                         <action selector="lableLongPress:" destination="Iwh-M0-5sB" id="viP-UI-sbT"/>

@@ -45,6 +45,10 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   
   override func viewWillAppear(_ animated: Bool)
   {
+    if activeTaskySet.count == 0
+    {
+      self.navigationController?.popToRootViewController(animated: true)
+    }
     super.viewWillAppear(animated)
     self.navigationController?.navigationBar.isHidden = false
     prepareView()
@@ -52,7 +56,7 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   
   fileprivate func prepareView()
   {
-    taskDetailButton.isEnabled = false
+    
     goTimeButton.isEnabled = false
     goTimeButton.alpha = 0.25
     goTimeButton.layer.cornerRadius = 25
@@ -105,7 +109,6 @@ class PomodoroViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
   public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
   {
     self.goTimeButton.isEnabled = true
-    self.taskDetailButton.isEnabled = true
     self.goTimeButton.alpha = 1
     self.selectedItem = pickerArray[row]
   }

@@ -99,6 +99,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     tasksCompleteLabel.text = "\(tasksComplete)"
     forceRow()
     checkPermanent()
+
   }
   
   //MARK: Timer delegate funtions
@@ -138,6 +139,7 @@ class PerformViewController: UIViewController, UIPickerViewDelegate,  UIPickerVi
     print("selected new task: \(performedTask)")
     checkPermanent()
     titleButton.setTitle(performedTask.title, for: .normal)
+    self.descriptionOutlet.text = "Task Description: " + performedTask.taskDescription 
     taskPicker.isHidden = true
     descriptionOutlet.isHidden = false
     taskPicker.isUserInteractionEnabled = false
