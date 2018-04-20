@@ -333,8 +333,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   func processRealmNotificationReceipt()
   {
   print("Realm notification received!")
-    notificationToken.invalidate()
+    //notificationToken.invalidate()
     redrawCollection()
-    subscribeToNotifications()
+    //subscribeToNotifications()
   }
 }
