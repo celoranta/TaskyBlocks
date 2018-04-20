@@ -14,33 +14,44 @@ class FinalPriorityViewController: MasterGraphingViewController
 
   override func viewDidLoad()
   {
-      super.viewDidLoad()
+    super.viewDidLoad()
     self.customLayout = FinalPriorityCollectionViewLayout()
     nextViewController = PomodoroViewController()
     customLayout.delegate = self
     self.nextViewControllerId = "pomodoroViewController"
-    super.viewDidLoad()
     self.title = "Set Priority"
+    super.viewDidLoad()
   }
   
-//  override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
-//  {
-//    var dragDirection: Direction = .none
-//    print("drag began at \(sourceIndexPath) and ended at \(destinationIndexPath)")
-//    if sourceIndexPath > destinationIndexPath {dragDirection = .up}
-//    if sourceIndexPath < destinationIndexPath {dragDirection = .down}
-//    if sourceIndexPath == destinationIndexPath {dragDirection = .none}
-//    switch dragDirection
-//    {
-//    case .up:
-//      print("dragged item \(dragDirection)")
-//    case .down:
-//            print("dragged item \(dragDirection)")
-//    case .none:
-//            print("dragged item \(dragDirection)")
-//    default:
-//      fatalError("Drag direction defaulted")
-//    }
-//  }
+  override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
+  {
+    var dragDirection: Direction = .none
+    print("drag began at \(sourceIndexPath) and ended at \(destinationIndexPath)")
+    let draggedTask = currentDataModel[sourceIndexPath.row]
+    if sourceIndexPath > destinationIndexPath {dragDirection = .up}
+    if sourceIndexPath < destinationIndexPath {dragDirection = .down}
+    if sourceIndexPath == destinationIndexPath {dragDirection = .none}
+    switch dragDirection
+    {
+    case .up:
+      print("dragged item \(dragDirection)")
+      let taskWithNextGreaterPriority: TaskyNode? = currentDataModel[destinationIndexPath.row - 1]
+      let taskWithNextLesserPriority: TaskyNode? = currentDataModel[destinationIndexPath.row ]
+      print("Dragged \(draggedTask.title) to space between \((taskWithNextLesserPriority?.title ?? "Bottom")) and \((taskWithNextGreaterPriority?.title ?? "Top"))")
+      let nextGreaterPriority = taskWithNextGreaterPriority?.priorityApparent ?? 100
+      let nextLesserPriority = taskWithNextLesserPriority?.priorityApparent ?? 0
+      let averagedPriority = 0.5 * (nextLesserPriority + nextGreaterPriority)
+      
+      print("Next Greater Priority = \(nextGreaterPriority)")
+      print("Next Lesser Priority = \(nextLesserPriority)")
+      print("New Priority is: \(averagedPriority)")
+     TaskyNodeEditor.sharedInstance.setDirectPriority(of: draggedTask, to: averagedPriority)
+    case .down:
+            print("dragged item \(dragDirection)")
+    case .none:
+            print("dragged item \(dragDirection)")
+    }
+    
+  }
 }
 

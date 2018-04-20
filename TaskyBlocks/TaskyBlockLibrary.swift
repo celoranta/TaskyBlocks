@@ -10,7 +10,7 @@ import RealmSwift
 
 enum Direction
 {
-case up, down, left, right, none
+case up, down, none
 }
 
 enum colorString: String

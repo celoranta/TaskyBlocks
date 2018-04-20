@@ -81,28 +81,17 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   {
     super.viewDidLoad()
     
+    //Set up realm
     try! realm = Realm()
+
     
-    
-    collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
-    self.view.addSubview(collectionView)
-    collectionView.register(MasterGraphingCollectionViewCell.self, forCellWithReuseIdentifier: "masterCollectionCell")
-    collectionView.backgroundColor = UIColor.white
-    customLayout.delegate = self
-    collectionView.delegate = self
-    collectionView.dataSource = self
-    activeResults = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
-    currentDataModel = Array(activeResults)
-    currentDataModel.sort(by: { $0.priorityApparent < $1.priorityApparent})
-    self.subscribeToNotifications()
+    //Layout View
     self.navigationController?.toolbar.isHidden = false
     self.title = "Login"
-    
     self.navigationItem.rightBarButtonItem = rightBarButtonItem
     rightBarButtonItem.target = self
     rightBarButtonItem.action = #selector(doneButton(_:))
     self.navigationItem.setHidesBackButton(true, animated: true)
-    
     var toolbarItems = [UIBarButtonItem]()
     let leftSpacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     let rightSpacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -110,16 +99,33 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     toolbarItems.append(contentsOf: [leftSpacer, settings, rightSpacer])
     self.toolbarItems = toolbarItems
     
+    //Set up collection view
+    collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
+    self.view.addSubview(collectionView)
+    collectionView.register(MasterGraphingCollectionViewCell.self, forCellWithReuseIdentifier: "masterCollectionCell")
+    collectionView.backgroundColor = UIColor.white
+    collectionView.delegate = self
+    collectionView.dataSource = self
+    customLayout.delegate = self
+ 
+    // Set up data model
+    activeResults = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
+    currentDataModel = Array(activeResults)
+
     //enable block dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
     self.longPressGesture.minimumPressDuration = 0.12
     collectionView.addGestureRecognizer(longPressGesture)
     self.view.layoutSubviews()
     print("\nOpening new graphing view with data: ")
+    
+    //Sound off all items in data model
     for task in currentDataModel
     {
       task.soundOff()
     }
+    
+        self.subscribeToNotifications()
   }
   
   fileprivate func redrawCollection() {
