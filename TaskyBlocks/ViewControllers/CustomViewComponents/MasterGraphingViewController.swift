@@ -262,19 +262,12 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   
   //MARK: Actions
   
+
+  
   @objc func doneButton(_ sender: UIBarButtonItem)
   {
     print("Done button pressed")
-    if let unwrappedNextVCId = self.nextViewControllerId
-    {
-      let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-      let nextVC = storyBoard.instantiateViewController(withIdentifier: unwrappedNextVCId)
-      navigationController?.pushViewController(nextVC, animated: true)
-    }
-    else if let unwrappedNextVC = nextViewController
-    {
-      navigationController?.pushViewController(unwrappedNextVC, animated: true)
-    }
+    pushToNextGraph()
   }
   
   @objc func detailView(task: TaskyNode)
@@ -288,6 +281,20 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   }
   
   //Mark: Programmatic Navigation
+  
+  fileprivate func pushToNextGraph() {
+    if let unwrappedNextVCId = self.nextViewControllerId
+    {
+      let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+      let nextVC = storyBoard.instantiateViewController(withIdentifier: unwrappedNextVCId)
+      navigationController?.pushViewController(nextVC, animated: true)
+    }
+    else if let unwrappedNextVC = nextViewController
+    {
+      navigationController?.pushViewController(unwrappedNextVC, animated: true)
+    }
+  }
+  
   @objc func pushToSettings(_ sender: UIBarButtonItem)
   {
     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
