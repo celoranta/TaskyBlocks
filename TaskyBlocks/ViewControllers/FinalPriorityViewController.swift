@@ -14,13 +14,18 @@ class FinalPriorityViewController: MasterGraphingViewController
 
   override func viewDidLoad()
   {
-    super.viewDidLoad()
+
+    // Move to dependency injection, potentially a protocol
     self.customLayout = FinalPriorityCollectionViewLayout()
     nextViewController = PomodoroViewController()
-    customLayout.delegate = self
+    
+    //Should be first in section
+    super.viewDidLoad()
+    
+    //
     self.nextViewControllerId = "pomodoroViewController"
     self.title = "Set Priority"
-    super.viewDidLoad()
+
   }
   
   override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
