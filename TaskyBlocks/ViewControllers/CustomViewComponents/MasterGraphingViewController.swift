@@ -77,6 +77,10 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     return barButtonItem
   }()
   
+  override func viewDidDisappear(_ animated: Bool) {
+    unsubscribeToRealmNotifications()
+  }
+  
   override func viewDidLoad()
   {
     super.viewDidLoad()
@@ -126,6 +130,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     }
     
         self.subscribeToNotifications()
+      print("Subscribed to notifications for \(self.description)")
   }
   
   fileprivate func redrawCollection() {
@@ -280,9 +285,9 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     navigationController?.pushViewController(nextVC, animated: true)
   }
   
-  //Mark: Programmatic Navigation
+  //Mark: Navigation
   
-  fileprivate func pushToNextGraph() {
+  func pushToNextGraph() {
     if let unwrappedNextVCId = self.nextViewControllerId
     {
       let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -301,8 +306,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
     self.navigationController?.pushViewController(settingsViewController, animated: true)
   }
-  
-  //MARK: Segues
+
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
   {
     switch segue.identifier
@@ -345,6 +349,12 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
         print(error)
       }
     }
+  }
+  
+  func unsubscribeToRealmNotifications()
+  {
+    notificationToken.invalidate()
+        print("Realm token invalidated for \(self.description) as a part of navigation to new view")
   }
   
   func processRealmNotificationReceipt()
