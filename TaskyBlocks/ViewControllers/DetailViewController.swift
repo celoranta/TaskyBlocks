@@ -247,11 +247,6 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
   {
-    if textField == taskTitleText
-    {
-      let inputString = textField.text ?? ""
-      TaskyNodeEditor.sharedInstance.changeTitle(task: task, to: inputString)
-    }
     if textField == priorityDirectText
     {
       switch string
