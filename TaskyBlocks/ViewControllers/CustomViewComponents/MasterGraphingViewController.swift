@@ -213,7 +213,11 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   //MARK: Drag items
   func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool
   {
-    let task = currentDataModel[indexPath.row]
+    if indexPath.row == currentDataModel.count
+    {
+      return false
+    }
+    let task = currentDataModel[indexPath.row] 
     if task.isPermanent != 1
     {
       return true
