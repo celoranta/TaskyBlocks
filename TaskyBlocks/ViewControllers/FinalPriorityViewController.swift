@@ -12,11 +12,7 @@ class FinalPriorityViewController: MasterGraphingViewController
 {
   override func viewDidLoad()
   {
-    // Move to dependency injection
-    self.customLayout = FinalPriorityCollectionViewLayout()
-    nextViewController = PomodoroViewController()
     
-    //Should be first in section
     super.viewDidLoad()
     
     self.nextViewControllerId = "pomodoroViewController"

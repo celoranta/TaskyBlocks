@@ -266,9 +266,6 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   }
   
   //MARK: Actions
-  
-
-  
   @objc func doneButton(_ sender: UIBarButtonItem)
   {
     print("Done button pressed")
@@ -287,17 +284,26 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   
   //Mark: Navigation
   
-  func pushToNextGraph() {
+ func pushToNextGraph() {
+    var nextVC: UIViewController
     if let unwrappedNextVCId = self.nextViewControllerId
     {
       let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-      let nextVC = storyBoard.instantiateViewController(withIdentifier: unwrappedNextVCId)
+      nextVC = storyBoard.instantiateViewController(withIdentifier: unwrappedNextVCId)
       navigationController?.pushViewController(nextVC, animated: true)
     }
     else if let unwrappedNextVC = nextViewController
     {
+      nextVC = unwrappedNextVC as! MasterGraphingViewController
+      setupNextVC(vc: nextVC as! MasterGraphingViewController)
       navigationController?.pushViewController(unwrappedNextVC, animated: true)
     }
+  }
+  
+  func setupNextVC(vc: MasterGraphingViewController)
+  {
+    vc.filter = "completionDate == nil"
+    vc.customLayout = MasterGraphingCollectionViewLayout()
   }
   
   @objc func pushToSettings(_ sender: UIBarButtonItem)
