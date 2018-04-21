@@ -134,9 +134,10 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   }
   
   fileprivate func redrawCollection() {
-    currentDataModel = []
-    self.collectionView.reloadData()
-    currentDataModel = Array(activeResults)
+   currentDataModel = []
+  self.collectionView.reloadData()
+   self.collectionView.layoutIfNeeded()
+   currentDataModel = Array(activeResults)
     currentDataModel.sort(by: { $0.priorityApparent > $1.priorityApparent})
     self.collectionView.reloadData()
     self.collectionView.layoutIfNeeded()
@@ -367,7 +368,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   {
   print("Realm notification received!")
     //notificationToken.invalidate()
-    redrawCollection()
+    redrawCollection()  //Disable this line to recreate the problem behaviour
     //subscribeToNotifications()
   }
 }

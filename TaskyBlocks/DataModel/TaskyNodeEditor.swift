@@ -76,7 +76,7 @@ class TaskyNodeEditor: NSObject {
     realm.beginWrite()
     task.priorityDirect.value = priority
     realm.add(task, update: true)
-    print("Attempted to write new priority to realm")
+    print("Attempting to write new priority to realm")
     try! realm.commitWrite()
     
   }
