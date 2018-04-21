@@ -12,19 +12,15 @@ class FinalDependenceViewController: MasterGraphingViewController
 {
   override func viewDidLoad()
   {
-
-
     super.viewDidLoad()
-    
-        nextViewController = FinalPriorityViewController()
+    nextViewController = FinalPriorityViewController()
     self.title = "Set Dependence"
     self.includesAddBlock = false
-    
   }
   
   override func setupNextVC(vc: MasterGraphingViewController)
   {
     vc.filter = "completionDate == nil"
-    vc.customLayout = FinalDependenceCollectionViewLayout()
+    vc.customLayout = FinalPriorityCollectionViewLayout()
   }
 }

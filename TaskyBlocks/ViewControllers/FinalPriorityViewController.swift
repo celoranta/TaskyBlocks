@@ -12,9 +12,7 @@ class FinalPriorityViewController: MasterGraphingViewController
 {
   override func viewDidLoad()
   {
-    
     super.viewDidLoad()
-    
     self.nextViewControllerId = "pomodoroViewController"
     self.title = "Set Priority"
     self.includesAddBlock = false
