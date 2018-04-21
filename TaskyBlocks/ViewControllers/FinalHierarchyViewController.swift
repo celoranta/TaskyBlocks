@@ -13,10 +13,10 @@ class FinalHierarchyViewController: MasterGraphingViewController
   override func viewDidLoad()
   {
 
-    filter = "completionDate == nil"
-    customLayout = HierarchyCollectionViewLayout()
-    nextViewController = FinalDependenceViewController()
+
     super.viewDidLoad()
+    
+    nextViewController = FinalDependenceViewController()
     self.title = "Set Hierarchy"
     self.includesAddBlock = true
   }
@@ -31,6 +31,22 @@ class FinalHierarchyViewController: MasterGraphingViewController
 
   
   //MARK: Segues
+  
+  override   func pushToNextGraph() {
+    var nextVC = MasterGraphingViewController
+    if let unwrappedNextVCId = self.nextViewControllerId
+    {
+      let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+      let nextVC = storyBoard.instantiateViewController(withIdentifier: unwrappedNextVCId)
+      navigationController?.pushViewController(nextVC, animated: true)
+    }
+    else if let unwrappedNextVC = nextViewController
+    {
+      navigationController?.pushViewController(unwrappedNextVC, animated: true)
+    }
+    
+  }
+  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
   {
     switch segue.identifier

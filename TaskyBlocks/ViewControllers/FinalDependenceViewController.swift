@@ -14,8 +14,12 @@ class FinalDependenceViewController: MasterGraphingViewController
   {
     filter = "completionDate == nil"
     customLayout = FinalDependenceCollectionViewLayout()
-    nextViewController = FinalPriorityViewController()
+
     super.viewDidLoad()
+    
+        nextViewController = FinalPriorityViewController()
     self.title = "Set Dependence"
+    self.includesAddBlock = false
+    
   }
 }

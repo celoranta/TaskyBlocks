@@ -10,22 +10,18 @@ import UIKit
 
 class FinalPriorityViewController: MasterGraphingViewController
 {
-  
-
   override func viewDidLoad()
   {
-
-    // Move to dependency injection, potentially a protocol
+    // Move to dependency injection
     self.customLayout = FinalPriorityCollectionViewLayout()
     nextViewController = PomodoroViewController()
     
     //Should be first in section
     super.viewDidLoad()
     
-    //
     self.nextViewControllerId = "pomodoroViewController"
     self.title = "Set Priority"
-
+    self.includesAddBlock = false
   }
   
   override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
@@ -56,7 +52,6 @@ class FinalPriorityViewController: MasterGraphingViewController
     case .none:
             print("dragged item \(dragDirection)")
     }
-    
   }
 }
 

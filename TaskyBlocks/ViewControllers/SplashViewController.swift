@@ -44,4 +44,14 @@ class SplashViewController: UIViewController {
   {
     performSegue(withIdentifier: "toHierarchy", sender: self)
   }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "toHierarchy"
+    {
+      let nextNavCtrl = segue.destination as! UINavigationController
+      let nextVC = nextNavCtrl.topViewController as! MasterGraphingViewController
+      nextVC.filter = "completionDate ==nil"
+      nextVC.customLayout = HierarchyCollectionViewLayout()
+    }
+  }
 }

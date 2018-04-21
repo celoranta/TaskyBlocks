@@ -91,7 +91,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     
     //Layout View
     self.navigationController?.toolbar.isHidden = false
-    self.title = "Login"
+    self.title = "Master Graph"
     self.navigationItem.rightBarButtonItem = rightBarButtonItem
     rightBarButtonItem.target = self
     rightBarButtonItem.action = #selector(doneButton(_:))
