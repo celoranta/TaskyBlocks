@@ -8,9 +8,9 @@
 import Foundation
 import RealmSwift
 
-enum Direction
+enum Direction: String
 {
-case up, down, none
+case up = "up", down = "down"
 }
 
 enum colorString: String

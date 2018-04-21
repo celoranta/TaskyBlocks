@@ -18,7 +18,6 @@ class FinalHierarchyViewController: MasterGraphingViewController
     self.includesAddBlock = true
   }
 
-  //MARK: Segues
   override func setupNextVC(vc: MasterGraphingViewController)
   {
     vc.filter = "completionDate == nil"
