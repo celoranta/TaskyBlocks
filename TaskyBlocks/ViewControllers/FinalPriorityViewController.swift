@@ -18,6 +18,7 @@ class FinalPriorityViewController: MasterGraphingViewController
     self.includesAddBlock = false
   }
   
+  
   override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
   {
     print("drag began at \(sourceIndexPath) and ended at \(destinationIndexPath)")
@@ -47,7 +48,7 @@ class FinalPriorityViewController: MasterGraphingViewController
     let nextGreaterPriority = taskWithNextGreaterPriority?.priorityApparent ?? 100
     let nextLesserPriority = taskWithNextLesserPriority?.priorityApparent ?? 0
     let averagedPriority = 0.5 * (nextLesserPriority + nextGreaterPriority)
-    
+
     print("Next Gretater Priority = \(nextGreaterPriority)")
     print("Next Lesser Priority = \(nextLesserPriority)")
     print("New Priority is: \(averagedPriority)")

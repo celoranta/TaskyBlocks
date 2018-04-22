@@ -78,7 +78,6 @@ class TaskyNodeEditor: NSObject {
     realm.add(task, update: true)
     print("Attempting to write new priority to realm")
     try! realm.commitWrite()
-    
   }
   
   func complete(task: TaskyNode)
@@ -99,7 +98,6 @@ class TaskyNodeEditor: NSObject {
   }
   
   //MARK: Task Removal prep
-  
   func prepareRemove(task: TaskyNode)
   {
     for parent in task.parents

@@ -25,6 +25,7 @@
 		9534855C20798A2F00A613B9 /* PickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9534855B20798A2F00A613B9 /* PickerTableViewController.swift */; };
 		953B32C3207EB4BB00B24C81 /* TaskyBlockLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953B32C2207EB4BA00B24C81 /* TaskyBlockLibrary.swift */; };
 		9583A27D20827948000F22EC /* TaskyNodeEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583A27C20827948000F22EC /* TaskyNodeEditor.swift */; };
+		958661DA208D416600B4E06A /* MasterGraphingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958661D9208D416600B4E06A /* MasterGraphingCollectionView.swift */; };
 		95A1834B207C39F500F38ED3 /* UITextViewPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1834A207C39F500F38ED3 /* UITextViewPlaceholder.swift */; };
 		95B1453A20865CE700467D36 /* FinalDependenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453920865CE700467D36 /* FinalDependenceViewController.swift */; };
 		95B1453C20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453B20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift */; };
@@ -88,6 +89,7 @@
 		9534855B20798A2F00A613B9 /* PickerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
 		953B32C2207EB4BA00B24C81 /* TaskyBlockLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TaskyBlockLibrary.swift; path = /Users/chriseloranta/Desktop/Lighthouse/FinalProject/TaskyBlocks/TaskyBlocks/TaskyBlockLibrary.swift; sourceTree = "<absolute>"; };
 		9583A27C20827948000F22EC /* TaskyNodeEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyNodeEditor.swift; sourceTree = "<group>"; };
+		958661D9208D416600B4E06A /* MasterGraphingCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGraphingCollectionView.swift; sourceTree = "<group>"; };
 		95A1834A207C39F500F38ED3 /* UITextViewPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewPlaceholder.swift; sourceTree = "<group>"; };
 		95B1453920865CE700467D36 /* FinalDependenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalDependenceViewController.swift; sourceTree = "<group>"; };
 		95B1453B20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalDependenceCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				95046CD52085146E00237F31 /* MasterGraphingViewController.swift */,
+				958661D9208D416600B4E06A /* MasterGraphingCollectionView.swift */,
 				95046CDA20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift */,
 				95F47C33208523F500827999 /* MasterGraphingCollectionViewCell.swift */,
 				95046CDC20851C9800237F31 /* MasterGraphingCollectionViewAttributes.swift */,
@@ -577,6 +580,7 @@
 				9510999B2075C14A0091DF49 /* PomodoroViewController.swift in Sources */,
 				953B32C3207EB4BB00B24C81 /* TaskyBlockLibrary.swift in Sources */,
 				95F47C34208523F500827999 /* MasterGraphingCollectionViewCell.swift in Sources */,
+				958661DA208D416600B4E06A /* MasterGraphingCollectionView.swift in Sources */,
 				95A1834B207C39F500F38ED3 /* UITextViewPlaceholder.swift in Sources */,
 				95BE0D2F2076027A0097937F /* TaskTimer.swift in Sources */,
 				95DC88D52077489B00E346DB /* TaskyNode.swift in Sources */,

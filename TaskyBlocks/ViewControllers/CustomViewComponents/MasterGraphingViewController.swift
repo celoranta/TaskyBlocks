@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskyGraphingDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, TaskDetailDataSource
+class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskyGraphingDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, TaskDetailDataSource, UICollectionViewDropDelegate
 {
   //MARK: Dependency Injection / Override Properies
   var customLayout = MasterGraphingCollectionViewLayout()
@@ -85,9 +85,6 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   {
     super.viewDidLoad()
     
-
-
-    
     //Layout View
     self.navigationController?.toolbar.isHidden = false
     self.title = "Master Graph"
@@ -99,7 +96,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     let leftSpacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     let rightSpacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     let settings = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(pushToSettings(_:)))
-    toolbarItems.append(contentsOf: [leftSpacer, settings, rightSpacer])
+    let refresh = UIBarButtonItem(title: "Refresh", style: .plain, target: self, action: #selector(refreshTests))
+    toolbarItems.append(contentsOf: [leftSpacer, settings, refresh, rightSpacer])
     self.toolbarItems = toolbarItems
     
     //Set up collection view
@@ -110,7 +108,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     collectionView.delegate = self
     collectionView.dataSource = self
     customLayout.delegate = self
- 
+    
     activeResults = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
     currentDataModel = Array(activeResults)
     
@@ -120,20 +118,27 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     collectionView.addGestureRecognizer(longPressGesture)
     self.view.layoutSubviews()
     print("\nOpening new graphing view with data: ")
-
   }
   
-  fileprivate func redrawCollection() {
-    activeResults = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
-    currentDataModel = Array(activeResults)
-    print("Redrawing view")
-   currentDataModel = []
-   self.collectionView.reloadData()
-   self.collectionView.layoutIfNeeded()
-   currentDataModel = Array(activeResults)
-    currentDataModel.sort(by: { $0.priorityApparent > $1.priorityApparent})
-   self.collectionView.reloadData()
-    self.collectionView.layoutIfNeeded()
+  @objc func refreshTests()
+  {
+    self.collectionView.reloadData()
+  }
+  
+  func redrawCollection() {
+    print("Redrawing Collection...\n")
+    
+    //    activeResults = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
+    //    currentDataModel = Array(activeResults)
+    //   currentDataModel = []
+    //   self.collectionView.reloadData()
+    //
+    //   self.collectionView.layoutIfNeeded()
+    //            sleep(3)
+    let newDataModel = Array(activeResults)
+    currentDataModel = newDataModel.sorted(by: { $0.priorityApparent > $1.priorityApparent})
+    self.collectionView.reloadData()
+    // self.collectionView.layoutIfNeeded()
   }
   
   override func viewWillAppear(_ animated: Bool)
@@ -147,10 +152,9 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     try! realm = Realm()
     
     // Set up data model
-
     self.subscribeToNotifications()
     print("Subscribed to notifications for \(self.description)")
-   // redrawCollection()
+    // redrawCollection()
   }
   
   // MARK: Custom Layout Method
@@ -224,13 +228,20 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   }
   
   //MARK: Drag items
+  
+  
+  func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator)
+  {
+    
+  }
+  
   func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool
   {
     if indexPath.row == currentDataModel.count
     {
       return false
     }
-    let task = currentDataModel[indexPath.row] 
+    let task = currentDataModel[indexPath.row]
     if task.isPermanent != 1
     {
       return true
@@ -244,6 +255,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
   {
     print("drag began at \(sourceIndexPath) and ended at \(destinationIndexPath)")
+    //This is where I'm supposed to provide the math for placing an object.
     
   }
   
@@ -257,18 +269,20 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
       {
         break
       }
-      
       collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
     case .changed:
       collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
     case .ended:
       collectionView.endInteractiveMovement()
       print("End interactive movement")
-    default:
-      collectionView.endInteractiveMovement()
+    case .possible:
+      print("Interactive movement state: 'Possible'")
+    case .cancelled:
+      print("Interactive movement cancelled")
+    case .failed:
+      print("Interactive movement failed")
     }
   }
-
   
   //MARK: Actions
   @objc func doneButton(_ sender: UIBarButtonItem)
@@ -289,7 +303,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   
   //Mark: Navigation
   
- func pushToNextGraph() {
+  func pushToNextGraph() {
     var nextVC: UIViewController
     if let unwrappedNextVCId = self.nextViewControllerId
     {
@@ -317,7 +331,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
     self.navigationController?.pushViewController(settingsViewController, animated: true)
   }
-
+  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
   {
     switch segue.identifier
@@ -354,12 +368,13 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
         print("Initial")
         masterGraphingViewController.processRealmNotificationReceipt()
         //masterGraphingViewController.collectionView.reloadData()
+        
       case . update(_, let deletions, let insertions, let modifications):
         print("Update:")
         print("Deletions: \(deletions)")
         print("Insertions: \(insertions)")
         print("Modifications: \(modifications)")
-
+        
         masterGraphingViewController.processRealmNotificationReceipt()
       case .error(let error):
         print(error)
@@ -370,12 +385,11 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   func unsubscribeToRealmNotifications()
   {
     notificationToken.invalidate()
-        print("Realm token invalidated for \(self.description) as a part of navigation to new view\n")
+    print("Realm token invalidated for \(self.description) as a part of navigation to new view\n")
   }
   
   func processRealmNotificationReceipt()
   {
-  print("Realm notification received!")
     redrawCollection()
   }
 }
