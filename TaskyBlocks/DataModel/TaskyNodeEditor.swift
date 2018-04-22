@@ -274,14 +274,6 @@ class TaskyNodeEditor: NSObject {
     print("Realm instance closed")
   }
   
-  func updatePriorityDirect(of task: TaskyNode, to value: Double)
-  {
-    try! realm.write
-    {
-      task.priorityDirect.value = value
-    }
-  }
-  
   func createRandomTasks(qty: Int = 1) -> [TaskyNode]
   {
     var randomTaskSet: [TaskyNode] = []

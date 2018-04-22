@@ -85,8 +85,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   {
     super.viewDidLoad()
     
-    //Set up realm
-    try! realm = Realm()
+
 
     
     //Layout View
@@ -112,34 +111,28 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     collectionView.dataSource = self
     customLayout.delegate = self
  
-    // Set up data model
     activeResults = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
     currentDataModel = Array(activeResults)
-
+    
     //enable block dragging
     self.longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(gesture:)))
     self.longPressGesture.minimumPressDuration = 0.12
     collectionView.addGestureRecognizer(longPressGesture)
     self.view.layoutSubviews()
     print("\nOpening new graphing view with data: ")
-    
-    //Sound off all items in data model
-    for task in currentDataModel
-    {
-      task.soundOff()
-    }
-    
-        self.subscribeToNotifications()
-      print("Subscribed to notifications for \(self.description)")
+
   }
   
   fileprivate func redrawCollection() {
+    activeResults = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
+    currentDataModel = Array(activeResults)
+    print("Redrawing view")
    currentDataModel = []
-  self.collectionView.reloadData()
+   self.collectionView.reloadData()
    self.collectionView.layoutIfNeeded()
    currentDataModel = Array(activeResults)
     currentDataModel.sort(by: { $0.priorityApparent > $1.priorityApparent})
-    self.collectionView.reloadData()
+   self.collectionView.reloadData()
     self.collectionView.layoutIfNeeded()
   }
   
@@ -149,7 +142,15 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     {
       nav.isToolbarHidden = false
     }
-    redrawCollection()
+    
+    //Set up realm
+    try! realm = Realm()
+    
+    // Set up data model
+
+    self.subscribeToNotifications()
+    print("Subscribed to notifications for \(self.description)")
+   // redrawCollection()
   }
   
   // MARK: Custom Layout Method
@@ -251,6 +252,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     switch(gesture.state)
     {
     case .began:
+      print("Long gesture began")
       guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else
       {
         break
@@ -261,10 +263,12 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
       collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
     case .ended:
       collectionView.endInteractiveMovement()
+      print("End interactive movement")
     default:
       collectionView.endInteractiveMovement()
     }
   }
+
   
   //MARK: Actions
   @objc func doneButton(_ sender: UIBarButtonItem)
@@ -349,8 +353,13 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
       case .initial:
         print("Initial")
         masterGraphingViewController.processRealmNotificationReceipt()
-      case . update:
-        print("Update")
+        //masterGraphingViewController.collectionView.reloadData()
+      case . update(_, let deletions, let insertions, let modifications):
+        print("Update:")
+        print("Deletions: \(deletions)")
+        print("Insertions: \(insertions)")
+        print("Modifications: \(modifications)")
+
         masterGraphingViewController.processRealmNotificationReceipt()
       case .error(let error):
         print(error)
@@ -361,14 +370,12 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   func unsubscribeToRealmNotifications()
   {
     notificationToken.invalidate()
-        print("Realm token invalidated for \(self.description) as a part of navigation to new view")
+        print("Realm token invalidated for \(self.description) as a part of navigation to new view\n")
   }
   
   func processRealmNotificationReceipt()
   {
   print("Realm notification received!")
-    //notificationToken.invalidate()
-    redrawCollection()  //Disable this line to recreate the problem behaviour
-    //subscribeToNotifications()
+    redrawCollection()
   }
 }
