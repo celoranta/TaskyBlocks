@@ -17,7 +17,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   var sorter = ""
   
   //MARK: Static Properties
-  var collectionView: UICollectionView!
+  var collectionView: MasterGraphingCollectionView!
   var activeResults: Results<TaskyNode>!
   var currentDataModel: [TaskyNode]!
   var selectedTask: TaskyNode!
@@ -101,7 +101,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     self.toolbarItems = toolbarItems
     
     //Set up collection view
-    collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
+    collectionView = MasterGraphingCollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
     self.view.addSubview(collectionView)
     collectionView.register(MasterGraphingCollectionViewCell.self, forCellWithReuseIdentifier: "masterCollectionCell")
     collectionView.backgroundColor = UIColor.white
@@ -138,6 +138,8 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     let newDataModel = Array(activeResults)
     currentDataModel = newDataModel.sorted(by: { $0.priorityApparent > $1.priorityApparent})
     self.collectionView.reloadData()
+    let anIndexSet = IndexSet.init(integer: 0)
+    self.collectionView.reloadSections(anIndexSet)
     // self.collectionView.layoutIfNeeded()
   }
   

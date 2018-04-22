@@ -8,7 +8,8 @@
 
 import UIKit
 
-class MasterGraphingCollectionView: UICollectionView {
+class MasterGraphingCollectionView: UICollectionView
+{
 
     /*
     // Only override draw() if you perform custom drawing.
