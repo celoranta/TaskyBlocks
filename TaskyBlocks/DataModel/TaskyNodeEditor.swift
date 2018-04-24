@@ -114,6 +114,10 @@ class TaskyNodeEditor: NSObject {
         add(task: consequent, asConsequentTo: antecedent)
       }
     }
+    removeAsAntecedentToAll(task: task)
+    removeAsConsequentToAll(task: task)
+    removeAsParentToAllChildren(task: task)
+    removeAsChildToAllParents(task: task)
   }
   
   //MARK: Task Description
@@ -206,13 +210,15 @@ class TaskyNodeEditor: NSObject {
   
   func remove(task: TaskyNode, asConsequentTo antecedent: TaskyNode)
   {
-    realm.beginWrite()
+
     if let index = task.antecedents.index(of: antecedent)
     {
+          realm.beginWrite()
       task.antecedents.remove(at: index)
       realm.add(task, update: true)
+          try! realm.commitWrite()
     }
-    try! realm.commitWrite()
+
   }
   
   func remove(task: TaskyNode, asAntecedentTo consequent: TaskyNode)
