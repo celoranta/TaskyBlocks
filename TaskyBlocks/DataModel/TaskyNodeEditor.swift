@@ -9,8 +9,7 @@
 import UIKit
 import RealmSwift
 
-enum NewTaskyType
-{
+enum NewTaskyType {
   case normal, random
 }
 
@@ -22,7 +21,7 @@ class TaskyNodeEditor: NSObject {
   
   //MARK: Task Creation
   func newTask() -> TaskyNode
-  {
+{
     var newTaskyNode: TaskyNode!
     let userSettings = UserDefaults()
     var taskType: NewTaskyType

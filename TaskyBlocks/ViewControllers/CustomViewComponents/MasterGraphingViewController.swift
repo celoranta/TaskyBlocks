@@ -139,6 +139,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     currentDataModel = newDataModel.sorted(by: { $0.priorityApparent > $1.priorityApparent})
    // self.collectionView.reloadData()
     let anIndexSet = IndexSet.init(integer: 0)
+
     self.collectionView.reloadSections(anIndexSet)
     // self.collectionView.layoutIfNeeded()
 
@@ -377,7 +378,6 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
         print("Deletions: \(deletions)")
         print("Insertions: \(insertions)")
         print("Modifications: \(modifications)")
-        
         masterGraphingViewController.processRealmNotificationReceipt()
       case .error(let error):
         print(error)
