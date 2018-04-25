@@ -10,6 +10,7 @@ import UIKit
 import AppusCircleTimer
 import RealmSwift
 
+
 enum TimerState
 {
   case setup, pause, run
@@ -20,12 +21,9 @@ enum EstimateState
   case over, under
 }
 
-class ComboViewController: UIViewController, AppusCircleTimerDelegate, PickerTableViewDelegate {
+class ComboViewController: UIViewController, AppusCircleTimerDelegate {
 
-  
-  
-  
-  
+
   //MARK: Outlets
   
   @IBOutlet weak var topLabelOutlet: UILabel!
@@ -43,7 +41,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, PickerTab
   @IBOutlet weak var leftTimerOutlet: AppusCircleTimer!
   @IBOutlet weak var rightTimerOutlet: AppusCircleTimer!
   
-  var selectedTask: TaskyNode? = TaskyNodeEditor.sharedInstance.database[0]
+  var selectedTask: TaskyNode? = nil//TaskyNodeEditor.sharedInstance.database[0]
   var timerState: TimerState = .setup
   var selectedTaskStart: Date!
   var loggedTaskTime: Int = 0
@@ -51,7 +49,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, PickerTab
   override func viewDidLoad() {
     super.viewDidLoad()
     
-   
+    mainTimerOutlet.delegate = self
     leftTimerOutlet.delegate = self
     rightTimerOutlet.delegate = self
     
@@ -199,11 +197,66 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, PickerTab
   
   private func taskSelect()
   {
-    self.mainTimerOutlet.isActive = false
-    self.leftTimerOutlet.isActive = false
-    self.rightTimerOutlet.isActive = false
+    hibernate(timer: self.mainTimerOutlet)
+    hibernate(timer: self.leftTimerOutlet)
+    hibernate(timer: self.rightTimerOutlet)
+    self.stepperOutlet.isHidden = true
+    self.completeWordOutlet.isHidden = true
+    self.tasksWordOutlet.isHidden = true
+   // self.mainTimerOutlet.totalTime = 0.0
+   // self.mainTimerTap(self)
+    self.topLabelOutlet.text = "Select a Task"
+    
   }
   
+  private func hibernate(timer: AppusCircleTimer)
+  {
+
+    let fadedAlpha = CGFloat.init(0.25)
+    self.doneSwitchOutlet.isOn = false
+    self.doneSwitchOutlet.isEnabled = false
+    timer.reset()
+    timer.elapsedTime = 0.0
+    timer.isActive = false
+    timer.totalTime = 0.0
+    timer.stop()
+    timer.reset()
+    timer.alpha = fadedAlpha
+    self.taskTitleLabel.textColor = UIColor.gray
+    self.taskDescriptionLabel.textColor = UIColor.gray
+    self.taskTitleLabel.text = "<select a task>"
+    self.taskDescriptionLabel.text = ""
+    switch timer.accessibilityIdentifier
+    {
+    case "leftTimer":
+      self.timerLeftLabel.textColor = UIColor.gray
+    case "rightTimer":
+      self.timerRightLabel.textColor = UIColor.gray
+    default:
+      print("Main Timer.  No Label to Fade")
+    }
+    
+  }
+  
+  private func wakeUp(timer: AppusCircleTimer)
+  {
+    let stdAlpha = CGFloat.init(1.0)
+    self.doneSwitchOutlet.isOn = true
+    self.doneSwitchOutlet.isEnabled = true
+    timer.isActive = true
+    timer.alpha = stdAlpha
+    self.taskTitleLabel.textColor = UIColor.black
+    self.taskDescriptionLabel.textColor = UIColor.black
+    switch timer.accessibilityIdentifier
+    {
+    case "leftTimer":
+      self.timerLeftLabel.textColor = UIColor.black
+    case "rightTimer":
+      self.timerRightLabel.textColor = UIColor.black
+    default:
+      print("Main Timer.  No Label to Unfade")
+    }
+  }
 
   
   //MARK: Task mutation methods
@@ -214,10 +267,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, PickerTab
     self.loggedTaskTime = 0
     self.selectedTaskStart = nil
   }
-  
-  func retrieveUpdatedCollection(from table: PickerTableViewController) {
-    table.activeTasks = self.pickerArray
-  }
+
     
     //MARK: Actions
     
