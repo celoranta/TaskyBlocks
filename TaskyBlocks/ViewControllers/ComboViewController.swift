@@ -8,6 +8,7 @@
 
 import UIKit
 import AppusCircleTimer
+import RealmSwift
 
 enum TimerState
 {
@@ -19,7 +20,9 @@ enum EstimateState
   case over, under
 }
 
-class ComboViewController: UIViewController, AppusCircleTimerDelegate {
+class ComboViewController: UIViewController, AppusCircleTimerDelegate, PickerTableViewDelegate {
+
+  
   
   
   
@@ -44,12 +47,11 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
   var timerState: TimerState = .setup
   var selectedTaskStart: Date!
   var loggedTaskTime: Int = 0
-
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    mainTimerOutlet.delegate = self
+   
     leftTimerOutlet.delegate = self
     rightTimerOutlet.delegate = self
     
@@ -68,15 +70,22 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
     stepperOutlet.minimumValue = 10
     stepperOutlet.maximumValue = 90
     
+    
     drawScreen()
     
   }
   
   fileprivate func drawScreen()
   {
-
-    if let uSelectedTask = selectedTask
-    {
+      guard let uSelectedTask = selectedTask
+        else
+        {
+          taskSelect()
+          return
+        }
+    self.mainTimerOutlet.isActive = true
+    self.leftTimerOutlet.isActive = true
+    self.rightTimerOutlet.isActive = true
       taskTitleLabel.text = uSelectedTask.title
       taskDescriptionLabel.text = uSelectedTask.taskDescription
       self.doneSwitchOutlet.isOn = (uSelectedTask.completionDate != nil)
@@ -86,7 +95,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       setupLeftTimer(state: settings.0, total: settings.1, advanced: Double(settings.2))
       }
       self.view.layoutSubviews()
-    }
+    
     switch self.timerState
     {
     case .setup:
@@ -128,7 +137,6 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
         print("Main timer expired")
       case leftTimerOutlet:
         print("Left timer expired")
-        self.
         drawScreen()
       case  rightTimerOutlet:
         print("Right timer expired")
@@ -189,10 +197,14 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       self.leftTimerOutlet.stop()
     }
   
-  private func updateLoggedTaskTime()
+  private func taskSelect()
   {
-    self.loggedTaskTime = self.loggedTaskTime + 
+    self.mainTimerOutlet.isActive = false
+    self.leftTimerOutlet.isActive = false
+    self.rightTimerOutlet.isActive = false
   }
+  
+
   
   //MARK: Task mutation methods
   private func deselect(task: TaskyNode)
@@ -201,6 +213,10 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
     self.selectedTask = nil
     self.loggedTaskTime = 0
     self.selectedTaskStart = nil
+  }
+  
+  func retrieveUpdatedCollection(from table: PickerTableViewController) {
+    table.activeTasks = self.pickerArray
   }
     
     //MARK: Actions
@@ -227,7 +243,10 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       }
       drawScreen()
     }
-  @IBAction func doneSwitchAction(_ sender: UISwitch) {
+  
+  @IBAction func doneSwitchAction(_ sender: UISwitch)
+  {
+    
   }
   
     
