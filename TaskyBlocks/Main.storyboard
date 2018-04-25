@@ -727,24 +727,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="YJD-hv-odi" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
-                                <rect key="frame" x="64" y="95.5" width="247.5" height="247"/>
-                                <subviews>
-                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="ydv-VK-Yym">
-                                        <rect key="frame" x="76" y="159" width="94" height="29"/>
-                                    </stepper>
-                                </subviews>
+                            <view contentMode="scaleAspectFit" restorationIdentifier="mainTimer" translatesAutoresizingMaskIntoConstraints="NO" id="YJD-hv-odi" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
+                                <rect key="frame" x="64" y="132.5" width="247.5" height="247"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="sprint"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstItem="ydv-VK-Yym" firstAttribute="top" secondItem="YJD-hv-odi" secondAttribute="top" constant="159" id="Pqh-o4-OwJ"/>
                                     <constraint firstAttribute="width" secondItem="YJD-hv-odi" secondAttribute="height" multiplier="1:1" id="jzE-9d-Bs1"/>
-                                    <constraint firstItem="ydv-VK-Yym" firstAttribute="centerX" secondItem="YJD-hv-odi" secondAttribute="centerX" id="kX4-Gw-AXD"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="inactiveColor">
-                                        <color key="value" red="0.29952795360000001" green="0.95686274510000002" blue="0.46059545889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="value" red="0.21222471045365368" green="0.95686274510000002" blue="0.41243959645535011" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="activeColor">
                                         <color key="value" red="0.51645500690000001" green="1" blue="0.7007925277" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -763,8 +756,8 @@
                                     <outletCollection property="gestureRecognizers" destination="SaV-6J-LIW" appends="YES" id="A2k-YD-Svi"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="ugG-8u-qM5" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
-                                <rect key="frame" x="34" y="320.5" width="95" height="95"/>
+                            <view contentMode="scaleAspectFit" restorationIdentifier="leftTimer" translatesAutoresizingMaskIntoConstraints="NO" id="ugG-8u-qM5" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
+                                <rect key="frame" x="34" y="357.5" width="95" height="95"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="sprint"/>
                                 <constraints>
@@ -789,8 +782,8 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="sC4-Q2-P76" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
-                                <rect key="frame" x="246.5" y="320.5" width="95" height="95"/>
+                            <view contentMode="scaleAspectFit" restorationIdentifier="rightTimer" translatesAutoresizingMaskIntoConstraints="NO" id="sC4-Q2-P76" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
+                                <rect key="frame" x="246.5" y="357.5" width="95" height="95"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="sprint"/>
                                 <userDefinedRuntimeAttributes>
@@ -812,19 +805,19 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Complete:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iZH-3S-Wgm">
-                                <rect key="frame" x="158" y="380.5" width="59" height="15"/>
+                                <rect key="frame" x="158" y="417.5" width="59" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tasks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HVf-7V-ulN">
-                                <rect key="frame" x="172" y="366.5" width="32" height="15"/>
+                                <rect key="frame" x="172" y="403.5" width="32" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGb-Kd-3UY">
-                                <rect key="frame" x="178" y="391.5" width="20" height="27"/>
+                                <rect key="frame" x="178" y="428.5" width="20" height="27"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" red="0.25807604290000002" green="0.82280103819999995" blue="0.40470430489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -848,7 +841,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="890-1U-wj5">
-                                <rect key="frame" x="16" y="44" width="343" height="27.5"/>
+                                <rect key="frame" x="16" y="70" width="343" height="27.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -864,13 +857,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ztg-W9-Huu">
-                                <rect key="frame" x="64.5" y="423.5" width="35" height="21"/>
+                                <rect key="frame" x="64.5" y="460.5" width="35" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="piN-dU-MuN">
-                                <rect key="frame" x="267" y="423.5" width="55" height="21"/>
+                                <rect key="frame" x="267" y="460.5" width="55" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -886,19 +879,27 @@
                                     <action selector="chooseTaskButton:" destination="ZMA-pq-R48" eventType="touchUpInside" id="hHw-3O-2iQ"/>
                                 </connections>
                             </button>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="ydv-VK-Yym">
+                                <rect key="frame" x="140" y="405.5" width="94" height="29"/>
+                                <connections>
+                                    <action selector="timeStepper:" destination="ZMA-pq-R48" eventType="valueChanged" id="XJY-hQ-EhS"/>
+                                </connections>
+                            </stepper>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="iZH-3S-Wgm" firstAttribute="top" secondItem="HVf-7V-ulN" secondAttribute="bottom" constant="-1" id="0tV-eW-qtc"/>
                             <constraint firstItem="UD4-iv-jgw" firstAttribute="centerY" secondItem="WYv-E9-1C8" secondAttribute="centerY" id="1e1-GG-XGN"/>
                             <constraint firstItem="Fa5-ST-f7H" firstAttribute="centerY" secondItem="WYv-E9-1C8" secondAttribute="centerY" id="34n-x1-58Q"/>
-                            <constraint firstItem="YJD-hv-odi" firstAttribute="top" secondItem="890-1U-wj5" secondAttribute="bottom" constant="24" id="5Mn-tk-nsY"/>
+                            <constraint firstItem="YJD-hv-odi" firstAttribute="top" secondItem="890-1U-wj5" secondAttribute="bottom" constant="35" id="5Mn-tk-nsY"/>
                             <constraint firstItem="YJD-hv-odi" firstAttribute="leading" secondItem="ugG-8u-qM5" secondAttribute="trailing" constant="-65" id="5bq-jV-ZJL"/>
                             <constraint firstItem="ugG-8u-qM5" firstAttribute="top" secondItem="YJD-hv-odi" secondAttribute="bottom" constant="-22" id="6sp-gh-VB6"/>
                             <constraint firstItem="piN-dU-MuN" firstAttribute="centerX" secondItem="sC4-Q2-P76" secondAttribute="centerX" id="7qy-6o-e5Y"/>
-                            <constraint firstItem="890-1U-wj5" firstAttribute="top" secondItem="Jh8-q9-dZV" secondAttribute="top" constant="24" id="8UQ-IY-gi2"/>
+                            <constraint firstItem="890-1U-wj5" firstAttribute="top" secondItem="Jh8-q9-dZV" secondAttribute="top" constant="50" id="8UQ-IY-gi2"/>
+                            <constraint firstItem="ydv-VK-Yym" firstAttribute="centerY" secondItem="sC4-Q2-P76" secondAttribute="centerY" constant="15" id="9Je-Nj-Lsp"/>
                             <constraint firstItem="Jh8-q9-dZV" firstAttribute="trailing" secondItem="8pk-9S-Y6Z" secondAttribute="trailing" constant="16" id="AcE-Cw-6Cl"/>
                             <constraint firstItem="YJD-hv-odi" firstAttribute="centerX" secondItem="Jh8-q9-dZV" secondAttribute="centerX" id="AtS-sR-ckh"/>
+                            <constraint firstItem="ydv-VK-Yym" firstAttribute="centerX" secondItem="FTK-6P-MA6" secondAttribute="centerX" id="G5k-T1-3WM"/>
                             <constraint firstItem="UD4-iv-jgw" firstAttribute="leading" secondItem="Jh8-q9-dZV" secondAttribute="leading" constant="16" id="N15-V0-JrA"/>
                             <constraint firstItem="piN-dU-MuN" firstAttribute="top" secondItem="sC4-Q2-P76" secondAttribute="bottom" constant="8" id="RCm-OS-WIG"/>
                             <constraint firstItem="Jh8-q9-dZV" firstAttribute="trailing" secondItem="Fa5-ST-f7H" secondAttribute="trailing" constant="16" id="RsO-S3-ycB"/>

@@ -37,6 +37,8 @@ class TaskyNode: Object
   let consequents = LinkingObjects(fromType: TaskyNode.self, property: "antecedents")
   let priorityDirect: RealmOptional<Double> = RealmOptional.init()
   let priorityOverride: RealmOptional<Double> = RealmOptional.init()
+  let secondsElapsed: Int = 0
+  let secondsEstimated: RealmOptional<Int> = RealmOptional.init()
 
   
   //MARK: Calculated properties (ignored)

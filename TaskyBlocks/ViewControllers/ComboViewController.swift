@@ -11,10 +11,17 @@ import AppusCircleTimer
 
 enum TimerState
 {
-  case pause, run
+  case setup, pause, run
 }
 
-class ComboViewController: UIViewController {
+enum EstimateState
+{
+  case over, under
+}
+
+class ComboViewController: UIViewController, AppusCircleTimerDelegate {
+  
+  
   
   //MARK: Outlets
   
@@ -33,18 +40,33 @@ class ComboViewController: UIViewController {
   @IBOutlet weak var rightTimerOutlet: AppusCircleTimer!
   
   var selectedTask: TaskyNode? = TaskyNodeEditor.sharedInstance.database[0]
-  var timerState: TimerState = .pause
+  var timerState: TimerState = .setup
   
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.drawScreen()
+    
+    mainTimerOutlet.delegate = self
+    leftTimerOutlet.delegate = self
+    rightTimerOutlet.delegate = self
+    
     mainTimerOutlet.isBackwards = true
     mainTimerOutlet.totalTime = 600
-    stepperOutlet.stepValue = 5
+    mainTimerOutlet.pauseColor = UIColor.green
+    mainTimerOutlet.activeColor = UIColor.yellow
+    mainTimerOutlet.start()
+    mainTimerOutlet.stop()
+    mainTimerOutlet.reset()
+    
+    leftTimerOutlet.isBackwards = true
+
+      
+    stepperOutlet.stepValue = 5.0
     stepperOutlet.minimumValue = 10
     stepperOutlet.maximumValue = 90
-    // Do any additional setup after loading the view.
+  
+    drawScreen()
+    
   }
   
   override func didReceiveMemoryWarning() {
@@ -61,19 +83,103 @@ class ComboViewController: UIViewController {
     
     switch self.timerState
     {
-    case .pause:
+    case .setup:
       self.topLabelOutlet.text = "Configure Your Session"
       self.tasksWordOutlet.isHidden = true
       self.completeWordOutlet.isHidden = true
       self.wonCountOutlet.isHidden = true
-    //  self.stepperOutlet.isHidden = false
+      self.stepperOutlet.isHidden = false
+      mainTimerOutlet.start()
+      mainTimerOutlet.stop()
+      mainTimerOutlet.reset()
+    case .pause:
+      self.topLabelOutlet.text = "Session Paused"
+      self.tasksWordOutlet.isHidden = false
+      self.completeWordOutlet.isHidden = false
+      self.wonCountOutlet.isHidden = false
+      self.stepperOutlet.isHidden = true
+      self.mainTimerOutlet.stop()
     case .run:
       self.topLabelOutlet.text = "Complete your Tasks"
       self.tasksWordOutlet.isHidden = false
       self.completeWordOutlet.isHidden = false
       self.wonCountOutlet.isHidden = false
       self.stepperOutlet.isHidden = true
+      self.mainTimerOutlet.start()
     }
+    let settings = calculateTimerSettings(for: selectedTask)
+    setupLeftTimer(state: settings.0, total: settings.1, advanced: settings.2)
+    self.view.layoutSubviews()
+  }
+  
+  func circleCounterTimeDidExpire(circleTimer: AppusCircleTimer) {
+    switch circleTimer.accessibilityIdentifier {
+    case "mainTimer":
+      print("Main timer expired")
+    case "leftTimer":
+      print("Left timer expired")
+      
+    case  "rightTimer":
+      print("Right timer expired")
+    default:
+      fatalError("Delegate method called by non-existant timer")
+    }
+  }
+  
+  private func calculateTimerSettings(for task: TaskyNode) -> (state: EstimateState, total: Int, advanced: Int)
+  {
+    var state: EstimateState
+    var total: Int
+    var advanced: Int
+    if let uEstimate = task.secondsEstimated
+    {
+      if uEstimate <= task.secondsElapsed
+      {
+        state = .under
+      }
+      else
+      {
+        state = .over
+      }
+      switch state
+      {
+      case under:
+        total = uEstimate
+        advanced = task.secondsElapsed
+      case over:
+        if task.secondsElapsed >= 1.75 * uEstimate
+        {
+          total = task.secondsElapsed * 1.75
+          advanced = task.secondsElapsed - uEstimate
+        }
+        else
+        {
+          total = task.secondsElapsed * 2
+          advanced = task.secondsElapsed - uEstimate
+        }
+        
+      }
+    }
+    else
+    {
+      state = .under
+      total = 0
+      advanced = 0
+    }
+    return (state, total, advanced)
+  }
+  
+  private func setupLeftTimer(state: EstimateState, total: Int, advanced: Int)
+  {
+    switch state
+    {
+    case .under:
+          self.leftTimerOutlet.pauseColor = UIColor.green
+    case.over:
+          self.leftTimerOutlet.pauseColor = UIColor.red
+    }
+    self.leftTimerOutlet.totalTime = total
+    self.leftTimerOutlet.elapsedTime = advanced
   }
   
   //MARK: Actions
@@ -81,16 +187,27 @@ class ComboViewController: UIViewController {
   @IBAction func timeStepper(_ sender: Any) {
     let duration = stepperOutlet.value
     mainTimerOutlet.totalTime = duration * 60
+    mainTimerOutlet.start()
+    mainTimerOutlet.stop()
+    mainTimerOutlet.reset()
     print(duration)
-    //let roundedDuration = Int(duration)
-    //mainTimerOutlet.
-    //durationTimeLabel.text = "\(roundedDuration) min"
+    
   }
   @IBAction func completionBoxButton(_ sender: Any) {
   }
   @IBAction func chooseTaskButton(_ sender: Any) {
   }
   @IBAction func mainTimerTap(_ sender: Any) {
+    switch self.timerState
+    {
+    case .setup:
+      self.timerState = .run
+    case .run:
+      self.timerState = .pause
+    case .pause:
+      self.timerState = .run
+    }
+    drawScreen()
   }
   
   
