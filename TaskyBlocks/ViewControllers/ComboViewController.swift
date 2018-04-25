@@ -76,6 +76,8 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
     }
     if let uSelectedTask = selectedTask
     {
+      let newElapsedTime = selectedTask!.secondsElapsed + Int(mainTimerOutlet.elapsedTime)
+      TaskyNodeEditor.sharedInstance.setElapsedTime(of: selectedTask!, to: newElapsedTime)
       let settings = calculateTimerSettings(for: uSelectedTask)
       setupLeftTimer(state: settings.0, total: settings.1, advanced: Double(settings.2))
       self.view.layoutSubviews()
@@ -97,6 +99,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       self.completeWordOutlet.isHidden = false
       self.wonCountOutlet.isHidden = false
       self.stepperOutlet.isHidden = true
+
       self.mainTimerOutlet.stop()
       self.leftTimerOutlet.stop()
     case .run:
@@ -112,13 +115,13 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
     
     
     func circleCounterTimeDidExpire(circleTimer: AppusCircleTimer) {
-      switch circleTimer.accessibilityIdentifier {
-      case "mainTimer":
+      switch circleTimer {
+      case mainTimerOutlet:
         print("Main timer expired")
-      case "leftTimer":
+      case leftTimerOutlet:
         print("Left timer expired")
-        
-      case  "rightTimer":
+        drawScreen()
+      case  rightTimerOutlet:
         print("Right timer expired")
       default:
         fatalError("Delegate method called by non-existant timer")
@@ -134,11 +137,11 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       {
         if uEstimate <= task.secondsElapsed
         {
-          state = .under
+          state = .over
         }
         else
         {
-          state = .over
+          state = .under
         }
         switch state
         {
