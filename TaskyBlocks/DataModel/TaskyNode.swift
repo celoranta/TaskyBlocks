@@ -29,6 +29,7 @@ class TaskyNode: Object
   @objc dynamic var completionDate: Date? = nil
   @objc dynamic var priorityDirectDefault: Double = (50 + Double(arc4random_uniform(100)/10000))
   @objc dynamic var isPermanent: Int = -1
+   @objc dynamic var secondsElapsed: Int = 0
   
   //MARK: Realm Object Properties
   let parents = List<TaskyNode>()
@@ -37,7 +38,7 @@ class TaskyNode: Object
   let consequents = LinkingObjects(fromType: TaskyNode.self, property: "antecedents")
   let priorityDirect: RealmOptional<Double> = RealmOptional.init()
   let priorityOverride: RealmOptional<Double> = RealmOptional.init()
-  var secondsElapsed: Int = 0
+
   let secondsEstimated: RealmOptional<Int> = RealmOptional.init()
 
   

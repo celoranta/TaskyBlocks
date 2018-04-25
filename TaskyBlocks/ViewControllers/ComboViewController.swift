@@ -60,7 +60,6 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
     
     leftTimerOutlet.isBackwards = true
     
-    
     stepperOutlet.stepValue = 5.0
     stepperOutlet.minimumValue = 10
     stepperOutlet.maximumValue = 90
@@ -69,18 +68,18 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
     
   }
   
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
-  
   fileprivate func drawScreen()
   {
     if let uTask = selectedTask
     {
       taskTitleLabel.text = uTask.title
     }
-    
+    if let uSelectedTask = selectedTask
+    {
+      let settings = calculateTimerSettings(for: uSelectedTask)
+      setupLeftTimer(state: settings.0, total: settings.1, advanced: Double(settings.2))
+      self.view.layoutSubviews()
+    }
     switch self.timerState
     {
     case .setup:
@@ -99,6 +98,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       self.wonCountOutlet.isHidden = false
       self.stepperOutlet.isHidden = true
       self.mainTimerOutlet.stop()
+      self.leftTimerOutlet.stop()
     case .run:
       self.topLabelOutlet.text = "Complete your Tasks"
       self.tasksWordOutlet.isHidden = false
@@ -106,12 +106,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       self.wonCountOutlet.isHidden = false
       self.stepperOutlet.isHidden = true
       self.mainTimerOutlet.start()
-    }
-    if let uSelectedTask = selectedTask
-    {
-      let settings = calculateTimerSettings(for: uSelectedTask)
-      setupLeftTimer(state: settings.0, total: settings.1, advanced: Double(settings.2))
-      self.view.layoutSubviews()
+      self.leftTimerOutlet.start()
     }
   }
     
@@ -154,12 +149,12 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
           if Double(task.secondsElapsed) >= 1.75 * Double(uEstimate)
           {
             total = Double(task.secondsElapsed) * 1.75
-            advanced = task.secondsElapsed - uEstimate
+            advanced = (-1) * task.secondsElapsed - uEstimate
           }
           else
           {
             total = Double(task.secondsElapsed) * 2.0
-            advanced = task.secondsElapsed - uEstimate
+            advanced = (-1) * task.secondsElapsed - uEstimate
           }
         }
       }
@@ -178,13 +173,19 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       {
       case .under:
         self.leftTimerOutlet.pauseColor = UIColor.green
+        self.leftTimerOutlet.isBackwards = true
       case.over:
         self.leftTimerOutlet.pauseColor = UIColor.red
+        self.leftTimerOutlet.isBackwards = false
       }
+      self.leftTimerOutlet.activeColor = UIColor.yellow
       self.leftTimerOutlet.totalTime = Double(total)
-      self.leftTimerOutlet.elapsedTime = Double(advanced)
+      self.leftTimerOutlet.elapsedTime = TimeInterval(advanced)
       self.leftTimerOutlet.start()
       self.leftTimerOutlet.stop()
+      self.leftTimerOutlet.reset()
+
+
     }
     
     //MARK: Actions
