@@ -59,12 +59,12 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
     mainTimerOutlet.reset()
     
     leftTimerOutlet.isBackwards = true
-
-      
+    
+    
     stepperOutlet.stepValue = 5.0
     stepperOutlet.minimumValue = 10
     stepperOutlet.maximumValue = 90
-  
+    
     drawScreen()
     
   }
@@ -107,118 +107,123 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       self.stepperOutlet.isHidden = true
       self.mainTimerOutlet.start()
     }
-    let settings = calculateTimerSettings(for: selectedTask)
-    setupLeftTimer(state: settings.0, total: settings.1, advanced: settings.2)
-    self.view.layoutSubviews()
-  }
-  
-  func circleCounterTimeDidExpire(circleTimer: AppusCircleTimer) {
-    switch circleTimer.accessibilityIdentifier {
-    case "mainTimer":
-      print("Main timer expired")
-    case "leftTimer":
-      print("Left timer expired")
-      
-    case  "rightTimer":
-      print("Right timer expired")
-    default:
-      fatalError("Delegate method called by non-existant timer")
+    if let uSelectedTask = selectedTask
+    {
+      let settings = calculateTimerSettings(for: uSelectedTask)
+      setupLeftTimer(state: settings.0, total: settings.1, advanced: Double(settings.2))
+      self.view.layoutSubviews()
     }
   }
-  
-  private func calculateTimerSettings(for task: TaskyNode) -> (state: EstimateState, total: Int, advanced: Int)
-  {
-    var state: EstimateState
-    var total: Int
-    var advanced: Int
-    if let uEstimate = task.secondsEstimated
+    
+    
+    func circleCounterTimeDidExpire(circleTimer: AppusCircleTimer) {
+      switch circleTimer.accessibilityIdentifier {
+      case "mainTimer":
+        print("Main timer expired")
+      case "leftTimer":
+        print("Left timer expired")
+        
+      case  "rightTimer":
+        print("Right timer expired")
+      default:
+        fatalError("Delegate method called by non-existant timer")
+      }
+    }
+    
+    private func calculateTimerSettings(for task: TaskyNode) -> (state: EstimateState, total: Double, advanced: Int)
     {
-      if uEstimate <= task.secondsElapsed
+      var state: EstimateState
+      var total: Double
+      var advanced: Int
+      if let uEstimate = task.secondsEstimated.value
       {
-        state = .under
-      }
-      else
-      {
-        state = .over
-      }
-      switch state
-      {
-      case under:
-        total = uEstimate
-        advanced = task.secondsElapsed
-      case over:
-        if task.secondsElapsed >= 1.75 * uEstimate
+        if uEstimate <= task.secondsElapsed
         {
-          total = task.secondsElapsed * 1.75
-          advanced = task.secondsElapsed - uEstimate
+          state = .under
         }
         else
         {
-          total = task.secondsElapsed * 2
-          advanced = task.secondsElapsed - uEstimate
+          state = .over
         }
-        
+        switch state
+        {
+        case .under:
+          total = Double(uEstimate)
+          advanced = task.secondsElapsed
+        case .over:
+          if Double(task.secondsElapsed) >= 1.75 * Double(uEstimate)
+          {
+            total = Double(task.secondsElapsed) * 1.75
+            advanced = task.secondsElapsed - uEstimate
+          }
+          else
+          {
+            total = Double(task.secondsElapsed) * 2.0
+            advanced = task.secondsElapsed - uEstimate
+          }
+        }
       }
+      else
+      {
+        state = .under
+        total = 0
+        advanced = 0
+      }
+      return (state, total, advanced)
     }
-    else
-    {
-      state = .under
-      total = 0
-      advanced = 0
-    }
-    return (state, total, advanced)
-  }
-  
-  private func setupLeftTimer(state: EstimateState, total: Int, advanced: Int)
-  {
-    switch state
-    {
-    case .under:
-          self.leftTimerOutlet.pauseColor = UIColor.green
-    case.over:
-          self.leftTimerOutlet.pauseColor = UIColor.red
-    }
-    self.leftTimerOutlet.totalTime = total
-    self.leftTimerOutlet.elapsedTime = advanced
-  }
-  
-  //MARK: Actions
-  
-  @IBAction func timeStepper(_ sender: Any) {
-    let duration = stepperOutlet.value
-    mainTimerOutlet.totalTime = duration * 60
-    mainTimerOutlet.start()
-    mainTimerOutlet.stop()
-    mainTimerOutlet.reset()
-    print(duration)
     
-  }
-  @IBAction func completionBoxButton(_ sender: Any) {
-  }
-  @IBAction func chooseTaskButton(_ sender: Any) {
-  }
-  @IBAction func mainTimerTap(_ sender: Any) {
-    switch self.timerState
+    private func setupLeftTimer(state: EstimateState, total: Double, advanced: Double)
     {
-    case .setup:
-      self.timerState = .run
-    case .run:
-      self.timerState = .pause
-    case .pause:
-      self.timerState = .run
+      switch state
+      {
+      case .under:
+        self.leftTimerOutlet.pauseColor = UIColor.green
+      case.over:
+        self.leftTimerOutlet.pauseColor = UIColor.red
+      }
+      self.leftTimerOutlet.totalTime = Double(total)
+      self.leftTimerOutlet.elapsedTime = Double(advanced)
+      self.leftTimerOutlet.start()
+      self.leftTimerOutlet.stop()
     }
-    drawScreen()
-  }
-  
-  
-  /*
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destinationViewController.
-   // Pass the selected object to the new view controller.
-   }
-   */
-  
+    
+    //MARK: Actions
+    
+    @IBAction func timeStepper(_ sender: Any) {
+      let duration = stepperOutlet.value
+      mainTimerOutlet.totalTime = duration * 60
+      mainTimerOutlet.start()
+      mainTimerOutlet.stop()
+      mainTimerOutlet.reset()
+      print(duration)
+      
+    }
+    @IBAction func completionBoxButton(_ sender: Any) {
+    }
+    @IBAction func chooseTaskButton(_ sender: Any) {
+    }
+    @IBAction func mainTimerTap(_ sender: Any) {
+      switch self.timerState
+      {
+      case .setup:
+        self.timerState = .run
+      case .run:
+        self.timerState = .pause
+      case .pause:
+        self.timerState = .run
+      }
+      drawScreen()
+    }
+    
+    
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

@@ -70,6 +70,20 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
+  func setEstimatedTime(of task: TaskyNode, to seconds: Int)
+  {
+    realm.beginWrite()
+    task.secondsEstimated.value = seconds
+    try! realm.commitWrite()
+  }
+  
+  func setElapsedTime(of task: TaskyNode, to seconds: Int)
+  {
+    realm.beginWrite()
+    task.secondsElapsed = seconds
+    try! realm.commitWrite()
+  }
+  
   func setDirectPriority(of task: TaskyNode, to priority: Double)
   {
     realm.beginWrite()
