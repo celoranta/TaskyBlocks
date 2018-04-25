@@ -34,6 +34,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
   @IBOutlet weak var taskTitleLabel: UILabel!
   @IBOutlet weak var taskDescriptionLabel: UILabel!
   @IBOutlet weak var stepperOutlet: UIStepper!
+  @IBOutlet weak var doneSwitchOutlet: UISwitch!
   
   @IBOutlet weak var mainTimerOutlet: AppusCircleTimer!
   @IBOutlet weak var leftTimerOutlet: AppusCircleTimer!
@@ -41,7 +42,9 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
   
   var selectedTask: TaskyNode? = TaskyNodeEditor.sharedInstance.database[0]
   var timerState: TimerState = .setup
-  
+  var selectedTaskStart: Date!
+  var loggedTaskTime: Int = 0
+
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -51,9 +54,10 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
     rightTimerOutlet.delegate = self
     
     mainTimerOutlet.isBackwards = true
-    mainTimerOutlet.totalTime = 600
     mainTimerOutlet.pauseColor = UIColor.green
     mainTimerOutlet.activeColor = UIColor.yellow
+    
+    mainTimerOutlet.totalTime = 600
     mainTimerOutlet.start()
     mainTimerOutlet.stop()
     mainTimerOutlet.reset()
@@ -70,16 +74,17 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
   
   fileprivate func drawScreen()
   {
-    if let uTask = selectedTask
-    {
-      taskTitleLabel.text = uTask.title
-    }
+
     if let uSelectedTask = selectedTask
     {
-      let newElapsedTime = selectedTask!.secondsElapsed + Int(mainTimerOutlet.elapsedTime)
-      TaskyNodeEditor.sharedInstance.setElapsedTime(of: selectedTask!, to: newElapsedTime)
+      taskTitleLabel.text = uSelectedTask.title
+      taskDescriptionLabel.text = uSelectedTask.taskDescription
+      self.doneSwitchOutlet.isOn = (uSelectedTask.completionDate != nil)
       let settings = calculateTimerSettings(for: uSelectedTask)
+      if settings.1 > 0
+      {
       setupLeftTimer(state: settings.0, total: settings.1, advanced: Double(settings.2))
+      }
       self.view.layoutSubviews()
     }
     switch self.timerState
@@ -93,33 +98,37 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       mainTimerOutlet.start()
       mainTimerOutlet.stop()
       mainTimerOutlet.reset()
+      
     case .pause:
       self.topLabelOutlet.text = "Session Paused"
       self.tasksWordOutlet.isHidden = false
       self.completeWordOutlet.isHidden = false
       self.wonCountOutlet.isHidden = false
       self.stepperOutlet.isHidden = true
-
       self.mainTimerOutlet.stop()
       self.leftTimerOutlet.stop()
+//put call to update logged task time here
+      selectedTaskStart = nil
+      
     case .run:
+      self.selectedTaskStart = Date()
       self.topLabelOutlet.text = "Complete your Tasks"
       self.tasksWordOutlet.isHidden = false
       self.completeWordOutlet.isHidden = false
       self.wonCountOutlet.isHidden = false
       self.stepperOutlet.isHidden = true
       self.mainTimerOutlet.start()
-      self.leftTimerOutlet.start()
+      self.leftTimerOutlet.resume()
     }
   }
-    
-    
+  
     func circleCounterTimeDidExpire(circleTimer: AppusCircleTimer) {
       switch circleTimer {
       case mainTimerOutlet:
         print("Main timer expired")
       case leftTimerOutlet:
         print("Left timer expired")
+        self.
         drawScreen()
       case  rightTimerOutlet:
         print("Right timer expired")
@@ -135,7 +144,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       var advanced: Int
       if let uEstimate = task.secondsEstimated.value
       {
-        if uEstimate <= task.secondsElapsed
+        if uEstimate <= (task.secondsElapsed + self.loggedTaskTime)
         {
           state = .over
         }
@@ -147,18 +156,10 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
         {
         case .under:
           total = Double(uEstimate)
-          advanced = task.secondsElapsed
+          advanced = task.secondsElapsed + self.loggedTaskTime
         case .over:
-          if Double(task.secondsElapsed) >= 1.75 * Double(uEstimate)
-          {
-            total = Double(task.secondsElapsed) * 1.75
-            advanced = (-1) * task.secondsElapsed - uEstimate
-          }
-          else
-          {
-            total = Double(task.secondsElapsed) * 2.0
-            advanced = (-1) * task.secondsElapsed - uEstimate
-          }
+            total = Double(task.secondsElapsed + self.loggedTaskTime) * 5.0
+            advanced = (((-1) * task.secondsElapsed) + self.loggedTaskTime) - uEstimate
         }
       }
       else
@@ -186,10 +187,21 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       self.leftTimerOutlet.elapsedTime = TimeInterval(advanced)
       self.leftTimerOutlet.start()
       self.leftTimerOutlet.stop()
-      self.leftTimerOutlet.reset()
-
-
     }
+  
+  private func updateLoggedTaskTime()
+  {
+    self.loggedTaskTime = self.loggedTaskTime + 
+  }
+  
+  //MARK: Task mutation methods
+  private func deselect(task: TaskyNode)
+  {
+    TaskyNodeEditor.sharedInstance.setElapsedTime(of: task, to: task.secondsElapsed + loggedTaskTime)
+    self.selectedTask = nil
+    self.loggedTaskTime = 0
+    self.selectedTaskStart = nil
+  }
     
     //MARK: Actions
     
@@ -202,10 +214,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       print(duration)
       
     }
-    @IBAction func completionBoxButton(_ sender: Any) {
-    }
-    @IBAction func chooseTaskButton(_ sender: Any) {
-    }
+
     @IBAction func mainTimerTap(_ sender: Any) {
       switch self.timerState
       {
@@ -218,7 +227,9 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate {
       }
       drawScreen()
     }
-    
+  @IBAction func doneSwitchAction(_ sender: UISwitch) {
+  }
+  
     
     /*
      // MARK: - Navigation
