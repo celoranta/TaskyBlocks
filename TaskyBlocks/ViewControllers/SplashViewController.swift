@@ -11,7 +11,6 @@ import RealmSwift
 
 class SplashViewController: UIViewController {
   
-  fileprivate let secInMin = 60.0
   fileprivate let initialDefaultSprintDurMin = 45.0
   
   override func viewDidLoad()
@@ -43,7 +42,7 @@ class SplashViewController: UIViewController {
     let userSettings = UserDefaults()
     userSettings.set(false, forKey: "NewTasksAreRandom")
     userSettings.set(true, forKey: "DefaultsPreviouslyLoaded")
-    userSettings.set(initialDefaultSprintDurMin * secInMin, forKey: "DefaultSprintDuration")
+    userSettings.set(initialDefaultSprintDurMin, forKey: "DefaultSprintDuration")
   }
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
