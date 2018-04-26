@@ -16,10 +16,7 @@ enum TimerState
   case setup, pause, run, inactive
 }
 
-
 class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTask {
-
-
 
   //MARK: Outlets
   
@@ -54,10 +51,6 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
     mainTimerOutlet.pauseColor = UIColor.green
     mainTimerOutlet.activeColor = UIColor.yellow
     
-
-    
-    leftTimerOutlet.isBackwards = true
-    
     let userSettings = UserDefaults()
     stepperOutlet.value = userSettings.double(forKey: "DefaultSprintDuration")
     stepperOutlet.stepValue = 5.0
@@ -70,7 +63,6 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
     mainTimerOutlet.reset()
     
     drawScreen()
-    
   }
   
   fileprivate func activeTimerConfig(with task: TaskyNode) {
@@ -149,86 +141,58 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
       }
     }
     
-    private func setupLeftTimer(with task: TaskyNode)
+  private func setupLeftTimer(with task: TaskyNode)
+  {
+    if let estimate = task.secondsEstimated.value
     {
-      enum EstimateState
+      switch estimate > task.secondsElapsed
       {
-        case over, under, zero
+      case true:
+        print("elapsed time is less than estimate")
+        setupUnderEstimate(tracker: leftTimerOutlet, for: task)
+      case false:
+        print("elapsed time is greater than estimate")
+        setupOverEstimate(tracker: leftTimerOutlet, for: task)
       }
-
-      var state: EstimateState
-      var total: Int
-      var advanced: Int
-      
-      if let uEstimate = task.secondsEstimated.value
-      {
-        if uEstimate >= 0
-        {
-          state = .zero
-        }
-        else if uEstimate <= (task.secondsElapsed + self.loggedTaskTime)
-        {
-          state = .over
-        }
-        else
-        {
-          state = .under
-        }
-        switch state
-        {
-        case .under:
-          total = Int(uEstimate)
-          advanced = task.secondsElapsed + self.loggedTaskTime
-        case .over:
-            total = Int(task.secondsElapsed + self.loggedTaskTime) * 5
-            advanced = (((-1) * task.secondsElapsed) + self.loggedTaskTime) - uEstimate
-        case .zero:
-          fatalError("Handling for zero estimated duration has not been programmed")
-        }
-      }
-      else
-      {
-        state = .under
-        total = 1
-        advanced = 1
-      }
-      switch state
-      {
-      case .under:
-        self.leftTimerOutlet.pauseColor = UIColor.green
-        self.leftTimerOutlet.isBackwards = true
-      case.over:
-        self.leftTimerOutlet.pauseColor = UIColor.red
-        self.leftTimerOutlet.isBackwards = false
-      case .zero:
-        fatalError("Handling for zero estimated duration has not been programmed")
-      }
-      self.leftTimerOutlet.activeColor = UIColor.yellow
-      self.leftTimerOutlet.totalTime = TimeInterval(total)
-      self.leftTimerOutlet.elapsedTime = TimeInterval(advanced)
-      self.leftTimerOutlet.start()
-      self.leftTimerOutlet.stop()
     }
-    
-//    private func setupLeftTimer(state: EstimateState, total: TimeInterval, advanced: TimeInterval)
-//    {
-//      switch state
-//      {
-//      case .under:
-//        self.leftTimerOutlet.pauseColor = UIColor.green
-//        self.leftTimerOutlet.isBackwards = true
-//      case.over:
-//        self.leftTimerOutlet.pauseColor = UIColor.red
-//        self.leftTimerOutlet.isBackwards = false
-//      case .zero:
-//        fatalError("Handling for zero estimated duration has not been programmed")
-//      }
-//      self.leftTimerOutlet.activeColor = UIColor.yellow
-//      self.leftTimerOutlet.totalTime = TimeInterval(total)
-//      self.leftTimerOutlet.elapsedTime = TimeInterval(advanced)
-//      self.leftTimerOutlet.start()
-//      self.leftTimerOutlet.stop()
-//    }
+    else {
+      print("estimate is nil")
+      setupNilEstimate(tracker: leftTimerOutlet, for: task)
+    }
+
+    self.setStandardTimerColors(for: self.leftTimerOutlet)
+    self.leftTimerOutlet.start()
+    self.leftTimerOutlet.stop()
+  }
+  
+  private func setupNilEstimate(tracker: AppusCircleTimer, for task: TaskyNode) {
+
+    tracker.isBackwards = false
+    tracker.totalTime = TimeInterval.init(60 * 15)
+    tracker.elapsedTime = TimeInterval.init(task.secondsElapsed)
+  }
+  
+  private func setupUnderEstimate(tracker: AppusCircleTimer, for task: TaskyNode) {
+    //temporary estimate placeholder
+    tracker.totalTime = TimeInterval.init(60 * 5)
+    tracker.elapsedTime = TimeInterval.init(task.secondsElapsed)
+    tracker.isBackwards = true
+  }
+  
+  private func setupOverEstimate(tracker: AppusCircleTimer, for task: TaskyNode) {
+    tracker.activeColor = UIColor.red
+    tracker.pauseColor = UIColor.red
+    //temporary totalTime placeholder
+    tracker.totalTime = TimeInterval.init(60 * 45)
+    tracker.elapsedTime = TimeInterval.init(task.secondsElapsed - task.secondsEstimated.value!)
+    tracker.isBackwards = false
+  }
+
+  private func setStandardTimerColors(for timer: AppusCircleTimer) {
+    timer.activeColor = UIColor.yellow //elapsed.paused
+    timer.inactiveColor = UIColor.darkGray //remaini
+    timer.pauseColor = UIColor.green//elapsed.running
+  }
   
   private func taskSelect()
   {
@@ -241,7 +205,6 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
    // self.mainTimerOutlet.totalTime = 0.0
    // self.mainTimerTap(self)
     self.topLabelOutlet.text = "No Task Selected"
-    
   }
   
   private func hibernate(timer: AppusCircleTimer)
