@@ -369,9 +369,6 @@
                                 <rect key="frame" x="164" y="362" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <connections>
-                                    <segue destination="ZMA-pq-R48" kind="presentation" id="qEM-TX-WF8"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -439,6 +436,14 @@
                                     <action selector="durationStepper:" destination="Iwh-M0-5sB" eventType="valueChanged" id="5u9-YW-mdT"/>
                                 </connections>
                             </stepper>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fuu-46-GCj">
+                                <rect key="frame" x="164" y="202" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="ZMA-pq-R48" kind="presentation" id="QQr-B6-us8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -759,7 +764,7 @@
                             <view contentMode="scaleAspectFit" restorationIdentifier="leftTimer" translatesAutoresizingMaskIntoConstraints="NO" id="ugG-8u-qM5" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
                                 <rect key="frame" x="34" y="357.5" width="95" height="95"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <accessibility key="accessibilityConfiguration" identifier="sprint"/>
+                                <accessibility key="accessibilityConfiguration" identifier="leftTimer"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="95" id="dG5-nR-gA2"/>
                                     <constraint firstAttribute="width" constant="95" id="e2Y-qN-7qH"/>
@@ -785,7 +790,7 @@
                             <view contentMode="scaleAspectFit" restorationIdentifier="rightTimer" translatesAutoresizingMaskIntoConstraints="NO" id="sC4-Q2-P76" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
                                 <rect key="frame" x="246.5" y="357.5" width="95" height="95"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <accessibility key="accessibilityConfiguration" identifier="sprint"/>
+                                <accessibility key="accessibilityConfiguration" identifier="rightTimer"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="inactiveColor">
                                         <color key="value" red="0.29952795360000001" green="0.95686274510000002" blue="0.46059545889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -833,12 +838,16 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYv-E9-1C8">
                                 <rect key="frame" x="16" y="517" width="286" height="30"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="qXO-He-7wk"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="PiM-AB-ZCE" appends="YES" id="x8j-3O-kT0"/>
+                                </connections>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="890-1U-wj5">
                                 <rect key="frame" x="16" y="70" width="343" height="27.5"/>
@@ -930,8 +939,41 @@
                         <action selector="mainTimerTap:" destination="ZMA-pq-R48" id="D1z-Pr-onr"/>
                     </connections>
                 </tapGestureRecognizer>
+                <tapGestureRecognizer id="PiM-AB-ZCE">
+                    <connections>
+                        <action selector="taskTitleTap:" destination="ZMA-pq-R48" id="GiO-p2-bbn"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1406" y="-2171"/>
+            <point key="canvasLocation" x="5513" y="-2087"/>
+        </scene>
+        <!--Choose Task Table View Controller-->
+        <scene sceneID="txQ-b5-UZg">
+            <objects>
+                <tableViewController storyboardIdentifier="chooseTask" id="CfI-6d-5vn" customClass="ChooseTaskTableViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="j05-tC-wWX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="jG0-gl-G1M">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jG0-gl-G1M" id="a3d-yX-1XB">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="CfI-6d-5vn" id="Eql-2A-Ck0"/>
+                            <outlet property="delegate" destination="CfI-6d-5vn" id="YGC-1G-Mvy"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NKW-rB-grt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6230" y="-2087"/>
         </scene>
         <!--Final Hierarchy View Controller-->
         <scene sceneID="O9Q-ZA-OtI">
