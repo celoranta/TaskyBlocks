@@ -16,10 +16,6 @@ enum TimerState
   case setup, pause, run, inactive
 }
 
-enum EstimateState
-{
-  case over, under, zero
-}
 
 class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTask {
 
@@ -78,17 +74,13 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   }
   
   fileprivate func activeTimerConfig(with task: TaskyNode) {
-    self.mainTimerOutlet.isActive = true
-    self.leftTimerOutlet.isActive = true
-    self.rightTimerOutlet.isActive = true
+    wakeUp(timer: mainTimerOutlet)
+    wakeUp(timer: leftTimerOutlet)
+    wakeUp(timer: rightTimerOutlet)
     taskTitleLabel.text = task.title
     taskDescriptionLabel.text = task.taskDescription
     self.doneSwitchOutlet.isOn = (task.completionDate != nil)
-    let settings = calculateTimerSettings(for: task)
-    if settings.1 > 0
-    {
-      setupLeftTimer(state: settings.0, total: TimeInterval.init(settings.1), advanced: TimeInterval.init(settings.2))
-    }
+    setupLeftTimer(with: task)
   }
   
   fileprivate func drawScreen()
@@ -157,11 +149,17 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
       }
     }
     
-    private func calculateTimerSettings(for task: TaskyNode) -> (state: EstimateState, total: Int, advanced: Int)
+    private func setupLeftTimer(with task: TaskyNode)
     {
+      enum EstimateState
+      {
+        case over, under, zero
+      }
+
       var state: EstimateState
       var total: Int
       var advanced: Int
+      
       if let uEstimate = task.secondsEstimated.value
       {
         if uEstimate >= 0
@@ -194,11 +192,6 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
         total = 1
         advanced = 1
       }
-      return (state, total + 1, advanced + 1)
-    }
-    
-    private func setupLeftTimer(state: EstimateState, total: TimeInterval, advanced: TimeInterval)
-    {
       switch state
       {
       case .under:
@@ -216,6 +209,26 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
       self.leftTimerOutlet.start()
       self.leftTimerOutlet.stop()
     }
+    
+//    private func setupLeftTimer(state: EstimateState, total: TimeInterval, advanced: TimeInterval)
+//    {
+//      switch state
+//      {
+//      case .under:
+//        self.leftTimerOutlet.pauseColor = UIColor.green
+//        self.leftTimerOutlet.isBackwards = true
+//      case.over:
+//        self.leftTimerOutlet.pauseColor = UIColor.red
+//        self.leftTimerOutlet.isBackwards = false
+//      case .zero:
+//        fatalError("Handling for zero estimated duration has not been programmed")
+//      }
+//      self.leftTimerOutlet.activeColor = UIColor.yellow
+//      self.leftTimerOutlet.totalTime = TimeInterval(total)
+//      self.leftTimerOutlet.elapsedTime = TimeInterval(advanced)
+//      self.leftTimerOutlet.start()
+//      self.leftTimerOutlet.stop()
+//    }
   
   private func taskSelect()
   {
