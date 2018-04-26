@@ -31,6 +31,8 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBOutlet weak var taskDateLabel: UILabel!
   @IBOutlet weak var priorityDirectText: UITextField!
   @IBOutlet weak var completedSwitch: UISwitch!
+  @IBOutlet weak var timeEstimateOutlet: UIButton!
+  @IBOutlet weak var timeSpentOutlet: UIButton!
   
   //MARK: Variables
   var task:TaskyNode!
@@ -64,6 +66,10 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     taskDescription.layer.cornerRadius = 5.0
     taskTitleText.delegate = self
     self.navigationItem.rightBarButtonItem = nil ;
+    
+    timeEstimateOutlet.setTitleColor(UIColor.black, for: .normal)
+    timeSpentOutlet.setTitleColor(UIColor.black, for: .normal)
+    
     guard taskDetailDataSource != nil
       else
     {
@@ -128,10 +134,17 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     performSegue(withIdentifier: "toDetailPicker", sender: self)
   }
   
-  @IBAction func dependentsButton(_ sender: Any)
-  {
+  @IBAction func dependentsButton(_ sender: Any) {
     pickerViewRelationshipType = .dependents
     performSegue(withIdentifier: "toDetailPicker", sender: self)
+  }
+  
+  @IBAction func timeEstimateButton(_ sender: UIButton) {
+    print("time estimate tapped")
+  }
+  
+  @IBAction func timeSpentButton(_ sender: UIButton) {
+    print("time spent tapped")
   }
   
   fileprivate func refreshView()
@@ -154,6 +167,13 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     let dateString = DateFormatter.localizedString(from: task.taskDate, dateStyle: .medium, timeStyle: .short)
     self.taskDateLabel.text = dateString
     self.completedSwitch.isOn = task.completionDate != nil
+    
+    if let estimate = task.secondsEstimated.value
+    {
+      timeEstimateOutlet.setTitle("\(Int(estimate/60)) min", for: .normal)
+    }
+    else {timeEstimateOutlet.setTitle("<none>", for: .normal)}
+    timeSpentOutlet.setTitle("\(Int(task.secondsElapsed/60)) min", for: .normal)
     
     var parentsString = ""
     for parent in task.parents
