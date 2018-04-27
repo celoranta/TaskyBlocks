@@ -40,6 +40,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   var pickerTableViewController: PickerTableViewController!
   var pickerViewRelationshipType: TaskRelationship!
   var taskDescriptionString: String?
+  //var durationPicker: UIDatePicker!
   
   //Realm
   let realm = try! Realm()
@@ -95,6 +96,9 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   }
   
   //MARK: Actions
+  
+
+  
   @IBAction func backButton(_ sender: Any)
   {
     self.navigationController?.popViewController(animated: true)
@@ -142,18 +146,34 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBAction func timeEstimateButton(_ sender: UIButton) {
     print("time estimate tapped")
     let inputAlertStyle = UIAlertControllerStyle.alert
-    let inputAlert = UIAlertController.init(title: "Time Estimate", message: "How much time should this task take you?", preferredStyle: inputAlertStyle)
-    let alertKeyboard = UITextField.init()
-    let cancelAction = UIAlertAction.init(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
-    let doneAction = UIAlertAction.init(title: "Done", style: UIAlertActionStyle.default, handler: nil)
-    inputAlert.addAction(cancelAction)
+    let inputAlert = UIAlertController.init(title: "Time Estimate", message: "\n\n\n\n\n", preferredStyle: inputAlertStyle)
+
+   // let cancelAction = UIAlertAction.init(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+    let doneAction = UIAlertAction.init(title: "Done", style: .default, handler: { (action) -> Void in
+    print("")
+    })
+    //inputAlert.addAction(cancelAction)
     inputAlert.addAction(doneAction)
-   // inputAlert.addTextField(configurationHandler: alertKeyboard)
+   let durationPicker = UIDatePicker.init(frame: CGRect(x: 5, y: 20, width: 250, height: 140))
+  durationPicker.datePickerMode = .countDownTimer
+   durationPicker.minuteInterval = 1
+   durationPicker.countDownDuration = 900
+
+    durationPicker.addTarget(self, action: #selector(setEstimate(_:)), for: UIControlEvents.valueChanged)
+       inputAlert.view.addSubview(durationPicker)
     self.present(inputAlert, animated: true,completion: nil)
+  }
+  
+  @objc func setEstimate(_ sender: UIDatePicker)
+  {
+    print("Ran 'setEstimate'")
+    print("\(sender.countDownDuration)")
+    TaskyNodeEditor.sharedInstance.setEstimatedTime(of: task, to: Int(sender.countDownDuration))
   }
   
   @IBAction func timeSpentButton(_ sender: UIButton) {
     print("time spent tapped")
+    
   }
   
   fileprivate func refreshView()
