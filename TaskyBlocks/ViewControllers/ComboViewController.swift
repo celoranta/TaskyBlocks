@@ -47,8 +47,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
     rightTimerOutlet.delegate = self
     
     mainTimerOutlet.isBackwards = true
-    mainTimerOutlet.pauseColor = UIColor.green
-    mainTimerOutlet.activeColor = UIColor.yellow
+    setStandardTimerColors(for: mainTimerOutlet)
     
     let userSettings = UserDefaults()
     stepperOutlet.value = userSettings.double(forKey: "DefaultSprintDuration")
