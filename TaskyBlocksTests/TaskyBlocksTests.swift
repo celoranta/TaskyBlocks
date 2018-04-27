@@ -7,10 +7,15 @@
 //
 
 import XCTest
+import RealmSwift
 @testable import TaskyBlocks
 
 
+
+
 class BasicTaskyNodeFunctionsTest: XCTestCase {
+  
+  var manager: TaskyNodeManager!
   
   var node0: TaskyNode!
   var node1: TaskyNode!
@@ -26,6 +31,7 @@ class BasicTaskyNodeFunctionsTest: XCTestCase {
   override func setUp()
   {
     super.setUp()
+    manager = TaskyNodeManager()
     
     node0 = TaskyNode()
     node1 = TaskyNode()
@@ -56,9 +62,7 @@ class BasicTaskyNodeFunctionsTest: XCTestCase {
     for task in taskSet
     {
       task.antecedents.removeAll()
-      task.consequents.removeAll()
       task.parents.removeAll()
-      task.children.removeAll()
     }
   }
   
@@ -80,11 +84,11 @@ class BasicTaskyNodeFunctionsTest: XCTestCase {
     
     basicAntecedenceStructure()
     
-    node4.priorityOverride = 90
+    node4.priorityOverride.value = 90
     
     TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)
     
-    XCTAssertEqual(node4.priorityOverride, node6.priorityApparent)
+    XCTAssertEqual(node4.priorityOverride.value, node6.priorityApparent)
     XCTAssertEqual(node6.priorityApparent, node7.priorityApparent)
   }
   
@@ -94,11 +98,11 @@ class BasicTaskyNodeFunctionsTest: XCTestCase {
     
     basicAntecedenceStructure()
     
-    node4.priorityOverride = 90
+    node4.priorityOverride.value = 90
     
     TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)
     
-    XCTAssertEqual(node7.priorityApparent, node4.priorityOverride)
+    XCTAssertEqual(node7.priorityApparent, node4.priorityOverride.value)
   }
   
   func test_whenUnitInheritsLowInheritedAndHighConsequence_ApparentEqualsConsequence() {
@@ -108,8 +112,8 @@ class BasicTaskyNodeFunctionsTest: XCTestCase {
     node7.addAsConsequentTo(newAntecedent: node5)
     node5.addAsConsequentTo(newAntecedent: node4)
     
-    node4.priorityOverride = 80
-    node7.priorityOverride = 90
+    node4.priorityOverride.value = 80
+    node7.priorityOverride.value = 90
     
     TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)
     
@@ -120,8 +124,8 @@ class BasicTaskyNodeFunctionsTest: XCTestCase {
     
     node7.addAsChildTo(newParent: node0)
     node7.addAsChildTo(newParent: node1)
-    node0.priorityOverride = 80
-    node1.priorityOverride = 90
+    node0.priorityOverride.value = 80
+    node1.priorityOverride.value = 90
     
     TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)
     
@@ -132,30 +136,30 @@ class BasicTaskyNodeFunctionsTest: XCTestCase {
     node7.addAsConsequentTo(newAntecedent: node5)
     node6.addAsConsequentTo(newAntecedent: node5)
     
-    node7.priorityOverride = 90
-    node6.priorityOverride = 20
+    node7.priorityOverride.value = 90
+    node6.priorityOverride.value = 20
     
     TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)
     
-    XCTAssertEqual(node7.priorityOverride, node5.priorityApparent)
+    XCTAssertEqual(node7.priorityOverride.value, node5.priorityApparent)
   }
   
   func test_WhenDirectPriorityIsSetHigherThanInherited_DirectIsResetToInherited()
   {
     basicInheritanceHierarchy()
-    node7.priorityDirect = 90
-    node5.priorityOverride = 20
+    node7.priorityDirect.value = 90
+    node5.priorityOverride.value = 20
     TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)
     
-    XCTAssertEqual(node5.priorityOverride, 20)
+    XCTAssertEqual(node5.priorityOverride.value, 20)
   }
   func test_WhenDirectPriorityIsSetLowerThanConsequent_DirectIsResetToConsequent()
   {
     basicAntecedenceStructure()
-    node1.priorityOverride = 20
-    node7.priorityDirect = 90
+    node1.priorityOverride.value = 20
+    node7.priorityDirect.value = 90
     TaskyNode.updatePriorityFor(tasks: taskSet, limit: 100)
-    XCTAssertEqual(node7.priorityApparent, node1.priorityOverride)
+    XCTAssertEqual(node7.priorityApparent, node1.priorityOverride.value)
   }
   func test_WhenDirectPriorityIsLessThanConsequentAndConsLessThanInher_SetToCons()
   {

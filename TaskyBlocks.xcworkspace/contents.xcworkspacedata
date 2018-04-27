@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/chriseloranta/Desktop/Lighthouse/FinalProject/TaskyBlocks/TaskyBlocks/TaskyBlockLibrary.swift">
+   </FileRef>
+   <FileRef
       location = "group:TaskyBlocks.xcodeproj">
    </FileRef>
    <FileRef

@@ -1,16 +1,17 @@
 //
-//  DependencyViewController.swift
-//  TestOrdinatorGraphics
+//  DatePickerVCViewController.swift
+//  TaskyBlocks
 //
-//  Created by Chris Eloranta on 2018-04-03.
+//  Created by Chris Eloranta on 2018-04-27.
 //  Copyright © 2018 Christopher Eloranta. All rights reserved.
 //
 
 import UIKit
 
-class DependencyViewController: UIViewController {
+class DatePickerVCViewController: UIViewController {
 
-    override func viewDidLoad() {
+  @IBOutlet weak var datePickerOutlet: UIDatePicker!
+  override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -21,7 +22,11 @@ class DependencyViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+  @IBAction func datePickerAction(_ sender: UIDatePicker) {
+    print(sender.countDownDuration)
+    self.dismiss(animated: true, completion: nil)
+  }
+  
     /*
     // MARK: - Navigation
 

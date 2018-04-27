@@ -7,61 +7,64 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol PickerTableViewDelegate
 {
-  // to replace the subset of the contextItem
-  // will be called by the pickerViewController upon save/close
-  func updatedSubset(from table: PickerTableViewController) -> ()
+  // call provideUpdatedCollection(of relationship: TaskRelationship, for task: TaskyNode)
+  func retrieveUpdatedCollection(from table: PickerTableViewController)//
+  // call postUpdatedTaskSubcollection() -> (focusTask: TaskyNode, relationship: TaskRelationship, collection: [TaskyNode])
+}
+
+enum TaskRelationship: String
+{
+  case parents = "Parents", children = "Children", dependents = "Dependents", dependees = "Dependees"
 }
 
 class PickerTableViewController: UITableViewController
 {
-  var superSet: Set<TaskyNode>?
-  var contextItem: TaskyNode?
   var pickerTableViewDelegate: PickerTableViewDelegate!
-  var tableViewTitle: String?
- 
-  var activeTasks: [TaskyNode]!
-  var selectedTask: TaskyNode!
+  var taskSubListFilter: String!  //All tasks selected on this page
+  var activeTasks: Results<TaskyNode>!
   var subArray: [TaskyNode] = []  //copy of selected task's property
-  var updatedSubArray: [TaskyNode] = [] //for query by delegate
+  var delegateRequestedRelationshipType: TaskRelationship!
+  var delegateRequestedRelationshipsOf: TaskyNode!
+  var delegateRequestedRelationshipsAmong: Results<TaskyNode>!
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    
-    guard let selectedTaskunwrapped = contextItem
-      else
-    {
-      fatalError("Fatal error: no task loaded")
-    }
-    selectedTask = selectedTaskunwrapped
-    subArray = Array.init(selectedTask.parents)
-    
-    guard let activeTasksUnwrapped = superSet
-      else
-    {
-      fatalError("Fatal error: no active task list loaded")
-    }
-    activeTasks = Array.init(activeTasksUnwrapped)
-    
-    guard let pickerTableViewDelegateUnwrapped = pickerTableViewDelegate
-      else
-    {
-      fatalError("Fatal error: no picker table view delegate assigned")
-    }
-    
-    if let unwrappedTitle = tableViewTitle
-    {
-      self.title = unwrappedTitle
-    }
+    activeTasks = delegateRequestedRelationshipsAmong
   }
   
-  override func didReceiveMemoryWarning()
+  //MARK: PickerTableView Delegate
+  
+  func postUpdatedTaskSubcollection() -> (focusTask: TaskyNode, relationship: TaskRelationship, collection: [TaskyNode])
   {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+    return (delegateRequestedRelationshipsOf, delegateRequestedRelationshipType, subArray)
+  }
+  
+  func provideUpdatedCollection(of relationship: TaskRelationship, for task: TaskyNode, within taskList: Results<TaskyNode>)
+  {
+    delegateRequestedRelationshipType = relationship
+    delegateRequestedRelationshipsOf = task
+    delegateRequestedRelationshipsAmong = taskList
+
+    switch delegateRequestedRelationshipType
+    {
+    case .parents:
+      subArray = Array.init(delegateRequestedRelationshipsOf.parents)
+    case .children:
+      subArray = Array.init(delegateRequestedRelationshipsOf.children)
+    case .dependents:
+      subArray = Array.init(delegateRequestedRelationshipsOf.consequents)
+    case .dependees:
+      subArray = Array.init(delegateRequestedRelationshipsOf.antecedents)
+    case .none:
+      fatalError("delegate requested unknown type or types")
+    case .some(_):
+      fatalError("delegate requested unknown type or types")
+    }
   }
   
   // MARK: - Table view data source
@@ -102,12 +105,17 @@ class PickerTableViewController: UITableViewController
       {
         cell.checkMarkButton.setTitle(checkMark, for: .normal)
       }
+      if activeTasks[indexPath.row] === delegateRequestedRelationshipsOf
+      {
+        cell.checkMarkButton.setTitle("X", for: .normal)
+      }
     }
     return cell
   }
   
   // MARK: -Table View Delegate
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+  {
     var task: TaskyNode
     switch indexPath.section
     {
@@ -115,7 +123,10 @@ class PickerTableViewController: UITableViewController
     case 1: task = activeTasks[indexPath.row]
     default: fatalError("Picker returned out-of-bounds selection")
     }
-    self.toggleTaskInSubset(task: task)
+    if task !== delegateRequestedRelationshipsOf
+    {
+      self.toggleTaskInSubset(task: task)
+    }
   }
   
   func toggleTaskInSubset(task: TaskyNode)
@@ -139,7 +150,6 @@ class PickerTableViewController: UITableViewController
   override func viewWillDisappear(_ animated: Bool)
   {
     super.viewWillDisappear(true)
-    let delegate = self.pickerTableViewDelegate!
-    delegate.updatedSubset(from: self)
+    pickerTableViewDelegate.retrieveUpdatedCollection(from: self)
   }
 }
