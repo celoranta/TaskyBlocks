@@ -63,7 +63,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DSe-O8-uz1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4455" y="-1986"/>
+            <point key="canvasLocation" x="4617" y="-2087"/>
         </scene>
         <!--Detail-->
         <scene sceneID="bM6-0x-0wJ">
@@ -379,7 +379,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3368.8000000000002" y="-1986.656671664168"/>
+            <point key="canvasLocation" x="3913" y="-2087"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="OQ0-Mq-RqQ">
@@ -401,11 +401,6 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fu0-Jp-55B">
-                                <rect key="frame" x="164" y="362" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
@@ -1085,7 +1080,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ty-Up-TZQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3902" y="-3617"/>
+            <point key="canvasLocation" x="3913" y="-3575"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="bOI-vA-fi1">
