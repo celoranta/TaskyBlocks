@@ -141,6 +141,15 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   @IBAction func timeEstimateButton(_ sender: UIButton) {
     print("time estimate tapped")
+    let inputAlertStyle = UIAlertControllerStyle.alert
+    let inputAlert = UIAlertController.init(title: "Time Estimate", message: "How much time should this task take you?", preferredStyle: inputAlertStyle)
+    let alertKeyboard = UITextField.init()
+    let cancelAction = UIAlertAction.init(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+    let doneAction = UIAlertAction.init(title: "Done", style: UIAlertActionStyle.default, handler: nil)
+    inputAlert.addAction(cancelAction)
+    inputAlert.addAction(doneAction)
+   // inputAlert.addTextField(configurationHandler: alertKeyboard)
+    self.present(inputAlert, animated: true,completion: nil)
   }
   
   @IBAction func timeSpentButton(_ sender: UIButton) {

@@ -207,8 +207,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   
   private func setupUnderEstimate(tracker: AppusCircleTimer, for task: TaskyNode) {
     print("Running setup underEstimate")
-    //temporary estimate placeholder
-    tracker.totalTime = TimeInterval.init(60 * 5)
+    tracker.totalTime = TimeInterval.init(task.secondsEstimated.value!)
     tracker.elapsedTime = TimeInterval.init(task.secondsElapsed)
     tracker.isBackwards = true
   }
