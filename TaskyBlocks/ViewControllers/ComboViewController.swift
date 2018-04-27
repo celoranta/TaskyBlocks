@@ -35,14 +35,13 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   @IBOutlet weak var leftTimerOutlet: AppusCircleTimer!
   @IBOutlet weak var rightTimerOutlet: AppusCircleTimer!
   
-  var selectedTask: TaskyNode? = nil//TaskyNodeEditor.sharedInstance.database[0]
+  var selectedTask: TaskyNode? = nil
+  var elapsedSinceLog: Int? = nil
   var timerState: TimerState = .setup
-  var selectedTaskStart: Date!
-  var loggedTaskTime: Int = 0
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    print("Running ViewDidLoad for ComboVC")
     mainTimerOutlet.delegate = self
     leftTimerOutlet.delegate = self
     rightTimerOutlet.delegate = self
@@ -65,7 +64,41 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
     drawScreen()
   }
   
+  fileprivate func logTaskTimerToTask(_ taskToUpdate: TaskyNode) {
+    print("Running logTaskTimerToTask")
+    TaskyNodeEditor.sharedInstance.setElapsedTime(of: taskToUpdate, to: Int(leftTimerOutlet.elapsedTime))
+    self.elapsedSinceLog = Int(leftTimerOutlet.elapsedTime)
+    
+//    let loggedTime = taskToUpdate.secondsElapsed - (self.elapsedSinceLog ?? 0)
+//    let newElapsedTime = taskToUpdate.secondsElapsed + loggedTime
+//    TaskyNodeEditor.sharedInstance.setElapsedTime(of: taskToUpdate, to: newElapsedTime)
+//    elapsedSinceLog = taskToUpdate.secondsElapsed
+  }
+
+  fileprivate func logTaskElapsedToTaskTimer(task: TaskyNode)
+  {
+      leftTimerOutlet.elapsedTime = TimeInterval.init(task.secondsElapsed)
+
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    print("Combo controller called 'view will disappear'")
+    if let taskToUpdate = selectedTask
+    {
+      logTaskTimerToTask(taskToUpdate)
+    }
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    print("Running ViewWillAppear")
+    if let uTask = selectedTask {
+    setupLeftTimer(with: uTask)
+    }
+    drawScreen()
+  }
+  
   fileprivate func activeTimerConfig(with task: TaskyNode) {
+    print("Running activeTimerConfig")
     wakeUp(timer: mainTimerOutlet)
     wakeUp(timer: leftTimerOutlet)
     wakeUp(timer: rightTimerOutlet)
@@ -77,8 +110,10 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   
   fileprivate func drawScreen()
   {
+    print("Running drawScreen")
     if let uSelectedTask = selectedTask
     {
+      logTaskTimerToTask(uSelectedTask)
       print("configuring timers with selected task '\(uSelectedTask)'")
       activeTimerConfig(with: uSelectedTask)
     }
@@ -108,11 +143,8 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
       self.stepperOutlet.isHidden = true
       self.mainTimerOutlet.stop()
       self.leftTimerOutlet.stop()
-//put call to update logged task time here
-      selectedTaskStart = nil
-      
+
     case .run:
-      self.selectedTaskStart = Date()
       self.topLabelOutlet.text = "Complete your Tasks"
       self.tasksWordOutlet.isHidden = false
       self.completeWordOutlet.isHidden = false
@@ -128,6 +160,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   }
   
     func circleCounterTimeDidExpire(circleTimer: AppusCircleTimer) {
+      print("Running circleCounterTimeDidExpire")
       switch circleTimer {
       case mainTimerOutlet:
         print("Main timer expired")
@@ -143,6 +176,8 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
     
   private func setupLeftTimer(with task: TaskyNode)
   {
+    print("Running setupLeftTimer")
+    leftTimerOutlet.reset()
     if let estimate = task.secondsEstimated.value
     {
       switch estimate > task.secondsElapsed
@@ -159,20 +194,20 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
       print("estimate is nil")
       setupNilEstimate(tracker: leftTimerOutlet, for: task)
     }
-
     self.setStandardTimerColors(for: self.leftTimerOutlet)
     self.leftTimerOutlet.start()
     self.leftTimerOutlet.stop()
   }
   
   private func setupNilEstimate(tracker: AppusCircleTimer, for task: TaskyNode) {
-
+    print("Running setupNilEstimate")
     tracker.isBackwards = false
     tracker.totalTime = TimeInterval.init(60 * 15)
     tracker.elapsedTime = TimeInterval.init(task.secondsElapsed)
   }
   
   private func setupUnderEstimate(tracker: AppusCircleTimer, for task: TaskyNode) {
+    print("Running setup underEstimate")
     //temporary estimate placeholder
     tracker.totalTime = TimeInterval.init(60 * 5)
     tracker.elapsedTime = TimeInterval.init(task.secondsElapsed)
@@ -180,6 +215,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   }
   
   private func setupOverEstimate(tracker: AppusCircleTimer, for task: TaskyNode) {
+    print("Running setupOverEstimate")
     tracker.activeColor = UIColor.red
     tracker.pauseColor = UIColor.red
     //temporary totalTime placeholder
@@ -189,6 +225,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   }
 
   private func setStandardTimerColors(for timer: AppusCircleTimer) {
+    print("Running setStandardTimerColors")
     timer.activeColor = UIColor.yellow //elapsed.paused
     timer.inactiveColor = UIColor.darkGray //remaini
     timer.pauseColor = UIColor.green//elapsed.running
@@ -196,20 +233,19 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   
   private func taskSelect()
   {
+    print("Running task select")
     hibernate(timer: self.mainTimerOutlet)
     hibernate(timer: self.leftTimerOutlet)
     hibernate(timer: self.rightTimerOutlet)
     self.stepperOutlet.isHidden = true
     self.completeWordOutlet.isHidden = true
     self.tasksWordOutlet.isHidden = true
-   // self.mainTimerOutlet.totalTime = 0.0
-   // self.mainTimerTap(self)
     self.topLabelOutlet.text = "No Task Selected"
   }
   
   private func hibernate(timer: AppusCircleTimer)
   {
-
+    print("Running hibernate")
     let fadedAlpha = CGFloat.init(0.25)
     self.doneSwitchOutlet.isOn = false
     self.doneSwitchOutlet.isEnabled = false
@@ -239,6 +275,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   
   private func wakeUp(timer: AppusCircleTimer)
   {
+    print("Running wakeUp")
     let stdAlpha = CGFloat.init(1.0)
     self.doneSwitchOutlet.isOn = true
     self.doneSwitchOutlet.isEnabled = true
@@ -257,33 +294,31 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
     }
   }
 
-  
-  //MARK: Task mutation methods
-  private func deselect(task: TaskyNode)
-  {
-    TaskyNodeEditor.sharedInstance.setElapsedTime(of: task, to: task.secondsElapsed + loggedTaskTime)
-    self.selectedTask = nil
-    self.loggedTaskTime = 0
-    self.selectedTaskStart = nil
-  }
-
   @objc func pushToTasks(_ sender: Any?)
   {
+    print("Running pushToTasks")
     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
     let tasksViewController = storyBoard.instantiateViewController(withIdentifier: "chooseTask") as! ChooseTaskTableViewController
-    //let toTasksSegue = UIStoryboardSegue.init(identifier: "toTasks", source: self, destination: tasksViewController)
-    //toTasksSegue.perform()
     tasksViewController.chooseTaskDelegate = self
     tasksViewController.availableTasks = Array(TaskyNodeEditor.sharedInstance.database.filter("completionDate == nil"))
     present(tasksViewController, animated: true, completion: nil)
   }
   
   func chosenTask(task: TaskyNode) {
-    self.selectedTask = task
-    self.timerState = .setup
+    print("Running chosenTask")
+    loadChosenTask(task: task)
+    if self.timerState == .inactive
+    {
+      self.timerState = .setup
+    }
     drawScreen()
   }
   
+  func loadChosenTask(task: TaskyNode) {
+    print("Running loadChosenTask")
+    self.selectedTask = task
+    logTaskElapsedToTaskTimer(task: task)
+  }
   
     //MARK: Actions
     
@@ -301,6 +336,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
     self.pushToTasks(self)
     print("Task title tapped...")
   }
+  
   @IBAction func mainTimerTap(_ sender: Any) {
     print("Main timer tapped...")
       switch self.timerState
