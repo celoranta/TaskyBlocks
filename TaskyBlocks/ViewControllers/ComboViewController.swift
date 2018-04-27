@@ -11,13 +11,19 @@ import AppusCircleTimer
 import RealmSwift
 
 
-enum TimerState
-{
-  case setup, pause, run, inactive
-}
+
 
 class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTask {
 
+  enum TimerState
+  {
+    case setup, pause, run, inactive
+  }
+  
+  enum TaskTimerMode
+  {
+    case noEstimate, underEstimate, overEstimate
+  }
   //MARK: Outlets
   
   @IBOutlet weak var topLabelOutlet: UILabel!
@@ -38,6 +44,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   var selectedTask: TaskyNode? = nil
   var elapsedSinceLog: Int? = nil
   var timerState: TimerState = .setup
+  var taskTimerMode: TaskTimerMode = .noEstimate
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -65,13 +72,16 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   
   fileprivate func logTaskTimerToTask(_ taskToUpdate: TaskyNode) {
     print("Running logTaskTimerToTask")
-    TaskyNodeEditor.sharedInstance.setElapsedTime(of: taskToUpdate, to: Int(leftTimerOutlet.elapsedTime))
+    var newElapsedTime: Int = 0
+    switch taskTimerMode
+    {
+    case .noEstimate, .underEstimate:
+      newElapsedTime = Int(leftTimerOutlet.elapsedTime)
+    case.overEstimate:
+      newElapsedTime = Int(leftTimerOutlet.elapsedTime) + selectedTask!.secondsEstimated.value!
+    }
+    TaskyNodeEditor.sharedInstance.setElapsedTime(of: taskToUpdate, to: Int(newElapsedTime))
     self.elapsedSinceLog = Int(leftTimerOutlet.elapsedTime)
-    
-//    let loggedTime = taskToUpdate.secondsElapsed - (self.elapsedSinceLog ?? 0)
-//    let newElapsedTime = taskToUpdate.secondsElapsed + loggedTime
-//    TaskyNodeEditor.sharedInstance.setElapsedTime(of: taskToUpdate, to: newElapsedTime)
-//    elapsedSinceLog = taskToUpdate.secondsElapsed
   }
 
   fileprivate func logTaskElapsedToTaskTimer(task: TaskyNode)
@@ -177,6 +187,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   {
     print("Running setupLeftTimer")
     leftTimerOutlet.reset()
+        self.setStandardTimerColors(for: self.leftTimerOutlet)
     if let estimate = task.secondsEstimated.value
     {
       switch estimate > task.secondsElapsed
@@ -193,13 +204,14 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
       print("estimate is nil")
       setupNilEstimate(tracker: leftTimerOutlet, for: task)
     }
-    self.setStandardTimerColors(for: self.leftTimerOutlet)
+
     self.leftTimerOutlet.start()
     self.leftTimerOutlet.stop()
   }
   
   private func setupNilEstimate(tracker: AppusCircleTimer, for task: TaskyNode) {
     print("Running setupNilEstimate")
+    self.taskTimerMode = .noEstimate
     tracker.isBackwards = false
     tracker.totalTime = TimeInterval.init(60 * 15)
     tracker.elapsedTime = TimeInterval.init(task.secondsElapsed)
@@ -207,6 +219,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   
   private func setupUnderEstimate(tracker: AppusCircleTimer, for task: TaskyNode) {
     print("Running setup underEstimate")
+    self.taskTimerMode = .underEstimate
     tracker.totalTime = TimeInterval.init(task.secondsEstimated.value!)
     tracker.elapsedTime = TimeInterval.init(task.secondsElapsed)
     tracker.isBackwards = true
@@ -214,6 +227,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   
   private func setupOverEstimate(tracker: AppusCircleTimer, for task: TaskyNode) {
     print("Running setupOverEstimate")
+    self.taskTimerMode = .overEstimate
     tracker.activeColor = UIColor.red
     tracker.pauseColor = UIColor.red
     //temporary totalTime placeholder

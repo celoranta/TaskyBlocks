@@ -29,6 +29,7 @@
 		958661DC208FE3FB00B4E06A /* ComboViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958661DB208FE3FB00B4E06A /* ComboViewController.swift */; };
 		959A74132091449A004B253A /* ChooseTaskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959A74122091449A004B253A /* ChooseTaskTableViewController.swift */; };
 		959A7415209247FF004B253A /* MyTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959A7414209247FF004B253A /* MyTimer.swift */; };
+		959A74172093BA4F004B253A /* DatePickerVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959A74162093BA4F004B253A /* DatePickerVCViewController.swift */; };
 		95A1834B207C39F500F38ED3 /* UITextViewPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1834A207C39F500F38ED3 /* UITextViewPlaceholder.swift */; };
 		95B1453A20865CE700467D36 /* FinalDependenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453920865CE700467D36 /* FinalDependenceViewController.swift */; };
 		95B1453C20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453B20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift */; };
@@ -95,6 +96,7 @@
 		958661DB208FE3FB00B4E06A /* ComboViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboViewController.swift; sourceTree = "<group>"; };
 		959A74122091449A004B253A /* ChooseTaskTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTaskTableViewController.swift; sourceTree = "<group>"; };
 		959A7414209247FF004B253A /* MyTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTimer.swift; sourceTree = "<group>"; };
+		959A74162093BA4F004B253A /* DatePickerVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerVCViewController.swift; sourceTree = "<group>"; };
 		95A1834A207C39F500F38ED3 /* UITextViewPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewPlaceholder.swift; sourceTree = "<group>"; };
 		95B1453920865CE700467D36 /* FinalDependenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalDependenceViewController.swift; sourceTree = "<group>"; };
 		95B1453B20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalDependenceCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				95B145432086619200467D36 /* FinalHierarchyViewController.swift */,
 				958661DB208FE3FB00B4E06A /* ComboViewController.swift */,
 				959A7414209247FF004B253A /* MyTimer.swift */,
+				959A74162093BA4F004B253A /* DatePickerVCViewController.swift */,
 				959A74122091449A004B253A /* ChooseTaskTableViewController.swift */,
 				95B1453920865CE700467D36 /* FinalDependenceViewController.swift */,
 				95B1453D20865D4100467D36 /* FinalPriorityViewController.swift */,
@@ -601,6 +604,7 @@
 				9583A27D20827948000F22EC /* TaskyNodeEditor.swift in Sources */,
 				95E5EFCF20780CB700CD8D6C /* SplashViewController.swift in Sources */,
 				95046CDB20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift in Sources */,
+				959A74172093BA4F004B253A /* DatePickerVCViewController.swift in Sources */,
 				95B1454020865D6700467D36 /* FinalPriorityCollectionViewLayout.swift in Sources */,
 				95B1453C20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift in Sources */,
 				958661DC208FE3FB00B4E06A /* ComboViewController.swift in Sources */,
