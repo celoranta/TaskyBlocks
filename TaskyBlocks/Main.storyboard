@@ -8,7 +8,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -758,13 +757,13 @@
         <!--Combo View Controller-->
         <scene sceneID="JnY-HK-WKF">
             <objects>
-                <viewController id="ZMA-pq-R48" customClass="ComboViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="comboViewController" id="ZMA-pq-R48" customClass="ComboViewController" customModule="TaskyBlocks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FTK-6P-MA6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleAspectFit" restorationIdentifier="mainTimer" translatesAutoresizingMaskIntoConstraints="NO" id="YJD-hv-odi" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
-                                <rect key="frame" x="64" y="99.5" width="247.5" height="247"/>
+                                <rect key="frame" x="42.5" y="99.5" width="291" height="290.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="sprint"/>
                                 <gestureRecognizers/>
@@ -793,7 +792,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleAspectFit" restorationIdentifier="leftTimer" translatesAutoresizingMaskIntoConstraints="NO" id="ugG-8u-qM5" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
-                                <rect key="frame" x="34" y="329.5" width="95" height="95"/>
+                                <rect key="frame" x="12.5" y="373" width="95" height="95"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leftTimer"/>
                                 <constraints>
@@ -819,7 +818,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleAspectFit" restorationIdentifier="rightTimer" translatesAutoresizingMaskIntoConstraints="NO" id="sC4-Q2-P76" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
-                                <rect key="frame" x="246.5" y="329.5" width="95" height="95"/>
+                                <rect key="frame" x="268.5" y="373" width="95" height="95"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="rightTimer"/>
                                 <userDefinedRuntimeAttributes>
@@ -841,19 +840,19 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Complete:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iZH-3S-Wgm">
-                                <rect key="frame" x="158" y="389.5" width="59" height="15"/>
+                                <rect key="frame" x="158" y="433" width="59" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tasks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HVf-7V-ulN">
-                                <rect key="frame" x="172" y="375.5" width="32" height="15"/>
+                                <rect key="frame" x="172" y="419" width="32" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGb-Kd-3UY">
-                                <rect key="frame" x="178" y="400.5" width="20" height="27"/>
+                                <rect key="frame" x="178" y="444" width="20" height="27"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" red="0.25807604290000002" green="0.82280103819999995" blue="0.40470430489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -868,7 +867,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYv-E9-1C8">
-                                <rect key="frame" x="16" y="517" width="286" height="30"/>
+                                <rect key="frame" x="16" y="517" width="343" height="30"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="qXO-He-7wk"/>
@@ -887,29 +886,23 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="leftTimerLabel" text="Task" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ztg-W9-Huu">
-                                <rect key="frame" x="64.5" y="432.5" width="35" height="21"/>
+                                <rect key="frame" x="43" y="476" width="35" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="rightTimerLabel" text="Project" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="piN-dU-MuN">
-                                <rect key="frame" x="267" y="432.5" width="55" height="21"/>
+                                <rect key="frame" x="289" y="476" width="55" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="ydv-VK-Yym">
-                                <rect key="frame" x="140" y="377.5" width="94" height="29"/>
+                                <rect key="frame" x="140" y="421" width="94" height="29"/>
                                 <connections>
                                     <action selector="timeStepper:" destination="ZMA-pq-R48" eventType="valueChanged" id="XJY-hQ-EhS"/>
                                 </connections>
                             </stepper>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pl2-iB-3Nn">
-                                <rect key="frame" x="310" y="517" width="51" height="31"/>
-                                <connections>
-                                    <action selector="doneSwitchAction:" destination="ZMA-pq-R48" eventType="valueChanged" id="QuT-P3-wDe"/>
-                                </connections>
-                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -923,17 +916,15 @@
                             <constraint firstItem="Jh8-q9-dZV" firstAttribute="trailing" secondItem="8pk-9S-Y6Z" secondAttribute="trailing" constant="16" id="AcE-Cw-6Cl"/>
                             <constraint firstItem="YJD-hv-odi" firstAttribute="centerX" secondItem="Jh8-q9-dZV" secondAttribute="centerX" id="AtS-sR-ckh"/>
                             <constraint firstItem="ydv-VK-Yym" firstAttribute="centerX" secondItem="FTK-6P-MA6" secondAttribute="centerX" id="G5k-T1-3WM"/>
-                            <constraint firstItem="pl2-iB-3Nn" firstAttribute="leading" secondItem="WYv-E9-1C8" secondAttribute="trailing" constant="8" id="KIk-PS-70C"/>
                             <constraint firstItem="piN-dU-MuN" firstAttribute="top" secondItem="sC4-Q2-P76" secondAttribute="bottom" constant="8" id="RCm-OS-WIG"/>
                             <constraint firstItem="Ztg-W9-Huu" firstAttribute="top" secondItem="ugG-8u-qM5" secondAttribute="bottom" constant="8" id="SLW-ga-Ynq"/>
                             <constraint firstItem="Ztg-W9-Huu" firstAttribute="centerX" secondItem="ugG-8u-qM5" secondAttribute="centerX" id="ScD-mZ-EhG"/>
                             <constraint firstItem="sC4-Q2-P76" firstAttribute="width" secondItem="ugG-8u-qM5" secondAttribute="width" id="SmL-5j-u4e"/>
-                            <constraint firstItem="Jh8-q9-dZV" firstAttribute="trailing" secondItem="pl2-iB-3Nn" secondAttribute="trailing" constant="16" id="URS-RZ-d9e"/>
-                            <constraint firstItem="YJD-hv-odi" firstAttribute="height" secondItem="FTK-6P-MA6" secondAttribute="height" multiplier="0.37" id="VWg-G0-WDd"/>
                             <constraint firstItem="WYv-E9-1C8" firstAttribute="leading" secondItem="Jh8-q9-dZV" secondAttribute="leading" constant="16" id="W70-PE-6J2"/>
                             <constraint firstItem="Jh8-q9-dZV" firstAttribute="bottom" secondItem="8pk-9S-Y6Z" secondAttribute="bottom" constant="20" id="XPV-W6-7s2"/>
+                            <constraint firstItem="Jh8-q9-dZV" firstAttribute="trailing" secondItem="WYv-E9-1C8" secondAttribute="trailing" constant="16" id="XS9-Cc-S70"/>
                             <constraint firstItem="WGb-Kd-3UY" firstAttribute="centerX" secondItem="Jh8-q9-dZV" secondAttribute="centerX" id="ah1-yG-mVT"/>
-                            <constraint firstItem="pl2-iB-3Nn" firstAttribute="centerY" secondItem="WYv-E9-1C8" secondAttribute="centerY" id="bnH-iR-d48"/>
+                            <constraint firstItem="WYv-E9-1C8" firstAttribute="top" secondItem="Ztg-W9-Huu" secondAttribute="bottom" constant="20" id="bYl-M1-Qyo"/>
                             <constraint firstItem="Jh8-q9-dZV" firstAttribute="trailing" secondItem="890-1U-wj5" secondAttribute="trailing" constant="16" id="cge-Zf-wz0"/>
                             <constraint firstItem="sC4-Q2-P76" firstAttribute="height" secondItem="ugG-8u-qM5" secondAttribute="height" id="dDI-xW-FnB"/>
                             <constraint firstItem="HVf-7V-ulN" firstAttribute="centerY" secondItem="sC4-Q2-P76" secondAttribute="centerY" constant="6" id="fhk-bv-O46"/>
@@ -950,7 +941,6 @@
                     </view>
                     <connections>
                         <outlet property="completeWordOutlet" destination="iZH-3S-Wgm" id="pHN-6G-XIN"/>
-                        <outlet property="doneSwitchOutlet" destination="pl2-iB-3Nn" id="oXk-tc-CMG"/>
                         <outlet property="leftTimerOutlet" destination="ugG-8u-qM5" id="W23-qZ-1ho"/>
                         <outlet property="mainTimerOutlet" destination="YJD-hv-odi" id="EyE-SD-bJc"/>
                         <outlet property="rightTimerOutlet" destination="sC4-Q2-P76" id="uwY-d5-2fj"/>
@@ -976,7 +966,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="5513" y="-2087"/>
+            <point key="canvasLocation" x="5512.8000000000002" y="-2087.4062968515746"/>
         </scene>
         <!--Choose Task Table View Controller-->
         <scene sceneID="txQ-b5-UZg">
@@ -1136,7 +1126,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E8n-sn-MVp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2210" y="-2830"/>
+            <point key="canvasLocation" x="2250" y="-2830"/>
         </scene>
     </scenes>
 </document>

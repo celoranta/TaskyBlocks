@@ -13,7 +13,7 @@ class FinalPriorityViewController: MasterGraphingViewController
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    self.nextViewControllerId = "pomodoroViewController"
+    self.nextViewControllerId = "comboViewController"
     self.title = "Set Priority"
     self.includesAddBlock = false
   }

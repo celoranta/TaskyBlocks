@@ -35,7 +35,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   @IBOutlet weak var taskTitleLabel: UILabel!
   @IBOutlet weak var taskDescriptionLabel: UILabel!
   @IBOutlet weak var stepperOutlet: UIStepper!
-  @IBOutlet weak var doneSwitchOutlet: UISwitch!
+//  @IBOutlet weak var doneSwitchOutlet: UISwitch!
   
   @IBOutlet weak var mainTimerOutlet: AppusCircleTimer!
   @IBOutlet weak var leftTimerOutlet: AppusCircleTimer!
@@ -113,7 +113,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
     wakeUp(timer: rightTimerOutlet)
     taskTitleLabel.text = task.title
     taskDescriptionLabel.text = task.taskDescription
-    self.doneSwitchOutlet.isOn = (task.completionDate != nil)
+//    self.doneSwitchOutlet.isOn = (task.completionDate != nil)
     setupLeftTimer(with: task)
   }
   
@@ -259,8 +259,6 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   {
     print("Running hibernate")
     let fadedAlpha = CGFloat.init(0.25)
-    self.doneSwitchOutlet.isOn = false
-    self.doneSwitchOutlet.isEnabled = false
     timer.reset()
     timer.elapsedTime = 0.0
     timer.isActive = false
@@ -289,8 +287,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
   {
     print("Running wakeUp")
     let stdAlpha = CGFloat.init(1.0)
-    self.doneSwitchOutlet.isOn = true
-    self.doneSwitchOutlet.isEnabled = true
+
     timer.isActive = true
     timer.alpha = stdAlpha
     self.taskTitleLabel.textColor = UIColor.black
@@ -366,10 +363,10 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
       drawScreen()
     }
   
-  @IBAction func doneSwitchAction(_ sender: UISwitch)
-  {
-    
-  }
+//  @IBAction func doneSwitchAction(_ sender: UISwitch)
+//  {
+//
+//  }
   
     
 
