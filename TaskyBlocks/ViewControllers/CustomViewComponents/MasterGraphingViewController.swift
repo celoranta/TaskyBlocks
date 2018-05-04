@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskyGraphingDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, TaskDetailDataSource, UICollectionViewDropDelegate
+class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, TaskyGraphingDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, TaskDetailDataSource
 {
   //MARK: Dependency Injection / Override Properies
   var customLayout = MasterGraphingCollectionViewLayout()
@@ -17,7 +17,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   var sorter = ""
   
   //MARK: Static Properties
-  var collectionView: MasterGraphingCollectionView!
+  var collectionView: UICollectionView!
   var activeResults: Results<TaskyNode>!
   var currentDataModel: [TaskyNode]!
   var selectedTask: TaskyNode!
@@ -101,7 +101,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     self.toolbarItems = toolbarItems
     
     //Set up collection view
-    collectionView = MasterGraphingCollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
+    collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: customLayout)
     self.view.addSubview(collectionView)
     collectionView.register(MasterGraphingCollectionViewCell.self, forCellWithReuseIdentifier: "masterCollectionCell")
     collectionView.backgroundColor = UIColor.white
@@ -123,10 +123,11 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   @objc func refreshTests()
   {
     self.collectionView.reloadData()
+    self.customLayout.invalidateLayout()
   }
   
   func redrawCollection() {
-    print("Redrawing Collection...\n")
+ //   print("Redrawing Collection...\n")
     
     //    activeResults = TaskyNodeEditor.sharedInstance.database.filter(self.filter)
     //    currentDataModel = Array(activeResults)
@@ -135,12 +136,17 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     //
     //   self.collectionView.layoutIfNeeded()
     //            sleep(3)
+    
     let newDataModel = Array(activeResults)
     currentDataModel = newDataModel.sorted(by: { $0.priorityApparent > $1.priorityApparent})
+    self.collectionView.reloadData()
+    self.customLayout.invalidateLayout()
+    
+    
    // self.collectionView.reloadData()
-    let anIndexSet = IndexSet.init(integer: 0)
+   // let anIndexSet = IndexSet.init(integer: 0)
 
-    self.collectionView.reloadSections(anIndexSet)
+//self.collectionView.reloadSections(anIndexSet)
     // self.collectionView.layoutIfNeeded()
 
   }
@@ -232,12 +238,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   }
   
   //MARK: Drag items
-  
-  
-  func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator)
-  {
-    
-  }
+
   
   func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool
   {

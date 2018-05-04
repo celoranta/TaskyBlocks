@@ -29,7 +29,7 @@ class FinalPriorityCollectionViewLayout: MasterGraphingCollectionViewLayout {
   override public var collectionViewContentSize: CGSize {
     return CGSize(width: contentWidth /* * zoomFactor*/, height: contentHeight /** zoomFactor*/) // Here's where the height gets adjusted, but this is calculated from the graphing size
   }
-  
+
   override public func prepare() {
     print("Preparing layout attributes")
     cellWidth = contentWidth * 0.85
@@ -38,14 +38,14 @@ class FinalPriorityCollectionViewLayout: MasterGraphingCollectionViewLayout {
     let totalSpaceWidth = contentWidth - CGFloat(numberOfColumns) * cellWidth
     let horizontalPadding = totalSpaceWidth / CGFloat(numberOfColumns + 1)
     let numberOfItems = collectionView.numberOfItems(inSection: 0)
-    
+
     if (contentWidth != cachedWidth || self.numberOfItems != numberOfItems) {
       cache = []
       contentHeight = 0
       self.numberOfItems = numberOfItems
     }
-    
-    if cache.isEmpty {
+
+ //   if cache.isEmpty {
       print("Layout attribute cache is empty.  Preparing new cache")
       cachedWidth = contentWidth
       var xOffset = [CGFloat]()
@@ -54,35 +54,35 @@ class FinalPriorityCollectionViewLayout: MasterGraphingCollectionViewLayout {
       }
       var column = 0
       var yOffset = [CGFloat](repeating: 0, count: numberOfColumns)
-      
+
       for row in 0 ..< numberOfItems {
-        
+
         let indexPath = IndexPath(row: row, section: 0)
-        
+
         let cellHeight = delegate.collectionView(collectionView: collectionView, heightForCellAtIndexPath: indexPath, width: cellWidth)
         let height = cellPadding +  cellHeight + cellPadding
         let frame = CGRect(x: xOffset[column], y: yOffset[column], width: cellWidth, height: height)
         let insetFrame = frame.insetBy(dx: 0, dy: cellPadding)
-        
+
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath as IndexPath)
         attributes.frame = insetFrame
         cache.append(attributes)
         contentHeight = max(contentHeight, frame.maxY)
         yOffset[column] = yOffset[column] + height
-        
+
         if column >= (numberOfColumns - 1) {
           column = 0
         } else {
           column = column + 1
         }
-      }
+ //     }
     }
   }
-  
+
   override public func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     print("Calculating layout attributes for rect")
     var layoutAttributes = [UICollectionViewLayoutAttributes]()
-    
+
     for attributes in cache { // #7
       if attributes.frame.intersects(rect) { // #8
         layoutAttributes.append(attributes) // #9

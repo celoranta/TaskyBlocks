@@ -18,7 +18,7 @@ class TaskyNode: Object
   //MARK: Realm ignored property list
   override static func ignoredProperties() -> [String]
   {
-    return ["priorityInherited", "priorityConsequent", "isPrimal", "isActionable"]
+    return ["priorityInherited", "priorityConsequent", "isPrimal", "isActionable", "priorityApparent"]
   }
 
   //MARK: Realm Value Properties
@@ -67,8 +67,7 @@ class TaskyNode: Object
         return  (Array(consequents).max { $0.priorityApparent < $1.priorityApparent})?.priorityApparent
   }
   
-  //MARK: Calculated Properties (saved to Realm)
-   @objc dynamic var priorityApparent: Double
+  var priorityApparent: Double
   {
     var priority = priorityDirect.value ?? priorityDirectDefault
     if let inherited = priorityInherited
@@ -81,6 +80,9 @@ class TaskyNode: Object
     }
      return  priorityOverride.value ?? priority
   }
+  
+  var priorityDirectLocalCache: Double? = 50
+
   
   //MARK: Realm Key Property
   override static func primaryKey() -> String?

@@ -52,7 +52,11 @@ class FinalPriorityViewController: MasterGraphingViewController
     print("Next Gretater Priority = \(nextGreaterPriority)")
     print("Next Lesser Priority = \(nextLesserPriority)")
     print("New Priority is: \(averagedPriority)")
-    TaskyNodeEditor.sharedInstance.setDirectPriority(of: draggedTask, to: averagedPriority)
+    TaskyNodeEditor.sharedInstance.setDirectPriority(of: draggedTask, to: averagedPriority, withoutUpdating: notificationToken)
+    //sleep(2)
+        currentDataModel = currentDataModel.sorted(by: { $0.priorityApparent > $1.priorityApparent})
+    collectionView.reloadData()
+    customLayout.invalidateLayout()
   }
 }
 

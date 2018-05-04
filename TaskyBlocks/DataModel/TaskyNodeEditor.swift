@@ -93,6 +93,15 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
+  func setDirectPriority(of task: TaskyNode, to priority: Double, withoutUpdating token: NotificationToken)
+  {
+    realm.beginWrite()
+    task.priorityDirect.value = priority
+    realm.add(task, update: true)
+    print("Attempting to write new priority to realm")
+    try! realm.commitWrite(withoutNotifying: [token])
+  }
+  
   func complete(task: TaskyNode)
   {
     if task.isPermanent != 1
