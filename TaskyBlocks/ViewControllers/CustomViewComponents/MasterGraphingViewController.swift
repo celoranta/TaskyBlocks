@@ -394,6 +394,6 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
   
   func processRealmNotificationReceipt()
   {
-    redrawCollection()
+    customLayout.invalidateLayout()
   }
 }

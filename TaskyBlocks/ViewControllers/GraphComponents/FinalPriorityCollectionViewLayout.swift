@@ -34,6 +34,7 @@ class FinalPriorityCollectionViewLayout: MasterGraphingCollectionViewLayout {
     print("Preparing layout attributes")
     cellWidth = contentWidth * 0.85
     guard let collectionView = collectionView else { return }
+
     let numberOfColumns = 1
     let totalSpaceWidth = contentWidth - CGFloat(numberOfColumns) * cellWidth
     let horizontalPadding = totalSpaceWidth / CGFloat(numberOfColumns + 1)
@@ -45,8 +46,9 @@ class FinalPriorityCollectionViewLayout: MasterGraphingCollectionViewLayout {
       self.numberOfItems = numberOfItems
     }
 
- //   if cache.isEmpty {
+    if cache.isEmpty {
       print("Layout attribute cache is empty.  Preparing new cache")
+      
       cachedWidth = contentWidth
       var xOffset = [CGFloat]()
       for column in 0 ..< numberOfColumns {
@@ -64,6 +66,7 @@ class FinalPriorityCollectionViewLayout: MasterGraphingCollectionViewLayout {
         let frame = CGRect(x: xOffset[column], y: yOffset[column], width: cellWidth, height: height)
         let insetFrame = frame.insetBy(dx: 0, dy: cellPadding)
 
+          ////Look at this...
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath as IndexPath)
         attributes.frame = insetFrame
         cache.append(attributes)
@@ -75,12 +78,13 @@ class FinalPriorityCollectionViewLayout: MasterGraphingCollectionViewLayout {
         } else {
           column = column + 1
         }
- //     }
+      }
     }
   }
 
   override public func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     print("Calculating layout attributes for rect")
+    
     var layoutAttributes = [UICollectionViewLayoutAttributes]()
 
     for attributes in cache { // #7
