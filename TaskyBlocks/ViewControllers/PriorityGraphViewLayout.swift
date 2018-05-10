@@ -40,8 +40,6 @@ class PriorityGraphViewLayout: UICollectionViewLayout, GraphViewLayout {
     return newAttributes
   }
   
-  
-  
   override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
     return layoutMap[indexPath]
   }
@@ -59,7 +57,7 @@ class PriorityGraphViewLayout: UICollectionViewLayout, GraphViewLayout {
 
   override func prepare() {
     contentSize.height = UIScreen.main.bounds.height
-  //  let localDatasource = collectionViewLayoutDelegate.datasource(for: self)
+   let localDatasource = collectionViewLayoutDelegate.datasource()
     let uMaxTask = localDatasource.max(by: {$0.priorityApparent < $1.priorityApparent})
     let uMinTask = localDatasource.max(by: {$0.priorityApparent > $1.priorityApparent})
     guard let maxTask = uMaxTask,

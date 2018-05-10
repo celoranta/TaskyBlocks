@@ -16,8 +16,6 @@ protocol GraphViewLayout
 
 class GraphViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, CollectionViewLayoutDelegate {
 
-  
-  
   var dataSource: Results<TaskyNode>!
   var graphViewLayout: GraphViewLayout!
   
@@ -29,11 +27,21 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
         super.viewDidLoad()
         let _ = try! Realm()
       dataSource = TaskyNodeEditor.sharedInstance.database
-      self.graphViewLayout = PriorityGraphViewLayout()
+      if self.graphViewLayout == nil
+      {
+        self.priorityBarItem(self)
+      }
       self.graphViewLayout.collectionViewLayoutDelegate = self
       
-      self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)
+      self.toolBarOutlet.isTranslucent = true
     }
+  
+  fileprivate func refreshGraph()
+  {
+    let layout = self.graphViewLayout as! UICollectionViewLayout
+    self.collectionView.reloadData()
+    layout.invalidateLayout()
+  }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -74,16 +82,37 @@ func numberOfSections(in collectionView: UICollectionView) -> Int
   func datasource() -> [TaskyNode] {
     return Array(dataSource)
   }
+  
+  
   @IBAction func hierarchyBarItem(_ sender: Any) {
     print("Hierarchy Pressed")
+    graphViewLayout = HierarchyGraphViewLayout()
+    graphViewLayout.collectionViewLayoutDelegate = self
+    collectionView.dataSource = self
+     self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)
+
+    refreshGraph()
+    
   }
 
   @IBAction func dependenceBarItem(_ sender: Any) {
     print("Dependence Pressed")
+    graphViewLayout = DependenceGraphViewLayout()
+    graphViewLayout.collectionViewLayoutDelegate = self
+    collectionView.dataSource = self
+    self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)
+
+    refreshGraph()
   }
   
   @IBAction func priorityBarItem(_ sender: Any) {
     print("Priority Pressed")
+    self.graphViewLayout = PriorityGraphViewLayout()
+    graphViewLayout.collectionViewLayoutDelegate = self
+    collectionView.dataSource = self
+    self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)
+
+    refreshGraph()
   }
   
 }
