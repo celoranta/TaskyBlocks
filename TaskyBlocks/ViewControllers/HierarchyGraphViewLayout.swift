@@ -4,7 +4,7 @@ import UIKit
 
 
 
-class HierarchyGraphViewLayout: UICollectionViewLayout, GraphViewLayout {
+class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   var collectionViewLayoutDelegate: CollectionViewLayoutDelegate!
 
   var column = 0

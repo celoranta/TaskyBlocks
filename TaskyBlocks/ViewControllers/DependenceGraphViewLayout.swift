@@ -5,10 +5,10 @@ import UIKit
 
 
 
-class DependenceGraphViewLayout: UICollectionViewLayout, GraphViewLayout {
+class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   var collectionViewLayoutDelegate: CollectionViewLayoutDelegate!
   
-  var column = 0
+  var column: Int? = nil
   var localDatasource = Array(TaskyNodeEditor.sharedInstance.database)
   var layoutMap = [IndexPath : UICollectionViewLayoutAttributes]()
   var contentSize: CGSize = CGSize.init(width: 1000, height: 1000)
@@ -57,6 +57,7 @@ class DependenceGraphViewLayout: UICollectionViewLayout, GraphViewLayout {
     {
       if let indexInDataSource = localDatasource.index(of: task)
       {
+        
         let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
         let attribute = UICollectionViewLayoutAttributes.init(forCellWith: indexPath)
         attribute.frame.size = self.cellPlotSize

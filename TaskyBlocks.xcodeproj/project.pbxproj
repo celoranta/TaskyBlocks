@@ -34,6 +34,7 @@
 		95A1834B207C39F500F38ED3 /* UITextViewPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A1834A207C39F500F38ED3 /* UITextViewPlaceholder.swift */; };
 		95A7905020A4CB940006A48A /* HierarchyGraphViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7904F20A4CB940006A48A /* HierarchyGraphViewLayout.swift */; };
 		95A7905220A4E1D00006A48A /* DependenceGraphViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7905120A4E1D00006A48A /* DependenceGraphViewLayout.swift */; };
+		95A7905420A50FC70006A48A /* GraphCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7905320A50FC70006A48A /* GraphCollectionViewLayout.swift */; };
 		95B1453A20865CE700467D36 /* FinalDependenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453920865CE700467D36 /* FinalDependenceViewController.swift */; };
 		95B1453C20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453B20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift */; };
 		95B1453E20865D4100467D36 /* FinalPriorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453D20865D4100467D36 /* FinalPriorityViewController.swift */; };
@@ -104,6 +105,7 @@
 		95A1834A207C39F500F38ED3 /* UITextViewPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewPlaceholder.swift; sourceTree = "<group>"; };
 		95A7904F20A4CB940006A48A /* HierarchyGraphViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchyGraphViewLayout.swift; sourceTree = "<group>"; };
 		95A7905120A4E1D00006A48A /* DependenceGraphViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependenceGraphViewLayout.swift; sourceTree = "<group>"; };
+		95A7905320A50FC70006A48A /* GraphCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCollectionViewLayout.swift; sourceTree = "<group>"; };
 		95B1453920865CE700467D36 /* FinalDependenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalDependenceViewController.swift; sourceTree = "<group>"; };
 		95B1453B20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalDependenceCollectionViewLayout.swift; sourceTree = "<group>"; };
 		95B1453D20865D4100467D36 /* FinalPriorityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalPriorityViewController.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */,
 				9569D14A20A0F89C000B7E3F /* GraphViewController.swift */,
 				9569D14E20A0FDD1000B7E3F /* PriorityGraphViewLayout.swift */,
+				95A7905320A50FC70006A48A /* GraphCollectionViewLayout.swift */,
 				95A7904F20A4CB940006A48A /* HierarchyGraphViewLayout.swift */,
 				95A7905120A4E1D00006A48A /* DependenceGraphViewLayout.swift */,
 				9569D14C20A0F8B7000B7E3F /* GraphingCollectionViewCell.swift */,
@@ -618,6 +621,7 @@
 				95046CDB20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift in Sources */,
 				959A74172093BA4F004B253A /* DatePickerVCViewController.swift in Sources */,
 				95B1454020865D6700467D36 /* FinalPriorityCollectionViewLayout.swift in Sources */,
+				95A7905420A50FC70006A48A /* GraphCollectionViewLayout.swift in Sources */,
 				95B1453C20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift in Sources */,
 				958661DC208FE3FB00B4E06A /* ComboViewController.swift in Sources */,
 				95F0291F2086DDBB00FE9A0C /* SettingsViewController.swift in Sources */,

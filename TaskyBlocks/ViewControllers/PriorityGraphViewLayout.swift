@@ -2,11 +2,9 @@
 
 import UIKit
 
-protocol CollectionViewLayoutDelegate {
-  func datasource() -> [TaskyNode]
-}
 
-class PriorityGraphViewLayout: UICollectionViewLayout, GraphViewLayout {
+
+class PriorityGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   var collectionViewLayoutDelegate: CollectionViewLayoutDelegate!
   
   var maxTaskpriorityApparent: CGFloat = 100
