@@ -466,18 +466,46 @@
                                     <outlet property="delegate" destination="csc-fa-nUG" id="cFv-HX-kmo"/>
                                 </connections>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JuE-Tj-vL1">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="flexibleSpace" id="3n8-pN-bdE"/>
+                                    <barButtonItem title="Hierarchy" id="Yva-us-AQH">
+                                        <connections>
+                                            <action selector="hierarchyBarItem:" destination="csc-fa-nUG" id="0WF-VR-rYZ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="flexibleSpace" id="nKm-O2-FR7"/>
+                                    <barButtonItem title="Dependence" id="qGf-fB-8EC">
+                                        <connections>
+                                            <action selector="dependenceBarItem:" destination="csc-fa-nUG" id="cnQ-CP-KQ3"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="flexibleSpace" id="Xyu-o5-D52"/>
+                                    <barButtonItem title="Priority" id="jOu-Th-xVU">
+                                        <connections>
+                                            <action selector="priorityBarItem:" destination="csc-fa-nUG" id="7Y8-Zn-SOh"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="flexibleSpace" id="Xj9-84-NFw"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="JuE-Tj-vL1" firstAttribute="bottom" secondItem="ejJ-5F-4TZ" secondAttribute="bottom" id="2kI-ga-Fzf"/>
                             <constraint firstItem="e5p-Rz-hFt" firstAttribute="bottom" secondItem="ejJ-5F-4TZ" secondAttribute="bottom" id="Nob-Jw-KXn"/>
                             <constraint firstItem="e5p-Rz-hFt" firstAttribute="trailing" secondItem="ejJ-5F-4TZ" secondAttribute="trailing" id="RcM-9Y-yaC"/>
                             <constraint firstItem="e5p-Rz-hFt" firstAttribute="leading" secondItem="ejJ-5F-4TZ" secondAttribute="leading" id="mSE-CJ-tyA"/>
+                            <constraint firstItem="JuE-Tj-vL1" firstAttribute="trailing" secondItem="ejJ-5F-4TZ" secondAttribute="trailing" id="yqb-Vb-zgj"/>
+                            <constraint firstItem="JuE-Tj-vL1" firstAttribute="leading" secondItem="ejJ-5F-4TZ" secondAttribute="leading" id="z2K-gN-OS0"/>
                             <constraint firstItem="e5p-Rz-hFt" firstAttribute="top" secondItem="YtR-xq-IoX" secondAttribute="top" id="zW6-uP-pM7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ejJ-5F-4TZ"/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="e5p-Rz-hFt" id="ySj-iJ-SeN"/>
+                        <outlet property="toolBarOutlet" destination="JuE-Tj-vL1" id="r8h-zt-JwV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cab-Ra-wV7" userLabel="First Responder" sceneMemberID="firstResponder"/>

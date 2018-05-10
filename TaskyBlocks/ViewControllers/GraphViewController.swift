@@ -23,18 +23,16 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
   
   
   @IBOutlet weak var collectionView: UICollectionView!
+  @IBOutlet weak var toolBarOutlet: UIToolbar!
   
     override func viewDidLoad() {
         super.viewDidLoad()
-        let realm = try! Realm()
+        let _ = try! Realm()
       dataSource = TaskyNodeEditor.sharedInstance.database
       self.graphViewLayout = PriorityGraphViewLayout()
       self.graphViewLayout.collectionViewLayoutDelegate = self
       
       self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)
-      
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,5 +74,16 @@ func numberOfSections(in collectionView: UICollectionView) -> Int
   func datasource() -> [TaskyNode] {
     return Array(dataSource)
   }
+  @IBAction func hierarchyBarItem(_ sender: Any) {
+    print("Hierarchy Pressed")
+  }
 
+  @IBAction func dependenceBarItem(_ sender: Any) {
+    print("Dependence Pressed")
+  }
+  
+  @IBAction func priorityBarItem(_ sender: Any) {
+    print("Priority Pressed")
+  }
+  
 }
