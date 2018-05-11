@@ -12,6 +12,7 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   var localDatasource = Array(TaskyNodeEditor.sharedInstance.database)
   var layoutMap = [IndexPath : UICollectionViewLayoutAttributes]()
   var contentSize: CGSize = CGSize.init(width: 1000, height: 1000)
+  var searchingArray: [TaskyNode] = []
   
   override var collectionViewContentSize: CGSize {
     return contentSize
@@ -76,11 +77,11 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     
     var column = 0
     var row = 0
-
+    var searchingArray: [TaskyNode] = []
 
     
     
-    for task in localDatasource {
+    for task in dependeeModel[0] {
       if let indexInDataSource = localDatasource.index(of: task) {
         let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
         let attribute = UICollectionViewLayoutAttributes.init(forCellWith: indexPath)
@@ -106,7 +107,44 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     return 1
   }
   
-
-  
-  
+//  fileprivate func nextTask() -> TaskyNode? {
+//    if searchingArray.count == 0
+//    {
+//      return nil
+//    }
+//    guard let task = searchingArray.last
+//      else {fatalError("Task was nil")}
+//      let searchingArrayindex = Int(searchingArray.index(of: task)!)
+//      let taskIndexWithinAntecedent = searchingArray[searchingArrayindex - 1].consequents.index(of: task)
+//
+//      if task.consequents.count > 0 {
+//        let dependent = task.consequents[0]
+//        searchingArray.append(dependent)
+//        return dependent
+//      }
+//      else {
+//        carryBackward()
+//        return nextTask()
+//    }
+//  }
+//
+//  fileprivate func carryBackward()
+//  {
+//    searchingArray.removeLast()
+//    if searchingArray.count <= 1 {
+//      return
+//    }
+//    let task = searchingArray.last!
+//    let taskIndex = searchingArray.index(of: task)!
+//    let antecedent = searchingArray[taskIndex - 1]
+//    let indexWithinAntecedent = antecedent.consequents.index(of: task)!
+//    if antecedent.consequents.endIndex > indexWithinAntecedent {
+//      let newTask = searchingArray[indexWithinAntecedent + 1]
+//      searchingArray.append(newTask)
+//    }
+//    else {
+//      carryBackward()
+//      return
+//    }
+//}
 }
