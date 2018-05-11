@@ -53,6 +53,25 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   override func prepare() {
     contentSize = CGSize.init(width: 1500, height: 1500)
     layoutMap = [:]
+         print("Testing dependee level qty recusion")
+    var dependeeLevelDict: [Int : [TaskyNode]] = [:]
+    for task in localDatasource
+    {
+      let dependeelevelQty = dependeeLevelsQty(of: task)
+      if dependeeLevelDict[dependeelevelQty] == nil {
+        dependeeLevelDict[dependeelevelQty] = [task]
+      }
+      else {
+        var dependeeLevelRegister = dependeeLevelDict[dependeelevelQty]
+        dependeeLevelRegister!.append(task)
+        dependeeLevelDict[dependeelevelQty] = dependeeLevelRegister!
+      }
+    }
+    for register in 0..<dependeeLevelDict.count
+    {
+      print("\(register): \(dependeeLevelDict[register]!.count)")
+    }
+    
     for task in localDatasource
     {
       if let indexInDataSource = localDatasource.index(of: task)
@@ -66,9 +85,23 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       }
       
     }
-    
+
   }
+ 
   
+  fileprivate func dependeeLevelsQty(of task: TaskyNode) -> Int {
+    if task.antecedents.count > 0
+    {
+      for task in task.antecedents
+      {
+        return dependeeLevelsQty(of: task) + 1
+      }
+    }
+    else {
+    return 0
+    }
+    return 1
+  }
   
   
 }

@@ -233,14 +233,14 @@
 		953B32C8207EBB0C00B24C81 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */,
 				9569D14A20A0F89C000B7E3F /* GraphViewController.swift */,
-				9569D14E20A0FDD1000B7E3F /* PriorityGraphViewLayout.swift */,
 				95A7905320A50FC70006A48A /* GraphCollectionViewLayout.swift */,
 				95A7904F20A4CB940006A48A /* HierarchyGraphViewLayout.swift */,
 				95A7905120A4E1D00006A48A /* DependenceGraphViewLayout.swift */,
+				9569D14E20A0FDD1000B7E3F /* PriorityGraphViewLayout.swift */,
 				9569D14C20A0F8B7000B7E3F /* GraphingCollectionViewCell.swift */,
 				958661DB208FE3FB00B4E06A /* ComboViewController.swift */,
+				95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */,
 				959A7414209247FF004B253A /* MyTimer.swift */,
 				959A74162093BA4F004B253A /* DatePickerVCViewController.swift */,
 				959A74122091449A004B253A /* ChooseTaskTableViewController.swift */,
