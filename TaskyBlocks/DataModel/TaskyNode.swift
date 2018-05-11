@@ -82,6 +82,14 @@ class TaskyNode: Object
   }
   
   var priorityDirectLocalCache: Double? = 50
+  
+  override var description: String
+  {
+    get
+    {
+      return self.title
+    }
+  }
 
   
   //MARK: Realm Key Property
