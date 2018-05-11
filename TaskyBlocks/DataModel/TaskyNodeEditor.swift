@@ -53,6 +53,12 @@ class TaskyNodeEditor: NSObject {
     return returnTask
   }
   
+  func delete(task: TaskyNode) {
+    try! realm.write {
+    realm.delete(task)
+    }
+  }
+  
   //MARK: Task Editing
   func makePermanent(task: TaskyNode)
   {
