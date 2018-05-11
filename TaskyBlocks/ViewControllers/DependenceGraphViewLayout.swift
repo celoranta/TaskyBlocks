@@ -50,13 +50,13 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   override func prepare() {
     contentSize = CGSize.init(width: 1500, height: 1500)
     layoutMap = [:]
-
+    
     var dependeeModel: [[TaskyNode]] = []
     let maxDependeesTask = localDatasource.max(by: {dependeeLevelsQty(of: $0) < dependeeLevelsQty(of: $1)})
     var maxLevelsQty = 0
     if let uMaxDependeesTask = maxDependeesTask
     {
-    maxLevelsQty = dependeeLevelsQty(of: uMaxDependeesTask)
+      maxLevelsQty = dependeeLevelsQty(of: uMaxDependeesTask)
     }
     for _ in 0...maxLevelsQty
     {
@@ -65,7 +65,7 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     print("Printing test Empty Data Model \(dependeeModel)")
     for task in localDatasource {
       let dependeelevelQty = dependeeLevelsQty(of: task)
-        dependeeModel[dependeelevelQty].append(task)
+      dependeeModel[dependeelevelQty].append(task)
     }
     
     for register in 0..<dependeeModel.count {
@@ -74,6 +74,10 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     
     print("Data model: \(dependeeModel)")
     
+    var column = 0
+    var row = 0
+
+
     
     
     for task in localDatasource {
@@ -87,10 +91,9 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     }
     
     for register in 0..<dependeeModel.count {
-      
+    }
   }
-  }
-
+  
   fileprivate func dependeeLevelsQty(of task: TaskyNode) -> Int {
     if task.antecedents.count > 0 {
       for task in task.antecedents {
@@ -98,10 +101,12 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       }
     }
     else {
-    return 0
+      return 0
     }
     return 1
   }
+  
+
   
   
 }
