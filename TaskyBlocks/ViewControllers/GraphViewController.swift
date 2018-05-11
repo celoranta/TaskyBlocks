@@ -53,6 +53,10 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
       selectedTask = dataSource.last!
     }
   
+  override func viewWillAppear(_ animated: Bool) {
+    refreshGraph()
+  }
+  
   fileprivate func refreshGraph()
   {
     let layout = self.graphViewLayout as! UICollectionViewLayout

@@ -128,7 +128,7 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
           layoutMap[indexPath] = attribute
         }
         column += 1
-        if seekingArray[lastIndex].isVirginal == false {
+        if seekingArray[lastIndex].isVirginal == false || true{
           row += 1
         }
           else {
