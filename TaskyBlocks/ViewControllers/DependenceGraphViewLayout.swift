@@ -116,10 +116,7 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         column -= 1
       }
       else {
-        column += 1
-        if seekingArray[lastIndex].isVirginal {
-          row += 1
-        }
+
         let task = seekingArray[lastIndex].ungraphedConsequents.removeFirst()
         let graphingRegister = seekRegister.init(task: task)
         seekingArray.append(graphingRegister)
@@ -130,6 +127,10 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
           attribute.frame.size = self.cellPlotSize
           attribute.frame.origin = CGPoint.init(x: cellPlotSize.width * column, y: cellPlotSize.height * row)
           layoutMap[indexPath] = attribute
+        }
+        column += 1
+        if seekingArray[lastIndex].isVirginal {
+          row += 1
         }
       }
     }
