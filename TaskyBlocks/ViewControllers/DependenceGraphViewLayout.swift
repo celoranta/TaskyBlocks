@@ -10,7 +10,7 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   struct seekRegister {
     let task: TaskyNode
     var ungraphedConsequents: [TaskyNode]
-    let isVirginal: Bool = true
+    var isVirginal: Bool = true
 
     
     init(task: TaskyNode)
@@ -116,7 +116,6 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         column -= 1
       }
       else {
-
         let task = seekingArray[lastIndex].ungraphedConsequents.removeFirst()
         let graphingRegister = seekRegister.init(task: task)
         seekingArray.append(graphingRegister)
@@ -129,11 +128,15 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
           layoutMap[indexPath] = attribute
         }
         column += 1
-        if seekingArray[lastIndex].isVirginal {
+        if seekingArray[lastIndex].isVirginal == false {
           row += 1
         }
+          else {
+            seekingArray[lastIndex].isVirginal = false
+          }
+        }
       }
-    }
+    
     TaskyNodeEditor.sharedInstance.removeAsAntecedentToAll(task: self.seedTask)
     TaskyNodeEditor.sharedInstance.delete(task: self.seedTask)
     self.seedTask = nil

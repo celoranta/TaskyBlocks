@@ -14,9 +14,11 @@ protocol GraphViewLayout
   var collectionViewLayoutDelegate: CollectionViewLayoutDelegate! {get set}
 }
 
-class GraphViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, CollectionViewLayoutDelegate {
- 
+class GraphViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, CollectionViewLayoutDelegate, TaskDetailDataSource {
+
   
+ 
+  var selectedTask: TaskyNode!
   var initialCellWidth: CGFloat!
   var initialCellHeight: CGFloat!
   
@@ -47,6 +49,8 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
       
       self.initialCellWidth = 110
       self.initialCellHeight = 0.5 * initialCellWidth
+      
+      selectedTask = dataSource.last!
     }
   
   fileprivate func refreshGraph()
@@ -73,6 +77,7 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
   let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "graphingCell", for: indexPath) as! GraphingCollectionViewCell
   let task = dataSource[indexPath.row]
   cell.setupCellWith(task: task)
+
   return cell
   }
 
@@ -81,7 +86,11 @@ func numberOfSections(in collectionView: UICollectionView) -> Int
   return 1
   }
     
-
+  //MARK: - Task Detail DataSource Methods
+  
+  func returnSelectedTask() -> TaskyNode {
+    return selectedTask
+  }
     /*
     // MARK: - Navigation
 
@@ -95,6 +104,44 @@ func numberOfSections(in collectionView: UICollectionView) -> Int
   func datasource() -> [TaskyNode] {
     return Array(dataSource)
   }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+  {
+    print(indexPath)
+
+    self.selectedTask = Array(self.dataSource)[indexPath[1]]
+      print(selectedTask.title)
+      detailView(task: selectedTask)
+  }
+  
+  
+  @objc func detailView(task: TaskyNode)
+  {
+    print("Detail View Selected")
+    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    let nextVC = storyBoard.instantiateViewController(withIdentifier: "detailView") as! DetailViewController
+    nextVC.task = task
+    nextVC.taskDetailDataSource = self
+    navigationController?.pushViewController(nextVC, animated: true)
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+  {
+    switch segue.identifier
+    {
+    case "priorityToDetail":
+      print("prepare for segue to detail with \(selectedTask.title) selected was called")
+      let detailVC = segue.destination.childViewControllers.first as! DetailViewController
+      detailVC.taskDetailDataSource = self
+      detailVC.task = selectedTask
+    default:
+      return
+    }
+  }
+  
+//  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//
+//  }
   
   
   @IBAction func hierarchyBarItem(_ sender: Any) {

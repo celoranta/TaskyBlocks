@@ -11,12 +11,12 @@ class GraphingCollectionViewCell: UICollectionViewCell {
     
     
     taskLabel.text = "\(task.title)"
-    
     self.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
     
     self.layer.borderWidth = 3
     self.layer.borderColor = UIColor.black.cgColor
     self.layer.cornerRadius = 5
+    self.isUserInteractionEnabled = true
   }
 }
 
