@@ -6,7 +6,18 @@ import UIKit
 
 
 class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
-  var collectionViewLayoutDelegate: CollectionViewLayoutDelegate!
+  
+  struct seekRegister {
+    let task: TaskyNode
+    let ungraphedConsequents: [TaskyNode]
+    let virginal: Bool = true
+    
+    init(task: TaskyNode)
+    {
+      self.task = task
+      self.ungraphedConsequents = Array(task.consequents)
+    }
+  }
   
   var column: Int? = nil
   var localDatasource = Array(TaskyNodeEditor.sharedInstance.database)
@@ -17,7 +28,7 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   override var collectionViewContentSize: CGSize {
     return contentSize
   }
-  var initialCellSize = CGSize(width: 100, height: 100)
+
   var initialCellSpacing = CGFloat.init(0)
   var cellPlotSize: CGSize {
     return CGSize.init(width: initialCellSize.width + initialCellSpacing, height: initialCellSize.height + initialCellSpacing)
@@ -49,21 +60,25 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   }
   
   override func prepare() {
+    super.prepare()
     contentSize = CGSize.init(width: 1500, height: 1500)
     layoutMap = [:]
     
-    var dependeeModel: [[TaskyNode]] = []
+
     let maxDependeesTask = localDatasource.max(by: {dependeeLevelsQty(of: $0) < dependeeLevelsQty(of: $1)})
     var maxLevelsQty = 0
     if let uMaxDependeesTask = maxDependeesTask
     {
       maxLevelsQty = dependeeLevelsQty(of: uMaxDependeesTask)
     }
+    
+    var dependeeModel: [[TaskyNode]] = []
     for _ in 0...maxLevelsQty
     {
       dependeeModel.append([])
     }
     print("Printing test Empty Data Model \(dependeeModel)")
+    
     for task in localDatasource {
       let dependeelevelQty = dependeeLevelsQty(of: task)
       dependeeModel[dependeelevelQty].append(task)
@@ -86,7 +101,7 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
         let attribute = UICollectionViewLayoutAttributes.init(forCellWith: indexPath)
         attribute.frame.size = self.cellPlotSize
-        attribute.frame.origin = CGPoint.init(x: cellPlotSize.height * CGFloat(indexPath.row), y: 0)
+        attribute.frame.origin = CGPoint.init(x: cellPlotSize.width * CGFloat(indexPath.row), y: 0)
         layoutMap[indexPath] = attribute
       }
     }
@@ -107,44 +122,5 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     return 1
   }
   
-//  fileprivate func nextTask() -> TaskyNode? {
-//    if searchingArray.count == 0
-//    {
-//      return nil
-//    }
-//    guard let task = searchingArray.last
-//      else {fatalError("Task was nil")}
-//      let searchingArrayindex = Int(searchingArray.index(of: task)!)
-//      let taskIndexWithinAntecedent = searchingArray[searchingArrayindex - 1].consequents.index(of: task)
-//
-//      if task.consequents.count > 0 {
-//        let dependent = task.consequents[0]
-//        searchingArray.append(dependent)
-//        return dependent
-//      }
-//      else {
-//        carryBackward()
-//        return nextTask()
-//    }
-//  }
-//
-//  fileprivate func carryBackward()
-//  {
-//    searchingArray.removeLast()
-//    if searchingArray.count <= 1 {
-//      return
-//    }
-//    let task = searchingArray.last!
-//    let taskIndex = searchingArray.index(of: task)!
-//    let antecedent = searchingArray[taskIndex - 1]
-//    let indexWithinAntecedent = antecedent.consequents.index(of: task)!
-//    if antecedent.consequents.endIndex > indexWithinAntecedent {
-//      let newTask = searchingArray[indexWithinAntecedent + 1]
-//      searchingArray.append(newTask)
-//    }
-//    else {
-//      carryBackward()
-//      return
-//    }
-//}
+
 }

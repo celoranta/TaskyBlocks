@@ -9,9 +9,16 @@
 import UIKit
 
 protocol CollectionViewLayoutDelegate {
+  var initialCellSize: CGSize {get}
   func datasource() -> [TaskyNode]
 }
 
 class GraphCollectionViewLayout: UICollectionViewLayout {
 
+  var collectionViewLayoutDelegate: CollectionViewLayoutDelegate!
+  var initialCellSize: CGSize!
+  override func prepare() {
+    
+    initialCellSize = self.collectionViewLayoutDelegate.initialCellSize
+  }
 }

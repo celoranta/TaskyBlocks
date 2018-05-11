@@ -5,7 +5,7 @@ import UIKit
 
 
 class PriorityGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
-  var collectionViewLayoutDelegate: CollectionViewLayoutDelegate!
+
   
   var maxTaskpriorityApparent: CGFloat = 100
   var minTaskpriorityApparent: CGFloat = 0
@@ -17,14 +17,12 @@ class PriorityGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   override var collectionViewContentSize: CGSize {
     return contentSize
   }
-  var initialCellSize = CGSize(width: 150, height: 75)
+
   var initialCellSpacing = CGFloat.init(0)
   var cellPlotSize: CGSize
   {
     return CGSize.init(width: initialCellSize.width + initialCellSpacing, height: initialCellSize.height + initialCellSpacing)
   }
-  
-  //var collectionViewLayoutDelegate: CollectionViewLayoutDelegate!
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     var newAttributes: [UICollectionViewLayoutAttributes] = []
@@ -54,6 +52,7 @@ class PriorityGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   }
 
   override func prepare() {
+    super.prepare()
     contentSize.height = UIScreen.main.bounds.height
    let localDatasource = collectionViewLayoutDelegate.datasource()
     let uMaxTask = localDatasource.max(by: {$0.priorityApparent < $1.priorityApparent})

@@ -15,6 +15,16 @@ protocol GraphViewLayout
 }
 
 class GraphViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, CollectionViewLayoutDelegate {
+ 
+  
+  var initialCellWidth: CGFloat!
+  var initialCellHeight: CGFloat!
+  
+  var initialCellSize: CGSize {
+    return CGSize.init(width: initialCellWidth, height: initialCellHeight)
+
+  }
+  
 
   var dataSource: Results<TaskyNode>!
   var graphViewLayout: GraphViewLayout!
@@ -34,6 +44,9 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
       self.graphViewLayout.collectionViewLayoutDelegate = self
       
       self.toolBarOutlet.isTranslucent = true
+      
+      self.initialCellWidth = 110
+      self.initialCellHeight = 0.5 * initialCellWidth
     }
   
   fileprivate func refreshGraph()

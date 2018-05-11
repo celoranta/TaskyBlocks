@@ -5,7 +5,7 @@ import UIKit
 
 
 class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
-  var collectionViewLayoutDelegate: CollectionViewLayoutDelegate!
+ 
 
   var column = 0
   var localDatasource = Array(TaskyNodeEditor.sharedInstance.database)
@@ -15,7 +15,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   override var collectionViewContentSize: CGSize {
     return contentSize
   }
-  var initialCellSize = CGSize(width: 100, height: 100)
+ 
   var initialCellSpacing = CGFloat.init(0)
   var cellPlotSize: CGSize
   {
@@ -50,6 +50,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   }
   
   override func prepare() {
+    super.prepare()
       contentSize = CGSize.init(width: 1500, height: 1500)
     layoutMap = [:]
     for task in localDatasource
