@@ -93,34 +93,40 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     }
     print("Printing test Empty Data Model \(dependeeModel)")
     
-    for task in localDatasource {
-      let dependeelevelQty = dependeeLevelsQty(of: task)
-      dependeeModel[dependeelevelQty].append(task)
+    for taskToGraph in localDatasource {
+      let dependeelevelQty = dependeeLevelsQty(of: taskToGraph)
+      dependeeModel[dependeelevelQty].append(taskToGraph)
     }
     
     
-    for task in dependeeModel[0] {
-      TaskyNodeEditor.sharedInstance.add(task: task, asConsequentTo: seedTask)
+    for taskToGraph in dependeeModel[0] {
+      TaskyNodeEditor.sharedInstance.add(task: taskToGraph, asConsequentTo: seedTask)
     }
     seekingArray = [(seekRegister.init(task: seedTask))]
     
     
     //Graphing Process
     
-    while seekingArray.count > 0
-    {
+    while seekingArray.count > 0 {
       let lastIndex = seekingArray.endIndex - 1
+      let lastRegister = seekingArray[lastIndex]
+      let lastTask = lastRegister.task
       //remove the last task from the array if it has no consequents
       if seekingArray[lastIndex].ungraphedConsequents.count == 0 {
         seekingArray.removeLast()
         column -= 1
       }
       else {
-        let task = seekingArray[lastIndex].ungraphedConsequents.removeFirst()
-        let graphingRegister = seekRegister.init(task: task)
+        let taskToGraph = seekingArray[lastIndex].ungraphedConsequents.removeFirst()
+        let graphingRegister = seekRegister.init(task: taskToGraph)
+
         seekingArray.append(graphingRegister)
-        
-        if let indexInDataSource = localDatasource.index(of: task) {
+        if lastRegister.isVirginal
+        {
+          row -= 1
+          seekingArray[lastIndex].isVirginal = false
+        }
+        if let indexInDataSource = localDatasource.index(of: taskToGraph) {
           let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
           let attribute = UICollectionViewLayoutAttributes.init(forCellWith: indexPath)
           attribute.frame.size = self.cellPlotSize
