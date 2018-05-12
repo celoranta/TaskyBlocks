@@ -3,8 +3,6 @@
 
 import UIKit
 
-
-
 class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   
   struct seekRegister {
@@ -12,9 +10,7 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     var ungraphedConsequents: [TaskyNode]
     var isVirginal: Bool = true
 
-    
-    init(task: TaskyNode)
-    {
+    init(task: TaskyNode) {
       self.task = task
       self.ungraphedConsequents = Array(task.consequents)
     }
@@ -22,6 +18,7 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   
   var column: CGFloat = 0.0
   var row: CGFloat = 0.0
+      var vertOffset: CGFloat = 50
   var localDatasource = Array(TaskyNodeEditor.sharedInstance.database)
   var layoutMap = [IndexPath : UICollectionViewLayoutAttributes]()
   var contentSize: CGSize = CGSize.init(width: 1000, height: 1000)
@@ -51,9 +48,7 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     return layoutMap[indexPath]
   }
   
-  
-  private func center(rect1: CGSize, in rect2: CGRect) -> CGRect
-  {
+  private func center(rect1: CGSize, in rect2: CGRect) -> CGRect {
     let xOffset = 0.5 * (rect2.width - rect1.width)
     let yOffset = 0.5 * (rect2.height - rect1.height)
     let originX = rect2.origin.x + xOffset
@@ -98,19 +93,16 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       dependeeModel[dependeelevelQty].append(taskToGraph)
     }
     
-    
     for taskToGraph in dependeeModel[0] {
       TaskyNodeEditor.sharedInstance.add(task: taskToGraph, asConsequentTo: seedTask)
     }
     seekingArray = [(seekRegister.init(task: seedTask))]
-    
     
     //Graphing Process
     
     while seekingArray.count > 0 {
       let lastIndex = seekingArray.endIndex - 1
       let lastRegister = seekingArray[lastIndex]
-      let lastTask = lastRegister.task
       //remove the last task from the array if it has no consequents
       if seekingArray[lastIndex].ungraphedConsequents.count == 0 {
         seekingArray.removeLast()
@@ -121,8 +113,7 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         let graphingRegister = seekRegister.init(task: taskToGraph)
 
         seekingArray.append(graphingRegister)
-        if lastRegister.isVirginal
-        {
+        if lastRegister.isVirginal {
           row -= 1
           seekingArray[lastIndex].isVirginal = false
         }
@@ -130,11 +121,11 @@ class DependenceGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
           let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
           let attribute = UICollectionViewLayoutAttributes.init(forCellWith: indexPath)
           attribute.frame.size = self.cellPlotSize
-          attribute.frame.origin = CGPoint.init(x: cellPlotSize.width * column, y: cellPlotSize.height * row)
+          attribute.frame.origin = CGPoint.init(x: cellPlotSize.width * column, y: vertOffset + (cellPlotSize.height * row))
           layoutMap[indexPath] = attribute
         }
         column += 1
-        if seekingArray[lastIndex].isVirginal == false || true{
+        if seekingArray[lastIndex].isVirginal == false || true {
           row += 1
         }
           else {

@@ -53,6 +53,9 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   {
     super.viewDidLoad()
     
+    if let navigationController = self.navigationController {
+      navigationController.setNavigationBarHidden(false, animated: true)
+    }
     priorityDirectText.clearsOnBeginEditing = true
     priorityDirectText.keyboardType = .decimalPad
     taskTitleText.clearsOnBeginEditing = true
