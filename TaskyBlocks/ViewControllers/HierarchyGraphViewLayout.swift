@@ -6,11 +6,22 @@ import UIKit
 
 class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
  
+  struct TaskHierarchyData {
+    let task: TaskyNode
+    var previousGenerations: CGFloat = 0
+    var widthFactorRegister: CGFloat = 0
+
+
+    init(with task: TaskyNode) {
+      self.task = task
+    }
+  }
 
 
   var localDatasource = Array(TaskyNodeEditor.sharedInstance.database)
   var layoutMap = [IndexPath : UICollectionViewLayoutAttributes]()
   var contentSize: CGSize = CGSize.init(width: 1000, height: 1000)
+      var maxGenerations: CGFloat = 0
   
   override var collectionViewContentSize: CGSize {
     return contentSize
@@ -49,9 +60,23 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       contentSize = CGSize.init(width: 1500, height: 1500)
     layoutMap = [:]
     
+    var hierarchyDataSet: [TaskHierarchyData] = []
     
     for task in localDatasource {
       print("\(task.title) has \(countOlderGenerations(of: task)) previous generations")
+      var dataPoint = TaskHierarchyData.init(with: task)
+      dataPoint.previousGenerations = CGFloat(countOlderGenerations(of: task))
+      dataPoint.widthFactorRegister = 1
+      hierarchyDataSet.append(dataPoint)
+      self.maxGenerations = dataPoint.previousGenerations > self.maxGenerations ? dataPoint.previousGenerations : self.maxGenerations
+    }
+    
+    print(hierarchyDataSet)
+    
+    for i in 0...Int(maxGenerations) {
+    for dataSet in hierarchyDataSet.filter({Int($0.previousGenerations) == i}) {
+      
+      }
     }
     
     for task in localDatasource {
