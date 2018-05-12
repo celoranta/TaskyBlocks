@@ -7,7 +7,7 @@ import UIKit
 class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
  
 
-  var column = 0
+
   var localDatasource = Array(TaskyNodeEditor.sharedInstance.database)
   var layoutMap = [IndexPath : UICollectionViewLayoutAttributes]()
   var contentSize: CGSize = CGSize.init(width: 1000, height: 1000)
@@ -48,6 +48,12 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     super.prepare()
       contentSize = CGSize.init(width: 1500, height: 1500)
     layoutMap = [:]
+    
+    
+    for task in localDatasource {
+      print("\(task.title) has \(countOlderGenerations(of: task)) previous generations")
+    }
+    
     for task in localDatasource {
       if let indexInDataSource = localDatasource.index(of: task) {
       let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
@@ -57,5 +63,12 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         layoutMap[indexPath] = attribute
       }
     }
+  }
+  
+  fileprivate func countOlderGenerations(of task: TaskyNode) -> Int {
+    for parent in task.parents {
+      return 1 + countOlderGenerations(of: parent)
+    }
+    return 0
   }
 }
