@@ -5,28 +5,28 @@ import UIKit
 
 
 class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
- 
+  
   struct TaskHierarchyData {
     let task: TaskyNode
     var previousGenerations: CGFloat = 0
     var widthFactorRegister: CGFloat = 0
-
-
+    
+    
     init(with task: TaskyNode) {
       self.task = task
     }
   }
-
-
+  
+  
   var localDatasource = Array(TaskyNodeEditor.sharedInstance.database)
   var layoutMap = [IndexPath : UICollectionViewLayoutAttributes]()
   var contentSize: CGSize = CGSize.init(width: 1000, height: 1000)
-      var maxGenerations: CGFloat = 0
+  var maxGenerations: CGFloat = 0
   
   override var collectionViewContentSize: CGSize {
     return contentSize
   }
- 
+  
   var initialCellSpacing = CGFloat.init(0)
   var cellPlotSize: CGSize {
     return CGSize.init(width: initialCellSize.width + initialCellSpacing, height: initialCellSize.height + initialCellSpacing)
@@ -57,7 +57,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   
   override func prepare() {
     super.prepare()
-      contentSize = CGSize.init(width: 1500, height: 1500)
+    contentSize = CGSize.init(width: 1500, height: 1500)
     layoutMap = [:]
     
     var hierarchyDataSet: [TaskHierarchyData] = []
@@ -72,16 +72,18 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     }
     
     print(hierarchyDataSet)
-    
-    for i in 0...Int(maxGenerations) {
-    for dataSet in hierarchyDataSet.filter({Int($0.previousGenerations) == i}) {
-      
+    var variableName: [[TaskHierarchyData]] = [[]]
+    for i in stride(from: Int(maxGenerations), to: 0, by: -1)  {
+      print(i - 1)
+      var anotherVarName: [TaskHierarchyData] = []
+      for dataSet in hierarchyDataSet.filter({Int($0.previousGenerations) == i - 1}) {
+        
       }
     }
     
     for task in localDatasource {
       if let indexInDataSource = localDatasource.index(of: task) {
-      let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
+        let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
         let attribute = UICollectionViewLayoutAttributes.init(forCellWith: indexPath)
         attribute.frame.size = self.cellPlotSize
         attribute.frame.origin = CGPoint.init(x: 0, y: cellPlotSize.height * CGFloat(indexPath.row))
