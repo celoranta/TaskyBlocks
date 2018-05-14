@@ -9,9 +9,15 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   struct TaskHierarchyData {
     let task: TaskyNode
     var previousGenerations: CGFloat = 0
-    var widthFactorRegister: CGFloat = 0
-    
-    
+    var block: UIView? = nil
+    var chunk: UIView? = nil
+    var graphView: UIView? {
+      get {
+        if self.chunk != nil {return chunk}
+        else if self.block != nil {return block}
+        else {return nil}
+      }
+    }
     init(with task: TaskyNode) {
       self.task = task
     }
@@ -66,18 +72,27 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       print("\(task.title) has \(countOlderGenerations(of: task)) previous generations")
       var dataPoint = TaskHierarchyData.init(with: task)
       dataPoint.previousGenerations = CGFloat(countOlderGenerations(of: task))
-      dataPoint.widthFactorRegister = 1
       hierarchyDataSet.append(dataPoint)
       self.maxGenerations = dataPoint.previousGenerations > self.maxGenerations ? dataPoint.previousGenerations : self.maxGenerations
     }
     
     print(hierarchyDataSet)
-    var variableName: [[TaskHierarchyData]] = [[]]
+    var dataByGeneration: [[TaskHierarchyData]] = [[]]
     for i in stride(from: Int(maxGenerations), to: 0, by: -1)  {
       print(i - 1)
-      var anotherVarName: [TaskHierarchyData] = []
-      for dataSet in hierarchyDataSet.filter({Int($0.previousGenerations) == i - 1}) {
-        
+      var generationData: [TaskHierarchyData] = []
+      let generation = hierarchyDataSet.filter({Int($0.previousGenerations) == i - 1})
+      let generationCount = generation.count
+      for datapointIndex in 0..<generationCount {
+        var dataPoint = generation[datapointIndex]
+        let defaultSize = initialCellSize
+        let defaultOrigin = CGPoint.zero
+        let defaultFrame = CGRect.init(origin: defaultOrigin, size: defaultSize!)
+        dataPoint.block = UIView.init(frame: defaultFrame)
+        if dataPoint.task.children.count > 0
+        {
+          
+        }
       }
     }
     
@@ -98,4 +113,5 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     }
     return 0
   }
+
 }
