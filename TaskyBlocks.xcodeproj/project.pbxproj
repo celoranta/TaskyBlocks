@@ -41,6 +41,7 @@
 		95B1454020865D6700467D36 /* FinalPriorityCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453F20865D6700467D36 /* FinalPriorityCollectionViewLayout.swift */; };
 		95B1454220865E8400467D36 /* FinalHierarchyCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1454120865E8400467D36 /* FinalHierarchyCollectionViewLayout.swift */; };
 		95B145442086619200467D36 /* FinalHierarchyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B145432086619200467D36 /* FinalHierarchyViewController.swift */; };
+		95B866FB20ACB6A70017B5C5 /* HierarchyGraphingUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B866FA20ACB6A70017B5C5 /* HierarchyGraphingUnit.swift */; };
 		95BE0D2F2076027A0097937F /* TaskTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BE0D2E207602790097937F /* TaskTimer.swift */; };
 		95D05A7820789D220053593E /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D05A7720789D220053593E /* DetailTableViewCell.swift */; };
 		95DC88D52077489B00E346DB /* TaskyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88D42077489B00E346DB /* TaskyNode.swift */; };
@@ -112,6 +113,7 @@
 		95B1453F20865D6700467D36 /* FinalPriorityCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalPriorityCollectionViewLayout.swift; sourceTree = "<group>"; };
 		95B1454120865E8400467D36 /* FinalHierarchyCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalHierarchyCollectionViewLayout.swift; sourceTree = "<group>"; };
 		95B145432086619200467D36 /* FinalHierarchyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalHierarchyViewController.swift; sourceTree = "<group>"; };
+		95B866FA20ACB6A70017B5C5 /* HierarchyGraphingUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchyGraphingUnit.swift; sourceTree = "<group>"; };
 		95BE0D2E207602790097937F /* TaskTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTimer.swift; sourceTree = "<group>"; };
 		95D05A7720789D220053593E /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		95DC88D42077489B00E346DB /* TaskyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyNode.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				9569D14A20A0F89C000B7E3F /* GraphViewController.swift */,
 				95A7905320A50FC70006A48A /* GraphCollectionViewLayout.swift */,
 				95A7904F20A4CB940006A48A /* HierarchyGraphViewLayout.swift */,
+				95B866FA20ACB6A70017B5C5 /* HierarchyGraphingUnit.swift */,
 				95A7905120A4E1D00006A48A /* DependenceGraphViewLayout.swift */,
 				9569D14E20A0FDD1000B7E3F /* PriorityGraphViewLayout.swift */,
 				9569D14C20A0F8B7000B7E3F /* GraphingCollectionViewCell.swift */,
@@ -606,6 +609,7 @@
 				9569D14B20A0F89C000B7E3F /* GraphViewController.swift in Sources */,
 				95BE0D2F2076027A0097937F /* TaskTimer.swift in Sources */,
 				95DC88D52077489B00E346DB /* TaskyNode.swift in Sources */,
+				95B866FB20ACB6A70017B5C5 /* HierarchyGraphingUnit.swift in Sources */,
 				95B1454220865E8400467D36 /* FinalHierarchyCollectionViewLayout.swift in Sources */,
 				95B1453A20865CE700467D36 /* FinalDependenceViewController.swift in Sources */,
 				959A7415209247FF004B253A /* MyTimer.swift in Sources */,
