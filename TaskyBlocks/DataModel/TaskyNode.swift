@@ -18,7 +18,7 @@ class TaskyNode: Object
   //MARK: Realm ignored property list
   override static func ignoredProperties() -> [String]
   {
-    return ["priorityInherited", "priorityConsequent", "isPrimal", "isActionable", "priorityApparent"]
+    return ["priorityInherited", "priorityConsequent", "isPrimal", "isActionable", "priorityApparent", "hierarchyWidthUnits"]
   }
 
   //MARK: Realm Value Properties
@@ -81,6 +81,15 @@ class TaskyNode: Object
      return  priorityOverride.value ?? priority
   }
   
+  var hierarchyGraphUnits: CGFloat {
+    var units: CGFloat = 0.0
+    switch self.children.count {
+    case 0, 1: units = 1.0
+    default: units = CGFloat(self.children.count) - CGFloat(0.8)
+    }
+    return units
+  }
+  
   var priorityDirectLocalCache: Double? = 50
   
   override var description: String
@@ -90,6 +99,7 @@ class TaskyNode: Object
       return self.title
     }
   }
+
 
   
   //MARK: Realm Key Property
