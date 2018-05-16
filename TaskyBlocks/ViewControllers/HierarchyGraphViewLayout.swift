@@ -18,6 +18,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         else {return nil}
       }
     }
+    var graphViewOffset: CGFloat = 0
     init(with task: TaskyNode) {
       self.task = task
     }
@@ -89,23 +90,49 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         let defaultOrigin = CGPoint.zero
         let defaultFrame = CGRect.init(origin: defaultOrigin, size: defaultSize!)
         dataPoint.block = UIView.init(frame: defaultFrame)
-        if dataPoint.task.children.count > 0
-        {
+        if dataPoint.task.children.count > 0 {
+
+          var chunk: UIView? = nil
+          var childArray: [TaskHierarchyData] = []
+          print("Parent Task \(dataPoint.task.title) has children:")
+          for child in dataPoint.task.children {
+            let childDataPoint = hierarchyDataSet.first(where: {$0.task == child})!
+            print(childDataPoint.task.title)
+            childArray.append(childDataPoint)
+          }
+          let maxChildChunkHeight = (childArray.max(by: {$0.graphView!.frame.height > $1.graphView!.frame.height})!.graphView!.frame.height)
+          let totalChildChunkWidth = childArray.reduce(0) {$0 + $1.graphView!.frame.width}
+          var chunkSize = CGSize.init(width: totalChildChunkWidth, height: maxChildChunkHeight + defaultSize!.height)
+          let chunkFrame = CGRect.init(origin: CGPoint.zero, size: chunkSize)
+          chunk = UIView.init(frame: chunkFrame)
+
           
+
+            
+//            if let graphingItem = childDataPoint.graphView
+//            {
+//              maxChildChunkHeight = graphingItem.frame.height > maxChildChunkHeight ? graphingItem.frame.height : maxChildChunkHeight
+//              totalChildChunkWidth += graphingItem.frame.width
+//              childDataPoint.graphViewOffset = xOffset
+//
+//              xOffset += childDataPoint.graphView!.frame.width
+//            }
+          }
+        }
+        
+        
+        for task in localDatasource {
+          if let indexInDataSource = localDatasource.index(of: task) {
+            let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
+            let attribute = UICollectionViewLayoutAttributes.init(forCellWith: indexPath)
+            attribute.frame.size = self.cellPlotSize
+            attribute.frame.origin = CGPoint.init(x: 0, y: cellPlotSize.height * CGFloat(indexPath.row))
+            layoutMap[indexPath] = attribute
+          }
         }
       }
     }
-    
-    for task in localDatasource {
-      if let indexInDataSource = localDatasource.index(of: task) {
-        let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
-        let attribute = UICollectionViewLayoutAttributes.init(forCellWith: indexPath)
-        attribute.frame.size = self.cellPlotSize
-        attribute.frame.origin = CGPoint.init(x: 0, y: cellPlotSize.height * CGFloat(indexPath.row))
-        layoutMap[indexPath] = attribute
-      }
-    }
-  }
+  
   
   fileprivate func countOlderGenerations(of task: TaskyNode) -> Int {
     for parent in task.parents {
@@ -113,5 +140,5 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     }
     return 0
   }
-
+  
 }
