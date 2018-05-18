@@ -28,6 +28,7 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
   
   @IBOutlet weak var collectionView: UICollectionView!
   @IBOutlet weak var toolBarOutlet: UIToolbar!
+  @IBOutlet weak var settingsBarItem: UIBarButtonItem!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -39,7 +40,6 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     self.graphViewLayout.collectionViewLayoutDelegate = self
 
-
     self.toolBarOutlet.isTranslucent = true
     
     self.initialCellWidth = 110
@@ -49,10 +49,10 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    if let navigationController = self.navigationController
-    {
-    navigationController.setNavigationBarHidden(true, animated: true)
-    }
+//    if let navigationController = self.navigationController
+//    {
+//    navigationController.setNavigationBarHidden(true, animated: true)
+//    }
     refreshGraph()
   }
   
@@ -114,6 +114,14 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
     navigationController?.pushViewController(nextVC, animated: true)
   }
   
+  @objc func pushToSettings(_ sender: UIBarButtonItem)
+  {
+    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
+    self.navigationController?.pushViewController(settingsViewController, animated: true)
+  }
+  
+  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     switch segue.identifier {
     case "priorityToDetail":
@@ -152,5 +160,10 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
     collectionView.dataSource = self
     self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)
     refreshGraph()
+  }
+  
+  @IBAction func SettingsBarItem(_ sender: Any) {
+    print("Settings Pressed")
+    
   }
 }

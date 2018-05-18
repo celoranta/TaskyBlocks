@@ -62,7 +62,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DSe-O8-uz1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5556" y="-2087.4062968515746"/>
+            <point key="canvasLocation" x="2521" y="-1371"/>
         </scene>
         <!--Detail-->
         <scene sceneID="bM6-0x-0wJ">
@@ -378,7 +378,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="4852" y="-2087.4062968515746"/>
+            <point key="canvasLocation" x="1582" y="-1371"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="OQ0-Mq-RqQ">
@@ -488,6 +488,12 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem systemItem="flexibleSpace" id="Xj9-84-NFw"/>
+                                    <barButtonItem systemItem="flexibleSpace" id="okx-zx-8tl"/>
+                                    <barButtonItem title="Settings" id="R8N-y6-bFK">
+                                        <connections>
+                                            <action selector="SettingsBarItem:" destination="csc-fa-nUG" id="sQ3-mL-Q7c"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -503,9 +509,16 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ejJ-5F-4TZ"/>
                     </view>
-                    <navigationItem key="navigationItem" id="9yI-YT-SH5"/>
+                    <navigationItem key="navigationItem" id="9yI-YT-SH5">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="zl4-aj-3Hc">
+                            <connections>
+                                <segue destination="ZMA-pq-R48" kind="show" id="Lqp-xB-YTS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="e5p-Rz-hFt" id="ySj-iJ-SeN"/>
+                        <outlet property="settingsBarItem" destination="R8N-y6-bFK" id="6WD-aY-NH1"/>
                         <outlet property="toolBarOutlet" destination="JuE-Tj-vL1" id="r8h-zt-JwV"/>
                     </connections>
                 </viewController>
@@ -858,7 +871,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleAspectFit" restorationIdentifier="mainTimer" translatesAutoresizingMaskIntoConstraints="NO" id="YJD-hv-odi" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
-                                <rect key="frame" x="42.5" y="99.5" width="291" height="290.5"/>
+                                <rect key="frame" x="64.5" y="143.5" width="247" height="246.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="sprint"/>
                                 <gestureRecognizers/>
@@ -887,7 +900,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleAspectFit" restorationIdentifier="leftTimer" translatesAutoresizingMaskIntoConstraints="NO" id="ugG-8u-qM5" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
-                                <rect key="frame" x="12.5" y="373" width="95" height="95"/>
+                                <rect key="frame" x="34.5" y="373" width="95" height="95"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leftTimer"/>
                                 <constraints>
@@ -913,7 +926,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleAspectFit" restorationIdentifier="rightTimer" translatesAutoresizingMaskIntoConstraints="NO" id="sC4-Q2-P76" customClass="AppusCircleTimer" customModule="AppusCircleTimer">
-                                <rect key="frame" x="268.5" y="373" width="95" height="95"/>
+                                <rect key="frame" x="246.5" y="373" width="95" height="95"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="rightTimer"/>
                                 <userDefinedRuntimeAttributes>
@@ -975,19 +988,19 @@
                                 </connections>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="890-1U-wj5">
-                                <rect key="frame" x="16" y="50" width="343" height="27.5"/>
+                                <rect key="frame" x="16" y="94" width="343" height="27.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="leftTimerLabel" text="Task" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ztg-W9-Huu">
-                                <rect key="frame" x="43" y="476" width="35" height="21"/>
+                                <rect key="frame" x="65" y="476" width="35" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="rightTimerLabel" text="Project" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="piN-dU-MuN">
-                                <rect key="frame" x="289" y="476" width="55" height="21"/>
+                                <rect key="frame" x="267" y="476" width="55" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1061,7 +1074,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="6452" y="-2087.4062968515746"/>
+            <point key="canvasLocation" x="3370" y="-2104"/>
         </scene>
         <!--Choose Task Table View Controller-->
         <scene sceneID="txQ-b5-UZg">
@@ -1089,7 +1102,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NKW-rB-grt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7168.8000000000002" y="-2087.4062968515746"/>
+            <point key="canvasLocation" x="4087" y="-2104"/>
         </scene>
         <!--Final Hierarchy View Controller-->
         <scene sceneID="O9Q-ZA-OtI">
@@ -1242,4 +1255,7 @@
             <point key="canvasLocation" x="1581.5999999999999" y="-2103.5982008995502"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Lqp-xB-YTS"/>
+    </inferredMetricsTieBreakers>
 </document>
