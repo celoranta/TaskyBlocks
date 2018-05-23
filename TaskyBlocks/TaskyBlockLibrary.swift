@@ -14,43 +14,42 @@ enum Direction: String
 case up = "up", down = "down"
 }
 
-enum colorString: String
-{
-  case green = "#cfffc9"
-  case red = "#fad3d3"
-  case yellow = "#ffffa2"
-  case purple = "dbd0f0"
-}
+//enum colorString: String
+//{
+//  case green = "#cfffc9"
+//  case red = "#fad3d3"
+//  case yellow = "#ffffa2"
+//  case purple = "dbd0f0"
+//}
 
 class TaskyBlockLibrary
 {
   class func calculateBlockColorFrom(task: TaskyNode) -> (UIColor)
   {
-    var blockColorString: String!
+   // var blockColorString: String!
     var blockColor: UIColor!
     let priority = task.priorityApparent
     if task.isPermanent == 1
     {
-      blockColorString = colorString.purple.rawValue
+      blockColor = UIColor.taskyPurple()
     }
     else
     {
       switch priority
       {
       case 66.00...100.00:
-        blockColorString = colorString.red.rawValue
+        blockColor = UIColor.taskyRed()
       case 33.00..<66.00:
-        blockColorString = colorString.yellow.rawValue
+        blockColor = UIColor.taskyYellow()
       case 0.00..<33.00:
-        blockColorString = colorString.green.rawValue
+        blockColor = UIColor.taskyGreen()
       default: blockColor = UIColor.black
       }
     }
-    blockColor = UIColor.hex(hexString: blockColorString)
+   // blockColor = UIColor.hex(hexString: blockColorString)
     //blockColor = hexStringToUIColor(hex: blockColorString)
     return blockColor
   }
-
 }
 
 typealias TaskRecord = (taskId: String, priority: Double)

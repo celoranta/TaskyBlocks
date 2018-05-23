@@ -29,4 +29,29 @@ extension UIColor {
       alpha: CGFloat(1.0)
     )
   }
+  
+  class func taskyGreen() -> UIColor {
+    return hex(hexString: colorString.taskyGreen.rawValue)
+  }
+  
+  class func taskyRed() -> UIColor {
+    return hex(hexString: colorString.taskyRed.rawValue)
+  }
+  
+  class func taskyYellow() -> UIColor {
+    return hex(hexString: colorString.taskyYellow.rawValue)
+  }
+  
+  class func taskyPurple() -> UIColor {
+    return hex(hexString: colorString.taskyPurple.rawValue)
+  }
+  
+  enum colorString: String
+  {
+    case taskyGreen = "#cfffc9"
+    case taskyRed = "#fad3d3"
+    case taskyYellow = "#ffffa2"
+    case taskyPurple = "dbd0f0"
+  }
+  
 }

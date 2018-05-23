@@ -210,7 +210,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     case true:
       self.cellTitleLabel.text = "<add new>"
       self.cellTitleLabel.textColor = UIColor.gray
-      cell.backgroundColor = UIColor.hex(hexString: colorString.purple.rawValue) // TaskyBlockLibrary.hexStringToUIColor(hex: colorString.purple.rawValue)
+      cell.backgroundColor = UIColor.taskyPurple()
     }
     return cell
   }
