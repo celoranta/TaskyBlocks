@@ -60,5 +60,11 @@ class FinalPriorityViewController: MasterGraphingViewController
       print("reloading collection view data:")
     collectionView.reloadData()
   }
+  
+  enum Direction: String
+  {
+    case up = "up", down = "down"
+  }
+
 }
 

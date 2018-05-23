@@ -205,7 +205,7 @@ class MasterGraphingViewController: UIViewController, UICollectionViewDelegate, 
     case false:
       let task = currentDataModel[indexPath.row]
       self.cellTitleLabel.text = task.title
-      cell.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
+      cell.backgroundColor = task.calculateBlockColor()
       
     case true:
       self.cellTitleLabel.text = "<add new>"

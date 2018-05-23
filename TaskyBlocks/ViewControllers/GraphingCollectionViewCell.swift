@@ -11,7 +11,7 @@ class GraphingCollectionViewCell: UICollectionViewCell {
     
     
     taskLabel.text = "\(task.title)"
-    self.backgroundColor = TaskyBlockLibrary.calculateBlockColorFrom(task: task)
+    self.backgroundColor = task.calculateBlockColor()
     
     self.layer.borderWidth = 3
     self.layer.borderColor = UIColor.black.cgColor

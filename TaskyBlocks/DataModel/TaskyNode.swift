@@ -171,8 +171,44 @@ class TaskyNode: Object
     }
     return returnString
   }
+  
+  func calculateBlockColor() -> (UIColor)
+  {
+    // var blockColorString: String!
+    var blockColor: UIColor!
+    let priority = self.priorityApparent
+    if self.isPermanent == 1
+    {
+      blockColor = UIColor.taskyPurple()
+    }
+    else
+    {
+      switch priority
+      {
+      case 66.00...100.00:
+        blockColor = UIColor.taskyRed()
+      case 33.00..<66.00:
+        blockColor = UIColor.taskyYellow()
+      case 0.00..<33.00:
+        blockColor = UIColor.taskyGreen()
+      default: blockColor = UIColor.black
+      }
+    }
+    // blockColor = UIColor.hex(hexString: blockColorString)
+    //blockColor = hexStringToUIColor(hex: blockColorString)
+    return blockColor
+  }
 
 }
+
+typealias TaskRecord = (taskId: String, priority: Double)
+
+// MARK: Simple (original) relation enum
+enum RelationType
+{
+  case parents, children, antecedents, consequents
+}
+
 
 
 
