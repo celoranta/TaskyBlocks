@@ -90,8 +90,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       hierarchyMap.append(HierarchyGraphingUnit.init(with: task, defaultCellSize: self.initialCellSize))
     }
     
-
-    
     for task in localDatasource {
       if let indexInDataSource = localDatasource.index(of: task) {
         let indexPath = IndexPath.init(row: indexInDataSource, section: 0)

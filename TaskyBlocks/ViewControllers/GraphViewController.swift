@@ -89,6 +89,7 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
   
   //MARK: - Task Detail DataSource Methods
   
+
   func returnSelectedTask() -> TaskyNode {
     return selectedTask
   }

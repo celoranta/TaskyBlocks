@@ -100,7 +100,6 @@ class TaskyNode: Object
     }
   }
 
-
   
   //MARK: Realm Key Property
   override static func primaryKey() -> String?
