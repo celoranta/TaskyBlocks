@@ -492,6 +492,7 @@
                                     <barButtonItem title="Settings" id="R8N-y6-bFK">
                                         <connections>
                                             <action selector="SettingsBarItem:" destination="csc-fa-nUG" id="sQ3-mL-Q7c"/>
+                                            <segue destination="YJd-7i-fax" kind="show" id="wcZ-Dt-aoZ"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -1134,25 +1135,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Vj-MJ-fJu">
-                                <rect key="frame" x="308" y="61" width="51" height="31"/>
+                                <rect key="frame" x="308" y="105" width="51" height="31"/>
                                 <connections>
                                     <action selector="randomTasksSwitchThrown:" destination="YJd-7i-fax" eventType="valueChanged" id="Hcl-H8-Ip8"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Tasks are Random" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kd7-5d-ZLc">
-                                <rect key="frame" x="16" y="66" width="179" height="21"/>
+                                <rect key="frame" x="16" y="110" width="179" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Factory Reset" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="07R-U2-n1e">
-                                <rect key="frame" x="17" y="105" width="106" height="21"/>
+                                <rect key="frame" x="17" y="149" width="106" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Df3-p5-afX">
-                                <rect key="frame" x="318" y="100" width="39" height="30"/>
+                                <rect key="frame" x="318" y="144" width="39" height="30"/>
                                 <state key="normal" title="Reset"/>
                                 <connections>
                                     <action selector="factoryResetButton:" destination="YJd-7i-fax" eventType="touchUpInside" id="9lj-jq-0Wv"/>
@@ -1178,7 +1179,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ty-Up-TZQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3913" y="-3575"/>
+            <point key="canvasLocation" x="3369" y="-1371"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="bOI-vA-fi1">
