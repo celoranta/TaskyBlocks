@@ -11,8 +11,6 @@ import AppusCircleTimer
 import RealmSwift
 
 
-
-
 class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTask {
 
   enum TimerState

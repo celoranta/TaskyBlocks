@@ -6,46 +6,17 @@ import UIKit
 
 class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   
-//  struct TaskHierarchyData {
-//    let task: TaskyNode
-//    var generation: CGFloat = 0
-//    var blockWidth: CGFloat {
-//      get {
-//        var width: CGFloat
-//        if !self.children.isEmpty {
-//          for child in children {
-//            width += child.blockWidth
-//          }
-//        }
-//        else {
-//          width = self.collectionViewLayoutDelegate.initialCellSize.width
-//        }
-//        return 0.0
-//      }
-//    }
-//    var block: UIView? = nil
-//    var chunk: UIView? = nil
-//    var graphView: UIView? {
-//      get {
-//        if self.chunk != nil {return chunk}
-//        else if self.block != nil {return block}
-//        else {return nil}
-//      }
-//    }
-//    var graphViewOffset: CGFloat = 0
-//    init(with task: TaskyNode) {
-//      self.task = task
-//    }
-//    var children: [TaskHierarchyData] = []
-//    var parents: [TaskHierarchyData] = []
-//  }
+  struct TaskyBlock {
+    let task: TaskyNode
+    var widthFactor: CGFloat
+    var siblingIndex: CGFloat
+  }
   
-  var localDatasource = Array(TaskyNodeEditor.sharedInstance.database)
-  var hierarchyMap: [HierarchyGraphingUnit] = []
+  
+  var generationMap = [CGFloat : [TaskyBlock]]()
   var layoutMap = [IndexPath : UICollectionViewLayoutAttributes]()
   var contentSize: CGSize = CGSize.init(width: 1000, height: 1000)
   var maxGenerations: CGFloat = 0
-  
   override var collectionViewContentSize: CGSize {
     return contentSize
   }
@@ -80,50 +51,94 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   
   override func prepare() {
     super.prepare()
-    contentSize = CGSize.init(width: 1500, height: 1500)
-    layoutMap = [:]
-    
-    //Create tree of hierarchyGraphingUnits
-  
-    for task in localDatasource
-    {
-      hierarchyMap.append(HierarchyGraphingUnit.init(with: task, defaultCellSize: self.initialCellSize))
-    }
-    
+    let localDatasource = collectionViewLayoutDelegate.datasource()
+    generationMap = [:]
     for task in localDatasource {
-      if let indexInDataSource = localDatasource.index(of: task) {
-        let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
-        let attribute = UICollectionViewLayoutAttributes.init(forCellWith: indexPath)
-        attribute.frame.size = self.cellPlotSize
-        attribute.frame.origin = CGPoint.init(x: 0, y: cellPlotSize.height * CGFloat(indexPath.row))
-        layoutMap[indexPath] = attribute
+      var index: CGFloat
+      if task.parents.count > 0 {
+      index = CGFloat(task.parents[0].index(ofAccessibilityElement: task))
+      }
+      else {
+        index = 0.0
+      }
+      let block = TaskyBlock.init(task: task, widthFactor: max(self.countChildlessDescendants(of: task), CGFloat(1)), siblingIndex: index)
+      let generation = self.countOlderGenerations(of: task)
+      if !generationMap.keys.contains(generation)
+      {
+        generationMap[generation] = [TaskyBlock]()
+      }
+      guard generationMap[generation] != nil
+        else {fatalError("Fatal Error: Empty Generation Entry Not Created")}
+      generationMap[generation]!.append(block)
+    }
+    // Should replace the following with mapping function
+    
+    var maxGenWidth: CGFloat = 0
+    for generation in generationMap
+    {
+      var genWidth:CGFloat = 0
+      for entry in generation.value
+      {
+        genWidth += entry.widthFactor
+      }
+      if genWidth >= maxGenWidth
+      {
+        maxGenWidth = genWidth
+      }
+    }
+    var gensAtMaxWidth: [CGFloat] = []
+    var genWidth: CGFloat = 0.0
+    for generation in generationMap
+    {
+      for entry in generation.value
+      {
+        genWidth += entry.widthFactor
+      }
+      if genWidth == maxGenWidth
+      {
+        gensAtMaxWidth.append(generation.key)
+      }
+      genWidth = 0.0
+    }
+    contentSize.width = maxGenWidth * self.cellPlotSize.width
+    contentSize.height = CGFloat(generationMap.count) * self.cellPlotSize.height
+    print("MaxGenWidth: \(maxGenWidth)")
+    print("Gens at MaxGenWidth: \(gensAtMaxWidth)")
+    print("generation map: \n \(generationMap)")
+    
+    for generation in generationMap {
+      for block in generation.value {
+        if let indexInDataSource = localDatasource.index(of: block.task) {
+          let indexPath = IndexPath.init(row: indexInDataSource, section: 0)
+          let attribute = UICollectionViewLayoutAttributes.init(forCellWith: indexPath)
+          attribute.frame.size = self.cellPlotSize
+          attribute.frame.origin = CGPoint.init(x: cellPlotSize.width * block.siblingIndex, y: (cellPlotSize.height * generation.key))
+          layoutMap[indexPath] = attribute
+        }
       }
     }
   }
+  
+  fileprivate func countOlderGenerations(of task: TaskyNode) -> CGFloat {
+    for parent in task.parents {
+      return 1.0 + countOlderGenerations(of: parent)
+    }
+    return 0
+  }
+  
+  fileprivate func countChildlessDescendants(of task: TaskyNode) -> CGFloat {
+    var childCount: CGFloat = 0.0
+    for child in task.children
+    {
+      if child.children.count == 0 {
+        childCount += CGFloat(1.0)
+      }
+      else {
+        childCount += countChildlessDescendants(of: child)
+      }
+    }
+    return childCount + CGFloat(1)
+  }
 }
 
-//      for datapointIndex in 0..<generationCount {
-//        var dataPoint = generation[datapointIndex]
-//        let defaultSize = initialCellSize
-//        let defaultOrigin = CGPoint.zero
-//        let defaultFrame = CGRect.init(origin: defaultOrigin, size: defaultSize!)
-//        dataPoint.block = UIView.init(frame: defaultFrame)
-//        if dataPoint.task.children.count > 0 {
-//          var chunk: UIView? = nil
-//          var childArray: [TaskHierarchyData] = []
-//          print("Parent Task \(dataPoint.task.title) has children:")
-//          for child in dataPoint.task.children {
-//            let childDataPoint = hierarchyDataSet.first(where: {$0.task == child})!
-//            print(childDataPoint.task.title)
-//            childArray.append(childDataPoint)
-//          }
-//          let maxChildChunkHeight = (childArray.max(by: {$0.graphView!.frame.height > $1.graphView!.frame.height})!.graphView!.frame.height)
-//          let totalChildChunkWidth = childArray.reduce(0) {$0 + $1.graphView!.frame.width}
-//          var chunkSize = CGSize.init(width: totalChildChunkWidth, height: maxChildChunkHeight + defaultSize!.height)
-//          let chunkFrame = CGRect.init(origin: CGPoint.zero, size: chunkSize)
-//          chunk = UIView.init(frame: chunkFrame)
-//
-//
-//          }
-//        }
-//
+
