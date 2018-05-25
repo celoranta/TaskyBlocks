@@ -95,7 +95,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       
       for nodeIndex in 0..<generationNodeCount {
         let task = generationMap[gen]![nodeIndex].task
-        generationMap[gen]![nodeIndex].widthFactor = countChildlessDescendants(of: task)
+        generationMap[gen]![nodeIndex].widthFactor = countChildlessDescendants(of: task) >= 1 ? countChildlessDescendants(of: task) : 1
       }
     }
     for x in stride(from: Int(generationQty - 1), to: 0, by: -1) {
@@ -133,7 +133,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       }
     }
     contentSize.height = CGFloat(generationMap.count) * cellPlotSize.height
-
+    print("GenerationMap: \(generationMap)")
   }
   
   fileprivate func countOlderGenerations(of task: TaskyNode) -> CGFloat {
@@ -183,7 +183,9 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     }
     return count
   }
+
+  }
   
-}
+
 
 
