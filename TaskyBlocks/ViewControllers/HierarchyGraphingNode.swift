@@ -22,7 +22,11 @@ class HierarchyGraphingNode: NSObject {
   
   var originXFactor: CGFloat = 0.0
   var originYFactor: CGFloat = 0.0
+  var originXOffsetFromParent: CGFloat = 0.0
+  
   var widthFactor: CGFloat = 1
+  var width: CGFloat = 0
+
   
   override var description: String {
     var descriptionString = ""
@@ -41,13 +45,23 @@ class HierarchyGraphingNode: NSObject {
     for child in children {
       descriptionString.append("\n-\(child.task.title)")
     }
-   // descriptionString.append("\nSibling paths:")
+    descriptionString.append("\nSibling paths:")
+    if siblingPaths.count == 0 {
+      descriptionString.append("<none>")
+    }
+    else {
+      for path in siblingPaths {
+        descriptionString.append("\n-\(path.parent!.task.title): \(path.siblingIndex)")
+      }
+    }
+
+
 
    //   descriptionString.append("\n-\(siblingPaths)")
     descriptionString.append("\nOrigin X Factor: \(originXFactor)")
         descriptionString.append("\nOrigin Y Factor: \(originYFactor)")
         descriptionString.append("\nWidth Factor: \(widthFactor)\n")
-    
+    descriptionString.append("\nWidth: \(width)")
     return descriptionString
   }
   

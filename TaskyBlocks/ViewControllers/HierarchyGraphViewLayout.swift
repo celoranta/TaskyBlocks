@@ -57,7 +57,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     for task in localDatasource {
       preGenerationMap.append(HierarchyGraphingNode.init(task: task))
     }
-    print("PreGenerationMap: \n\(preGenerationMap)")
+    print("/nPreGenerationMap: \n\(preGenerationMap)\n\n\n")
     generationMap = [:]
     for node in preGenerationMap {
       node.originYFactor = CGFloat(countOlderGenerations(of: node.task))
@@ -68,11 +68,11 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         generationMap[node.originYFactor] = [node]
       }
     }
-    print("Generation map: \n\(generationMap)")
+    print("/nGeneration map: \n\(generationMap)\n\n\n")
     
     //Create parent, sibling, and child references
     let generationQty = generationMap.count
-    print("Generation Count: \(generationQty)")
+    print("\nGeneration Count: \(generationQty)")
     for x in 0..<generationQty {
       let gen = CGFloat(x)
       let generationNodeCount = generationMap[gen]!.count
@@ -96,6 +96,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       for nodeIndex in 0..<generationNodeCount {
         let task = generationMap[gen]![nodeIndex].task
         generationMap[gen]![nodeIndex].widthFactor = countChildlessDescendants(of: task) >= 1 ? countChildlessDescendants(of: task) : 1
+        generationMap[gen]![nodeIndex].width = generationMap[gen]![nodeIndex].widthFactor * cellPlotSize.width
       }
     }
     for x in stride(from: Int(generationQty - 1), to: 0, by: -1) {
@@ -103,11 +104,13 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       let generationNodeCount = generationMap[gen]!.count
       for nodeIndex in 0..<generationNodeCount {
         let node = generationMap[gen]![nodeIndex]
+
         print("\nNode: \(node)")
         print("\nTask: \(node.task)")
         print("\nSiblingPaths: \(node.siblingPaths)")
-        print("/nWidthFactor: \(node.widthFactor)")
+        print("\nWidthFactor: \(node.widthFactor)")
       }
+      
      //Chart by generation
       var maxWidth: CGFloat = 1
       for generation in generationMap {
@@ -123,7 +126,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
             originX = node.parents[0].originXFactor + sumOfPriorSiblingWidths(node: node)
             }
             let height: CGFloat = cellPlotSize.height
-            let width = (cellPlotSize.width * node.widthFactor)
+            let width: CGFloat = node.widthFactor == 0 ? 0.0 : (cellPlotSize.width * node.widthFactor)
             maxWidth = width > maxWidth ? width : maxWidth
             taskAttribute.frame = CGRect.init(x: originX, y: originY, width: width, height: height)
             layoutMap[taskIndexPath] = taskAttribute
