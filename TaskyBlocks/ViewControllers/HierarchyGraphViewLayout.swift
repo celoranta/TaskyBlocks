@@ -51,13 +51,14 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   
   override func prepare() {
     super.prepare()
+    print("\n\n---PREPARING HIERARCHY VIEW LAYOUT---\n\n")
     let localDatasource = collectionViewLayoutDelegate.datasource()
     // map to hold task references as graphing units before relationships are calculated
     preGenerationMap = []
     for task in localDatasource {
       preGenerationMap.append(HierarchyGraphingNode.init(task: task))
     }
-    print("/nPreGenerationMap: \n\(preGenerationMap)\n\n\n")
+    //print("\nPreGenerationMap: \n\(preGenerationMap)\n\n\n")
     generationMap = [:]
     for node in preGenerationMap {
       node.originYFactor = CGFloat(countOlderGenerations(of: node.task))
@@ -68,7 +69,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         generationMap[node.originYFactor] = [node]
       }
     }
-    print("/nGeneration map: \n\(generationMap)\n\n\n")
+   // print("\nGeneration map: \n\(generationMap)\n\n\n")
     
     //Create parent, sibling, and child references
     let generationQty = generationMap.count
@@ -95,7 +96,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       
       for nodeIndex in 0..<generationNodeCount {
         let task = generationMap[gen]![nodeIndex].task
-        generationMap[gen]![nodeIndex].widthFactor = countChildlessDescendants(of: task) >= 1 ? countChildlessDescendants(of: task) : 1
+        generationMap[gen]![nodeIndex].widthFactor = countChildlessDescendants(of: task) >= 2 ? countChildlessDescendants(of: task) : 1
         generationMap[gen]![nodeIndex].width = generationMap[gen]![nodeIndex].widthFactor * cellPlotSize.width
       }
     }
@@ -105,10 +106,8 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       for nodeIndex in 0..<generationNodeCount {
         let node = generationMap[gen]![nodeIndex]
 
-        print("\nNode: \(node)")
-        print("\nTask: \(node.task)")
-        print("\nSiblingPaths: \(node.siblingPaths)")
-        print("\nWidthFactor: \(node.widthFactor)")
+     //   print("\n\(node)")
+    
       }
       
      //Chart by generation

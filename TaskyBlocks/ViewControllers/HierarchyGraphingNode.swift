@@ -60,8 +60,8 @@ class HierarchyGraphingNode: NSObject {
    //   descriptionString.append("\n-\(siblingPaths)")
     descriptionString.append("\nOrigin X Factor: \(originXFactor)")
         descriptionString.append("\nOrigin Y Factor: \(originYFactor)")
-        descriptionString.append("\nWidth Factor: \(widthFactor)\n")
-    descriptionString.append("\nWidth: \(width)")
+        descriptionString.append("\nWidth Factor: \(widthFactor)")
+    descriptionString.append("\nWidth: \(width)\n")
     return descriptionString
   }
   
