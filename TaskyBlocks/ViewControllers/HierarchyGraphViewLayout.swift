@@ -14,6 +14,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   
   var preGenerationMap: [HierarchyGraphingNode] = []
   var generationMap = [CGFloat : [HierarchyGraphingNode]]()
+
   var layoutMap = [IndexPath : UICollectionViewLayoutAttributes]()
   var contentSize: CGSize = CGSize.init(width: 1000, height: 1000)
   var maxGenerations: CGFloat = 0
@@ -53,12 +54,14 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     super.prepare()
     print("\n\n---PREPARING HIERARCHY VIEW LAYOUT---\n\n")
     let localDatasource = collectionViewLayoutDelegate.datasource()
+    
     // map to hold task references as graphing units before relationships are calculated
     preGenerationMap = []
     for task in localDatasource {
       preGenerationMap.append(HierarchyGraphingNode.init(task: task))
     }
-    //print("\nPreGenerationMap: \n\(preGenerationMap)\n\n\n")
+    
+    // sort preGenerationMap by generation
     generationMap = [:]
     for node in preGenerationMap {
       node.originYFactor = CGFloat(countOlderGenerations(of: node.task))
@@ -70,6 +73,8 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       }
     }
    // print("\nGeneration map: \n\(generationMap)\n\n\n")
+    
+    //create sibling map
     
     //Create parent, sibling, and child references
     let generationQty = generationMap.count
@@ -90,6 +95,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     }
     
     //Calculate Widths
+    //Mark - TODO: 'Be Happy' is unable to calculate its width due to having no parents
     for x in stride(from: Int(generationQty - 1), to: 0, by: -1) {
       let gen = CGFloat(x)
       let generationNodeCount = generationMap[gen]!.count
@@ -105,10 +111,9 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       let generationNodeCount = generationMap[gen]!.count
       for nodeIndex in 0..<generationNodeCount {
         let node = generationMap[gen]![nodeIndex]
-
-     //   print("\n\(node)")
-    
       }
+      
+  
       
      //Chart by generation
       var maxWidth: CGFloat = 1
@@ -119,11 +124,22 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
             let taskIndexPath = IndexPath.init(row: indexInDataSource, section: 0)
             let taskAttribute = UICollectionViewLayoutAttributes.init(forCellWith: taskIndexPath)
             let originY = cellPlotSize.height * node.originYFactor
-            var originX: CGFloat = 0.0
+              var originX: CGFloat = 0.0
+            
+            //Chart X Location
+            //Currenly, this will only work with a single parent.  To be updated.
+//            if node.siblingPaths.count == 1 {
+//              node.originXFinal = xOffset(per: node.siblingPaths[0])
+//            }
+//            originX = node.originXFinal
+            
+            
             if node.parents.count > 0
             {
             originX = node.parents[0].originXFactor + sumOfPriorSiblingWidths(node: node)
             }
+            
+            
             let height: CGFloat = cellPlotSize.height
             let width: CGFloat = node.widthFactor == 0 ? 0.0 : (cellPlotSize.width * node.widthFactor)
             maxWidth = width > maxWidth ? width : maxWidth
@@ -156,7 +172,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         childCount += countChildlessDescendants(of: child)
       }
     }
-    return childCount + CGFloat(1)
+    return childCount
   }
   
   fileprivate func hierarchyGraphingNodes(for task: TaskyNode) -> [HierarchyGraphingNode] {
@@ -184,6 +200,21 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       }
     }
     return count
+  }
+
+  fileprivate func xOffset(per siblingPath: SiblingPath) -> CGFloat {
+    var offset: CGFloat = 0.0
+      if let parent = siblingPath.parent {
+        for child in parent.children {
+          for childSiblingPath in child.siblingPaths {
+            if childSiblingPath.siblingIndex! < siblingPath.siblingIndex! {
+              offset += child.width
+            }
+          }
+        }
+        offset += parent.width
+      }
+    return offset
   }
 
   }

@@ -13,6 +13,7 @@ struct SiblingPath {
   var siblingIndex: CGFloat? = nil
 }
 
+  //This class is currently set up to allow mutation of properties from management objects.  If possible, this should be refactored to use more stateless methods
 class HierarchyGraphingNode: NSObject {
   
   let task: TaskyNode
@@ -23,6 +24,7 @@ class HierarchyGraphingNode: NSObject {
   var originXFactor: CGFloat = 0.0
   var originYFactor: CGFloat = 0.0
   var originXOffsetFromParent: CGFloat = 0.0
+  var originXFinal: CGFloat = 0.0
   
   var widthFactor: CGFloat = 1
   var width: CGFloat = 0
@@ -55,14 +57,21 @@ class HierarchyGraphingNode: NSObject {
       }
     }
 
-
-
    //   descriptionString.append("\n-\(siblingPaths)")
     descriptionString.append("\nOrigin X Factor: \(originXFactor)")
         descriptionString.append("\nOrigin Y Factor: \(originYFactor)")
         descriptionString.append("\nWidth Factor: \(widthFactor)")
     descriptionString.append("\nWidth: \(width)\n")
     return descriptionString
+  }
+  
+  func assignIndicesToChildren() {
+    var indexRegister: CGFloat = 0.0
+    for child in children {
+      let newSiblingPath = SiblingPath.init(parent: self, siblingIndex: indexRegister)
+      child.siblingPaths.append(newSiblingPath)
+      indexRegister += 1
+    }
   }
   
   init(task: TaskyNode) {
