@@ -81,26 +81,32 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     //Create parent, sibling, and child references
     let generationQty = generationMap.count
     print("\nGeneration Count: \(generationQty)")
-        for x in 0..<generationQty {
-          //let gen = CGFloat(x)
-          let generationNodeCount = generationMap[x].count
-          for nodeIndex in 0..<generationNodeCount {
-            for parent in generationMap[x][nodeIndex].task.parents {
-    
-              //References to 'hierarchyGraphingNode' are not specific enough given dual parentage.  Add second parameter for parent to clarify
-        //      generationMap[x][nodeIndex].parents.append(hierarchyGraphingNodes(for: parent)[0])
-//              let newSiblingPath = SiblingPath.init(parent: hierarchyGraphingNodes(for: parent)[0], siblingIndex: CGFloat(parent.children.index(of: generationMap[gen]![nodeIndex].task)!))
-//              generationMap[gen]![nodeIndex].siblingPaths.append(newSiblingPath)
+    for x in 0..<generationQty {
+      let generationNodeCount = generationMap[x].count
+      for nodeIndex in 0..<generationNodeCount {
+        let node = generationMap[x][nodeIndex]
+        for parent in node.task.parents {
+          for grandparent in parent.parents
+          {
+            if let newParentNodeReference = hierarchyGraphingNode(for: parent, parent: grandparent)
+            {
+              node.parents.append(newParentNodeReference)
             }
-//            for child in generationMap[x][nodeIndex].task.children {
-//              generationMap[x][nodeIndex].children.append(hierarchyGraphingNodes(for: child)[0])
-//            }
           }
+          //References to 'hierarchyGraphingNode' are not specific enough given dual parentage.  Add second parameter for parent to clarify
+          //      generationMap[x][nodeIndex].parents.append(hierarchyGraphingNodes(for: parent)[0])
+          //              let newSiblingPath = SiblingPath.init(parent: hierarchyGraphingNodes(for: parent)[0], siblingIndex: CGFloat(parent.children.index(of: generationMap[gen]![nodeIndex].task)!))
+          //              generationMap[gen]![nodeIndex].siblingPaths.append(newSiblingPath)
         }
+        //            for child in generationMap[x][nodeIndex].task.children {
+        //              generationMap[x][nodeIndex].children.append(hierarchyGraphingNodes(for: child)[0])
+        //            }
+      }
+    }
     
     //Calculate Widths
-    //Mark - TODO: 'Be Happy' is unable to calculate its width due to having no parents
-    for x in stride(from: Int(generationQty - 1), to: 0, by: -1) {
+    
+    for x in stride(from: Int(generationQty - 1), through: 0, by: -1) {
       // let gen = CGFloat(x)
       let generationNodeCount = generationMap[x].count
       for nodeIndex in 0..<generationNodeCount {
@@ -109,14 +115,14 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         generationMap[x][nodeIndex].width = generationMap[x][nodeIndex].widthFactor * cellPlotSize.width
       }
     }
-     print("\n\nFull Generation Map: \(generationMap))\n")
+    print("\n\nFull Generation Map: \(generationMap))\n")
     
-//    for x in stride(from: Int(generationQty - 1), to: 0, by: -1) {
-//      let gen = CGFloat(x)
-//      let generationNodeCount = generationMap[x].count
-//      for nodeIndex in 0..<generationNodeCount {
-//        let node = generationMap[x][nodeIndex]
-//      }
+    //    for x in stride(from: Int(generationQty - 1), to: 0, by: -1) {
+    //      let gen = CGFloat(x)
+    //      let generationNodeCount = generationMap[x].count
+    //      for nodeIndex in 0..<generationNodeCount {
+    //        let node = generationMap[x][nodeIndex]
+    //      }
     
     //     //Chart by generation
     //      var maxWidth: CGFloat = 1
@@ -169,24 +175,24 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     return childCount
   }
   
-  fileprivate func hierarchyGraphingNodes(for task: TaskyNode, parent: TaskyNode?) -> HierarchyGraphingNode {
-  if let parent = parent {
-    for generation in generationMap {
-      for node in generation {
-        if node.task.parents.contains(parent) && node.task == task {
+  fileprivate func hierarchyGraphingNode(for task: TaskyNode, parent: TaskyNode?) -> HierarchyGraphingNode? {
+    if let parent = parent {
+      for generation in generationMap {
+        for node in generation {
+          if node.task.parents.contains(parent) && node.task == task {
+            return node
+          }
+        }
+      }
+    }
+    else if generationMap[0].filter({$0.task == task}).count > 0 {
+      for node in generationMap[0] {
+        if node.task == task {
           return node
-      }
-      }
-    }
-  }
-  else {
-    for node in generationMap[0] {
-      if node.task == task {
-        return node
+        }
       }
     }
-    }
-    fatalError("Error: no matching node found")
+    return nil
   }
   
   fileprivate func sumOfPriorSiblingWidths(node: HierarchyGraphingNode) -> CGFloat {
