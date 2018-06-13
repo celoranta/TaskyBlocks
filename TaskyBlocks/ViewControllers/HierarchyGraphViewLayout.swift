@@ -55,6 +55,8 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     print("\n\n---PREPARING HIERARCHY VIEW LAYOUT---\n\n")
     let localDatasource = collectionViewLayoutDelegate.datasource()
     
+    // -- Re-Create Generational Data Structure with Graphing Node objects
+    
     //Create graphing nodes for primal generation of tasks
     let primalTasks = localDatasource.filter({$0.parents.count == 0})
     print("Primal Tasks: \(primalTasks)")
@@ -81,26 +83,35 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     //Create parent, sibling, and child references
     let generationQty = generationMap.count
     print("\nGeneration Count: \(generationQty)")
+    //Traverse all nodes in the generation map
     for x in 0..<generationQty {
       let generationNodeCount = generationMap[x].count
       for nodeIndex in 0..<generationNodeCount {
         let node = generationMap[x][nodeIndex]
+        //And all parents of each node task
         for parent in node.task.parents {
-          for grandparent in parent.parents
-          {
-            if let newParentNodeReference = hierarchyGraphingNode(for: parent, parent: grandparent)
-            {
+          if parent.parents.count > 0 {
+            //And retrieve/append a reference to each parent node using one of ITS parents
+            //Mark: TODO - Break this out so nodes with multiple parents become multiple nodes?
+            if let newParentNodeReference = hierarchyGraphingNode(for: parent, parent: parent.parents[0]) {
               node.parents.append(newParentNodeReference)
             }
           }
-          //References to 'hierarchyGraphingNode' are not specific enough given dual parentage.  Add second parameter for parent to clarify
-          //      generationMap[x][nodeIndex].parents.append(hierarchyGraphingNodes(for: parent)[0])
+            //Unless it is primal, in which case use nil as the parent
+          else {
+            if let newParentNodeReference = hierarchyGraphingNode(for: parent, parent: nil) {
+              node.parents.append(newParentNodeReference)
+            }
+          }
           //              let newSiblingPath = SiblingPath.init(parent: hierarchyGraphingNodes(for: parent)[0], siblingIndex: CGFloat(parent.children.index(of: generationMap[gen]![nodeIndex].task)!))
           //              generationMap[gen]![nodeIndex].siblingPaths.append(newSiblingPath)
         }
-        //            for child in generationMap[x][nodeIndex].task.children {
-        //              generationMap[x][nodeIndex].children.append(hierarchyGraphingNodes(for: child)[0])
-        //            }
+        //retrive and append child references
+        for child in node.task.children {
+          if let newChildNodeReference = hierarchyGraphingNode(for: child, parent: node.task) {
+            node.children.append(newChildNodeReference)
+          }
+        }
       }
     }
     
