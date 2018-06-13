@@ -6,15 +6,15 @@ import UIKit
 
 class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   
-//  struct TaskyBlock {
-//    let task: TaskyNode
-//    var widthFactor: CGFloat
-//    var siblingIndex: CGFloat
-//  }
+  //  struct TaskyBlock {
+  //    let task: TaskyNode
+  //    var widthFactor: CGFloat
+  //    var siblingIndex: CGFloat
+  //  }
   
   var preGenerationMap: [HierarchyGraphingNode] = []
-  var generationMap = [CGFloat : [HierarchyGraphingNode]]()
-
+  //var generationMap = [CGFloat : [HierarchyGraphingNode]]()
+  var generationMap = [[HierarchyGraphingNode]]()
   var layoutMap = [IndexPath : UICollectionViewLayoutAttributes]()
   var contentSize: CGSize = CGSize.init(width: 1000, height: 1000)
   var maxGenerations: CGFloat = 0
@@ -55,110 +55,104 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     print("\n\n---PREPARING HIERARCHY VIEW LAYOUT---\n\n")
     let localDatasource = collectionViewLayoutDelegate.datasource()
     
-    // map to hold task references as graphing units before relationships are calculated
-    preGenerationMap = []
-    for task in localDatasource {
-      preGenerationMap.append(HierarchyGraphingNode.init(task: task))
+    //Create graphing nodes for primal generation of tasks
+    let primalTasks = localDatasource.filter({$0.parents.count == 0})
+    print("Primal Tasks: \(primalTasks)")
+    generationMap = [[]]
+    for task in primalTasks {
+      let graphingNode = HierarchyGraphingNode.init(task: task, parent: nil)
+      generationMap[0].append(graphingNode)
+    }
+    print("First Generation Map: \(generationMap[0])")
+    
+    var currentGeneration = generationMap[0]
+    while createGeneration(following: currentGeneration).count > 0 {
+      let newGeneration = createGeneration(following: currentGeneration)
+      generationMap.append(newGeneration)
+      currentGeneration = newGeneration
     }
     
-    // sort preGenerationMap by generation
-    generationMap = [:]
-    for node in preGenerationMap {
-      node.originYFactor = CGFloat(countOlderGenerations(of: node.task))
-      if generationMap.keys.contains(node.originYFactor) {
-        generationMap[node.originYFactor]!.append(node)
-      }
-      else {
-        generationMap[node.originYFactor] = [node]
+    for generation in generationMap {
+      for node in generation {
+        node.originYFactor = CGFloat(generationMap.index(of: generation)!)
       }
     }
-   // print("\nGeneration map: \n\(generationMap)\n\n\n")
-    
-    //create sibling map
     
     //Create parent, sibling, and child references
     let generationQty = generationMap.count
     print("\nGeneration Count: \(generationQty)")
-    for x in 0..<generationQty {
-      let gen = CGFloat(x)
-      let generationNodeCount = generationMap[gen]!.count
-      for nodeIndex in 0..<generationNodeCount {
-        for parent in generationMap[gen]![nodeIndex].task.parents {
-          generationMap[gen]![nodeIndex].parents.append(hierarchyGraphingNodes(for: parent)[0])
-          let newSiblingPath = SiblingPath.init(parent: hierarchyGraphingNodes(for: parent)[0], siblingIndex: CGFloat(parent.children.index(of: generationMap[gen]![nodeIndex].task)!))
-          generationMap[gen]![nodeIndex].siblingPaths.append(newSiblingPath)
+        for x in 0..<generationQty {
+          //let gen = CGFloat(x)
+          let generationNodeCount = generationMap[x].count
+          for nodeIndex in 0..<generationNodeCount {
+            for parent in generationMap[x][nodeIndex].task.parents {
+    
+              //References to 'hierarchyGraphingNode' are not specific enough given dual parentage.  Add second parameter for parent to clarify
+        //      generationMap[x][nodeIndex].parents.append(hierarchyGraphingNodes(for: parent)[0])
+//              let newSiblingPath = SiblingPath.init(parent: hierarchyGraphingNodes(for: parent)[0], siblingIndex: CGFloat(parent.children.index(of: generationMap[gen]![nodeIndex].task)!))
+//              generationMap[gen]![nodeIndex].siblingPaths.append(newSiblingPath)
+            }
+//            for child in generationMap[x][nodeIndex].task.children {
+//              generationMap[x][nodeIndex].children.append(hierarchyGraphingNodes(for: child)[0])
+//            }
+          }
         }
-        for child in generationMap[gen]![nodeIndex].task.children {
-          generationMap[gen]![nodeIndex].children.append(hierarchyGraphingNodes(for: child)[0])
-        }
-      }
-    }
     
     //Calculate Widths
     //Mark - TODO: 'Be Happy' is unable to calculate its width due to having no parents
     for x in stride(from: Int(generationQty - 1), to: 0, by: -1) {
-      let gen = CGFloat(x)
-      let generationNodeCount = generationMap[gen]!.count
-      
+      // let gen = CGFloat(x)
+      let generationNodeCount = generationMap[x].count
       for nodeIndex in 0..<generationNodeCount {
-        let task = generationMap[gen]![nodeIndex].task
-        generationMap[gen]![nodeIndex].widthFactor = countChildlessDescendants(of: task) >= 2 ? countChildlessDescendants(of: task) : 1
-        generationMap[gen]![nodeIndex].width = generationMap[gen]![nodeIndex].widthFactor * cellPlotSize.width
+        let task = generationMap[x][nodeIndex].task
+        generationMap[x][nodeIndex].widthFactor = countChildlessDescendants(of: task) >= 2 ? countChildlessDescendants(of: task) : 1
+        generationMap[x][nodeIndex].width = generationMap[x][nodeIndex].widthFactor * cellPlotSize.width
       }
     }
-    for x in stride(from: Int(generationQty - 1), to: 0, by: -1) {
-      let gen = CGFloat(x)
-      let generationNodeCount = generationMap[gen]!.count
-      for nodeIndex in 0..<generationNodeCount {
-        let node = generationMap[gen]![nodeIndex]
-      }
-      
-  
-      
-     //Chart by generation
-      var maxWidth: CGFloat = 1
-      for generation in generationMap {
-        for node in generationMap[generation.key]!  {
-          let wIndexInDataSource = collectionViewLayoutDelegate.datasource().index(of: node.task)
-          if let indexInDataSource = wIndexInDataSource {
-            let taskIndexPath = IndexPath.init(row: indexInDataSource, section: 0)
-            let taskAttribute = UICollectionViewLayoutAttributes.init(forCellWith: taskIndexPath)
-            let originY = cellPlotSize.height * node.originYFactor
-              var originX: CGFloat = 0.0
-            
-            //Chart X Location
-            //Currenly, this will only work with a single parent.  To be updated.
-//            if node.siblingPaths.count == 1 {
-//              node.originXFinal = xOffset(per: node.siblingPaths[0])
-//            }
-//            originX = node.originXFinal
-            
-            
-            if node.parents.count > 0
-            {
-            originX = node.parents[0].originXFactor + sumOfPriorSiblingWidths(node: node)
-            }
-            
-            
-            let height: CGFloat = cellPlotSize.height
-            let width: CGFloat = node.widthFactor == 0 ? 0.0 : (cellPlotSize.width * node.widthFactor)
-            maxWidth = width > maxWidth ? width : maxWidth
-            taskAttribute.frame = CGRect.init(x: originX, y: originY, width: width, height: height)
-            layoutMap[taskIndexPath] = taskAttribute
-          }
-        }
-      contentSize.width = maxWidth
-      }
-    }
-    contentSize.height = CGFloat(generationMap.count) * cellPlotSize.height
-    print("GenerationMap: \(generationMap)")
-  }
-  
-  fileprivate func countOlderGenerations(of task: TaskyNode) -> CGFloat {
-    for parent in task.parents {
-      return 1.0 + countOlderGenerations(of: parent)
-    }
-    return 0
+     print("\n\nFull Generation Map: \(generationMap))\n")
+    
+//    for x in stride(from: Int(generationQty - 1), to: 0, by: -1) {
+//      let gen = CGFloat(x)
+//      let generationNodeCount = generationMap[x].count
+//      for nodeIndex in 0..<generationNodeCount {
+//        let node = generationMap[x][nodeIndex]
+//      }
+    
+    //     //Chart by generation
+    //      var maxWidth: CGFloat = 1
+    //      for generation in generationMap {
+    //        for node in generationMap[generation.key]!  {
+    //          let wIndexInDataSource = collectionViewLayoutDelegate.datasource().index(of: node.task)
+    //          if let indexInDataSource = wIndexInDataSource {
+    //            let taskIndexPath = IndexPath.init(row: indexInDataSource, section: 0)
+    //            let taskAttribute = UICollectionViewLayoutAttributes.init(forCellWith: taskIndexPath)
+    //            let originY = cellPlotSize.height * node.originYFactor
+    //              var originX: CGFloat = 0.0
+    //
+    //            //Chart X Location
+    //            //Currenly, this will only work with a single parent.  To be updated.
+    ////            if node.siblingPaths.count == 1 {
+    ////              node.originXFinal = xOffset(per: node.siblingPaths[0])
+    ////            }
+    ////            originX = node.originXFinal
+    //
+    //            if node.parents.count > 0
+    //            {
+    //            originX = node.parents[0].originXFactor + sumOfPriorSiblingWidths(node: node)
+    //            }
+    //
+    //            let height: CGFloat = cellPlotSize.height
+    //            let width: CGFloat = node.widthFactor == 0 ? 0.0 : (cellPlotSize.width * node.widthFactor)
+    //            maxWidth = width > maxWidth ? width : maxWidth
+    //            taskAttribute.frame = CGRect.init(x: originX, y: originY, width: width, height: height)
+    //            layoutMap[taskIndexPath] = taskAttribute
+    //          }
+    //        }
+    //      contentSize.width = maxWidth
+    //      }
+    //    }
+    //    contentSize.height = CGFloat(generationMap.count) * cellPlotSize.height
+    //    print("GenerationMap: \(generationMap)")
   }
   
   fileprivate func countChildlessDescendants(of task: TaskyNode) -> CGFloat {
@@ -175,14 +169,24 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     return childCount
   }
   
-  fileprivate func hierarchyGraphingNodes(for task: TaskyNode) -> [HierarchyGraphingNode] {
-    var returnedNodes: [HierarchyGraphingNode] = []
-    for hierarchyNode in self.preGenerationMap {
-      if hierarchyNode.task == task {
-        returnedNodes.append(hierarchyNode)
+  fileprivate func hierarchyGraphingNodes(for task: TaskyNode, parent: TaskyNode?) -> HierarchyGraphingNode {
+  if let parent = parent {
+    for generation in generationMap {
+      for node in generation {
+        if node.task.parents.contains(parent) && node.task == task {
+          return node
+      }
       }
     }
-    return returnedNodes
+  }
+  else {
+    for node in generationMap[0] {
+      if node.task == task {
+        return node
+      }
+    }
+    }
+    fatalError("Error: no matching node found")
   }
   
   fileprivate func sumOfPriorSiblingWidths(node: HierarchyGraphingNode) -> CGFloat {
@@ -191,7 +195,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       return 0
     }
     else {
-
       for child in node.parents[0].children
       {
         if child.siblingPaths[0].siblingIndex! < node.siblingPaths[0].siblingIndex! {
@@ -201,24 +204,29 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     }
     return count
   }
-
+  
   fileprivate func xOffset(per siblingPath: SiblingPath) -> CGFloat {
     var offset: CGFloat = 0.0
-      if let parent = siblingPath.parent {
-        for child in parent.children {
-          for childSiblingPath in child.siblingPaths {
-            if childSiblingPath.siblingIndex! < siblingPath.siblingIndex! {
-              offset += child.width
-            }
+    if let parent = siblingPath.parent {
+      for child in parent.children {
+        for childSiblingPath in child.siblingPaths {
+          if childSiblingPath.siblingIndex! < siblingPath.siblingIndex! {
+            offset += child.width
           }
         }
-        offset += parent.width
       }
+      offset += parent.width
+    }
     return offset
   }
-
-  }
   
-
-
-
+  fileprivate func createGeneration(following generation: [HierarchyGraphingNode]) -> [HierarchyGraphingNode] {
+    var newGeneration: [HierarchyGraphingNode] = []
+    for node in generation {
+      for child in node.task.children {
+        newGeneration.append(HierarchyGraphingNode.init(task: child, parent: node))
+      }
+    }
+    return newGeneration
+  }
+}

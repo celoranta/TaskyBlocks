@@ -53,7 +53,7 @@ class PriorityGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
 
   override func prepare() {
     super.prepare()
-    contentSize.height = UIScreen.main.bounds.height
+    contentSize.height = UIScreen.main.bounds.height - 115.0 //To be updated with calculation of final nav and tool bar heights
    let localDatasource = collectionViewLayoutDelegate.datasource()
     let uMaxTask = localDatasource.max(by: {$0.priorityApparent < $1.priorityApparent})
     let uMinTask = localDatasource.max(by: {$0.priorityApparent > $1.priorityApparent})

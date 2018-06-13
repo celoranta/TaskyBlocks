@@ -74,7 +74,7 @@ class HierarchyGraphingNode: NSObject {
     }
   }
   
-  init(task: TaskyNode) {
+  init(task: TaskyNode, parent: HierarchyGraphingNode?) {
     self.task = task
   }
   
