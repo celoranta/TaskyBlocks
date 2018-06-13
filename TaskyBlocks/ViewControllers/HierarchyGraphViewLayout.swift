@@ -60,7 +60,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       let graphingNode = HierarchyGraphingNode.init(task: task, parent: nil)
       generationMap[0].append(graphingNode)
     }
-    print("First Generation Map: \(generationMap[0])")
     
     var currentGeneration = generationMap[0]
     while createGeneration(following: currentGeneration).count > 0 {
@@ -97,9 +96,8 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
               node.parents.append(newParentNodeReference)
             }
           }
-          //              let newSiblingPath = SiblingPath.init(parent: hierarchyGraphingNodes(for: parent)[0], siblingIndex: CGFloat(parent.children.index(of: generationMap[gen]![nodeIndex].task)!))
-          //              generationMap[gen]![nodeIndex].siblingPaths.append(newSiblingPath)
         }
+        
         //retrive and append child references
         for child in node.task.children {
           if let newChildNodeReference = hierarchyGraphingNode(for: child, parent: node.task) {
@@ -110,7 +108,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     }
     
     //Calculate Widths
-    
     for x in stride(from: Int(generationQty - 1), through: 0, by: -1) {
       // let gen = CGFloat(x)
       let generationNodeCount = generationMap[x].count
@@ -120,12 +117,10 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         generationMap[x][nodeIndex].width = generationMap[x][nodeIndex].widthFactor * cellPlotSize.width
       }
     }
-    print("\n\nFull Generation Map: \(generationMap))\n")
-    
     
     //Chart by generation
     var maxWidth: CGFloat = 1
-    var primalXPositionRegister: CGFloat = 0
+    var primalXPositionRegister: CGFloat = 0.0
     for generation in generationMap {
       for node in generation {
         let wIndexInDataSource = collectionViewLayoutDelegate.datasource().index(of: node.task)
@@ -137,13 +132,13 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
           if node.parents.count == 0 {
             originX = primalXPositionRegister
             primalXPositionRegister += node.width
-            
           }
           else {
             originX = node.parents[0].childXPositionRegister
             node.parents[0].childXPositionRegister += node.width
           }
           node.childXPositionRegister = originX
+          node.originXFinal = originX
           let height: CGFloat = cellPlotSize.height
           let width: CGFloat = node.widthFactor == 0 ? 0.0 : (cellPlotSize.width * node.widthFactor)
           maxWidth = width > maxWidth ? width : maxWidth
@@ -151,10 +146,21 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
           layoutMap[taskIndexPath] = taskAttribute
         }
       }
-      contentSize.width = maxWidth
+
     }
-    contentSize.height = CGFloat(generationMap.count) * cellPlotSize.height
-    print("GenerationMap: \(generationMap)")
+    var calcContentWidth: CGFloat = 0.0
+    for generation in generationMap {
+      var generationWidth: CGFloat = 0.0
+      for node in generation {
+        generationWidth += node.width
+      }
+      calcContentWidth = generationWidth > calcContentWidth ? generationWidth : calcContentWidth
+    }
+    
+    let calcContentHeight = CGFloat(generationMap.count) * cellPlotSize.height
+    contentSize = CGSize.init(width: calcContentWidth, height: calcContentHeight)
+    print("GenerationMap: \(generationMap)\n")
+    //print("LayoutMap: \(layoutMap)")
     
     //MARK: TODO - Once single parenthood graphs properly, add a step just before graphing which replicates an entire downstream tree at each multiple parent, and creates a separate graphing node for each.
   }

@@ -17,12 +17,15 @@ struct SiblingPath {
 class HierarchyGraphingNode: NSObject {
   
   let task: TaskyNode
+  var title: String {
+    return task.title
+  }
   var parents: [HierarchyGraphingNode] = []
   var children: [HierarchyGraphingNode] = []
   var siblingPaths: [SiblingPath] = []
   var childXPositionRegister: CGFloat = 0.0
   
-  var originXFactor: CGFloat = 0.0
+  //var originXFactor: CGFloat = 0.0
   var originYFactor: CGFloat = 0.0
   var originXOffsetFromParent: CGFloat = 0.0
   var originXFinal: CGFloat = 0.0
@@ -59,7 +62,7 @@ class HierarchyGraphingNode: NSObject {
     }
 
    //   descriptionString.append("\n-\(siblingPaths)")
-    descriptionString.append("\nOrigin X Factor: \(originXFactor)")
+    descriptionString.append("\nOrigin X Final: \(originXFinal)")
         descriptionString.append("\nOrigin Y Factor: \(originYFactor)")
         descriptionString.append("\nWidth Factor: \(widthFactor)")
     descriptionString.append("\nWidth: \(width)\n")
