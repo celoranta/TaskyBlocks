@@ -6,11 +6,6 @@ import UIKit
 
 class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
   
-  //  struct TaskyBlock {
-  //    let task: TaskyNode
-  //    var widthFactor: CGFloat
-  //    var siblingIndex: CGFloat
-  //  }
   
   var preGenerationMap: [HierarchyGraphingNode] = []
   //var generationMap = [CGFloat : [HierarchyGraphingNode]]()
@@ -92,7 +87,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         for parent in node.task.parents {
           if parent.parents.count > 0 {
             //And retrieve/append a reference to each parent node using one of ITS parents
-            //Mark: TODO - Break this out so nodes with multiple parents become multiple nodes?
             if let newParentNodeReference = hierarchyGraphingNode(for: parent, parent: parent.parents[0]) {
               node.parents.append(newParentNodeReference)
             }
@@ -128,48 +122,41 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
     }
     print("\n\nFull Generation Map: \(generationMap))\n")
     
-    //    for x in stride(from: Int(generationQty - 1), to: 0, by: -1) {
-    //      let gen = CGFloat(x)
-    //      let generationNodeCount = generationMap[x].count
-    //      for nodeIndex in 0..<generationNodeCount {
-    //        let node = generationMap[x][nodeIndex]
-    //      }
     
-    //     //Chart by generation
-    //      var maxWidth: CGFloat = 1
-    //      for generation in generationMap {
-    //        for node in generationMap[generation.key]!  {
-    //          let wIndexInDataSource = collectionViewLayoutDelegate.datasource().index(of: node.task)
-    //          if let indexInDataSource = wIndexInDataSource {
-    //            let taskIndexPath = IndexPath.init(row: indexInDataSource, section: 0)
-    //            let taskAttribute = UICollectionViewLayoutAttributes.init(forCellWith: taskIndexPath)
-    //            let originY = cellPlotSize.height * node.originYFactor
-    //              var originX: CGFloat = 0.0
-    //
-    //            //Chart X Location
-    //            //Currenly, this will only work with a single parent.  To be updated.
-    ////            if node.siblingPaths.count == 1 {
-    ////              node.originXFinal = xOffset(per: node.siblingPaths[0])
-    ////            }
-    ////            originX = node.originXFinal
-    //
-    //            if node.parents.count > 0
-    //            {
-    //            originX = node.parents[0].originXFactor + sumOfPriorSiblingWidths(node: node)
-    //            }
-    //
-    //            let height: CGFloat = cellPlotSize.height
-    //            let width: CGFloat = node.widthFactor == 0 ? 0.0 : (cellPlotSize.width * node.widthFactor)
-    //            maxWidth = width > maxWidth ? width : maxWidth
-    //            taskAttribute.frame = CGRect.init(x: originX, y: originY, width: width, height: height)
-    //            layoutMap[taskIndexPath] = taskAttribute
-    //          }
-    //        }
-    //      contentSize.width = maxWidth
-    //      }
-    //    }
-    //    contentSize.height = CGFloat(generationMap.count) * cellPlotSize.height
-    //    print("GenerationMap: \(generationMap)")
+    //Chart by generation
+    var maxWidth: CGFloat = 1
+    var primalXPositionRegister: CGFloat = 0
+    for generation in generationMap {
+      for node in generation {
+        let wIndexInDataSource = collectionViewLayoutDelegate.datasource().index(of: node.task)
+        if let indexInDataSource = wIndexInDataSource {
+          let taskIndexPath = IndexPath.init(row: indexInDataSource, section: 0)
+          let taskAttribute = UICollectionViewLayoutAttributes.init(forCellWith: taskIndexPath)
+          let originY = cellPlotSize.height * node.originYFactor
+          var originX: CGFloat = 0.0
+          if node.parents.count == 0 {
+            originX = primalXPositionRegister
+            primalXPositionRegister += node.width
+            
+          }
+          else {
+            originX = node.parents[0].childXPositionRegister
+            node.parents[0].childXPositionRegister += node.width
+          }
+          node.childXPositionRegister = originX
+          let height: CGFloat = cellPlotSize.height
+          let width: CGFloat = node.widthFactor == 0 ? 0.0 : (cellPlotSize.width * node.widthFactor)
+          maxWidth = width > maxWidth ? width : maxWidth
+          taskAttribute.frame = CGRect.init(x: originX, y: originY, width: width, height: height)
+          layoutMap[taskIndexPath] = taskAttribute
+        }
+      }
+      contentSize.width = maxWidth
+    }
+    contentSize.height = CGFloat(generationMap.count) * cellPlotSize.height
+    print("GenerationMap: \(generationMap)")
+    
+    //MARK: TODO - Once single parenthood graphs properly, add a step just before graphing which replicates an entire downstream tree at each multiple parent, and creates a separate graphing node for each.
   }
   
   fileprivate func countChildlessDescendants(of task: TaskyNode) -> CGFloat {

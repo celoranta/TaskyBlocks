@@ -20,6 +20,7 @@ class HierarchyGraphingNode: NSObject {
   var parents: [HierarchyGraphingNode] = []
   var children: [HierarchyGraphingNode] = []
   var siblingPaths: [SiblingPath] = []
+  var childXPositionRegister: CGFloat = 0.0
   
   var originXFactor: CGFloat = 0.0
   var originYFactor: CGFloat = 0.0
