@@ -146,7 +146,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
           layoutMap[taskIndexPath] = taskAttribute
         }
       }
-
     }
     var calcContentWidth: CGFloat = 0.0
     for generation in generationMap {
