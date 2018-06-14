@@ -1,0 +1,19 @@
+June 13 2018
+
+To Do:
+-Update dependency and priority views to auto-center and distrubute around screen centre
+-Create a way to add new tasks to the hierarchy view at any node
+-Implement the focus/filter system to properly limit which tasks are visible in each view
+-Implement task drag-and-drop
+-Implement smart filtering within task chooser lists to disallow infinite loops
+-Update pomodoro layout to allow landscape mode
+-Hard code "Be Happy" as the default parent, but filter from all other views
+-Quantify content size for dependence graph layout
+
+
+
+Further out:
+-Use supplementary views to show relationships with lines and arrows
+-Implement multiple parenthood in graphing paradigm
+
+

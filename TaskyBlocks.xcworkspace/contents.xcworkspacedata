@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:Roadmap">
+   </FileRef>
+   <FileRef
       location = "group:TaskyBlocks.xcodeproj">
    </FileRef>
    <FileRef
