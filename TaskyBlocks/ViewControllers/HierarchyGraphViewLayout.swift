@@ -117,10 +117,28 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         generationMap[x][nodeIndex].width = generationMap[x][nodeIndex].widthFactor * cellPlotSize.width
       }
     }
+    //Calculate and set content size
+    var calcContentWidth: CGFloat = 0.0
+    let visibleWidth = UIScreen.main.bounds.size.width
+    
+    for generation in generationMap {
+      var generationWidth: CGFloat = 0.0
+      for node in generation {
+        generationWidth += node.width
+      }
+      calcContentWidth = generationWidth > calcContentWidth ? generationWidth : calcContentWidth
+    }
+    // Center graph if narrower than visible screen
+    let widthMargins: CGFloat = calcContentWidth > visibleWidth ? 0 : visibleWidth - calcContentWidth 
+    
+    calcContentWidth += widthMargins
+    let leftIndent = 0.5 * widthMargins
+    let calcContentHeight = CGFloat(generationMap.count) * cellPlotSize.height
+    contentSize = CGSize.init(width: calcContentWidth, height: calcContentHeight)
     
     //Chart by generation
     var maxWidth: CGFloat = 1
-    var primalXPositionRegister: CGFloat = 0.0
+    var primalXPositionRegister: CGFloat = leftIndent
     for generation in generationMap {
       for node in generation {
         let wIndexInDataSource = collectionViewLayoutDelegate.datasource().index(of: node.task)
@@ -147,17 +165,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
         }
       }
     }
-    var calcContentWidth: CGFloat = 0.0
-    for generation in generationMap {
-      var generationWidth: CGFloat = 0.0
-      for node in generation {
-        generationWidth += node.width
-      }
-      calcContentWidth = generationWidth > calcContentWidth ? generationWidth : calcContentWidth
-    }
-    
-    let calcContentHeight = CGFloat(generationMap.count) * cellPlotSize.height
-    contentSize = CGSize.init(width: calcContentWidth, height: calcContentHeight)
+
     print("GenerationMap: \(generationMap)\n")
     //print("LayoutMap: \(layoutMap)")
     

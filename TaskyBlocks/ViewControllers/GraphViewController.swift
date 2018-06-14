@@ -21,7 +21,8 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
   var initialCellHeight: CGFloat!
   var dataSource: Results<TaskyNode>!
   var graphViewLayout: GraphViewLayout!
-  var visibleScreenSize: CGSize = CGSize.zero
+  var visibleScreenSize: CGSize {return dynamicScreenSize}
+  var dynamicScreenSize: CGSize = CGSize.zero
   var initialCellSize: CGSize {
     return CGSize.init(width: initialCellWidth, height: initialCellHeight)
   }
@@ -33,6 +34,7 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
   override func viewDidLoad() {
     super.viewDidLoad()
     let _ = try! Realm()
+
     dataSource = TaskyNodeEditor.sharedInstance.database
     if self.graphViewLayout == nil
     {
@@ -53,6 +55,7 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
 //    {
 //    navigationController.setNavigationBarHidden(true, animated: true)
 //    }
+    dynamicScreenSize = UIScreen.main.bounds.size
     refreshGraph()
   }
   
