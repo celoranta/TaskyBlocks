@@ -237,8 +237,8 @@
 			children = (
 				9569D14A20A0F89C000B7E3F /* GraphViewController.swift */,
 				95A7905320A50FC70006A48A /* GraphCollectionViewLayout.swift */,
-				95A7904F20A4CB940006A48A /* HierarchyGraphViewLayout.swift */,
 				95B866FA20ACB6A70017B5C5 /* HierarchyGraphingNode.swift */,
+				95A7904F20A4CB940006A48A /* HierarchyGraphViewLayout.swift */,
 				95A7905120A4E1D00006A48A /* DependenceGraphViewLayout.swift */,
 				9569D14E20A0FDD1000B7E3F /* PriorityGraphViewLayout.swift */,
 				9569D14C20A0F8B7000B7E3F /* GraphingCollectionViewCell.swift */,

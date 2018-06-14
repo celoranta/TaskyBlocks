@@ -125,7 +125,6 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
     self.navigationController?.pushViewController(settingsViewController, animated: true)
   }
   
-  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     switch segue.identifier {
     case "priorityToDetail":

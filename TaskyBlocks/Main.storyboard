@@ -443,8 +443,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qed-0W-f5P">
-                                                    <rect key="frame" x="54" y="27" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qed-0W-f5P">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="75"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -452,6 +452,10 @@
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="Qed-0W-f5P" secondAttribute="trailing" id="5Jz-Bk-slE"/>
+                                            <constraint firstItem="Qed-0W-f5P" firstAttribute="top" secondItem="OOK-x9-rgv" secondAttribute="top" id="P66-tT-mmK"/>
+                                            <constraint firstAttribute="bottom" secondItem="Qed-0W-f5P" secondAttribute="bottom" id="YIT-RV-RGV"/>
+                                            <constraint firstItem="Qed-0W-f5P" firstAttribute="leading" secondItem="OOK-x9-rgv" secondAttribute="leading" id="cTW-rI-mgO"/>
                                             <constraint firstItem="Qed-0W-f5P" firstAttribute="centerY" secondItem="OOK-x9-rgv" secondAttribute="centerY" id="frX-2g-BU5"/>
                                             <constraint firstItem="Qed-0W-f5P" firstAttribute="centerX" secondItem="OOK-x9-rgv" secondAttribute="centerX" id="ryH-9l-JYg"/>
                                         </constraints>
