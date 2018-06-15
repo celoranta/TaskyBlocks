@@ -9,15 +9,11 @@
 /* Begin PBXBuildFile section */
 		0DB9D711848189A385558825 /* Pods_TaskyBlocksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CCB854CE0DB8AAC16109F0D /* Pods_TaskyBlocksTests.framework */; };
 		517211B36059D477D9D02E55 /* Pods_TaskyBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 100335919D82C4C02AD49442 /* Pods_TaskyBlocks.framework */; };
-		95046CD62085146E00237F31 /* MasterGraphingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95046CD52085146E00237F31 /* MasterGraphingViewController.swift */; };
-		95046CDB20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95046CDA20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift */; };
 		951099722075C0A10091DF49 /* TaskyBlocksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099712075C0A10091DF49 /* TaskyBlocksUITests.swift */; };
-		951099922075C14A0091DF49 /* PerformViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510997F2075C1460091DF49 /* PerformViewController.swift */; };
 		951099962075C14A0091DF49 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951099832075C1460091DF49 /* LaunchScreen.storyboard */; };
 		951099982075C14A0091DF49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 951099852075C1460091DF49 /* Assets.xcassets */; };
 		951099992075C14A0091DF49 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951099862075C1470091DF49 /* Main.storyboard */; };
 		9510999A2075C14A0091DF49 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099872075C1470091DF49 /* AppDelegate.swift */; };
-		9510999B2075C14A0091DF49 /* PomodoroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099882075C1470091DF49 /* PomodoroViewController.swift */; };
 		9510999C2075C14A0091DF49 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099892075C1470091DF49 /* DetailViewController.swift */; };
 		951099A62075C3600091DF49 /* TaskyBlocksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099662075C0A10091DF49 /* TaskyBlocksTests.swift */; };
 		9534855A2079859300A613B9 /* PickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953485592079859300A613B9 /* PickerTableViewCell.swift */; };
@@ -35,19 +31,11 @@
 		95A7905020A4CB940006A48A /* HierarchyGraphViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7904F20A4CB940006A48A /* HierarchyGraphViewLayout.swift */; };
 		95A7905220A4E1D00006A48A /* DependenceGraphViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7905120A4E1D00006A48A /* DependenceGraphViewLayout.swift */; };
 		95A7905420A50FC70006A48A /* GraphCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7905320A50FC70006A48A /* GraphCollectionViewLayout.swift */; };
-		95B1453A20865CE700467D36 /* FinalDependenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453920865CE700467D36 /* FinalDependenceViewController.swift */; };
-		95B1453C20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453B20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift */; };
-		95B1453E20865D4100467D36 /* FinalPriorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453D20865D4100467D36 /* FinalPriorityViewController.swift */; };
-		95B1454020865D6700467D36 /* FinalPriorityCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1453F20865D6700467D36 /* FinalPriorityCollectionViewLayout.swift */; };
-		95B1454220865E8400467D36 /* FinalHierarchyCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B1454120865E8400467D36 /* FinalHierarchyCollectionViewLayout.swift */; };
-		95B145442086619200467D36 /* FinalHierarchyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B145432086619200467D36 /* FinalHierarchyViewController.swift */; };
 		95B866FB20ACB6A70017B5C5 /* HierarchyGraphingNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B866FA20ACB6A70017B5C5 /* HierarchyGraphingNode.swift */; };
 		95BE0D2F2076027A0097937F /* TaskTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BE0D2E207602790097937F /* TaskTimer.swift */; };
 		95D05A7820789D220053593E /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D05A7720789D220053593E /* DetailTableViewCell.swift */; };
 		95DC88D52077489B00E346DB /* TaskyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88D42077489B00E346DB /* TaskyNode.swift */; };
-		95E5EFCF20780CB700CD8D6C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */; };
 		95F0291F2086DDBB00FE9A0C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F0291E2086DDBB00FE9A0C /* SettingsViewController.swift */; };
-		95F47C34208523F500827999 /* MasterGraphingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F47C33208523F500827999 /* MasterGraphingCollectionViewCell.swift */; };
 		A8FB86C5040C81C5F8BECB96 /* Pods_TaskyBlocksUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525EBF3C26B119C459668B45 /* Pods_TaskyBlocksUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -75,8 +63,6 @@
 		3CCB854CE0DB8AAC16109F0D /* Pods_TaskyBlocksTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TaskyBlocksTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F1BA92A39685022D1D3C68E /* Pods-TaskyBlocksTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocksTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocksTests/Pods-TaskyBlocksTests.release.xcconfig"; sourceTree = "<group>"; };
 		525EBF3C26B119C459668B45 /* Pods_TaskyBlocksUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TaskyBlocksUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		95046CD52085146E00237F31 /* MasterGraphingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGraphingViewController.swift; sourceTree = "<group>"; };
-		95046CDA20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGraphingCollectionViewLayout.swift; sourceTree = "<group>"; };
 		9510994E2075C09F0091DF49 /* TaskyBlocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskyBlocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9510995D2075C0A10091DF49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		951099622075C0A10091DF49 /* TaskyBlocksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskyBlocksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,12 +71,10 @@
 		9510996D2075C0A10091DF49 /* TaskyBlocksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskyBlocksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		951099712075C0A10091DF49 /* TaskyBlocksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyBlocksUITests.swift; sourceTree = "<group>"; };
 		951099732075C0A10091DF49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9510997F2075C1460091DF49 /* PerformViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerformViewController.swift; sourceTree = "<group>"; };
 		951099832075C1460091DF49 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		951099852075C1460091DF49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		951099862075C1470091DF49 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		951099872075C1470091DF49 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		951099882075C1470091DF49 /* PomodoroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PomodoroViewController.swift; sourceTree = "<group>"; };
 		951099892075C1470091DF49 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		953485592079859300A613B9 /* PickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
 		9534855B20798A2F00A613B9 /* PickerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
@@ -107,19 +91,11 @@
 		95A7904F20A4CB940006A48A /* HierarchyGraphViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchyGraphViewLayout.swift; sourceTree = "<group>"; };
 		95A7905120A4E1D00006A48A /* DependenceGraphViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependenceGraphViewLayout.swift; sourceTree = "<group>"; };
 		95A7905320A50FC70006A48A /* GraphCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCollectionViewLayout.swift; sourceTree = "<group>"; };
-		95B1453920865CE700467D36 /* FinalDependenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalDependenceViewController.swift; sourceTree = "<group>"; };
-		95B1453B20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalDependenceCollectionViewLayout.swift; sourceTree = "<group>"; };
-		95B1453D20865D4100467D36 /* FinalPriorityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalPriorityViewController.swift; sourceTree = "<group>"; };
-		95B1453F20865D6700467D36 /* FinalPriorityCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalPriorityCollectionViewLayout.swift; sourceTree = "<group>"; };
-		95B1454120865E8400467D36 /* FinalHierarchyCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalHierarchyCollectionViewLayout.swift; sourceTree = "<group>"; };
-		95B145432086619200467D36 /* FinalHierarchyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalHierarchyViewController.swift; sourceTree = "<group>"; };
 		95B866FA20ACB6A70017B5C5 /* HierarchyGraphingNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchyGraphingNode.swift; sourceTree = "<group>"; };
 		95BE0D2E207602790097937F /* TaskTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTimer.swift; sourceTree = "<group>"; };
 		95D05A7720789D220053593E /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		95DC88D42077489B00E346DB /* TaskyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyNode.swift; sourceTree = "<group>"; };
-		95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		95F0291E2086DDBB00FE9A0C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		95F47C33208523F500827999 /* MasterGraphingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGraphingCollectionViewCell.swift; sourceTree = "<group>"; };
 		A72648820E802729DA3A0EBD /* Pods-TaskyBlocksUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocksUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F60413C7A89086E30F4D0CA1 /* Pods-TaskyBlocks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocks.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks.debug.xcconfig"; sourceTree = "<group>"; };
 		FB974643A72EBA075538E8B3 /* Pods-TaskyBlocks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocks.release.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks.release.xcconfig"; sourceTree = "<group>"; };
@@ -169,9 +145,6 @@
 		95046CD7208518AE00237F31 /* CustomViewComponents */ = {
 			isa = PBXGroup;
 			children = (
-				95046CD52085146E00237F31 /* MasterGraphingViewController.swift */,
-				95046CDA20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift */,
-				95F47C33208523F500827999 /* MasterGraphingCollectionViewCell.swift */,
 				95BE0D2E207602790097937F /* TaskTimer.swift */,
 				95D05A7720789D220053593E /* DetailTableViewCell.swift */,
 				953485592079859300A613B9 /* PickerTableViewCell.swift */,
@@ -248,13 +221,7 @@
 				959A74122091449A004B253A /* ChooseTaskTableViewController.swift */,
 				9534855B20798A2F00A613B9 /* PickerTableViewController.swift */,
 				95F0291E2086DDBB00FE9A0C /* SettingsViewController.swift */,
-				95E5EFCE20780CB700CD8D6C /* SplashViewController.swift */,
 				959A7414209247FF004B253A /* MyTimer.swift */,
-				95B145432086619200467D36 /* FinalHierarchyViewController.swift */,
-				95B1453920865CE700467D36 /* FinalDependenceViewController.swift */,
-				95B1453D20865D4100467D36 /* FinalPriorityViewController.swift */,
-				951099882075C1470091DF49 /* PomodoroViewController.swift */,
-				9510997F2075C1460091DF49 /* PerformViewController.swift */,
 				953B32C9207EBB3C00B24C81 /* GraphComponents */,
 				95046CD7208518AE00237F31 /* CustomViewComponents */,
 			);
@@ -264,9 +231,6 @@
 		953B32C9207EBB3C00B24C81 /* GraphComponents */ = {
 			isa = PBXGroup;
 			children = (
-				95B1454120865E8400467D36 /* FinalHierarchyCollectionViewLayout.swift */,
-				95B1453B20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift */,
-				95B1453F20865D6700467D36 /* FinalPriorityCollectionViewLayout.swift */,
 			);
 			path = GraphComponents;
 			sourceTree = "<group>";
@@ -597,11 +561,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9534855A2079859300A613B9 /* PickerTableViewCell.swift in Sources */,
-				95046CD62085146E00237F31 /* MasterGraphingViewController.swift in Sources */,
-				95B1453E20865D4100467D36 /* FinalPriorityViewController.swift in Sources */,
 				9510999A2075C14A0091DF49 /* AppDelegate.swift in Sources */,
-				9510999B2075C14A0091DF49 /* PomodoroViewController.swift in Sources */,
-				95F47C34208523F500827999 /* MasterGraphingCollectionViewCell.swift in Sources */,
 				95A7905020A4CB940006A48A /* HierarchyGraphViewLayout.swift in Sources */,
 				959A74132091449A004B253A /* ChooseTaskTableViewController.swift in Sources */,
 				95A1834B207C39F500F38ED3 /* UITextViewPlaceholder.swift in Sources */,
@@ -610,26 +570,18 @@
 				95DC88D52077489B00E346DB /* TaskyNode.swift in Sources */,
 				95B866FB20ACB6A70017B5C5 /* HierarchyGraphingNode.swift in Sources */,
 				953F6D7920B5EB06003CF9FC /* UIColor+Hex.swift in Sources */,
-				95B1454220865E8400467D36 /* FinalHierarchyCollectionViewLayout.swift in Sources */,
-				95B1453A20865CE700467D36 /* FinalDependenceViewController.swift in Sources */,
 				959A7415209247FF004B253A /* MyTimer.swift in Sources */,
 				95A7905220A4E1D00006A48A /* DependenceGraphViewLayout.swift in Sources */,
 				9510999C2075C14A0091DF49 /* DetailViewController.swift in Sources */,
-				95B145442086619200467D36 /* FinalHierarchyViewController.swift in Sources */,
 				9534855C20798A2F00A613B9 /* PickerTableViewController.swift in Sources */,
 				95D05A7820789D220053593E /* DetailTableViewCell.swift in Sources */,
 				9569D14F20A0FDD1000B7E3F /* PriorityGraphViewLayout.swift in Sources */,
 				9583A27D20827948000F22EC /* TaskyNodeEditor.swift in Sources */,
-				95E5EFCF20780CB700CD8D6C /* SplashViewController.swift in Sources */,
 				9569D14D20A0F8B7000B7E3F /* GraphingCollectionViewCell.swift in Sources */,
-				95046CDB20851C6D00237F31 /* MasterGraphingCollectionViewLayout.swift in Sources */,
 				959A74172093BA4F004B253A /* DatePickerVCViewController.swift in Sources */,
-				95B1454020865D6700467D36 /* FinalPriorityCollectionViewLayout.swift in Sources */,
 				95A7905420A50FC70006A48A /* GraphCollectionViewLayout.swift in Sources */,
-				95B1453C20865D1F00467D36 /* FinalDependenceCollectionViewLayout.swift in Sources */,
 				958661DC208FE3FB00B4E06A /* ComboViewController.swift in Sources */,
 				95F0291F2086DDBB00FE9A0C /* SettingsViewController.swift in Sources */,
-				951099922075C14A0091DF49 /* PerformViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
