@@ -271,6 +271,20 @@
                                     <action selector="timeSpentButton:" destination="1Gi-xi-kOP" eventType="touchUpInside" id="lt2-3P-Va2"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3c8-xN-ltK">
+                                <rect key="frame" x="313" y="531" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="addChildButton:" destination="1Gi-xi-kOP" eventType="touchUpInside" id="Z03-fq-e80"/>
+                                    <action selector="timeSpentButton:" destination="1Gi-xi-kOP" eventType="touchUpInside" id="Mer-BJ-1BL"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Child Task" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ulg-qo-ie0">
+                                <rect key="frame" x="14" y="535" width="114" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -306,6 +320,9 @@
                             <constraint firstItem="G4S-0z-Kvl" firstAttribute="trailing" secondItem="Yve-mN-trh" secondAttribute="trailing" constant="16" id="RQX-7P-czE"/>
                             <constraint firstItem="G4S-0z-Kvl" firstAttribute="trailing" secondItem="dPx-Zb-Gw6" secondAttribute="trailing" constant="16" id="SFR-xf-TSE"/>
                             <constraint firstItem="Wh1-6P-uTn" firstAttribute="leading" secondItem="G4S-0z-Kvl" secondAttribute="leading" constant="16" id="VmC-aL-UEX"/>
+                            <constraint firstItem="ulg-qo-ie0" firstAttribute="leading" secondItem="G4S-0z-Kvl" secondAttribute="leading" constant="14" id="Y9L-AE-NrG"/>
+                            <constraint firstItem="ulg-qo-ie0" firstAttribute="centerY" secondItem="3c8-xN-ltK" secondAttribute="centerY" id="YTZ-Yf-wcF"/>
+                            <constraint firstItem="G4S-0z-Kvl" firstAttribute="trailing" secondItem="3c8-xN-ltK" secondAttribute="trailing" constant="16" id="ZuS-A6-kNg"/>
                             <constraint firstItem="XiR-Sw-tY1" firstAttribute="centerY" secondItem="Po5-T7-WoI" secondAttribute="centerY" id="b61-M0-bn4"/>
                             <constraint firstItem="r6X-to-wo1" firstAttribute="top" secondItem="G4S-0z-Kvl" secondAttribute="top" constant="8" id="bak-WI-6n6"/>
                             <constraint firstItem="NcQ-ae-2MY" firstAttribute="centerY" secondItem="wzl-Os-7sW" secondAttribute="centerY" id="d2H-2t-h9h"/>
@@ -327,6 +344,7 @@
                             <constraint firstItem="G4S-0z-Kvl" firstAttribute="trailing" secondItem="bL9-mF-K5d" secondAttribute="trailing" constant="16" id="spd-3S-6ZA"/>
                             <constraint firstItem="JFd-5f-eJ1" firstAttribute="centerX" secondItem="sPJ-jN-FKk" secondAttribute="centerX" id="stp-1t-AAY"/>
                             <constraint firstItem="EzD-oc-jmb" firstAttribute="leading" secondItem="G4S-0z-Kvl" secondAttribute="leading" constant="16" id="ugl-w0-BEC"/>
+                            <constraint firstItem="3c8-xN-ltK" firstAttribute="top" secondItem="Po5-T7-WoI" secondAttribute="bottom" constant="-2" id="v1p-Ye-nhL"/>
                             <constraint firstItem="Yve-mN-trh" firstAttribute="top" secondItem="wzl-Os-7sW" secondAttribute="bottom" constant="-1" id="vRl-gx-USN"/>
                             <constraint firstItem="FtN-gm-hqJ" firstAttribute="top" secondItem="bI7-Sk-97c" secondAttribute="bottom" constant="3" id="vlC-su-NQj"/>
                             <constraint firstItem="iFy-cp-e4Q" firstAttribute="top" secondItem="r6X-to-wo1" secondAttribute="bottom" constant="8" id="wHY-yZ-p31"/>

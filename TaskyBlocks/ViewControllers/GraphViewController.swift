@@ -61,7 +61,7 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
   
   fileprivate func refreshGraph()
   {
-    let layout = self.graphViewLayout as! UICollectionViewLayout
+    let layout = self.graphViewLayout as! UICollectionViewLayout // ToDo this is a lie use polymorphism. ie subclasses of uicollectionview layout
     self.collectionView.reloadData()
     layout.invalidateLayout()
   }
@@ -83,11 +83,6 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
     cell.setupCellWith(task: task)
     
     return cell
-  }
-  
-  func numberOfSections(in collectionView: UICollectionView) -> Int
-  {
-    return 1
   }
   
   //MARK: - Task Detail DataSource Methods

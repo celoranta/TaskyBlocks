@@ -33,6 +33,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   @IBOutlet weak var completedSwitch: UISwitch!
   @IBOutlet weak var timeEstimateOutlet: UIButton!
   @IBOutlet weak var timeSpentOutlet: UIButton!
+
   
   //MARK: Variables
   var task:TaskyNode!
@@ -165,6 +166,11 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     durationPicker.addTarget(self, action: #selector(setEstimate(_:)), for: UIControlEvents.valueChanged)
        inputAlert.view.addSubview(durationPicker)
     self.present(inputAlert, animated: true,completion: nil)
+  }
+  @IBAction func addChildButton(_ sender: Any) {
+    let newTask = TaskyNodeEditor.sharedInstance.newTask()
+    TaskyNodeEditor.sharedInstance.add(task: newTask, AsChildTo: task)
+    presentingViewController?.dismiss(animated: true, completion: nil)
   }
   
   @objc func setEstimate(_ sender: UIDatePicker)
