@@ -15,7 +15,7 @@ protocol GraphViewLayout {
 
 class GraphViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, CollectionViewLayoutDelegate, TaskDetailDataSource {
   
-  
+
   var selectedTask: TaskyNode!
   var initialCellWidth: CGFloat!
   var initialCellHeight: CGFloat!
@@ -33,6 +33,7 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
   
   override func viewDidLoad() {
     super.viewDidLoad()
+
     let _ = try! Realm()
 
     dataSource = TaskyNodeEditor.sharedInstance.database
@@ -164,4 +165,8 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
     print("Settings Pressed")
     
   }
+  
+
+  
+  
 }

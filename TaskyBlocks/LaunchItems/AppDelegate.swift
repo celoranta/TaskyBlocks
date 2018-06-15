@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
-    
+    initialAppSetup()
 
     return true
   }
@@ -41,6 +42,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func applicationWillTerminate(_ application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+  }
+  fileprivate func initialAppSetup() {
+    if TaskyNodeEditor.sharedInstance.database.count == 0
+    {
+      let testNewTask = TaskyNodeEditor.sharedInstance.newTask()
+      TaskyNodeEditor.sharedInstance.makePermanent(task: testNewTask)
+      TaskyNodeEditor.sharedInstance.changeTitle(task: testNewTask, to: "Be Happy")
+      TaskyNodeEditor.sharedInstance.setDirectPriority(of: testNewTask, to: 100.00)
+      TaskyNodeEditor.sharedInstance.setEstimatedTime(of: testNewTask, to: 10)
+      TaskyNodeEditor.sharedInstance.setElapsedTime(of: testNewTask, to: 5)
+      TaskyNodeEditor.sharedInstance.complete(task: testNewTask)
+      print("\nNew primal value created: ")
+      testNewTask.soundOff()
+      
+      let userSettings = UserDefaults()
+      let settingsExist = userSettings.bool(forKey: "DefaultsPreviouslyLoaded")
+      if settingsExist == false
+      {
+        self.configureInitialUserDefaults()
+      }
+    }
+  }
+  
+  fileprivate func configureInitialUserDefaults()
+  {
+    let userSettings = UserDefaults()
+    userSettings.set(false, forKey: "NewTasksAreRandom")
+    userSettings.set(true, forKey: "DefaultsPreviouslyLoaded")
+    userSettings.set(45, forKey: "DefaultSprintDuration")
   }
 
 

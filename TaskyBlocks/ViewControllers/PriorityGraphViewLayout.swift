@@ -92,9 +92,9 @@ class PriorityGraphViewLayout: GraphCollectionViewLayout, GraphViewLayout {
       print(task.priorityApparent)
     }
     let maxIndex = unmappedTasks.index(of: maxTask)!
-    unmappedTasks.remove(at: maxIndex)
+    //unmappedTasks.remove(at: maxIndex)
     let minIndex = unmappedTasks.index(of: minTask)!
-    unmappedTasks.remove(at: minIndex)
+    //unmappedTasks.remove(at: minIndex)
     column = 0
     var previousTaskAttribute = maxAttribute
     var futureColumnTasks: [TaskyNode] = []
