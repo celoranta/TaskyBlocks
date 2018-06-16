@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0DB9D711848189A385558825 /* Pods_TaskyBlocksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CCB854CE0DB8AAC16109F0D /* Pods_TaskyBlocksTests.framework */; };
 		517211B36059D477D9D02E55 /* Pods_TaskyBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 100335919D82C4C02AD49442 /* Pods_TaskyBlocks.framework */; };
-		951099722075C0A10091DF49 /* TaskyBlocksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099712075C0A10091DF49 /* TaskyBlocksUITests.swift */; };
 		951099962075C14A0091DF49 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951099832075C1460091DF49 /* LaunchScreen.storyboard */; };
 		951099982075C14A0091DF49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 951099852075C1460091DF49 /* Assets.xcassets */; };
 		951099992075C14A0091DF49 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951099862075C1470091DF49 /* Main.storyboard */; };
@@ -40,18 +39,10 @@
 		95D05A7820789D220053593E /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D05A7720789D220053593E /* DetailTableViewCell.swift */; };
 		95DC88D52077489B00E346DB /* Tasky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88D42077489B00E346DB /* Tasky.swift */; };
 		95F0291F2086DDBB00FE9A0C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F0291E2086DDBB00FE9A0C /* SettingsViewController.swift */; };
-		A8FB86C5040C81C5F8BECB96 /* Pods_TaskyBlocksUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525EBF3C26B119C459668B45 /* Pods_TaskyBlocksUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		951099632075C0A10091DF49 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 951099462075C09F0091DF49 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9510994D2075C09F0091DF49;
-			remoteInfo = TaskyBlocks;
-		};
-		9510996E2075C0A10091DF49 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 951099462075C09F0091DF49 /* Project object */;
 			proxyType = 1;
@@ -72,9 +63,6 @@
 		951099622075C0A10091DF49 /* TaskyBlocksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskyBlocksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		951099662075C0A10091DF49 /* TaskyBlocksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyBlocksTests.swift; sourceTree = "<group>"; };
 		951099682075C0A10091DF49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9510996D2075C0A10091DF49 /* TaskyBlocksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskyBlocksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		951099712075C0A10091DF49 /* TaskyBlocksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyBlocksUITests.swift; sourceTree = "<group>"; };
-		951099732075C0A10091DF49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		951099832075C1460091DF49 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		951099852075C1460091DF49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		951099862075C1470091DF49 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -126,14 +114,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9510996A2075C0A10091DF49 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A8FB86C5040C81C5F8BECB96 /* Pods_TaskyBlocksUITests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -165,7 +145,6 @@
 			children = (
 				951099502075C09F0091DF49 /* TaskyBlocks */,
 				951099652075C0A10091DF49 /* TaskyBlocksTests */,
-				951099702075C0A10091DF49 /* TaskyBlocksUITests */,
 				9510994F2075C09F0091DF49 /* Products */,
 				78D9FFDBFD2E4B8C2E124FD0 /* Pods */,
 				B99B930226CF906B54479857 /* Frameworks */,
@@ -177,7 +156,6 @@
 			children = (
 				9510994E2075C09F0091DF49 /* TaskyBlocks.app */,
 				951099622075C0A10091DF49 /* TaskyBlocksTests.xctest */,
-				9510996D2075C0A10091DF49 /* TaskyBlocksUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -202,15 +180,6 @@
 				951099682075C0A10091DF49 /* Info.plist */,
 			);
 			path = TaskyBlocksTests;
-			sourceTree = "<group>";
-		};
-		951099702075C0A10091DF49 /* TaskyBlocksUITests */ = {
-			isa = PBXGroup;
-			children = (
-				951099712075C0A10091DF49 /* TaskyBlocksUITests.swift */,
-				951099732075C0A10091DF49 /* Info.plist */,
-			);
-			path = TaskyBlocksUITests;
 			sourceTree = "<group>";
 		};
 		953B32C8207EBB0C00B24C81 /* ViewControllers */ = {
@@ -321,27 +290,6 @@
 			productReference = 951099622075C0A10091DF49 /* TaskyBlocksTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		9510996C2075C0A10091DF49 /* TaskyBlocksUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9510997C2075C0A10091DF49 /* Build configuration list for PBXNativeTarget "TaskyBlocksUITests" */;
-			buildPhases = (
-				D50751A8ED8E527EDB1CE8B0 /* [CP] Check Pods Manifest.lock */,
-				951099692075C0A10091DF49 /* Sources */,
-				9510996A2075C0A10091DF49 /* Frameworks */,
-				9510996B2075C0A10091DF49 /* Resources */,
-				E75302AF30BDA290B4557BE9 /* [CP] Embed Pods Frameworks */,
-				9058CFE2ECD189E084F44951 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9510996F2075C0A10091DF49 /* PBXTargetDependency */,
-			);
-			name = TaskyBlocksUITests;
-			productName = TaskyBlocksUITests;
-			productReference = 9510996D2075C0A10091DF49 /* TaskyBlocksUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -357,10 +305,6 @@
 						LastSwiftMigration = 0930;
 					};
 					951099612075C0A10091DF49 = {
-						CreatedOnToolsVersion = 9.3;
-						TestTargetID = 9510994D2075C09F0091DF49;
-					};
-					9510996C2075C0A10091DF49 = {
 						CreatedOnToolsVersion = 9.3;
 						TestTargetID = 9510994D2075C09F0091DF49;
 					};
@@ -381,7 +325,6 @@
 			targets = (
 				9510994D2075C09F0091DF49 /* TaskyBlocks */,
 				951099612075C0A10091DF49 /* TaskyBlocksTests */,
-				9510996C2075C0A10091DF49 /* TaskyBlocksUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -398,13 +341,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		951099602075C0A10091DF49 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9510996B2075C0A10091DF49 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -465,21 +401,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9058CFE2ECD189E084F44951 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		9362274EE943CC190FDB001D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -500,24 +421,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D50751A8ED8E527EDB1CE8B0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TaskyBlocksUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DD7A302582EE28AA3360F682 /* [CP] Copy Pods Resources */ = {
@@ -548,21 +451,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TaskyBlocks/Pods-TaskyBlocks-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E75302AF30BDA290B4557BE9 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -609,14 +497,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		951099692075C0A10091DF49 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				951099722075C0A10091DF49 /* TaskyBlocksUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -624,11 +504,6 @@
 			isa = PBXTargetDependency;
 			target = 9510994D2075C09F0091DF49 /* TaskyBlocks */;
 			targetProxy = 951099632075C0A10091DF49 /* PBXContainerItemProxy */;
-		};
-		9510996F2075C0A10091DF49 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9510994D2075C09F0091DF49 /* TaskyBlocks */;
-			targetProxy = 9510996E2075C0A10091DF49 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -834,48 +709,6 @@
 			};
 			name = Release;
 		};
-		9510997D2075C0A10091DF49 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A72648820E802729DA3A0EBD /* Pods-TaskyBlocksUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4V94RGV9SC;
-				INFOPLIST_FILE = TaskyBlocksUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = celoranta.TaskyBlocksUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TaskyBlocks;
-			};
-			name = Debug;
-		};
-		9510997E2075C0A10091DF49 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 02832F0167D32952AFA3D549 /* Pods-TaskyBlocksUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4V94RGV9SC;
-				INFOPLIST_FILE = TaskyBlocksUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = celoranta.TaskyBlocksUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TaskyBlocks;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -902,15 +735,6 @@
 			buildConfigurations = (
 				9510997A2075C0A10091DF49 /* Debug */,
 				9510997B2075C0A10091DF49 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9510997C2075C0A10091DF49 /* Build configuration list for PBXNativeTarget "TaskyBlocksUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9510997D2075C0A10091DF49 /* Debug */,
-				9510997E2075C0A10091DF49 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
