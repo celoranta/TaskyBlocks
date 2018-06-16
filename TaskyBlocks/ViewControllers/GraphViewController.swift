@@ -13,8 +13,8 @@ import RealmSwift
 class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelectionSegueHandler {
 
   
-  var selectedTask: Tasky!
 
+  var selectedTask: Tasky! //This can't be a
   var dataModel: Results<Tasky>!
 
   var graphViewLayout: UICollectionViewLayout!
@@ -28,7 +28,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     super.viewDidLoad()
 
     let _ = try! Realm()
-    dataModel = TaskyEditor.sharedInstance.database
+    dataModel = TaskyEditor.sharedInstance.TaskDatabase
     
     if self.graphViewLayout == nil
     {
@@ -66,9 +66,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     let tasksPath = collectionView.indexPathsForSelectedItems
     if let tasksPath = tasksPath {
     let taskPath = tasksPath[0]
-    
     }
-  
   }
   
   //MARK: - Task Detail DataSource Methods

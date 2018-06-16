@@ -15,7 +15,8 @@ enum NewTaskyType {
 
 class TaskyEditor: NSObject {
   private let realm: Realm
-  let database: Results<Tasky>
+  let TaskDatabase: Results<Tasky>
+  let NodeDatabase: Results<TaskyNode>
   static let sharedInstance = TaskyEditor()
   var notificationToken: NotificationToken? = nil
   
@@ -294,7 +295,8 @@ class TaskyEditor: NSObject {
     }
     self.realm = realmInstance
     print("Realm instance created")
-    self.database = realm.objects(Tasky.self)
+    self.TaskDatabase = realm.objects(Tasky.self)
+    self.NodeDatabase = realm.objects(TaskyNode.self)
     print("Database created in memory")
     super.init()
   }
@@ -341,7 +343,7 @@ class TaskyEditor: NSObject {
   
   func setupDatabaseIfRequired()
   {
-    if TaskyEditor.sharedInstance.database.count == 0
+    if TaskyEditor.sharedInstance.TaskDatabase.count == 0
     {
       let testNewTask = TaskyEditor.sharedInstance.newTask()
       TaskyEditor.sharedInstance.makePermanent(task: testNewTask)
@@ -371,7 +373,7 @@ class TaskyEditor: NSObject {
   {
     try! realm.write
     {
-      for task in database
+      for task in TaskDatabase
       {
         notificationToken?.invalidate()
         TaskyEditor.sharedInstance.complete(task: task)

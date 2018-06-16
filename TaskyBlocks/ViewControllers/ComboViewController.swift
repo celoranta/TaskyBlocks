@@ -307,7 +307,7 @@ class ComboViewController: UIViewController, AppusCircleTimerDelegate, ChooseTas
     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
     let tasksViewController = storyBoard.instantiateViewController(withIdentifier: "chooseTask") as! ChooseTaskTableViewController
     tasksViewController.chooseTaskDelegate = self
-    tasksViewController.availableTasks = Array(TaskyEditor.sharedInstance.database.filter("completionDate == nil"))
+    tasksViewController.availableTasks = Array(TaskyEditor.sharedInstance.TaskDatabase.filter("completionDate == nil"))
     present(tasksViewController, animated: true, completion: nil)
   }
   
