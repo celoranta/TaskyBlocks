@@ -18,6 +18,10 @@
 		951099A62075C3600091DF49 /* TaskyBlocksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951099662075C0A10091DF49 /* TaskyBlocksTests.swift */; };
 		9534855A2079859300A613B9 /* PickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953485592079859300A613B9 /* PickerTableViewCell.swift */; };
 		9534855C20798A2F00A613B9 /* PickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9534855B20798A2F00A613B9 /* PickerTableViewController.swift */; };
+		953EF22820D466B2002F8925 /* GraphCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF22720D466B2002F8925 /* GraphCollectionViewDelegate.swift */; };
+		953EF22A20D47213002F8925 /* GraphCollectionViewDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF22920D47213002F8925 /* GraphCollectionViewDatasource.swift */; };
+		953EF22C20D473FC002F8925 /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF22B20D473FC002F8925 /* GraphManager.swift */; };
+		953EF23020D4B1A6002F8925 /* Tasky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF22F20D4B1A6002F8925 /* Tasky.swift */; };
 		953F6D7920B5EB06003CF9FC /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953F6D7820B5EB06003CF9FC /* UIColor+Hex.swift */; };
 		9569D14B20A0F89C000B7E3F /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9569D14A20A0F89C000B7E3F /* GraphViewController.swift */; };
 		9569D14D20A0F8B7000B7E3F /* GraphingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9569D14C20A0F8B7000B7E3F /* GraphingCollectionViewCell.swift */; };
@@ -78,6 +82,10 @@
 		951099892075C1470091DF49 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		953485592079859300A613B9 /* PickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
 		9534855B20798A2F00A613B9 /* PickerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
+		953EF22720D466B2002F8925 /* GraphCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		953EF22920D47213002F8925 /* GraphCollectionViewDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCollectionViewDatasource.swift; sourceTree = "<group>"; };
+		953EF22B20D473FC002F8925 /* GraphManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
+		953EF22F20D4B1A6002F8925 /* Tasky.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tasky.swift; sourceTree = "<group>"; };
 		953F6D7820B5EB06003CF9FC /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		9569D14A20A0F89C000B7E3F /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		9569D14C20A0F8B7000B7E3F /* GraphingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphingCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -209,8 +217,11 @@
 			isa = PBXGroup;
 			children = (
 				9569D14A20A0F89C000B7E3F /* GraphViewController.swift */,
-				95A7905320A50FC70006A48A /* GraphCollectionViewLayout.swift */,
+				953EF22B20D473FC002F8925 /* GraphManager.swift */,
+				953EF22720D466B2002F8925 /* GraphCollectionViewDelegate.swift */,
+				953EF22920D47213002F8925 /* GraphCollectionViewDatasource.swift */,
 				95B866FA20ACB6A70017B5C5 /* HierarchyGraphingNode.swift */,
+				95A7905320A50FC70006A48A /* GraphCollectionViewLayout.swift */,
 				95A7904F20A4CB940006A48A /* HierarchyGraphViewLayout.swift */,
 				95A7905120A4E1D00006A48A /* DependenceGraphViewLayout.swift */,
 				9569D14E20A0FDD1000B7E3F /* PriorityGraphViewLayout.swift */,
@@ -240,6 +251,7 @@
 			children = (
 				9583A27C20827948000F22EC /* TaskyNodeEditor.swift */,
 				95DC88D42077489B00E346DB /* TaskyNode.swift */,
+				953EF22F20D4B1A6002F8925 /* Tasky.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -566,10 +578,13 @@
 				959A74132091449A004B253A /* ChooseTaskTableViewController.swift in Sources */,
 				95A1834B207C39F500F38ED3 /* UITextViewPlaceholder.swift in Sources */,
 				9569D14B20A0F89C000B7E3F /* GraphViewController.swift in Sources */,
+				953EF23020D4B1A6002F8925 /* Tasky.swift in Sources */,
 				95BE0D2F2076027A0097937F /* TaskTimer.swift in Sources */,
 				95DC88D52077489B00E346DB /* TaskyNode.swift in Sources */,
 				95B866FB20ACB6A70017B5C5 /* HierarchyGraphingNode.swift in Sources */,
 				953F6D7920B5EB06003CF9FC /* UIColor+Hex.swift in Sources */,
+				953EF22A20D47213002F8925 /* GraphCollectionViewDatasource.swift in Sources */,
+				953EF22820D466B2002F8925 /* GraphCollectionViewDelegate.swift in Sources */,
 				959A7415209247FF004B253A /* MyTimer.swift in Sources */,
 				95A7905220A4E1D00006A48A /* DependenceGraphViewLayout.swift in Sources */,
 				9510999C2075C14A0091DF49 /* DetailViewController.swift in Sources */,
@@ -580,6 +595,7 @@
 				9569D14D20A0F8B7000B7E3F /* GraphingCollectionViewCell.swift in Sources */,
 				959A74172093BA4F004B253A /* DatePickerVCViewController.swift in Sources */,
 				95A7905420A50FC70006A48A /* GraphCollectionViewLayout.swift in Sources */,
+				953EF22C20D473FC002F8925 /* GraphManager.swift in Sources */,
 				958661DC208FE3FB00B4E06A /* ComboViewController.swift in Sources */,
 				95F0291F2086DDBB00FE9A0C /* SettingsViewController.swift in Sources */,
 			);

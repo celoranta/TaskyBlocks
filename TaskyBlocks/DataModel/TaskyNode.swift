@@ -12,7 +12,8 @@
 import UIKit
 import RealmSwift
 
-class TaskyNode: Object
+
+class TaskyNode: Object /*Rename to Tasky*/
   
 {
   //MARK: Realm ignored property list
@@ -23,7 +24,7 @@ class TaskyNode: Object
 
   //MARK: Realm Value Properties
   @objc dynamic var title = "New Task"
-  @objc dynamic var taskId = String(UUID().uuidString)
+  @objc dynamic var nodeId = String(UUID().uuidString) + "N"
   @objc dynamic var taskDescription = ""
   @objc dynamic private (set) var taskDate = Date()
   @objc dynamic var completionDate: Date? = nil
@@ -34,7 +35,7 @@ class TaskyNode: Object
   //MARK: Realm Object Properties
   let parents = List<TaskyNode>()
   let children = LinkingObjects(fromType: TaskyNode.self, property: "parents")
-  let antecedents = List<TaskyNode>()
+  let antecedents = List<TaskyNode>() //Move to Task
   let consequents = LinkingObjects(fromType: TaskyNode.self, property: "antecedents")
   let priorityDirect: RealmOptional<Double> = RealmOptional.init()
   let priorityOverride: RealmOptional<Double> = RealmOptional.init()
@@ -120,7 +121,7 @@ class TaskyNode: Object
   func soundOff()
   {
     print("\nHi, I'm '\(self.title).'")
-    print("My ID is: \(self.taskId)")
+    print("My ID is: \(self.nodeId)")
     print("My parents are: \(self.printMy(kin: RelationType.parents))")
     print("My children are: \(self.printMy(kin: RelationType.children))")
     print("My antecedents are: \(self.printMy(kin: RelationType.antecedents))")
@@ -214,7 +215,7 @@ enum RelationType
 extension TaskyNode {
   var uniqueKey: String {
     get {
-      return "\(priorityApparent)\(taskId)"
+      return "\(priorityApparent)\(nodeId)"
     }
   }
 }

@@ -9,23 +9,16 @@
 import UIKit
 import RealmSwift
 
-protocol GraphViewLayout {
-  var collectionViewLayoutDelegate: CollectionViewLayoutDelegate! {get set}
-}
 
-class GraphViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, CollectionViewLayoutDelegate, TaskDetailDataSource {
+class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelectionSegueHandler {
+
   
-
   var selectedTask: TaskyNode!
-  var initialCellWidth: CGFloat!
-  var initialCellHeight: CGFloat!
-  var dataSource: Results<TaskyNode>!
-  var graphViewLayout: GraphViewLayout!
-  var visibleScreenSize: CGSize {return dynamicScreenSize}
-  var dynamicScreenSize: CGSize = CGSize.zero
-  var initialCellSize: CGSize {
-    return CGSize.init(width: initialCellWidth, height: initialCellHeight)
-  }
+
+  var dataModel: Results<TaskyNode>!
+
+  var graphViewLayout: UICollectionViewLayout!
+  //var visibleScreenSize: CGSize {return dynamicScreenSize}
   
   @IBOutlet weak var collectionView: UICollectionView!
   @IBOutlet weak var toolBarOutlet: UIToolbar!
@@ -35,20 +28,17 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
     super.viewDidLoad()
 
     let _ = try! Realm()
-
-    dataSource = TaskyNodeEditor.sharedInstance.database
+    dataModel = TaskyNodeEditor.sharedInstance.database
+    
     if self.graphViewLayout == nil
     {
-      self.priorityBarItem(self)
+      self.hierarchyBarItem(self)
     }
-    self.graphViewLayout.collectionViewLayoutDelegate = self
-
+  
+    self.collectionView.delegate = GraphCollectionViewDelegate.init()
+    self.collectionView.dataSource = GraphCollectionViewDatasource()
     self.toolBarOutlet.isTranslucent = true
-    
-    self.initialCellWidth = 110
-    self.initialCellHeight = 0.5 * initialCellWidth
-    
-    selectedTask = dataSource.last!
+
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -56,7 +46,7 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
 //    {
 //    navigationController.setNavigationBarHidden(true, animated: true)
 //    }
-    dynamicScreenSize = UIScreen.main.bounds.size
+    //dynamicScreenSize = UIScreen.main.bounds.size
     refreshGraph()
   }
   
@@ -72,36 +62,19 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
     // Dispose of any resources that can be recreated.
   }
   
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-  {
-    return dataSource.count
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-  {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "graphingCell", for: indexPath) as! GraphingCollectionViewCell
-    let task = dataSource[indexPath.row]
-    cell.setupCellWith(task: task)
+  func taskWasSelected() {
+    let tasksPath = collectionView.indexPathsForSelectedItems
+    if let tasksPath = tasksPath {
+    let taskPath = tasksPath[0]
     
-    return cell
+    }
+  
   }
   
   //MARK: - Task Detail DataSource Methods
   
-
-  func returnSelectedTask() -> TaskyNode {
-    return selectedTask
-  }
-  
-  func datasource() -> [TaskyNode] {
-    return Array(dataSource)
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    print(indexPath)
-    self.selectedTask = Array(self.dataSource)[indexPath[1]]
-    print(selectedTask.title)
-    detailView(task: selectedTask)
+  func retrieveSelectedTask() -> TaskyNode {
+    return selectedTask //This should send an index path or get info from the node.
   }
   
   @objc func detailView(task: TaskyNode)
@@ -110,7 +83,7 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
     let nextVC = storyBoard.instantiateViewController(withIdentifier: "detailView") as! DetailViewController
     nextVC.task = task
-    nextVC.taskDetailDataSource = self
+    nextVC.taskDetailSegueSource = self
     navigationController?.pushViewController(nextVC, animated: true)
   }
   
@@ -126,9 +99,8 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
     case "priorityToDetail":
       print("prepare for segue to detail with \(selectedTask.title) selected was called")
       let detailVC = segue.destination.childViewControllers.first as! DetailViewController
-      detailVC.taskDetailDataSource = self
+      detailVC.taskDetailSegueSource = self
       detailVC.task = selectedTask
-
     default:
       return
     }
@@ -137,36 +109,31 @@ class GraphViewController: UIViewController, UICollectionViewDelegate, UICollect
   @IBAction func hierarchyBarItem(_ sender: Any) {
     print("Hierarchy Pressed")
     graphViewLayout = HierarchyGraphViewLayout()
-    graphViewLayout.collectionViewLayoutDelegate = self
-    collectionView.dataSource = self
-    self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)
-    refreshGraph()
+//    graphViewLayout.collectionViewLayoutDelegate = self
+//    collectionView.dataSource = self
+    self.collectionView.setCollectionViewLayout(graphViewLayout, animated: true)
+   refreshGraph()
   }
   
   @IBAction func dependenceBarItem(_ sender: Any) {
     print("Dependence Pressed")
-    graphViewLayout = DependenceGraphViewLayout()
-    graphViewLayout.collectionViewLayoutDelegate = self
-    collectionView.dataSource = self
-    self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)
-    refreshGraph()
+//    graphViewLayout = DependenceGraphViewLayout()
+//    graphViewLayout.collectionViewLayoutDelegate = self
+//    collectionView.dataSource = self
+//    self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)
+//    refreshGraph()
   }
   
   @IBAction func priorityBarItem(_ sender: Any) {
     print("Priority Pressed")
-    self.graphViewLayout = PriorityGraphViewLayout()
-    graphViewLayout.collectionViewLayoutDelegate = self
-    collectionView.dataSource = self
-    self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)
-    refreshGraph()
+//    self.graphViewLayout = PriorityGraphViewLayout()
+//    graphViewLayout.collectionViewLayoutDelegate = self
+//    collectionView.dataSource = self
+//    self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)
+//    refreshGraph()
   }
   
   @IBAction func SettingsBarItem(_ sender: Any) {
     print("Settings Pressed")
-    
   }
-  
-
-  
-  
 }

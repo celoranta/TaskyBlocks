@@ -45,7 +45,7 @@ class TaskyNodeEditor: NSObject {
       newTaskyNode = newTaskyNodeArray[0]
     }
     //TaskyNodeEditor.sharedInstance.updateAllActivePriorities()
-    guard let returnTask = realm.object(ofType: TaskyNode.self, forPrimaryKey: newTaskyNode.taskId)
+    guard let returnTask = realm.object(ofType: TaskyNode.self, forPrimaryKey: newTaskyNode.nodeId)
       else
     {
       fatalError("Realm returned a non-Task object")
@@ -117,11 +117,11 @@ class TaskyNodeEditor: NSObject {
       task.completionDate = Date()
       realm.add(task, update: true)
       try! realm.commitWrite()
-      print("Tasky node \(task.title) with id: \(task.taskId) was marked complete")
+      print("Tasky node \(task.title) with id: \(task.nodeId) was marked complete")
     }
     else
     {
-      print("Tasky node \(task.title) with id: \(task.taskId) is permanent and cannot be marked complete")
+      print("Tasky node \(task.title) with id: \(task.nodeId) is permanent and cannot be marked complete")
     }
   }
   

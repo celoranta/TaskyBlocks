@@ -9,9 +9,9 @@
 import UIKit
 import RealmSwift
 
-protocol TaskDetailDataSource
+protocol SelectedTaskDestination
 {
-  func returnSelectedTask () -> TaskyNode
+  func retrieveSelectedTask () -> TaskyNode
 }
 
 class DetailViewController: UIViewController, PickerTableViewDelegate, UITextViewDelegate, UITextFieldDelegate
@@ -37,7 +37,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   //MARK: Variables
   var task:TaskyNode!
-  var taskDetailDataSource: TaskDetailDataSource!
+  var taskDetailSegueSource: SelectedTaskDestination!
   var pickerTableViewController: PickerTableViewController!
   var pickerViewRelationshipType: TaskRelationship!
   var taskDescriptionString: String?
@@ -75,12 +75,12 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     timeEstimateOutlet.setTitleColor(UIColor.black, for: .normal)
     timeSpentOutlet.setTitleColor(UIColor.black, for: .normal)
     
-    guard taskDetailDataSource != nil
+    guard taskDetailSegueSource != nil
       else
     {
       fatalError("No data source set for detail view")
     }
-    task = taskDetailDataSource.returnSelectedTask()
+    task = taskDetailSegueSource.retrieveSelectedTask()
     subscribeToNotifications()
     self.refreshView()
 
@@ -197,7 +197,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     }
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
-    self.uuidLabel.text = task.taskId
+    self.uuidLabel.text = task.nodeId
     let roundedPriority = round(task.priorityApparent)
     self.priorityLevelLabel.text = roundedPriority.description
     self.isPrimalStatusLabel.text = task.isPrimal.description
@@ -395,14 +395,14 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   {
     let destinationVC = segue.destination as! PickerTableViewController
     destinationVC.pickerTableViewDelegate = self
-    let predicate = NSPredicate.init(format: "completionDate == nil AND taskId != %@",self.task.taskId)
+    let predicate = NSPredicate.init(format: "completionDate == nil AND taskId != %@",self.task.nodeId)
     destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: TaskyNodeEditor.sharedInstance.database.filter(predicate))
   }
   
   //MARK: Realm Notifications
   fileprivate func subscribeToNotifications()
   {
-    let filter = NSPredicate.init(format: "taskId == %@", self.task.taskId)
+    let filter = NSPredicate.init(format: "taskId == %@", self.task.nodeId)
     let results = realm.objects(TaskyNode.self).filter(filter)
     task = results[0]
     detailViewController = self

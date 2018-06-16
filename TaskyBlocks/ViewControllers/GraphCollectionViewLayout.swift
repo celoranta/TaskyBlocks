@@ -8,22 +8,16 @@
 
 import UIKit
 
-protocol CollectionViewLayoutDelegate {
-  var initialCellSize: CGSize {get}
-  var visibleScreenSize: CGSize {get}
-  func datasource() -> [TaskyNode]
-}
 
 class GraphCollectionViewLayout: UICollectionViewLayout {
 
-  var visibleScreenSize: CGSize {
-    get {
-      return self.collectionViewLayoutDelegate.visibleScreenSize
-    }
+  var initialCellWidth: CGFloat = 110
+  var initialCellHeight: CGFloat {
+    return 0.5 * initialCellWidth
   }
-  var collectionViewLayoutDelegate: CollectionViewLayoutDelegate!
-  var initialCellSize: CGSize!
-  override func prepare() {
-    initialCellSize = self.collectionViewLayoutDelegate.initialCellSize
+  var initialCellSize: CGSize {
+    return CGSize.init(width: initialCellWidth, height: initialCellHeight)
   }
+  
+  
 }
