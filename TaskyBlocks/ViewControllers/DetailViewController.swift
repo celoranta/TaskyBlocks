@@ -11,7 +11,7 @@ import RealmSwift
 
 protocol SelectedTaskDestination
 {
-  func retrieveSelectedTask () -> TaskyNode
+  func retrieveSelectedTask () -> Tasky
 }
 
 class DetailViewController: UIViewController, PickerTableViewDelegate, UITextViewDelegate, UITextFieldDelegate
@@ -36,7 +36,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
 
   
   //MARK: Variables
-  var task:TaskyNode!
+  var task:Tasky!
   var taskDetailSegueSource: SelectedTaskDestination!
   var pickerTableViewController: PickerTableViewController!
   var pickerViewRelationshipType: TaskRelationship!
@@ -45,7 +45,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   //Realm
   let realm = try! Realm()
-  var activeDataSet: Results<TaskyNode>!
+  var activeDataSet: Results<Tasky>!
   var notificationToken: NotificationToken? = nil
   var detailViewController: DetailViewController? = nil
   
@@ -110,13 +110,13 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   
   @IBAction func addButton(_ sender: Any)
   {
-    task = TaskyNodeEditor.sharedInstance.newTask()
+    task = TaskyEditor.sharedInstance.newTask()
     self.refreshView()
   }
   
   @IBAction func completedSwitchThrown(_ sender: Any)
   {
-    TaskyNodeEditor.sharedInstance.complete(task: task)
+    TaskyEditor.sharedInstance.complete(task: task)
   }
   
   @IBAction func priorityLabelTap(_ sender: Any)
@@ -168,8 +168,8 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     self.present(inputAlert, animated: true,completion: nil)
   }
   @IBAction func addChildButton(_ sender: Any) {
-    let newTask = TaskyNodeEditor.sharedInstance.newTask()
-    TaskyNodeEditor.sharedInstance.add(task: newTask, AsChildTo: task)
+    let newTask = TaskyEditor.sharedInstance.newTask()
+    TaskyEditor.sharedInstance.add(task: newTask, AsChildTo: task)
     presentingViewController?.dismiss(animated: true, completion: nil)
   }
   
@@ -177,7 +177,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   {
     print("Ran 'setEstimate'")
     print("\(sender.countDownDuration)")
-    TaskyNodeEditor.sharedInstance.setEstimatedTime(of: task, to: Int(sender.countDownDuration))
+    TaskyEditor.sharedInstance.setEstimatedTime(of: task, to: Int(sender.countDownDuration))
   }
   
   @IBAction func timeSpentButton(_ sender: UIButton) {
@@ -197,7 +197,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     }
     self.taskTitleText.text = task.title
     self.taskTitleText.enablesReturnKeyAutomatically = true
-    self.uuidLabel.text = task.nodeId
+    self.uuidLabel.text = task.taskId
     let roundedPriority = round(task.priorityApparent)
     self.priorityLevelLabel.text = roundedPriority.description
     self.isPrimalStatusLabel.text = task.isPrimal.description
@@ -269,33 +269,33 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     switch returnPickerData.relationship
     {
     case .parents:
-      TaskyNodeEditor.sharedInstance.removeAsChildToAllParents(task: task)
+      TaskyEditor.sharedInstance.removeAsChildToAllParents(task: task)
       for parent in returnPickerData.collection
       {
-        TaskyNodeEditor.sharedInstance.add(task: task, AsChildTo: parent)
+        TaskyEditor.sharedInstance.add(task: task, AsChildTo: parent)
       }
       print("picker returned parents")
     case .children:
       print("picker returned children")
-      TaskyNodeEditor.sharedInstance.removeAsParentToAllChildren(task: task)
+      TaskyEditor.sharedInstance.removeAsParentToAllChildren(task: task)
       for child in returnPickerData.collection
       {
-        TaskyNodeEditor.sharedInstance.add(task: task, asParentTo: child)
+        TaskyEditor.sharedInstance.add(task: task, asParentTo: child)
         
       }
     case .dependents:
-      TaskyNodeEditor.sharedInstance.removeAsAntecedentToAll(task: task)
+      TaskyEditor.sharedInstance.removeAsAntecedentToAll(task: task)
       for consequent in returnPickerData.collection
       {
-        TaskyNodeEditor.sharedInstance.add(task: task, asAntecedentTo: consequent)
+        TaskyEditor.sharedInstance.add(task: task, asAntecedentTo: consequent)
       }
       print("picker returned dependents")
       
     case .dependees:
-      TaskyNodeEditor.sharedInstance.removeAsConsequentToAll(task: task)
+      TaskyEditor.sharedInstance.removeAsConsequentToAll(task: task)
       for antecedent in returnPickerData.collection
       {
-        TaskyNodeEditor.sharedInstance.add(task: task, asConsequentTo: antecedent)
+        TaskyEditor.sharedInstance.add(task: task, asConsequentTo: antecedent)
       }
       print("picker returned dependees")
       
@@ -353,14 +353,14 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
     {
       if let unwrappedText = priorityDirectText.text
       {
-        TaskyNodeEditor.sharedInstance.setDirectPriority(of: task, to: ((unwrappedText as NSString).doubleValue))
+        TaskyEditor.sharedInstance.setDirectPriority(of: task, to: ((unwrappedText as NSString).doubleValue))
       }
       priorityDirectText.resignFirstResponder()
     }
     else
     {
       let inputString = textField.text ?? ""
-      TaskyNodeEditor.sharedInstance.changeTitle(task: task, to: inputString)
+      TaskyEditor.sharedInstance.changeTitle(task: task, to: inputString)
     }
     refreshView()
   }
@@ -371,7 +371,7 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
 
 
       let taskDescriptionString = taskDescription.text ?? ""
-      TaskyNodeEditor.sharedInstance.updateTaskDescription(for: task, with: taskDescriptionString)
+      TaskyEditor.sharedInstance.updateTaskDescription(for: task, with: taskDescriptionString)
       taskDescription.resignFirstResponder()
       refreshView()
 
@@ -395,15 +395,15 @@ class DetailViewController: UIViewController, PickerTableViewDelegate, UITextVie
   {
     let destinationVC = segue.destination as! PickerTableViewController
     destinationVC.pickerTableViewDelegate = self
-    let predicate = NSPredicate.init(format: "completionDate == nil AND taskId != %@",self.task.nodeId)
-    destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: TaskyNodeEditor.sharedInstance.database.filter(predicate))
+    let predicate = NSPredicate.init(format: "completionDate == nil AND taskId != %@",self.task.taskId)
+    destinationVC.provideUpdatedCollection(of: pickerViewRelationshipType, for: task, within: TaskyEditor.sharedInstance.database.filter(predicate))
   }
   
   //MARK: Realm Notifications
   fileprivate func subscribeToNotifications()
   {
-    let filter = NSPredicate.init(format: "taskId == %@", self.task.nodeId)
-    let results = realm.objects(TaskyNode.self).filter(filter)
+    let filter = NSPredicate.init(format: "taskId == %@", self.task.taskId)
+    let results = realm.objects(Tasky.self).filter(filter)
     task = results[0]
     detailViewController = self
     notificationToken = results.observe { [weak self] (changes: RealmCollectionChange) in

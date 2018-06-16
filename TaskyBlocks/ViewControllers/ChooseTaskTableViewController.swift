@@ -9,15 +9,15 @@
 import UIKit
 
 protocol ChooseTask {
-  func chosenTask(task: TaskyNode)
+  func chosenTask(task: Tasky)
 }
 
 
 class ChooseTaskTableViewController: UITableViewController {
   
   var chooseTaskDelegate: ChooseTask!
-  var availableTasks: [TaskyNode]!
-  var selectedTask: TaskyNode!
+  var availableTasks: [Tasky]!
+  var selectedTask: Tasky!
   
   
   override func viewDidLoad() {

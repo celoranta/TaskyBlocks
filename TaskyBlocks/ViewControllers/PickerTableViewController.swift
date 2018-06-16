@@ -11,9 +11,9 @@ import RealmSwift
 
 protocol PickerTableViewDelegate //This should change to SelectedTasksDestination
 {
-  // call provideUpdatedCollection(of relationship: TaskRelationship, for task: TaskyNode)
+  // call provideUpdatedCollection(of relationship: TaskRelationship, for task: Tasky)
   func retrieveUpdatedCollection(from table: PickerTableViewController)//
-  // call postUpdatedTaskSubcollection() -> (focusTask: TaskyNode, relationship: TaskRelationship, collection: [TaskyNode])
+  // call postUpdatedTaskSubcollection() -> (focusTask: Tasky, relationship: TaskRelationship, collection: [Tasky])
 }
 
 enum TaskRelationship: String
@@ -25,11 +25,11 @@ class PickerTableViewController: UITableViewController
 {
   var pickerTableViewDelegate: PickerTableViewDelegate!
   var taskSubListFilter: String!  //All tasks selected on this page
-  var activeTasks: Results<TaskyNode>!
-  var subArray: [TaskyNode] = []  //copy of selected task's property
+  var activeTasks: Results<Tasky>!
+  var subArray: [Tasky] = []  //copy of selected task's property
   var delegateRequestedRelationshipType: TaskRelationship!
-  var delegateRequestedRelationshipsOf: TaskyNode!
-  var delegateRequestedRelationshipsAmong: Results<TaskyNode>!
+  var delegateRequestedRelationshipsOf: Tasky!
+  var delegateRequestedRelationshipsAmong: Results<Tasky>!
   
   override func viewDidLoad()
   {
@@ -39,12 +39,12 @@ class PickerTableViewController: UITableViewController
   
   //MARK: PickerTableView Delegate
   
-  func postUpdatedTaskSubcollection() -> (focusTask: TaskyNode, relationship: TaskRelationship, collection: [TaskyNode])
+  func postUpdatedTaskSubcollection() -> (focusTask: Tasky, relationship: TaskRelationship, collection: [Tasky])
   {
     return (delegateRequestedRelationshipsOf, delegateRequestedRelationshipType, subArray)
   }
   
-  func provideUpdatedCollection(of relationship: TaskRelationship, for task: TaskyNode, within taskList: Results<TaskyNode>)
+  func provideUpdatedCollection(of relationship: TaskRelationship, for task: Tasky, within taskList: Results<Tasky>)
   {
     delegateRequestedRelationshipType = relationship
     delegateRequestedRelationshipsOf = task
@@ -116,7 +116,7 @@ class PickerTableViewController: UITableViewController
   // MARK: -Table View Delegate
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
   {
-    var task: TaskyNode
+    var task: Tasky
     switch indexPath.section
     {
     case 0: task = subArray[indexPath.row]
@@ -129,7 +129,7 @@ class PickerTableViewController: UITableViewController
     }
   }
   
-  func toggleTaskInSubset(task: TaskyNode)
+  func toggleTaskInSubset(task: Tasky)
   {
     if let index = subArray.index(of: task)
     {

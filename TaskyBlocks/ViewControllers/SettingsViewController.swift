@@ -32,6 +32,6 @@ class SettingsViewController: UIViewController
   @IBAction func factoryResetButton(_ sender: Any)
   {
     print("Resetting to Factory Defaults")
-    TaskyNodeEditor.sharedInstance.deleteDatabase()
+    TaskyEditor.sharedInstance.deleteDatabase()
   }
 }

@@ -44,15 +44,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
   fileprivate func initialAppSetup() {
-    if TaskyNodeEditor.sharedInstance.database.count == 0
+    if TaskyEditor.sharedInstance.database.count == 0
     {
-      let testNewTask = TaskyNodeEditor.sharedInstance.newTask()
-      TaskyNodeEditor.sharedInstance.makePermanent(task: testNewTask)
-      TaskyNodeEditor.sharedInstance.changeTitle(task: testNewTask, to: "Be Happy")
-      TaskyNodeEditor.sharedInstance.setDirectPriority(of: testNewTask, to: 100.00)
-      TaskyNodeEditor.sharedInstance.setEstimatedTime(of: testNewTask, to: 10)
-      TaskyNodeEditor.sharedInstance.setElapsedTime(of: testNewTask, to: 5)
-      TaskyNodeEditor.sharedInstance.complete(task: testNewTask)
+      let testNewTask = TaskyEditor.sharedInstance.newTask()
+      TaskyEditor.sharedInstance.makePermanent(task: testNewTask)
+      TaskyEditor.sharedInstance.changeTitle(task: testNewTask, to: "Be Happy")
+      TaskyEditor.sharedInstance.setDirectPriority(of: testNewTask, to: 100.00)
+      TaskyEditor.sharedInstance.setEstimatedTime(of: testNewTask, to: 10)
+      TaskyEditor.sharedInstance.setElapsedTime(of: testNewTask, to: 5)
+      TaskyEditor.sharedInstance.complete(task: testNewTask)
       print("\nNew primal value created: ")
       testNewTask.soundOff()
       

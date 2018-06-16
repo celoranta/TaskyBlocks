@@ -6,7 +6,7 @@ class GraphingCollectionViewCell: UICollectionViewCell {
   @IBOutlet weak var taskLabel: UILabel!
  
   
-  func setupCellWith(task: TaskyNode)
+  func setupCellWith(task: Tasky)
   {
     
     

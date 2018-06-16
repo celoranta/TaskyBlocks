@@ -51,7 +51,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
 
   }
   
-  fileprivate func countChildlessDescendants(of task: TaskyNode) -> CGFloat {
+  fileprivate func countChildlessDescendants(of task: Tasky) -> CGFloat {
     var childCount: CGFloat = 0.0
     for child in task.children
     {
@@ -65,7 +65,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     return childCount
   }
   
-  fileprivate func hierarchyGraphingNode(for task: TaskyNode, parent: TaskyNode?) -> HierarchyGraphingNode? {
+  fileprivate func hierarchyGraphingNode(for task: Tasky, parent: Tasky?) -> HierarchyGraphingNode? {
     if let parent = parent {
       for generation in generationMap {
         for node in generation {

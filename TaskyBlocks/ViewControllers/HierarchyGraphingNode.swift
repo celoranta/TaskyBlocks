@@ -16,7 +16,7 @@ struct SiblingPath {
   //This class is currently set up to allow mutation of properties from management objects.  If possible, this should be refactored to use more stateless methods
 class HierarchyGraphingNode: NSObject {
   
-  let task: TaskyNode
+  let task: Tasky
   var title: String {
     return task.title
   }
@@ -78,7 +78,7 @@ class HierarchyGraphingNode: NSObject {
     }
   }
   
-  init(task: TaskyNode, parent: HierarchyGraphingNode?) {
+  init(task: Tasky, parent: HierarchyGraphingNode?) {
     self.task = task
   }
   

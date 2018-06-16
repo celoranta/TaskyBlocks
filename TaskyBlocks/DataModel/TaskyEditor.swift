@@ -1,5 +1,5 @@
 //
-//  TaskyNodeEditor.swift
+//  TaskyEditor.swift
 //  TaskyBlocks
 //
 //  Created by Chris Eloranta on 2018-04-14.
@@ -13,16 +13,16 @@ enum NewTaskyType {
   case normal, random
 }
 
-class TaskyNodeEditor: NSObject {
+class TaskyEditor: NSObject {
   private let realm: Realm
-  let database: Results<TaskyNode>
-  static let sharedInstance = TaskyNodeEditor()
+  let database: Results<Tasky>
+  static let sharedInstance = TaskyEditor()
   var notificationToken: NotificationToken? = nil
   
   //MARK: Task Creation
-  func newTask() -> TaskyNode
+  func newTask() -> Tasky
 {
-    var newTaskyNode: TaskyNode!
+    var newTasky: Tasky!
     let userSettings = UserDefaults()
     var taskType: NewTaskyType
     switch userSettings.bool(forKey: "NewTasksAreRandom")
@@ -37,15 +37,15 @@ class TaskyNodeEditor: NSObject {
     case .normal:
       try! realm.write
       {
-        newTaskyNode = TaskyNode()
-        realm.add(newTaskyNode, update: true)
+        newTasky = Tasky()
+        realm.add(newTasky, update: true)
       }
     case .random:
-      let newTaskyNodeArray = createRandomTasks(qty: 1)
-      newTaskyNode = newTaskyNodeArray[0]
+      let newTaskyArray = createRandomTasks(qty: 1)
+      newTasky = newTaskyArray[0]
     }
-    //TaskyNodeEditor.sharedInstance.updateAllActivePriorities()
-    guard let returnTask = realm.object(ofType: TaskyNode.self, forPrimaryKey: newTaskyNode.nodeId)
+    //TaskyEditor.sharedInstance.updateAllActivePriorities()
+    guard let returnTask = realm.object(ofType: Tasky.self, forPrimaryKey: newTasky.taskId)
       else
     {
       fatalError("Realm returned a non-Task object")
@@ -53,14 +53,14 @@ class TaskyNodeEditor: NSObject {
     return returnTask
   }
   
-  func delete(task: TaskyNode) {
+  func delete(task: Tasky) {
     try! realm.write {
     realm.delete(task)
     }
   }
   
   //MARK: Task Editing
-  func makePermanent(task: TaskyNode)
+  func makePermanent(task: Tasky)
   {
     realm.beginWrite()
     task.isPermanent = 1
@@ -68,7 +68,7 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
-  func changeTitle(task: TaskyNode, to title: String)
+  func changeTitle(task: Tasky, to title: String)
   {
     realm.beginWrite()
     task.title = title
@@ -76,21 +76,21 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
-  func setEstimatedTime(of task: TaskyNode, to seconds: Int)
+  func setEstimatedTime(of task: Tasky, to seconds: Int)
   {
     realm.beginWrite()
     task.secondsEstimated.value = seconds
     try! realm.commitWrite()
   }
   
-  func setElapsedTime(of task: TaskyNode, to seconds: Int)
+  func setElapsedTime(of task: Tasky, to seconds: Int)
   {
     realm.beginWrite()
     task.secondsElapsed = seconds
     try! realm.commitWrite()
   }
   
-  func setDirectPriority(of task: TaskyNode, to priority: Double)
+  func setDirectPriority(of task: Tasky, to priority: Double)
   {
     realm.beginWrite()
     task.priorityDirect.value = priority
@@ -99,7 +99,7 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
-  func setDirectPriority(of task: TaskyNode, to priority: Double, withoutUpdating token: NotificationToken)
+  func setDirectPriority(of task: Tasky, to priority: Double, withoutUpdating token: NotificationToken)
   {
     realm.beginWrite()
     task.priorityDirect.value = priority
@@ -108,7 +108,7 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite(withoutNotifying: [token])
   }
   
-  func complete(task: TaskyNode)
+  func complete(task: Tasky)
   {
     if task.isPermanent != 1
     {
@@ -117,16 +117,16 @@ class TaskyNodeEditor: NSObject {
       task.completionDate = Date()
       realm.add(task, update: true)
       try! realm.commitWrite()
-      print("Tasky node \(task.title) with id: \(task.nodeId) was marked complete")
+      print("Tasky node \(task.title) with id: \(task.taskId) was marked complete")
     }
     else
     {
-      print("Tasky node \(task.title) with id: \(task.nodeId) is permanent and cannot be marked complete")
+      print("Tasky node \(task.title) with id: \(task.taskId) is permanent and cannot be marked complete")
     }
   }
   
   //MARK: Task Removal prep
-  func prepareRemove(task: TaskyNode)
+  func prepareRemove(task: Tasky)
   {
     for parent in task.parents
     {
@@ -149,7 +149,7 @@ class TaskyNodeEditor: NSObject {
   }
   
   //MARK: Task Description
-  func updateTaskDescription(for task: TaskyNode, with text: String)
+  func updateTaskDescription(for task: Tasky, with text: String)
   {
     realm.beginWrite()
     print("writing to realm")
@@ -158,9 +158,9 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
-  //MARK: TaskyNode Relational Assignment Edits
+  //MARK: Tasky Relational Assignment Edits
   
-  func add(task: TaskyNode, AsChildTo newParent: TaskyNode)
+  func add(task: Tasky, AsChildTo newParent: Tasky)
   {
     realm.beginWrite()
     if !task.parents.contains(newParent)
@@ -171,7 +171,7 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
-  func add(task: TaskyNode, asParentTo newChild: TaskyNode)
+  func add(task: Tasky, asParentTo newChild: Tasky)
   {
     realm.beginWrite()
     if !newChild.parents.contains(task)
@@ -182,7 +182,7 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
-  func remove(task: TaskyNode, asChildTo parent: TaskyNode)
+  func remove(task: Tasky, asChildTo parent: Tasky)
   {
     realm.beginWrite()
     if let index = task.parents.index(of: parent)
@@ -193,7 +193,7 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
-  func remove(task: TaskyNode, asParentTo child: TaskyNode)
+  func remove(task: Tasky, asParentTo child: Tasky)
   {
     realm.beginWrite()
     if let uindex = child.parents.index(of: task)
@@ -204,7 +204,7 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
-  func removeAsChildToAllParents(task: TaskyNode)
+  func removeAsChildToAllParents(task: Tasky)
   {
     realm.beginWrite()
     task.parents.removeAll()
@@ -212,7 +212,7 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
-  func removeAsParentToAllChildren(task: TaskyNode)
+  func removeAsParentToAllChildren(task: Tasky)
   {
     for child in task.children
     {
@@ -220,7 +220,7 @@ class TaskyNodeEditor: NSObject {
     }
   }
   
-  func add(task: TaskyNode, asConsequentTo newAntecedent: TaskyNode)
+  func add(task: Tasky, asConsequentTo newAntecedent: Tasky)
   {
     realm.beginWrite()
     if !task.antecedents.contains(newAntecedent)
@@ -231,12 +231,12 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
-  func add(task: TaskyNode, asAntecedentTo newConsequent: TaskyNode)
+  func add(task: Tasky, asAntecedentTo newConsequent: Tasky)
   {
-    TaskyNodeEditor.sharedInstance.add(task: newConsequent, asConsequentTo: task)
+    TaskyEditor.sharedInstance.add(task: newConsequent, asConsequentTo: task)
   }
   
-  func remove(task: TaskyNode, asConsequentTo antecedent: TaskyNode)
+  func remove(task: Tasky, asConsequentTo antecedent: Tasky)
   {
 
     if let index = task.antecedents.index(of: antecedent)
@@ -249,12 +249,12 @@ class TaskyNodeEditor: NSObject {
 
   }
   
-  func remove(task: TaskyNode, asAntecedentTo consequent: TaskyNode)
+  func remove(task: Tasky, asAntecedentTo consequent: Tasky)
   {
-    TaskyNodeEditor.sharedInstance.remove(task: consequent, asConsequentTo: task)
+    TaskyEditor.sharedInstance.remove(task: consequent, asConsequentTo: task)
   }
   
-  func removeAsConsequentToAll(task: TaskyNode)
+  func removeAsConsequentToAll(task: Tasky)
   {
     realm.beginWrite()
     task.antecedents.removeAll()
@@ -262,11 +262,11 @@ class TaskyNodeEditor: NSObject {
     try! realm.commitWrite()
   }
   
-  func removeAsAntecedentToAll(task: TaskyNode)
+  func removeAsAntecedentToAll(task: Tasky)
   {
     for consequent in task.consequents
     {
-      TaskyNodeEditor.sharedInstance.remove(task: consequent, asConsequentTo: task)
+      TaskyEditor.sharedInstance.remove(task: consequent, asConsequentTo: task)
     }
   }
   
@@ -294,7 +294,7 @@ class TaskyNodeEditor: NSObject {
     }
     self.realm = realmInstance
     print("Realm instance created")
-    self.database = realm.objects(TaskyNode.self)
+    self.database = realm.objects(Tasky.self)
     print("Database created in memory")
     super.init()
   }
@@ -306,12 +306,12 @@ class TaskyNodeEditor: NSObject {
     print("Realm instance closed")
   }
   
-  func createRandomTasks(qty: Int = 1) -> [TaskyNode]
+  func createRandomTasks(qty: Int = 1) -> [Tasky]
   {
-    var randomTaskSet: [TaskyNode] = []
+    var randomTaskSet: [Tasky] = []
     for _ in 0..<qty
     {
-      let newTasky = TaskyNode()
+      let newTasky = Tasky()
       randomTaskSet.append(newTasky)
     }
     var verbs = ["Eat", "Wash", "Plead With", "Feed", "Buy", "Exercise", "Fluff", "Make", "Cook", "Ponder", "Enable", "Dominate", "Contemplate", "Avoid", "Eliminate", "Flog", "Threaten", "Pacify", "Enrage", "Bewilder", "Frighten", "Placate", "Interrogate", "Moisten", "Shuck", "Wax", "Surveil", "Alarm", "Annoy", "Frustrate", "Telephone", "Buffalo", "Berate", "Seduce", "Scrub", "Consider", "Suffer", "Confusticate", "Disregard", "Dismiss", "Embrace", "Embolden"]
@@ -328,26 +328,26 @@ class TaskyNodeEditor: NSObject {
       try! realm.write {
         realm.add(task, update: true)
       }
-      TaskyNodeEditor.sharedInstance.setDirectPriority(of: task, to: randomPriority)
-      TaskyNodeEditor.sharedInstance.changeTitle(task: task, to: nameString)
+      TaskyEditor.sharedInstance.setDirectPriority(of: task, to: randomPriority)
+      TaskyEditor.sharedInstance.changeTitle(task: task, to: nameString)
       let taskDescription =
       """
       Spicy jalapeno bacon ipsum dolor amet consequat ipsum fugiat jowl ut elit occaecat strip steak. Reprehenderit chuck tempor laborum bresaola dolore irure. Brisket tenderloin esse kielbasa culpa mollit ut.
       """
-      TaskyNodeEditor.sharedInstance.updateTaskDescription(for: task, with: taskDescription)
+      TaskyEditor.sharedInstance.updateTaskDescription(for: task, with: taskDescription)
     }
     return randomTaskSet
   }
   
   func setupDatabaseIfRequired()
   {
-    if TaskyNodeEditor.sharedInstance.database.count == 0
+    if TaskyEditor.sharedInstance.database.count == 0
     {
-      let testNewTask = TaskyNodeEditor.sharedInstance.newTask()
-      TaskyNodeEditor.sharedInstance.makePermanent(task: testNewTask)
-      TaskyNodeEditor.sharedInstance.changeTitle(task: testNewTask, to: "Be Happy")
-      TaskyNodeEditor.sharedInstance.setDirectPriority(of: testNewTask, to: 100.00)
-      TaskyNodeEditor.sharedInstance.complete(task: testNewTask)
+      let testNewTask = TaskyEditor.sharedInstance.newTask()
+      TaskyEditor.sharedInstance.makePermanent(task: testNewTask)
+      TaskyEditor.sharedInstance.changeTitle(task: testNewTask, to: "Be Happy")
+      TaskyEditor.sharedInstance.setDirectPriority(of: testNewTask, to: 100.00)
+      TaskyEditor.sharedInstance.complete(task: testNewTask)
       print("\nNew primal value created: ")
       testNewTask.soundOff()
       
@@ -374,7 +374,7 @@ class TaskyNodeEditor: NSObject {
       for task in database
       {
         notificationToken?.invalidate()
-        TaskyNodeEditor.sharedInstance.complete(task: task)
+        TaskyEditor.sharedInstance.complete(task: task)
       }
       
     }

@@ -13,9 +13,9 @@ import RealmSwift
 class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelectionSegueHandler {
 
   
-  var selectedTask: TaskyNode!
+  var selectedTask: Tasky!
 
-  var dataModel: Results<TaskyNode>!
+  var dataModel: Results<Tasky>!
 
   var graphViewLayout: UICollectionViewLayout!
   //var visibleScreenSize: CGSize {return dynamicScreenSize}
@@ -28,7 +28,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     super.viewDidLoad()
 
     let _ = try! Realm()
-    dataModel = TaskyNodeEditor.sharedInstance.database
+    dataModel = TaskyEditor.sharedInstance.database
     
     if self.graphViewLayout == nil
     {
@@ -73,11 +73,11 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   
   //MARK: - Task Detail DataSource Methods
   
-  func retrieveSelectedTask() -> TaskyNode {
+  func retrieveSelectedTask() -> Tasky {
     return selectedTask //This should send an index path or get info from the node.
   }
   
-  @objc func detailView(task: TaskyNode)
+  @objc func detailView(task: Tasky)
   {
     print("Detail View Selected")
     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)

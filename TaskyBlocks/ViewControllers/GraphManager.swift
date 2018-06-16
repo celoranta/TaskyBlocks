@@ -15,8 +15,8 @@ class GraphManager: NSObject {
   }
   
   //This should be unnecessary, as a NODE will be at an index path, and that contains a cell; so use node(for path: IndexPath) -> node
-  func task(at path: IndexPath) -> TaskyNode {
-   let placeholderTask = TaskyNodeEditor.sharedInstance.newTask()
+  func task(at path: IndexPath) -> Tasky {
+   let placeholderTask = TaskyEditor.sharedInstance.newTask()
     return placeholderTask
   }
 }
