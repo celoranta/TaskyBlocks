@@ -52,9 +52,9 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   
   fileprivate func refreshGraph()
   {
-    let layout = self.graphViewLayout as! UICollectionViewLayout // ToDo this is a lie use polymorphism. ie subclasses of uicollectionview layout
+  
     self.collectionView.reloadData()
-    layout.invalidateLayout()
+    self.graphViewLayout.invalidateLayout()
   }
   
   override func didReceiveMemoryWarning() {

@@ -24,7 +24,7 @@ class Tasky: Object /*Rename to Tasky*/
 
   //MARK: Realm Value Properties
   @objc dynamic var title = "New Task"
-  @objc dynamic var taskId = String(UUID().uuidString) + "N"
+  @objc dynamic var taskId = String(UUID().uuidString) + "T"
   @objc dynamic var taskDescription = ""
   @objc dynamic private (set) var taskDate = Date()
   @objc dynamic var completionDate: Date? = nil

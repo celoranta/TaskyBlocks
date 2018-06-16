@@ -20,8 +20,8 @@ class GraphCollectionViewDatasource: NSObject, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
   {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "graphingCell", for: indexPath) as! GraphingCollectionViewCell
-    let node = graphManager.node(for: indexPath)
-    //let task = node.task
+    let node = graphManager.node(for: indexPath)    
+    let task = node.task
     return cell
   }
   

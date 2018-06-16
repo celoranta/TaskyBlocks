@@ -7,14 +7,18 @@
 //
 
 import UIKit
+import RealmSwift
 
-class GraphManager: NSObject {
+class GraphManager: Object {
+  
+  
+  let collapsedNodes: 
 
-  func node(for path: IndexPath) -> UICollectionViewCell /*Needs to return a node, not a cell*/ {
-    return UICollectionViewCell()
+  func node(for path: IndexPath) -> TaskyNode? /*Needs to return a node, not a cell*/ {
+    return nil
   }
   
-  //This should be unnecessary, as a NODE will be at an index path, and that contains a cell; so use node(for path: IndexPath) -> node
+  //task(at path: IndexPath) should be unnecessary, as a NODE will be at an index path, and that contains a cell; so use node(for path: IndexPath) -> node
   func task(at path: IndexPath) -> Tasky {
    let placeholderTask = TaskyEditor.sharedInstance.newTask()
     return placeholderTask
