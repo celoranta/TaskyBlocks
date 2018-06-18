@@ -9,11 +9,14 @@
 import UIKit
 import RealmSwift
 
-class TaskyNode: Object {
+class TaskyNode: NSObject {
   
-  @objc dynamic var task: Tasky!
-  @objc dynamic var nodeId = String(UUID().uuidString) + "N"
+  var task: Tasky
+//  let nodeId = String(UUID().uuidString) + "N"
 
+  convenience init(task: Tasky) {
+    self.init(task: task)
+  }
 }
 
  
