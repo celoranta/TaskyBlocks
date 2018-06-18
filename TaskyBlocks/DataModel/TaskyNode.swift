@@ -11,11 +11,13 @@ import RealmSwift
 
 class TaskyNode: NSObject {
   
-  var task: Tasky
-//  let nodeId = String(UUID().uuidString) + "N"
+  let task: Tasky
+  let parent: Tasky?
+  let nodeId = String(UUID().uuidString) + "N"
 
-  convenience init(task: Tasky) {
-    self.init(task: task)
+  init(fromTask task: Tasky, fromParent parent: Tasky?) {
+    self.task = task
+    self.parent = parent
   }
 }
 

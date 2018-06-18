@@ -21,10 +21,9 @@ class GraphCollectionViewDatasource: NSObject, UICollectionViewDataSource {
   {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "graphingCell", for: indexPath) as! GraphingCollectionViewCell
     if let node = graphManager.node(for: indexPath) {
-      if let task = node.task {
-      cell.setupCellWith(task: task)
+     // cell.setupCellWith(node: node)
     return cell
-      }
+      
     }
     fatalError("No task returned with node")
   }

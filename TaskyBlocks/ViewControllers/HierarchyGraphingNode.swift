@@ -29,7 +29,6 @@ class HierarchyGraphingNode: NSObject {
   var originYFactor: CGFloat = 0.0
   var originXOffsetFromParent: CGFloat = 0.0
   var originXFinal: CGFloat = 0.0
-  
   var widthFactor: CGFloat = 1
   var width: CGFloat = 0
 

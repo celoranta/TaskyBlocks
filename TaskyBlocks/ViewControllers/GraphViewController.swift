@@ -109,6 +109,8 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     graphViewLayout = HierarchyGraphViewLayout()
 //    graphViewLayout.collectionViewLayoutDelegate = self
 //    collectionView.dataSource = self
+    let graphManager = GraphManager.init() //For testing only, does not belong here
+    graphManager.createHierarchyGraph() //For testing only, does not belong here
     self.collectionView.setCollectionViewLayout(graphViewLayout, animated: true)
    refreshGraph()
   }
