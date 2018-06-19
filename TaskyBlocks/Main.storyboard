@@ -471,6 +471,11 @@
                                             <action selector="priorityBarItem:" destination="csc-fa-nUG" id="7Y8-Zn-SOh"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="+" id="qGU-jI-P5y">
+                                        <connections>
+                                            <action selector="AddBarItem:" destination="csc-fa-nUG" id="OzI-3e-6ZS"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem systemItem="flexibleSpace" id="Xj9-84-NFw"/>
                                     <barButtonItem systemItem="flexibleSpace" id="okx-zx-8tl"/>
                                     <barButtonItem title="Settings" id="R8N-y6-bFK">

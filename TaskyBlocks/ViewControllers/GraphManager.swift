@@ -11,11 +11,10 @@ import RealmSwift
 
 
 class GraphManager: NSObject {
-  
-  
+
   private let tasks: Results<Tasky> = TaskyEditor.sharedInstance.TaskDatabase
   private var nodes: [TaskyNode] = []
-  private var collapsedHierarchies: [TaskyNode] = []
+  // Todo: Create collection of collapsed index paths
   private var hierarchyGraph: [AnyObject] = []
   
   func node(for path: IndexPath) -> TaskyNode? /*Needs to return a node, not a cell*/ {
@@ -23,16 +22,41 @@ class GraphManager: NSObject {
   }
   
   func createHierarchyGraph() {
-    let primalTasks = TaskyEditor.sharedInstance.TaskDatabase.filter("parents.@count = 0")
+    let rootTasks = TaskyEditor.sharedInstance.TaskDatabase.filter("parents.@count = 0")
     
-    //Add primal nodes to nodes array
-    for task in primalTasks {
+    //Add root nodes to nodes array
+    for task in rootTasks {
       nodes.append(TaskyNode.init(fromTask: task, fromParent: nil))
     }
     
-    //
+    //Recurse children to create nodes for each node in forest
     chartDescendants(ofNodes: nodes)
-    print(nodes)
+    
+    //Determine total number of generations
+    var maxDegree: Int
+    guard let nodeAtMaxGen = nodes.max(by: {$0.degree > $1.degree})
+      else {
+        fatalError("Error: No node with max degree found in hierarchy tree")
+    }
+     maxDegree = nodeAtMaxGen.degree
+
+    //Package each generation of nodes into parents' tree property
+    for generation in stride(from: maxDegree, to: 0, by: -1) {
+      for node in nodes.filter({$0.degree == generation}) {
+        guard let parent = node.parent
+          else {
+            fatalError("No parent found for node")
+        }
+        parent.tree.append(node)
+      }
+    }
+    
+    //Add packaged root nodes to the overall graph 'forest'
+    hierarchyGraph = []
+    for node in nodes.filter({$0.degree == 0}) {
+      hierarchyGraph.append(node)
+    }
+    print(hierarchyGraph)
   }
   
   //Sends an array of nodes to recursive node creation function
@@ -42,20 +66,14 @@ class GraphManager: NSObject {
     }
   }
   
-  
-  //Creates a tree of nodes
+  //Creates all nodes in hierarchy graph
   fileprivate func chartChildren(ofNode node: TaskyNode) {
     if node.task.children.count == 0 { return }
       for child in node.task.children {
-        let newNode = TaskyNode.init(fromTask: child, fromParent: node.task)
+        let newNode = TaskyNode.init(fromTask: child, fromParent: node)
         nodes.append(newNode)
         chartChildren(ofNode: newNode)
       }
     }
   
-  //  //task(at path: IndexPath) should be unnecessary, as a NODE will be at an index path, and that contains a cell; so use node(for path: IndexPath) -> node
-  //  func task(at path: IndexPath) -> Tasky {
-  //   let placeholderTask = TaskyEditor.sharedInstance.newTask()
-  //    return placeholderTask
-  //  }
 }

@@ -12,9 +12,8 @@ import RealmSwift
 
 class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelectionSegueHandler {
 
-  
 
-  var selectedTask: Tasky! //This can't be a
+  var selectedTask: Tasky! 
   var dataModel: Results<Tasky>!
 
   var graphViewLayout: UICollectionViewLayout!
@@ -30,29 +29,19 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     let _ = try! Realm()
     dataModel = TaskyEditor.sharedInstance.TaskDatabase
     
-    if self.graphViewLayout == nil
-    {
+    if self.graphViewLayout == nil {
       self.hierarchyBarItem(self)
     }
-  
     self.collectionView.delegate = GraphCollectionViewDelegate.init()
     self.collectionView.dataSource = GraphCollectionViewDatasource()
     self.toolBarOutlet.isTranslucent = true
-
   }
   
   override func viewWillAppear(_ animated: Bool) {
-//    if let navigationController = self.navigationController
-//    {
-//    navigationController.setNavigationBarHidden(true, animated: true)
-//    }
-    //dynamicScreenSize = UIScreen.main.bounds.size
     refreshGraph()
   }
   
-  fileprivate func refreshGraph()
-  {
-  
+  fileprivate func refreshGraph() {
     self.collectionView.reloadData()
     self.graphViewLayout.invalidateLayout()
   }
@@ -75,8 +64,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     return selectedTask //This should send an index path or get info from the node.
   }
   
-  @objc func detailView(task: Tasky)
-  {
+  @objc func detailView(task: Tasky) {
     print("Detail View Selected")
     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
     let nextVC = storyBoard.instantiateViewController(withIdentifier: "detailView") as! DetailViewController
@@ -85,8 +73,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     navigationController?.pushViewController(nextVC, animated: true)
   }
   
-  @objc func pushToSettings(_ sender: UIBarButtonItem)
-  {
+  @objc func pushToSettings(_ sender: UIBarButtonItem) {
     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
     let settingsViewController = storyBoard.instantiateViewController(withIdentifier: "settings") as! SettingsViewController
     self.navigationController?.pushViewController(settingsViewController, animated: true)
@@ -135,5 +122,11 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   
   @IBAction func SettingsBarItem(_ sender: Any) {
     print("Settings Pressed")
+  }
+  @IBAction func AddBarItem(_ sender: Any) {
+    print("Add pressed")
+    let _ = TaskyEditor.sharedInstance.newTask()
+    self.collectionView.reloadData()
+    self.collectionView.collectionViewLayout.invalidateLayout()
   }
 }
