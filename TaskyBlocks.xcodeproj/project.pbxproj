@@ -37,6 +37,7 @@
 		95B866FB20ACB6A70017B5C5 /* HierarchyGraphingNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B866FA20ACB6A70017B5C5 /* HierarchyGraphingNode.swift */; };
 		95BE0D2F2076027A0097937F /* TaskTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BE0D2E207602790097937F /* TaskTimer.swift */; };
 		95D05A7820789D220053593E /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D05A7720789D220053593E /* DetailTableViewCell.swift */; };
+		95D814ED21D4BD0B00CB5E9C /* TreePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D814EC21D4BD0B00CB5E9C /* TreePath.swift */; };
 		95DC88D52077489B00E346DB /* Tasky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88D42077489B00E346DB /* Tasky.swift */; };
 		95F0291F2086DDBB00FE9A0C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F0291E2086DDBB00FE9A0C /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
@@ -90,6 +91,7 @@
 		95B866FA20ACB6A70017B5C5 /* HierarchyGraphingNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchyGraphingNode.swift; sourceTree = "<group>"; };
 		95BE0D2E207602790097937F /* TaskTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTimer.swift; sourceTree = "<group>"; };
 		95D05A7720789D220053593E /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
+		95D814EC21D4BD0B00CB5E9C /* TreePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreePath.swift; sourceTree = "<group>"; };
 		95DC88D42077489B00E346DB /* Tasky.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tasky.swift; sourceTree = "<group>"; };
 		95F0291E2086DDBB00FE9A0C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		A72648820E802729DA3A0EBD /* Pods-TaskyBlocksUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocksUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				9583A27C20827948000F22EC /* TaskyEditor.swift */,
 				95DC88D42077489B00E346DB /* Tasky.swift */,
 				953EF23120D4C244002F8925 /* TaskyNode.swift */,
+				95D814EC21D4BD0B00CB5E9C /* TreePath.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				95A7905420A50FC70006A48A /* GraphCollectionViewLayout.swift in Sources */,
 				953EF22C20D473FC002F8925 /* GraphManager.swift in Sources */,
 				958661DC208FE3FB00B4E06A /* ComboViewController.swift in Sources */,
+				95D814ED21D4BD0B00CB5E9C /* TreePath.swift in Sources */,
 				95F0291F2086DDBB00FE9A0C /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

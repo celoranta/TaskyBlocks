@@ -13,7 +13,7 @@ import UIKit
 import RealmSwift
 
 
-class Tasky: Object /*Rename to Tasky*/
+class Tasky: Object
   
 {
   //MARK: Realm ignored property list

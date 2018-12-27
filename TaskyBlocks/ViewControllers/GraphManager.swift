@@ -9,32 +9,45 @@
 import UIKit
 import RealmSwift
 
-
 class GraphManager: NSObject {
-
   private let tasks: Results<Tasky> = TaskyEditor.sharedInstance.TaskDatabase
-  private var nodes: [TaskyNode] = []
-  // Todo: Create collection of collapsed index paths
-  private var hierarchyGraph: [AnyObject] = []
+  private var nodes: [IndexPath : TaskyNode] = [:]
+  private var hierarchyGraph: [TaskyNode] = []
+  var treePaths: [IndexPath : TreePath] = [:]
+  
   
   func node(for path: IndexPath) -> TaskyNode? /*Needs to return a node, not a cell*/ {
-    return nil
+    return nodes[path]
+  }
+  
+  func nodeCount() -> Int {
+    return nodes.count
   }
   
   func createHierarchyGraph() {
     let rootTasks = TaskyEditor.sharedInstance.TaskDatabase.filter("parents.@count = 0")
     
     //Add root nodes to nodes array
-    for task in rootTasks {
-      nodes.append(TaskyNode.init(fromTask: task, fromParent: nil))
+    for i in 0..<rootTasks.count {
+      let task = rootTasks[i]
+      let treePath = [i]
+      guard let index = tasks.index(of: task)
+        else {
+          fatalError("Task does not exist within the array it was found within")
+      }
+      let indexPath = IndexPath.init(item: index, section: 0)
+      treePaths.updateValue(treePath, forKey: indexPath)
+      let newNode = TaskyNode.init(fromTask: task, fromTreePath: treePath, fromParent: nil)
+      nodes.updateValue(newNode, forKey: indexPath)
     }
     
     //Recurse children to create nodes for each node in forest
-    chartDescendants(ofNodes: nodes)
+    var nodesValues = Array(nodes.values)
+    chartDescendants(ofNodes: nodesValues)
     
     //Determine total number of generations
     var maxDegree: Int
-    guard let nodeAtMaxGen = nodes.max(by: {$0.degree > $1.degree})
+    guard let nodeAtMaxGen = nodesValues.max(by: {$0.degree > $1.degree})
       else {
         fatalError("Error: No node with max degree found in hierarchy tree")
     }
@@ -42,7 +55,7 @@ class GraphManager: NSObject {
 
     //Package each generation of nodes into parents' tree property
     for generation in stride(from: maxDegree, to: 0, by: -1) {
-      for node in nodes.filter({$0.degree == generation}) {
+      for node in nodesValues.filter({$0.degree == generation}) {
         guard let parent = node.parent
           else {
             fatalError("No parent found for node")
@@ -53,10 +66,11 @@ class GraphManager: NSObject {
     
     //Add packaged root nodes to the overall graph 'forest'
     hierarchyGraph = []
-    for node in nodes.filter({$0.degree == 0}) {
+    for node in nodesValues.filter({$0.degree == 0}) {
       hierarchyGraph.append(node)
     }
-    print(hierarchyGraph)
+    print("Hierarchy graph: ",  hierarchyGraph)
+    print("TreePaths: ", treePaths)
   }
   
   //Sends an array of nodes to recursive node creation function
@@ -70,8 +84,19 @@ class GraphManager: NSObject {
   fileprivate func chartChildren(ofNode node: TaskyNode) {
     if node.task.children.count == 0 { return }
       for child in node.task.children {
-        let newNode = TaskyNode.init(fromTask: child, fromParent: node)
-        nodes.append(newNode)
+        guard let birthOrder = node.task.children.index(of: child)
+          else {
+            fatalError("Error:  Task is not part of the array it was found within")
+        }
+        let treePath = node.treePath + [birthOrder]
+        guard let index = tasks.index(of: node.task)
+          else {
+            fatalError("Task does not exist within the array it was found within")
+        }
+        let indexPath = IndexPath.init(item: index, section: 0)
+        treePaths.updateValue(treePath, forKey: indexPath)
+        let newNode = TaskyNode.init(fromTask: child, fromTreePath: treePath, fromParent: node)
+        nodes.updateValue(newNode, forKey: indexPath)
         chartChildren(ofNode: newNode)
       }
     }

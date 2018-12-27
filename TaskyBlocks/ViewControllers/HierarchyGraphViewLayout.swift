@@ -2,8 +2,6 @@
 
 import UIKit
 
-
-
 class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   var layoutMap = [IndexPath: UICollectionViewLayoutAttributes]()
   var contentSize: CGSize = CGSize.zero
@@ -26,6 +24,20 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     }
   
   override func prepare() {
+    
+    //What follows is just to get something back on the screen.
+    contentSize = CGSize.init(width: 1000.0, height: 1000.0)
+    let inappropriateGraphManager = GraphManager()
+    inappropriateGraphManager.createHierarchyGraph()
+    let hierarchyLayoutData = inappropriateGraphManager.treePaths
+    for i in hierarchyLayoutData {
+      let layoutAttribute = UICollectionViewLayoutAttributes.init(forCellWith: i.key)
+      layoutAttribute.size = self.initialCellSize
+      let row = CGFloat(i.value.count)
+      let iOrigin = CGPoint.init(x: layoutAttribute.size.width * CGFloat(i.key.row), y: layoutAttribute.size.height * row)
+      layoutAttribute.frame = CGRect.init(origin: iOrigin, size: layoutAttribute.size)
+      layoutMap.updateValue(layoutAttribute, forKey: i.key)
+    }
     //Will need to ask the graph manager for the size (if not the position) for each index path
   }
 }

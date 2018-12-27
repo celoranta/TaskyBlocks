@@ -18,12 +18,12 @@ class TaskyNode: NSObject {
    return countDegrees(forNode: self)
     }
   var tree: [Any?] = []
-
+  var treePath: TreePath = []
   
-
-  init(fromTask task: Tasky, fromParent parent: TaskyNode?) {
+  init(fromTask task: Tasky, fromTreePath treePath: TreePath, fromParent parent: TaskyNode?) {
     self.task = task
     self.parent = parent
+    self.treePath = treePath
   }
   
   fileprivate func countDegrees(forNode node: TaskyNode) -> Int {

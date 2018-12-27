@@ -95,7 +95,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     print("Hierarchy Pressed")
     graphViewLayout = HierarchyGraphViewLayout()
 //  graphViewLayout.collectionViewLayoutDelegate = self
-//    collectionView.dataSource = self
+//  collectionView.dataSource = self
     let graphManager = GraphManager.init() //For testing only, does not belong here
     graphManager.createHierarchyGraph() //For testing only, does not belong here
     self.collectionView.setCollectionViewLayout(graphViewLayout, animated: true)
@@ -113,7 +113,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   
   @IBAction func priorityBarItem(_ sender: Any) {
     print("Priority Pressed")
-//    self.graphViewLayout = PriorityGraphViewLayout()
+//   self.graphViewLayout = PriorityGraphViewLayout()
 //    graphViewLayout.collectionViewLayoutDelegate = self
 //    collectionView.dataSource = self
 //    self.collectionView.setCollectionViewLayout(graphViewLayout as! UICollectionViewLayout, animated: true)

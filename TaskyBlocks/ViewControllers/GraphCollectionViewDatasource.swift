@@ -14,18 +14,19 @@ class GraphCollectionViewDatasource: NSObject, UICollectionViewDataSource {
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
   {
-    return 0
+    return graphManager.nodeCount()
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
   {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "graphingCell", for: indexPath) as! GraphingCollectionViewCell
     if let node = graphManager.node(for: indexPath) {
-     // cell.setupCellWith(node: node)
+     cell.setupCellWith(task: node.task)
     return cell
-      
     }
+    else{
     fatalError("No task returned with node")
+    }
   }
   
   func cellData(for indexPath: IndexPath) {
