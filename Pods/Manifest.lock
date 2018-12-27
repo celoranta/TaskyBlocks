@@ -1,20 +1,20 @@
 PODS:
   - CircleTimer (0.2.2)
-  - Realm (3.4.0):
-    - Realm/Headers (= 3.4.0)
-  - Realm/Headers (3.4.0)
-  - RealmSwift (3.4.0):
-    - Realm (= 3.4.0)
+  - Realm (3.7.6):
+    - Realm/Headers (= 3.7.6)
+  - Realm/Headers (3.7.6)
+  - RealmSwift (3.7.6):
+    - Realm (= 3.7.6)
 
 DEPENDENCIES:
   - CircleTimer (~> 0.2)
-  - RealmSwift (~> 3.3)
+  - RealmSwift (~> 3.7.1)
 
 SPEC CHECKSUMS:
   CircleTimer: 623db0cf5762db38ac3c940677377df0b94af674
-  Realm: 9527c7baa2260f3a3aad6823d2d71cafff9b046b
-  RealmSwift: f40a747beaea1cadde7dcef41ee5a34b3001677b
+  Realm: 9eaecad54712d6246d08ba34c10f354e4715d7d3
+  RealmSwift: 1fe08b4ebaeeaacf17f9ba0343f7b25c9fc31fa6
 
-PODFILE CHECKSUM: 3d97ca8f8093644b15e88a29484d8ec93212517a
+PODFILE CHECKSUM: 09ebbf49bb39622bcb549863f073a5360ce680c2
 
 COCOAPODS: 1.4.0
