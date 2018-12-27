@@ -56,7 +56,7 @@ class HierarchyGraphingNode: NSObject {
     }
     else {
       for path in siblingPaths {
-        descriptionString.append("\n-\(path.parent!.task.title): \(path.siblingIndex)")
+        descriptionString.append("\n-\(path.parent!.task.title): \(String(describing: path.siblingIndex))")
       }
     }
 

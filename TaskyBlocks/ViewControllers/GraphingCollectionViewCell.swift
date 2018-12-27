@@ -8,8 +8,6 @@ class GraphingCollectionViewCell: UICollectionViewCell {
 
   func setupCellWith(task: Tasky)
   {
-
-
     taskLabel.text = "\(task.title)"
     self.backgroundColor = task.calculateBlockColor()
 

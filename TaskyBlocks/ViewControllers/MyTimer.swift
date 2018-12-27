@@ -300,7 +300,7 @@ public class AppusCircleTimer: UIView {
     let midY = rect.midY
     let midPoint = CGPoint.init(x: midX, y: midY)
     
-    let endAngle = CGFloat (2.0 * M_PI)
+    let endAngle = CGFloat (2.0 * .pi)
     
     context?.addArc(center:midPoint ,
                     radius: radius,
@@ -313,16 +313,16 @@ public class AppusCircleTimer: UIView {
       #if !TARGET_INTERFACE_BUILDER
       var angle : CGFloat
       if isBackwards {
-        angle = CGFloat((2.0 * M_PI) - ((elapsedTime/totalTime) * M_PI * 2.0))
+        angle = CGFloat((2.0 * .pi) - ((elapsedTime/totalTime) * .pi * 2.0))
       } else {
-        angle = CGFloat((elapsedTime/totalTime) * M_PI * 2.0)
+        angle = CGFloat((elapsedTime/totalTime) * .pi * 2.0)
       }
       if isRunning {
         context?.beginPath()
         context?.addArc(center: midPoint,
                         radius: radius,
-                        startAngle: -CGFloat(M_PI_2),
-                        endAngle: angle - CGFloat(M_PI_2),
+                        startAngle: -CGFloat(Double.pi / 2.0 ),
+                        endAngle: angle - CGFloat(Double.pi / 2.0),
                         clockwise: false)
         context?.setStrokeColor((pauseColor?.cgColor)!)
         context?.strokePath()
@@ -330,8 +330,8 @@ public class AppusCircleTimer: UIView {
         context?.beginPath()
         context?.addArc(center: midPoint,
                         radius: radius,
-                        startAngle: angle - CGFloat(M_PI_2) + offset,
-                        endAngle: -CGFloat(M_PI_2) - self.offset,
+                        startAngle: angle - CGFloat(Double.pi / 2.0) + offset,
+                        endAngle: -CGFloat(Double.pi / 2.0) - self.offset,
                         clockwise: false)
         context?.setStrokeColor((inactiveColor?.cgColor)!)
         context?.strokePath()
@@ -339,19 +339,19 @@ public class AppusCircleTimer: UIView {
         context?.beginPath()
         context?.addArc(center: midPoint,
                         radius: radius,
-                        startAngle: -CGFloat(M_PI_2),
-                        endAngle: angle - CGFloat(M_PI_2),
+                        startAngle: -CGFloat(Double.pi / 2),
+                        endAngle: angle - CGFloat(Double.pi / 2),
                         clockwise: false)
         context?.setStrokeColor((activeColor?.cgColor)!)
         context?.strokePath()
       }
       #else
-      var angle = CGFloat(M_PI)
+      var angle = CGFloat(.pi)
       context?.beginPath()
       context?.addArc(center: midPoint,
                       radius: radius,
-                      startAngle: -CGFloat(M_PI_2),
-                      endAngle: angle - CGFloat(M_PI_2),
+                      startAngle: -CGFloat(.pi_2),
+                      endAngle: angle - CGFloat(.pi_2),
                       clockwise: false)
       context?.setStrokeColor((pauseColor?.cgColor)!)
       context?.strokePath()

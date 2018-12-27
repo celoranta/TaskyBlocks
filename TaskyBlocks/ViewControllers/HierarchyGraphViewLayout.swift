@@ -28,8 +28,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   override func prepare() {
     //Will need to ask the graph manager for the size (if not the position) for each index path
   }
-  
-  
 }
 
 //  var preGenerationMap: [HierarchyGraphingNode] = []

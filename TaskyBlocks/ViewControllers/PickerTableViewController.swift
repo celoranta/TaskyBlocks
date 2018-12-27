@@ -52,17 +52,15 @@ class PickerTableViewController: UITableViewController
 
     switch delegateRequestedRelationshipType
     {
-    case .parents:
+    case .parents?:
       subArray = Array.init(delegateRequestedRelationshipsOf.parents)
-    case .children:
+    case .children?:
       subArray = Array.init(delegateRequestedRelationshipsOf.children)
-    case .dependents:
+    case .dependents?:
       subArray = Array.init(delegateRequestedRelationshipsOf.consequents)
-    case .dependees:
+    case .dependees?:
       subArray = Array.init(delegateRequestedRelationshipsOf.antecedents)
     case .none:
-      fatalError("delegate requested unknown type or types")
-    case .some(_):
       fatalError("delegate requested unknown type or types")
     }
   }

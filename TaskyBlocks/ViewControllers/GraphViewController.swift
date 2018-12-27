@@ -12,12 +12,12 @@ import RealmSwift
 
 class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelectionSegueHandler {
 
-
   var selectedTask: Tasky! 
   var dataModel: Results<Tasky>!
-
   var graphViewLayout: UICollectionViewLayout!
   //var visibleScreenSize: CGSize {return dynamicScreenSize}
+  var collectionViewDelegate = GraphCollectionViewDelegate()
+  var collectionViewDatasource = GraphCollectionViewDatasource()
   
   @IBOutlet weak var collectionView: UICollectionView!
   @IBOutlet weak var toolBarOutlet: UIToolbar!
@@ -32,8 +32,8 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     if self.graphViewLayout == nil {
       self.hierarchyBarItem(self)
     }
-    self.collectionView.delegate = GraphCollectionViewDelegate.init()
-    self.collectionView.dataSource = GraphCollectionViewDatasource()
+    self.collectionView.delegate = collectionViewDelegate
+    self.collectionView.dataSource = collectionViewDatasource
     self.toolBarOutlet.isTranslucent = true
   }
   
@@ -94,7 +94,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   @IBAction func hierarchyBarItem(_ sender: Any) {
     print("Hierarchy Pressed")
     graphViewLayout = HierarchyGraphViewLayout()
-//    graphViewLayout.collectionViewLayoutDelegate = self
+//  graphViewLayout.collectionViewLayoutDelegate = self
 //    collectionView.dataSource = self
     let graphManager = GraphManager.init() //For testing only, does not belong here
     graphManager.createHierarchyGraph() //For testing only, does not belong here
