@@ -53,12 +53,12 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   }
   
   func taskWasSelected() {
-    let tasksPath = collectionView.indexPathsForSelectedItems
-    if let tasksPath = tasksPath {
-    let taskPath = tasksPath[0]
+    let taskPaths = collectionView.indexPathsForSelectedItems
+    if let taskPaths = taskPaths {
+    let taskPath = taskPaths[0]
       selectedTask = TaskyEditor.sharedInstance.TaskDatabase[taskPath.row]
-      detailView(task: selectedTask)
-      print("Should navigate to detail view for task ",selectedTask," at path ", taskPath)
+      pushToDetail(task: selectedTask)
+      //print("Should navigate to detail view for task ",selectedTask," at path ", taskPath)
     }
   }
   
@@ -68,12 +68,12 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     return selectedTask
   }
   
-  @objc func detailView(task: Tasky) {
+  @objc func pushToDetail(task: Tasky) {
     print("Detail View Selected")
     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
     let nextVC = storyBoard.instantiateViewController(withIdentifier: "detailView") as! DetailViewController
-    nextVC.task = task
     nextVC.taskDetailSegueSource = self
+    nextVC.task = selectedTask
     navigationController?.pushViewController(nextVC, animated: true)
   }
   
@@ -83,17 +83,17 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     self.navigationController?.pushViewController(settingsViewController, animated: true)
   }
   
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    switch segue.identifier {
-    case "priorityToDetail":
-      print("prepare for segue to detail with \(selectedTask.title) selected was called")
-      let detailVC = segue.destination.childViewControllers.first as! DetailViewController
-      detailVC.taskDetailSegueSource = self
-      detailVC.task = selectedTask
-    default:
-      return
-    }
-  }
+//  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//    switch segue.identifier {
+//    case "priorityToDetail":
+//      print("prepare for segue to detail with \(selectedTask.title) selected was called")
+//      let detailVC = segue.destination.childViewControllers.first as! DetailViewController
+//      detailVC.taskDetailSegueSource = self
+//      detailVC.task = selectedTask
+//    default:
+//      return
+//    }
+//  }
   
   @IBAction func hierarchyBarItem(_ sender: Any) {
     print("Hierarchy Pressed")

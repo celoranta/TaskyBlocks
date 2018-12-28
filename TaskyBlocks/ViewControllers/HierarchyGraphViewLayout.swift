@@ -24,19 +24,18 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     }
   
   override func prepare() {
-    
     //What follows is just to get something back on the screen.
     contentSize = CGSize.init(width: 1000.0, height: 1000.0)
     let inappropriateGraphManager = GraphManager()
     inappropriateGraphManager.createHierarchyGraph()
-    let hierarchyLayoutData = inappropriateGraphManager.treePaths
-    for i in hierarchyLayoutData {
-      let layoutAttribute = UICollectionViewLayoutAttributes.init(forCellWith: i.key)
+    let treePaths = inappropriateGraphManager.treePaths
+    for treePath in treePaths {
+      let layoutAttribute = UICollectionViewLayoutAttributes.init(forCellWith: treePath.key)
       layoutAttribute.size = self.initialCellSize
-      let row = CGFloat(i.value.count)
-      let iOrigin = CGPoint.init(x: layoutAttribute.size.width * CGFloat(i.key.row), y: layoutAttribute.size.height * row)
+      let row = CGFloat(treePath.value.count - 1)
+      let iOrigin = CGPoint.init(x: layoutAttribute.size.width * CGFloat(treePath.key.row), y: layoutAttribute.size.height * row)
       layoutAttribute.frame = CGRect.init(origin: iOrigin, size: layoutAttribute.size)
-      layoutMap.updateValue(layoutAttribute, forKey: i.key)
+      layoutMap.updateValue(layoutAttribute, forKey: treePath.key)
     }
     //Will need to ask the graph manager for the size (if not the position) for each index path
   }
@@ -48,9 +47,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
 //  var layoutMap = [IndexPath : UICollectionViewLayoutAttributes]()
 //  var contentSize: CGSize = CGSize.init(width: 1000, height: 1000)
 //  var maxGenerations: CGFloat = 0
-//  override var collectionViewContentSize: CGSize {
-//    return contentSize
-//  }
+
 //
 //  var initialCellSpacing = CGFloat.init(0)
 //  var cellPlotSize: CGSize {

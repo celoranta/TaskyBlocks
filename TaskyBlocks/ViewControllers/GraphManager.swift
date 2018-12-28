@@ -26,13 +26,16 @@ class GraphManager: NSObject {
     for i in 0..<rootTasks.count {
       let task = rootTasks[i]
       let treePath = [i]
+      //Ensure that the index refers to the database and not the local copy
       guard let index = tasks.index(of: task)
         else {
           fatalError("Task does not exist within the array it was found within")
       }
+      //Save the index path of the task to a variable
       let indexPath = IndexPath.init(item: index, section: 0)
       treePaths.updateValue(treePath, forKey: indexPath)
       let newNode = TaskyNode.init(fromTask: task, fromTreePath: treePath, fromParent: nil)
+      //Create a graphing node for each index path in the datasource
       nodes.updateValue(newNode, forKey: indexPath)
     }
     
@@ -79,16 +82,21 @@ class GraphManager: NSObject {
   fileprivate func chartChildren(ofNode node: TaskyNode) {
     if node.task.children.count == 0 { return }
       for child in node.task.children {
+        //Find the child's location with relation to its siblings
         guard let birthOrder = node.task.children.index(of: child)
           else {
             fatalError("Error:  Task is not part of the array it was found within")
         }
+        //Create the child's treepath by annexing birth order to parent's treepath
         let treePath = node.treePath + [birthOrder]
-        guard let index = tasks.index(of: node.task)
+        //Create an index which references the datasource object and not the local copy
+        guard let index = tasks.index(of: child)
           else {
             fatalError("Task does not exist within the array it was found within")
         }
+        //Create an index path using the reference to the datasource
         let indexPath = IndexPath.init(item: index, section: 0)
+        //
         treePaths.updateValue(treePath, forKey: indexPath)
         let newNode = TaskyNode.init(fromTask: child, fromTreePath: treePath, fromParent: node)
         nodes.updateValue(newNode, forKey: indexPath)

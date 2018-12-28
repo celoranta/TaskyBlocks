@@ -346,7 +346,7 @@ public class AppusCircleTimer: UIView {
         context?.strokePath()
       }
       #else
-      var angle = CGFloat(.pi)
+      var angle = CGFloat(Double.pi)
       context?.beginPath()
       context?.addArc(center: midPoint,
                       radius: radius,
