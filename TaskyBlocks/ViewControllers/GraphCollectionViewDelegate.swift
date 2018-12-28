@@ -13,6 +13,7 @@ protocol TaskSelectionSegueHandler {
 }
 
 
+
 class GraphCollectionViewDelegate: NSObject, UICollectionViewDelegate {
   
   var delegate: TaskSelectionSegueHandler!

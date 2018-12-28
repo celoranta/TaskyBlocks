@@ -34,6 +34,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     }
     self.collectionView.delegate = collectionViewDelegate
     self.collectionView.dataSource = collectionViewDatasource
+    collectionViewDelegate.delegate = self //does this belong here?
     self.toolBarOutlet.isTranslucent = true
   }
   
@@ -55,13 +56,16 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     let tasksPath = collectionView.indexPathsForSelectedItems
     if let tasksPath = tasksPath {
     let taskPath = tasksPath[0]
+      selectedTask = TaskyEditor.sharedInstance.TaskDatabase[taskPath.row]
+      detailView(task: selectedTask)
+      print("Should navigate to detail view for task ",selectedTask," at path ", taskPath)
     }
   }
   
   //MARK: - Task Detail DataSource Methods
   
   func retrieveSelectedTask() -> Tasky {
-    return selectedTask //This should send an index path or get info from the node.
+    return selectedTask
   }
   
   @objc func detailView(task: Tasky) {
@@ -94,8 +98,8 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   @IBAction func hierarchyBarItem(_ sender: Any) {
     print("Hierarchy Pressed")
     graphViewLayout = HierarchyGraphViewLayout()
-//  graphViewLayout.collectionViewLayoutDelegate = self
-//  collectionView.dataSource = self
+  //  graphViewLayout.collectionViewLayoutDelegate = self
+ //  collectionView.dataSource = self
     let graphManager = GraphManager.init() //For testing only, does not belong here
     graphManager.createHierarchyGraph() //For testing only, does not belong here
     self.collectionView.setCollectionViewLayout(graphViewLayout, animated: true)

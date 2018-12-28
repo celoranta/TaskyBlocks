@@ -379,4 +379,9 @@ class TaskyEditor: NSObject {
       
     }
   }
+  
+  func countActiveTasks() -> Int {
+    let returnCount: Int = TaskDatabase.filter({$0.completionDate == nil}).count
+    return returnCount
+  }
 }

@@ -8,25 +8,27 @@
 
 import UIKit
 
-var graphManager = GraphManager()
-
 class GraphCollectionViewDatasource: NSObject, UICollectionViewDataSource {
+  
+  var graphManager = GraphManager()
+
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
   {
-    return graphManager.nodeCount()
+    let count = TaskyEditor.sharedInstance.countActiveTasks()
+    return count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
   {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "graphingCell", for: indexPath) as! GraphingCollectionViewCell
-    if let node = graphManager.node(for: indexPath) {
-     cell.setupCellWith(task: node.task)
+    let task = TaskyEditor.sharedInstance.TaskDatabase[indexPath.row]
+     cell.setupCellWith(task: task)
     return cell
-    }
-    else{
-    fatalError("No task returned with node")
-    }
+//
+//    else{
+//    fatalError("No task returned with node")
+//    }
   }
   
   func cellData(for indexPath: IndexPath) {

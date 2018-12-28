@@ -15,13 +15,8 @@ class GraphManager: NSObject {
   private var hierarchyGraph: [TaskyNode] = []
   var treePaths: [IndexPath : TreePath] = [:]
   
-  
   func node(for path: IndexPath) -> TaskyNode? /*Needs to return a node, not a cell*/ {
     return nodes[path]
-  }
-  
-  func nodeCount() -> Int {
-    return nodes.count
   }
   
   func createHierarchyGraph() {
@@ -42,7 +37,7 @@ class GraphManager: NSObject {
     }
     
     //Recurse children to create nodes for each node in forest
-    var nodesValues = Array(nodes.values)
+    let nodesValues = Array(nodes.values)
     chartDescendants(ofNodes: nodesValues)
     
     //Determine total number of generations
