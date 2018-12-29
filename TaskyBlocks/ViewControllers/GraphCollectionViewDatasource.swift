@@ -22,7 +22,7 @@ class GraphCollectionViewDatasource: NSObject, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
   {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "graphingCell", for: indexPath) as! GraphingCollectionViewCell
-    let task = TaskyEditor.sharedInstance.TaskDatabase[indexPath.row]
+    let task = TaskyEditor.sharedInstance.taskDatabase[indexPath.row]
      cell.setupCellWith(task: task)
     return cell
 //

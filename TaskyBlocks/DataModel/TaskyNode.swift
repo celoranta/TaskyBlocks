@@ -27,15 +27,23 @@ class TaskyNode: NSObject {
   }
   
   fileprivate func countDegrees(forNode node: TaskyNode) -> Int {
-    if node.parent == nil {
+    
+    if let parent = node.parent{
+      return 1 + countDegrees(forNode: parent)
+    }
+    else {
       return 0
     }
-    guard let unwrappedParent = parent
-      else {
-        fatalError("Error: ; non-nil parent node returned as nil")
-    }
-    return 1 + countDegrees(forNode:unwrappedParent)
   }
+//    if node.parent == nil {
+//      return 0
+//    }
+//    guard let unwrappedParent = parent
+//      else {
+//        fatalError("Error: ; non-nil parent node returned as nil")
+//    }
+//    return 1 + countDegrees(forNode:unwrappedParent)
+//  }
   
 }
 

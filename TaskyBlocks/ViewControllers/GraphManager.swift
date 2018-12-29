@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class GraphManager: NSObject {
-  private let tasks: Results<Tasky> = TaskyEditor.sharedInstance.TaskDatabase
+  private let tasks: Results<Tasky> = TaskyEditor.sharedInstance.taskDatabase
   private var nodes: [IndexPath : TaskyNode] = [:]
   private var hierarchyGraph: [TaskyNode] = []
   var treePaths: [IndexPath : TreePath] = [:]
@@ -20,13 +20,15 @@ class GraphManager: NSObject {
   }
   
   func createHierarchyGraph() {
-    let rootTasks = TaskyEditor.sharedInstance.TaskDatabase.filter("parents.@count = 0")
+    //let rootTasks = TaskyEditor.sharedInstance.TaskDatabase.filter("parents.@count = 0")
     
     //Add root nodes to nodes array
-    for i in 0..<rootTasks.count {
-      let task = rootTasks[i]
+    for i in 0..<TaskyEditor.sharedInstance.rootTasks().count {
+      let task = TaskyEditor.sharedInstance.rootTasks()[i]
       let treePath = [i]
       //Ensure that the index refers to the database and not the local copy
+      //(SInce the actual objects are stored as Realm results, this
+      //should probably use a realm object ID as a reference, not an index.
       guard let index = tasks.index(of: task)
         else {
           fatalError("Task does not exist within the array it was found within")
@@ -35,7 +37,7 @@ class GraphManager: NSObject {
       let indexPath = IndexPath.init(item: index, section: 0)
       treePaths.updateValue(treePath, forKey: indexPath)
       let newNode = TaskyNode.init(fromTask: task, fromTreePath: treePath, fromParent: nil)
-      //Create a graphing node for each index path in the datasource
+      //Enter a graphing node for each index path in the datasource
       nodes.updateValue(newNode, forKey: indexPath)
     }
     
@@ -104,4 +106,10 @@ class GraphManager: NSObject {
       }
     }
   
+//  func node(for treePath: TreePath) -> IndexPath {
+//    
+//
+//    return
+//  }
+//  
 }

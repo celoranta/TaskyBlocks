@@ -8,6 +8,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   override var collectionViewContentSize: CGSize {
     return contentSize
   }
+  let inappropriateGraphManager = GraphManager()
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     var newAttributes: [UICollectionViewLayoutAttributes] = []
@@ -25,9 +26,8 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   
   override func prepare() {
     //The graphmanager will probably end up being a singleton.
-    let inappropriateGraphManager = GraphManager()
+
     inappropriateGraphManager.createHierarchyGraph()
-    
     //Create a layout attribute for each graph data point
     for graphDataPoint in inappropriateGraphManager.treePaths {
       let layoutAttribute = UICollectionViewLayoutAttributes.init(forCellWith: graphDataPoint.key)
@@ -78,7 +78,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     /*To calculate actual block size, we need the sizes of the block's children.
      This requires processing the blocks by generation in descending order DONE
      It will also require a means by which to reference the layoutattributes of the block's children.
-     The heritance is stored in the treePaths structure in the graphmanager
+     The heritance is encoded within the treePaths structure in the graphmanager
      each treepath is stored in the treePaths structure by indexPath
      Each size will be stored in the layoutAttribute.
      The layoutAttributes are to be stored in the layoutMap, indexed by IndexPath

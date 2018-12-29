@@ -27,7 +27,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     super.viewDidLoad()
 
     let _ = try! Realm()
-    dataModel = TaskyEditor.sharedInstance.TaskDatabase
+    dataModel = TaskyEditor.sharedInstance.taskDatabase
     
     if self.graphViewLayout == nil {
       self.hierarchyBarItem(self)
@@ -56,7 +56,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     let taskPaths = collectionView.indexPathsForSelectedItems
     if let taskPaths = taskPaths {
     let taskPath = taskPaths[0]
-      selectedTask = TaskyEditor.sharedInstance.TaskDatabase[taskPath.row]
+      selectedTask = TaskyEditor.sharedInstance.taskDatabase[taskPath.row]
       pushToDetail(task: selectedTask)
       //print("Should navigate to detail view for task ",selectedTask," at path ", taskPath)
     }
