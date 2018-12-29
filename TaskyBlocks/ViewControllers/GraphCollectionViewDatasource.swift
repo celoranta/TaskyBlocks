@@ -10,7 +10,7 @@ import UIKit
 
 class GraphCollectionViewDatasource: NSObject, UICollectionViewDataSource {
   
-  var graphManager = GraphManager()
+  //var graphManager = GraphManager()
 
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int

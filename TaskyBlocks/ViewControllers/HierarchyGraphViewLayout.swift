@@ -24,20 +24,81 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     }
   
   override func prepare() {
-    //What follows is just to get something back on the screen.
-    contentSize = CGSize.init(width: 1000.0, height: 1000.0)
+    //The graphmanager will probably end up being a singleton.
     let inappropriateGraphManager = GraphManager()
     inappropriateGraphManager.createHierarchyGraph()
-    let treePaths = inappropriateGraphManager.treePaths
-    for treePath in treePaths {
-      let layoutAttribute = UICollectionViewLayoutAttributes.init(forCellWith: treePath.key)
-      layoutAttribute.size = self.initialCellSize
-      let row = CGFloat(treePath.value.count - 1)
-      let iOrigin = CGPoint.init(x: layoutAttribute.size.width * CGFloat(treePath.key.row), y: layoutAttribute.size.height * row)
-      layoutAttribute.frame = CGRect.init(origin: iOrigin, size: layoutAttribute.size)
-      layoutMap.updateValue(layoutAttribute, forKey: treePath.key)
+    
+    //Create a layout attribute for each graph data point
+    for graphDataPoint in inappropriateGraphManager.treePaths {
+      let layoutAttribute = UICollectionViewLayoutAttributes.init(forCellWith: graphDataPoint.key)
+      layoutMap.updateValue(layoutAttribute, forKey: graphDataPoint.key)
     }
-    //Will need to ask the graph manager for the size (if not the position) for each index path
+    
+    //Calculate a size for the layoutAttribute associated with each graphDataPoint
+    for graphDataPoint in inappropriateGraphManager.treePaths.sorted(by: {$0.value.count > $1.value.count}) {
+      let indexPath = graphDataPoint.key
+      if let layoutAttribute = layoutMap[indexPath], let treePath = inappropriateGraphManager.treePaths[indexPath]
+      {
+        layoutAttribute.size = calculateBlockSize(for: indexPath)
+      }
+      else {
+        fatalError("layoutAttribute or treepath not found")
+      }
+    }
+    
+    //This loop is a stand-in to calculate all required graphing values
+    //Each value should be moved to a separate process until this loop is replaced entirely
+    for mapEntry in layoutMap {
+      let layoutAttribute = mapEntry.value
+      let indexPath = mapEntry.key
+      if let treePath = inappropriateGraphManager.treePaths[indexPath]
+      {
+
+      let row = calculateRow(for: treePath)
+        let x = calculateX(for: layoutAttribute)
+        let y = calculateY(for: layoutAttribute, and: row)
+        layoutAttribute.frame = CGRect.init(origin: CGPoint.init(x: x, y: y), size: layoutAttribute.size)
+        layoutMap.updateValue(layoutAttribute, forKey: indexPath)
+      }
+      else {
+        fatalError("mapEntry does not have a corresponding treePath entry")
+      }
+    }
+        //Don't bother refactoring until all block sizes and positions have been calculated
+        contentSize = calculateContentSize()
+  }
+  
+  //If this function can be taught to take a generic layoutmap or a custom class shared between the different graph types, it could be moved to the graph manager and used for all graphs
+  //Don't bother refactoring until all block sizes and positions have been calculated
+  fileprivate func calculateContentSize() -> CGSize {
+    return CGSize.init(width: 1000.0, height: 1000.0)
+  }
+  
+  fileprivate func calculateBlockSize(for indexPath: IndexPath) -> CGSize {
+    /*To calculate actual block size, we need the sizes of the block's children.
+     This requires processing the blocks by generation in descending order DONE
+     It will also require a means by which to reference the layoutattributes of the block's children.
+     The heritance is stored in the treePaths structure in the graphmanager
+     each treepath is stored in the treePaths structure by indexPath
+     Each size will be stored in the layoutAttribute.
+     The layoutAttributes are to be stored in the layoutMap, indexed by IndexPath
+     
+
+     
+    */
+    return self.initialCellSize
+  }
+  
+  fileprivate func calculateRow(for treePath: TreePath) -> CGFloat {
+   return CGFloat(treePath.count - 1)
+  }
+  
+  fileprivate func calculateX(for layoutAttribute: UICollectionViewLayoutAttributes) -> CGFloat {
+    return layoutAttribute.size.width * CGFloat(layoutAttribute.indexPath.row)
+  }
+  
+  fileprivate func calculateY(for layoutAttribute: UICollectionViewLayoutAttributes, and row: CGFloat) -> CGFloat {
+    return layoutAttribute.size.height * row
   }
 }
 
