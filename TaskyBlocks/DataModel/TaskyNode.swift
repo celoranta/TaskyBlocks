@@ -19,6 +19,8 @@ class TaskyNode: NSObject {
     }
   var tree: [Any?] = []
   var treePath: TreePath = []
+  var x: CGFloat = 0.0
+  var y: CGFloat = 0.0
   
   init(fromTask task: Tasky, fromTreePath treePath: TreePath, fromParent parent: TaskyNode?) {
     self.task = task

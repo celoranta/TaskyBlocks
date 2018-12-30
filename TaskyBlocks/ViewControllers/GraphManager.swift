@@ -121,5 +121,4 @@ class GraphManager: NSObject {
     }
     return indexPaths[0]
   }
-  
 }

@@ -4,7 +4,11 @@ import UIKit
 
 class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   var layoutMap = [IndexPath: UICollectionViewLayoutAttributes]()
-  var contentSize: CGSize = CGSize.zero
+  /*I think the layoutMap should just be [IndexPath: TaskyNode], and all other data points
+   such as UICollectionViewLayoutAttributes, treePath, and temporary registers for x, y, row, etc...
+   should all be properties of TaskyNode.
+ */
+ var contentSize: CGSize = CGSize.zero
   override var collectionViewContentSize: CGSize {
     return contentSize
   }
@@ -26,7 +30,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   
   override func prepare() {
     //The graphmanager will probably end up being a singleton.
-
     inappropriateGraphManager.createHierarchyGraph()
     //Create a layout attribute for each graph data point
     for graphDataPoint in inappropriateGraphManager.treePaths {
@@ -37,17 +40,19 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     //Calculate a size for the layoutAttribute associated with each graphDataPoint
     for graphDataPoint in inappropriateGraphManager.treePaths.sorted(by: {$0.value.count > $1.value.count}) {
       let indexPath = graphDataPoint.key
-      if let layoutAttribute = layoutMap[indexPath]
-      {
+      if let layoutAttribute = layoutMap[indexPath]{
         layoutAttribute.size = calculateBlockSize(for: indexPath)
       }
       else {
         fatalError("layoutAttribute or treepath not found")
       }
+//      let node = inappropriateGraphManager.node(for: graphDataPoint.key)
+//      let row = calculateRow(for: inappropriateGraphManager.treePaths[indexPath]){
+//      node.y
+//      }
     }
     
-    //This loop is a stand-in to calculate all required graphing values
-    //Each value should be moved to a separate process until this loop is replaced entirely
+    
     for mapEntry in layoutMap {
       let layoutAttribute = mapEntry.value
       let indexPath = mapEntry.key
@@ -55,8 +60,9 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
       {
 
       let row = calculateRow(for: treePath)
-        let x = calculateX(for: layoutAttribute)
         let y = calculateY(for: layoutAttribute, and: row)
+        
+                let x = calculateX(for: layoutAttribute)
         layoutAttribute.frame = CGRect.init(origin: CGPoint.init(x: x, y: y), size: layoutAttribute.size)
         layoutMap.updateValue(layoutAttribute, forKey: indexPath)
       }
@@ -99,30 +105,22 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
         }
       }
     }
-    
     return CGSize.init(width: width, height: self.initialCellHeight)
-    /*To calculate actual block size, we need the sizes of the block's children.
-     This requires processing the blocks by generation in descending order DONE
-     It will also require a means by which to reference the layoutattributes of the block's children.
-     The heritance is encoded within the treePaths structure in the graphmanager
-     each treepath is stored in the treePaths structure by indexPath
-     Each size will be stored in the layoutAttribute.
-     The layoutAttributes are to be stored in the layoutMap, indexed by IndexPath
-    */
-    //return self.initialCellSize
   }
   
   fileprivate func calculateRow(for treePath: TreePath) -> CGFloat {
    return CGFloat(treePath.count - 1)
   }
   
+  fileprivate func calculateY(for layoutAttribute: UICollectionViewLayoutAttributes, and row: CGFloat) -> CGFloat {
+    return layoutAttribute.size.height * row
+  }
+  
   fileprivate func calculateX(for layoutAttribute: UICollectionViewLayoutAttributes) -> CGFloat {
     return layoutAttribute.size.width * CGFloat(layoutAttribute.indexPath.row)
   }
   
-  fileprivate func calculateY(for layoutAttribute: UICollectionViewLayoutAttributes, and row: CGFloat) -> CGFloat {
-    return layoutAttribute.size.height * row
-  }
+
 }
 
 //  var preGenerationMap: [HierarchyGraphingNode] = []
