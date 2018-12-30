@@ -32,43 +32,45 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     //The graphmanager will probably end up being a singleton.
     inappropriateGraphManager.createHierarchyGraph()
     //Create a layout attribute for each graph data point
-    for graphDataPoint in inappropriateGraphManager.treePaths {
+    for graphDataPoint in inappropriateGraphManager.nodes {
       let layoutAttribute = UICollectionViewLayoutAttributes.init(forCellWith: graphDataPoint.key)
-      layoutMap.updateValue(layoutAttribute, forKey: graphDataPoint.key)
+      let node = graphDataPoint.value
+      node.layoutAttribute = layoutAttribute
+      //layoutMap.updateValue(layoutAttribute, forKey: graphDataPoint.key)
     }
     
     //Calculate a size for the layoutAttribute associated with each graphDataPoint
-    for graphDataPoint in inappropriateGraphManager.treePaths.sorted(by: {$0.value.count > $1.value.count}) {
+    for graphDataPoint in inappropriateGraphManager.nodes.sorted(by: {$0.value.treePath.count > $1.value.treePath.count}) {
       let indexPath = graphDataPoint.key
-      if let layoutAttribute = layoutMap[indexPath]{
+      let node = graphDataPoint.value
+      if let layoutAttribute = node.layoutAttribute{
         layoutAttribute.size = calculateBlockSize(for: indexPath)
       }
       else {
         fatalError("layoutAttribute or treepath not found")
       }
-//      let node = inappropriateGraphManager.node(for: graphDataPoint.key)
-//      let row = calculateRow(for: inappropriateGraphManager.treePaths[indexPath]){
-//      node.y
-//      }
-    }
+      
+      let row = calculateRow(for: node.treePath)
+      node.y = calculateY(for: node.layoutAttribute, and: row)
+        }
     
     
-    for mapEntry in layoutMap {
-      let layoutAttribute = mapEntry.value
-      let indexPath = mapEntry.key
-      if let treePath = inappropriateGraphManager.treePaths[indexPath]
-      {
+    
+    for graphDataSet in inappropriateGraphManager.nodes {
+      let node = graphDataSet.value
+      let indexPath = graphDataSet.key
 
+      let treePath = node.treePath
       let row = calculateRow(for: treePath)
-        let y = calculateY(for: layoutAttribute, and: row)
-        
-                let x = calculateX(for: layoutAttribute)
-        layoutAttribute.frame = CGRect.init(origin: CGPoint.init(x: x, y: y), size: layoutAttribute.size)
-        layoutMap.updateValue(layoutAttribute, forKey: indexPath)
+      guard let layoutAttribute = node.layoutAttribute
+        else {
+          fatalError("Node has no layoutAttribue value")
       }
-      else {
-        fatalError("mapEntry does not have a corresponding treePath entry")
-      }
+      let y = calculateY(for: layoutAttribute, and: row)
+      let x = calculateX(for: layoutAttribute)
+      layoutAttribute.frame = CGRect.init(origin: CGPoint.init(x: x, y: y), size: layoutAttribute.size)
+      layoutMap.updateValue(layoutAttribute, forKey: indexPath)
+      
     }
         //Don't bother refactoring until all block sizes and positions have been calculated
         contentSize = calculateContentSize()
@@ -85,26 +87,29 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     //let tempNode = inappropriateGraphManager.node(for: indexPath)!
     //let tempTask = tempNode.task
     //let tempTaskName = tempTask.title
-    if let treePath = inappropriateGraphManager.treePaths[indexPath]{
-      let degree = treePath.count
+    guard let node = inappropriateGraphManager.nodes[indexPath]
+      else {
+        fatalError("Node not found")
+    }
+    //let treePath = node?.treePath{
+      let degree = node.treePath.count // Could this just use node.degree?
       //Find all treePaths which contain the entire treePath of the subject
       //CORRECTION:  MUST _BEGIN_WITH_ THE TREEPATH
-      let otherTreePaths = inappropriateGraphManager.treePaths.filter({$0.key != indexPath})
-      let youngerTreePaths = otherTreePaths.filter({$0.value.count > degree})
-      let descendantTreePaths = youngerTreePaths.filter({Array($0.value[..<degree]) == treePath})
+      let otherNodes = inappropriateGraphManager.nodes.filter({$0.key != indexPath})
+      let youngerNodes = otherNodes.filter({$0.value.treePath.count > degree})
+      let descendantNodes = youngerNodes.filter({Array($0.value.treePath[..<degree]) == node.treePath})
       //Limit these to only treePaths of the generation under the subject
-      let childTreePaths = descendantTreePaths.filter({$0.value.count == degree + 1})
-      if childTreePaths.count == 0 {
+      let childNodes = descendantNodes.filter({$0.value.treePath.count == degree + 1})
+      if childNodes.count == 0 {
           return CGSize.init(width: self.initialCellWidth, height: self.initialCellHeight)
       }
-      let childIndexPaths = childTreePaths.keys
-      for indexPath in childIndexPaths {
-        if let childAttribute = layoutMap[indexPath]{
+      let childIndexPaths = childNodes.keys
+      for childNode in childNodes {
+        if let childAttribute = childNode.value.layoutAttribute{
           let childWidth = childAttribute.size.width
           width += childWidth
         }
       }
-    }
     return CGSize.init(width: width, height: self.initialCellHeight)
   }
   

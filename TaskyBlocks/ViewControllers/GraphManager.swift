@@ -11,9 +11,9 @@ import RealmSwift
 
 class GraphManager: NSObject {
   private let tasks: Results<Tasky> = TaskyEditor.sharedInstance.taskDatabase
-  private var nodes: [IndexPath : TaskyNode] = [:]
+  var nodes: [IndexPath : TaskyNode] = [:]
   private var hierarchyGraph: [TaskyNode] = []
-  var treePaths: [IndexPath : TreePath] = [:]
+ // var treePaths: [IndexPath : TreePath] = [:]
   
   func node(for path: IndexPath) -> TaskyNode? /*Needs to return a node, not a cell*/ {
     return nodes[path]
@@ -35,8 +35,9 @@ class GraphManager: NSObject {
       }
       //Save the index path of the task to a variable
       let indexPath = IndexPath.init(item: index, section: 0)
-      treePaths.updateValue(treePath, forKey: indexPath)
+      //treePaths.updateValue(treePath, forKey: indexPath)
       let newNode = TaskyNode.init(fromTask: task, fromTreePath: treePath, fromParent: nil)
+      newNode.treePath = treePath
       //Enter a graphing node for each index path in the datasource
       nodes.updateValue(newNode, forKey: indexPath)
     }
@@ -70,7 +71,7 @@ class GraphManager: NSObject {
       hierarchyGraph.append(node)
     }
     print("Hierarchy graph: ",  hierarchyGraph)
-    print("TreePaths: ", treePaths)
+    //print("TreePaths: ", treePaths)
   }
   
   //Sends an array of nodes to recursive node creation function
@@ -99,7 +100,6 @@ class GraphManager: NSObject {
         //Create an index path using the reference to the datasource
         let indexPath = IndexPath.init(item: index, section: 0)
         //
-        treePaths.updateValue(treePath, forKey: indexPath)
         let newNode = TaskyNode.init(fromTask: child, fromTreePath: treePath, fromParent: node)
         nodes.updateValue(newNode, forKey: indexPath)
         chartChildren(ofNode: newNode)
