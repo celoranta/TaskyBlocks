@@ -38,6 +38,8 @@
 		95BE0D2F2076027A0097937F /* TaskTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BE0D2E207602790097937F /* TaskTimer.swift */; };
 		95D05A7820789D220053593E /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D05A7720789D220053593E /* DetailTableViewCell.swift */; };
 		95D814ED21D4BD0B00CB5E9C /* TreePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D814EC21D4BD0B00CB5E9C /* TreePath.swift */; };
+		95D814EF21D85B8400CB5E9C /* Dictionary+keysForValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D814EE21D85B8400CB5E9C /* Dictionary+keysForValue.swift */; };
+		95D814F121D861B500CB5E9C /* Array+ContainsSubArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D814F021D861B500CB5E9C /* Array+ContainsSubArray.swift */; };
 		95DC88D52077489B00E346DB /* Tasky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DC88D42077489B00E346DB /* Tasky.swift */; };
 		95F0291F2086DDBB00FE9A0C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F0291E2086DDBB00FE9A0C /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
@@ -92,6 +94,8 @@
 		95BE0D2E207602790097937F /* TaskTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTimer.swift; sourceTree = "<group>"; };
 		95D05A7720789D220053593E /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		95D814EC21D4BD0B00CB5E9C /* TreePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreePath.swift; sourceTree = "<group>"; };
+		95D814EE21D85B8400CB5E9C /* Dictionary+keysForValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+keysForValue.swift"; sourceTree = "<group>"; };
+		95D814F021D861B500CB5E9C /* Array+ContainsSubArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ContainsSubArray.swift"; sourceTree = "<group>"; };
 		95DC88D42077489B00E346DB /* Tasky.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tasky.swift; sourceTree = "<group>"; };
 		95F0291E2086DDBB00FE9A0C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		A72648820E802729DA3A0EBD /* Pods-TaskyBlocksUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskyBlocksUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskyBlocksUITests/Pods-TaskyBlocksUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -171,6 +175,8 @@
 				951099862075C1470091DF49 /* Main.storyboard */,
 				953B32C8207EBB0C00B24C81 /* ViewControllers */,
 				9510995D2075C0A10091DF49 /* Info.plist */,
+				95D814EE21D85B8400CB5E9C /* Dictionary+keysForValue.swift */,
+				95D814F021D861B500CB5E9C /* Array+ContainsSubArray.swift */,
 			);
 			path = TaskyBlocks;
 			sourceTree = "<group>";
@@ -463,7 +469,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95D814F121D861B500CB5E9C /* Array+ContainsSubArray.swift in Sources */,
 				9534855A2079859300A613B9 /* PickerTableViewCell.swift in Sources */,
+				95D814EF21D85B8400CB5E9C /* Dictionary+keysForValue.swift in Sources */,
 				9510999A2075C14A0091DF49 /* AppDelegate.swift in Sources */,
 				95A7905020A4CB940006A48A /* HierarchyGraphViewLayout.swift in Sources */,
 				959A74132091449A004B253A /* ChooseTaskTableViewController.swift in Sources */,

@@ -37,7 +37,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     //Calculate a size for the layoutAttribute associated with each graphDataPoint
     for graphDataPoint in inappropriateGraphManager.treePaths.sorted(by: {$0.value.count > $1.value.count}) {
       let indexPath = graphDataPoint.key
-      if let layoutAttribute = layoutMap[indexPath], let treePath = inappropriateGraphManager.treePaths[indexPath]
+      if let layoutAttribute = layoutMap[indexPath]
       {
         layoutAttribute.size = calculateBlockSize(for: indexPath)
       }
@@ -75,6 +75,32 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   }
   
   fileprivate func calculateBlockSize(for indexPath: IndexPath) -> CGSize {
+    var width: CGFloat = 0.0
+    //let tempNode = inappropriateGraphManager.node(for: indexPath)!
+    //let tempTask = tempNode.task
+    //let tempTaskName = tempTask.title
+    if let treePath = inappropriateGraphManager.treePaths[indexPath]{
+      let degree = treePath.count
+      //Find all treePaths which contain the entire treePath of the subject
+      //CORRECTION:  MUST _BEGIN_WITH_ THE TREEPATH
+      let otherTreePaths = inappropriateGraphManager.treePaths.filter({$0.key != indexPath})
+      let youngerTreePaths = otherTreePaths.filter({$0.value.count > degree})
+      let descendantTreePaths = youngerTreePaths.filter({Array($0.value[..<degree]) == treePath})
+      //Limit these to only treePaths of the generation under the subject
+      let childTreePaths = descendantTreePaths.filter({$0.value.count == degree + 1})
+      if childTreePaths.count == 0 {
+          return CGSize.init(width: self.initialCellWidth, height: self.initialCellHeight)
+      }
+      let childIndexPaths = childTreePaths.keys
+      for indexPath in childIndexPaths {
+        if let childAttribute = layoutMap[indexPath]{
+          let childWidth = childAttribute.size.width
+          width += childWidth
+        }
+      }
+    }
+    
+    return CGSize.init(width: width, height: self.initialCellHeight)
     /*To calculate actual block size, we need the sizes of the block's children.
      This requires processing the blocks by generation in descending order DONE
      It will also require a means by which to reference the layoutattributes of the block's children.
@@ -82,11 +108,8 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
      each treepath is stored in the treePaths structure by indexPath
      Each size will be stored in the layoutAttribute.
      The layoutAttributes are to be stored in the layoutMap, indexed by IndexPath
-     
-
-     
     */
-    return self.initialCellSize
+    //return self.initialCellSize
   }
   
   fileprivate func calculateRow(for treePath: TreePath) -> CGFloat {

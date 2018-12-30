@@ -27,7 +27,6 @@ class TaskyNode: NSObject {
   }
   
   fileprivate func countDegrees(forNode node: TaskyNode) -> Int {
-    
     if let parent = node.parent{
       return 1 + countDegrees(forNode: parent)
     }

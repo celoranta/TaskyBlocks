@@ -106,10 +106,20 @@ class GraphManager: NSObject {
       }
     }
   
-//  func node(for treePath: TreePath) -> IndexPath {
-//    
-//
-//    return
-//  }
-//  
+  func node(at treePath: TreePath) -> TaskyNode? {
+    var node: TaskyNode?
+    for branchIndex in treePath {
+      node = hierarchyGraph[branchIndex]
+    }
+    return node
+  }
+  
+  func indexPath(of node: TaskyNode) -> IndexPath{
+    let indexPaths = nodes.keysForValue(value: node)
+    if indexPaths.count > 1 {
+      fatalError("More than one index path was found for node")
+    }
+    return indexPaths[0]
+  }
+  
 }
