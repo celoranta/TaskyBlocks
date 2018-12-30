@@ -3,11 +3,6 @@
 import UIKit
 
 class HierarchyGraphViewLayout: GraphCollectionViewLayout {
-  var layoutMap = [IndexPath: UICollectionViewLayoutAttributes]()
-  /*I think the layoutMap should just be [IndexPath: TaskyNode], and all other data points
-   such as UICollectionViewLayoutAttributes, treePath, and temporary registers for x, y, row, etc...
-   should all be properties of TaskyNode.
- */
  var contentSize: CGSize = CGSize.zero
   override var collectionViewContentSize: CGSize {
     return contentSize
@@ -16,64 +11,56 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     var newAttributes: [UICollectionViewLayoutAttributes] = []
-    for attribute in layoutMap {
-      if attribute.value.frame.intersects(rect) {
-        newAttributes.append(attribute.value)
+    for attribute in inappropriateGraphManager.nodes.compactMap({$0.value.layoutAttribute}) {
+      if attribute.frame.intersects(rect) {
+        newAttributes.append(attribute)
       }
     }
     return newAttributes
   }
   
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-      return layoutMap[indexPath]
+      return inappropriateGraphManager.nodes[indexPath]?.layoutAttribute
     }
   
   override func prepare() {
     //The graphmanager will probably end up being a singleton.
     inappropriateGraphManager.createHierarchyGraph()
-    //Create a layout attribute for each graph data point
     for graphDataPoint in inappropriateGraphManager.nodes {
       let layoutAttribute = UICollectionViewLayoutAttributes.init(forCellWith: graphDataPoint.key)
       let node = graphDataPoint.value
       node.layoutAttribute = layoutAttribute
-      //layoutMap.updateValue(layoutAttribute, forKey: graphDataPoint.key)
     }
     
-    //Calculate a size for the layoutAttribute associated with each graphDataPoint
+    //Calculate a size and y value for each node
     for graphDataPoint in inappropriateGraphManager.nodes.sorted(by: {$0.value.treePath.count > $1.value.treePath.count}) {
       let indexPath = graphDataPoint.key
       let node = graphDataPoint.value
       if let layoutAttribute = node.layoutAttribute{
         layoutAttribute.size = calculateBlockSize(for: indexPath)
       }
-      else {
-        fatalError("layoutAttribute or treepath not found")
-      }
-      
+      else {fatalError("layoutAttribute or treepath not found")}
       let row = calculateRow(for: node.treePath)
       node.y = calculateY(for: node.layoutAttribute, and: row)
-        }
+      }
+    
+    calculateX(for: inappropriateGraphManager.hierarchyGraph, from: 0)
+    
     
     
     
     for graphDataSet in inappropriateGraphManager.nodes {
       let node = graphDataSet.value
-      let indexPath = graphDataSet.key
-
-      let treePath = node.treePath
-      let row = calculateRow(for: treePath)
       guard let layoutAttribute = node.layoutAttribute
         else {
           fatalError("Node has no layoutAttribue value")
       }
-      let y = calculateY(for: layoutAttribute, and: row)
-      let x = calculateX(for: layoutAttribute)
-      layoutAttribute.frame = CGRect.init(origin: CGPoint.init(x: x, y: y), size: layoutAttribute.size)
-      layoutMap.updateValue(layoutAttribute, forKey: indexPath)
-      
+      //node.x = calculateX(for: layoutAttribute)
+      node.layoutAttribute.frame = CGRect.init(origin: CGPoint.init(x: node.x, y: node.y), size: layoutAttribute.size)
+      //layoutMap.updateValue(layoutAttribute, forKey: indexPath)
     }
-        //Don't bother refactoring until all block sizes and positions have been calculated
-        contentSize = calculateContentSize()
+      //Don't bother refactoring until all block sizes and positions have been calculated
+      contentSize = calculateContentSize()
   }
   
   //If this function can be taught to take a generic layoutmap or a custom class shared between the different graph types, it could be moved to the graph manager and used for all graphs
@@ -92,20 +79,13 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
         fatalError("Node not found")
     }
     //let treePath = node?.treePath{
-      let degree = node.treePath.count // Could this just use node.degree?
-      //Find all treePaths which contain the entire treePath of the subject
-      //CORRECTION:  MUST _BEGIN_WITH_ THE TREEPATH
-      let otherNodes = inappropriateGraphManager.nodes.filter({$0.key != indexPath})
-      let youngerNodes = otherNodes.filter({$0.value.treePath.count > degree})
-      let descendantNodes = youngerNodes.filter({Array($0.value.treePath[..<degree]) == node.treePath})
-      //Limit these to only treePaths of the generation under the subject
-      let childNodes = descendantNodes.filter({$0.value.treePath.count == degree + 1})
+      let childNodes = childrenNodes(for: node)
       if childNodes.count == 0 {
           return CGSize.init(width: self.initialCellWidth, height: self.initialCellHeight)
       }
-      let childIndexPaths = childNodes.keys
+      //let childIndexPaths = childNodes.keys
       for childNode in childNodes {
-        if let childAttribute = childNode.value.layoutAttribute{
+        if let childAttribute = childNode.layoutAttribute{
           let childWidth = childAttribute.size.width
           width += childWidth
         }
@@ -125,122 +105,35 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     return layoutAttribute.size.width * CGFloat(layoutAttribute.indexPath.row)
   }
   
-
+//  fileprivate func recurseXOffsets(node: TaskyNode) {
+//    var xRegister = 0
+//    var siblingIndex = node.treePath.last
+//    if let v
+//    
+//
+//  }
+  
+  func calculateX(for siblings: [TaskyNode], from offset: CGFloat)  {
+    var xRegister = offset
+    for sibling in siblings {
+      sibling.x = xRegister
+      let width = sibling.layoutAttribute.size.width
+      xRegister += width
+      let children = childrenNodes(for: sibling)
+      calculateX(for: children, from: sibling.x)
+    }
+  }
+  
+  func childrenNodes(for node: TaskyNode) -> [TaskyNode] {
+  let degree = node.treePath.count // Could this just use node.degree?
+  //Find all treePaths which contain the entire treePath of the subject
+  //CORRECTION:  MUST _BEGIN_WITH_ THE TREEPATH
+  let otherNodes = inappropriateGraphManager.nodes.filter({$0.value != node})
+  let youngerNodes = otherNodes.filter({$0.value.treePath.count > degree})
+  let descendantNodes = youngerNodes.filter({Array($0.value.treePath[..<degree]) == node.treePath})
+  //Limit these to only treePaths of the generation under the subject
+  let childNodes = descendantNodes.filter({$0.value.treePath.count == degree + 1})
+    let children = Array(childNodes.values)
+  return children
+  }
 }
-
-//  var preGenerationMap: [HierarchyGraphingNode] = []
-//  //var generationMap = [CGFloat : [HierarchyGraphingNode]]()
-//  var generationMap = [[HierarchyGraphingNode]]()
-//  var layoutMap = [IndexPath : UICollectionViewLayoutAttributes]()
-//  var contentSize: CGSize = CGSize.init(width: 1000, height: 1000)
-//  var maxGenerations: CGFloat = 0
-
-//
-//  var initialCellSpacing = CGFloat.init(0)
-//  var cellPlotSize: CGSize {
-//    return CGSize.init(width: initialCellSize.width + initialCellSpacing, height: initialCellSize.height + initialCellSpacing)
-//  }
-//
-//  override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-//    var newAttributes: [UICollectionViewLayoutAttributes] = []
-//    for attribute in layoutMap {
-//      if attribute.value.frame.intersects(rect) {
-//        newAttributes.append(attribute.value)
-//      }
-//    }
-//    return newAttributes
-//  }
-//
-//  override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-//    return layoutMap[indexPath]
-//  }
-//
-//  private func center(rect1: CGSize, in rect2: CGRect) -> CGRect {
-//    let xOffset = 0.5 * (rect2.width - rect1.width)
-//    let yOffset = 0.5 * (rect2.height - rect1.height)
-//    let originX = rect2.origin.x + xOffset
-//    let originY = rect2.origin.y + yOffset
-//    let origin = CGPoint.init(x: originX, y: originY)
-//    return CGRect.init(origin: origin, size: rect1)
-//  }
-//
-//  override func prepare() {
-//    super.prepare()
-//
-//  }
-//
-//  fileprivate func countChildlessDescendants(of task: Tasky) -> CGFloat {
-//    var childCount: CGFloat = 0.0
-//    for child in task.children
-//    {
-//      if child.children.count == 0 {
-//        childCount += CGFloat(1.0)
-//      }
-//      else {
-//        childCount += countChildlessDescendants(of: child)
-//      }
-//    }
-//    return childCount
-//  }
-//
-//  fileprivate func hierarchyGraphingNode(for task: Tasky, parent: Tasky?) -> HierarchyGraphingNode? {
-//    if let parent = parent {
-//      for generation in generationMap {
-//        for node in generation {
-//          if node.task.parents.contains(parent) && node.task == task {
-//            return node
-//          }
-//        }
-//      }
-//    }
-//    else if generationMap[0].filter({$0.task == task}).count > 0 {
-//      for node in generationMap[0] {
-//        if node.task == task {
-//          return node
-//        }
-//      }
-//    }
-//    return nil
-//  }
-//
-//  fileprivate func sumOfPriorSiblingWidths(node: HierarchyGraphingNode) -> CGFloat {
-//    var count: CGFloat = 0
-//    if node.parents.count == 0 {
-//      return 0
-//    }
-//    else {
-//      for child in node.parents[0].children
-//      {
-//        if child.siblingPaths[0].siblingIndex! < node.siblingPaths[0].siblingIndex! {
-//          count += (child.siblingPaths[0].siblingIndex!)
-//        }
-//      }
-//    }
-//    return count
-//  }
-//
-//  fileprivate func xOffset(per siblingPath: SiblingPath) -> CGFloat {
-//    var offset: CGFloat = 0.0
-//    if let parent = siblingPath.parent {
-//      for child in parent.children {
-//        for childSiblingPath in child.siblingPaths {
-//          if childSiblingPath.siblingIndex! < siblingPath.siblingIndex! {
-//            offset += child.width
-//          }
-//        }
-//      }
-//      offset += parent.width
-//    }
-//    return offset
-//  }
-//
-//  fileprivate func createGeneration(following generation: [HierarchyGraphingNode]) -> [HierarchyGraphingNode] {
-//    var newGeneration: [HierarchyGraphingNode] = []
-//    for node in generation {
-//      for child in node.task.children {
-//        newGeneration.append(HierarchyGraphingNode.init(task: child, parent: node))
-//      }
-//    }
-//    return newGeneration
-//  }
-//}

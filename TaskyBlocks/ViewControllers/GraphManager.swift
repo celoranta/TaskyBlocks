@@ -12,7 +12,7 @@ import RealmSwift
 class GraphManager: NSObject {
   private let tasks: Results<Tasky> = TaskyEditor.sharedInstance.taskDatabase
   var nodes: [IndexPath : TaskyNode] = [:]
-  private var hierarchyGraph: [TaskyNode] = []
+  var hierarchyGraph: [TaskyNode] = []
  // var treePaths: [IndexPath : TreePath] = [:]
   
   func node(for path: IndexPath) -> TaskyNode? /*Needs to return a node, not a cell*/ {

@@ -17,7 +17,7 @@ class TaskyNode: NSObject {
   var degree:Int {
    return countDegrees(forNode: self)
     }
-  var tree: [Any?] = []
+  var tree: [TaskyNode] = []
   var treePath: TreePath = []
   var x: CGFloat = 0.0
   var y: CGFloat = 0.0
