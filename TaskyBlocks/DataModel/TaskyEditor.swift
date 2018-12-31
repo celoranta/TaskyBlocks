@@ -386,7 +386,7 @@ class TaskyEditor: NSObject {
   }
   
   func rootTasks() -> [Tasky] {
-    let rootTaskArray: [Tasky] = Array(taskDatabase.filter({$0.parents.count == 0}))
+    let rootTaskArray: [Tasky] = Array(taskDatabase.filter({$0.isPrimal == true}))
     return rootTaskArray
   }
 }

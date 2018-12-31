@@ -23,7 +23,7 @@ class TaskyNode: NSObject {
   var y: CGFloat = 0.0
   var layoutAttribute: UICollectionViewLayoutAttributes!
   
-  init(fromTask task: Tasky, fromTreePath treePath: TreePath, fromParent parent: TaskyNode?) {
+  init(fromTask task: Tasky, fromTreePath treePath: TreePath, fromParent parent: TaskyNode? = nil) {
     self.task = task
     self.parent = parent
     self.treePath = treePath

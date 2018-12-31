@@ -18,23 +18,11 @@ class GraphManager: NSObject {
   static let sharedInstance = GraphManager()
   private var indexRegister = 0
   private var hierarchyMaxDegree = 0
-  private let incompleteTasks = Array(TaskyEditor.sharedInstance.rootTasks()).filter({$0.completionDate == nil})
+  private let incompleteRootTasks = Array(TaskyEditor.sharedInstance.rootTasks()).filter({$0.completionDate == nil})
   var nodes: [IndexPath : TaskyNode] = [:]
   var hierarchyGraph: [TaskyNode] {
-    //Returns only the root-level nodes, with their descendents nested in their 'tree' properties
+    //Returns only the root-level hierarchy nodes
     return Array(nodes.filter({$0.key[0] == Section.hierarchy.rawValue}).values.filter({$0.degree == 0}))
-  }
-  
-  var hierarchyGraphMaxWidth: CGFloat {
-    var maxWidth: CGFloat = 0.0
-    for i in 0...hierarchyMaxDegree {
-      let generation = nodes.filter({$0.value.degree == i}).values
-      let width = generation.reduce(0, {$1.layoutAttribute.size.width + $0})
-      if width > maxWidth {
-        maxWidth = width
-      }
-    }
-    return maxWidth
   }
   
   func node(for path: IndexPath) -> TaskyNode? {
@@ -51,28 +39,26 @@ class GraphManager: NSObject {
   fileprivate func createHierarchyGraph() {
     //Add root nodes to nodes array
 
-    for i in 0..<incompleteTasks.count {
-      let task = incompleteTasks[i]
+    for i in 0..<incompleteRootTasks.count {
+      let task = incompleteRootTasks[i]
       let treePath = [i]
       let indexPath = IndexPath.init(item: indexRegister, section: Section.hierarchy.rawValue)
       indexRegister += 1
-      let newNode = TaskyNode.init(fromTask: task, fromTreePath: treePath, fromParent: nil)
+      let newNode = TaskyNode.init(fromTask: task, fromTreePath: treePath)
       //Enter a graphing node for each index path
       nodes.updateValue(newNode, forKey: indexPath)
     }
     //Recurse children to create nodes for each node in forest
-    let hierarchyNodesValues = Array(nodes.filter({$0.key[0] == Section.hierarchy.rawValue}).values)
-    chartDescendants(ofNodes: hierarchyNodesValues)
-    //Determine total number of generations
-    //var maxDegree: Int
-    guard let nodeAtMaxGen = hierarchyNodesValues.max(by: {$0.degree > $1.degree})
+    //let hierarchyNodesValues = Array(nodes.filter({$0.key[0] == Section.hierarchy.rawValue}).values)
+    chartDescendants(ofNodes: hierarchyGraph)
+    guard let nodeAtMaxGen = nodes.values.max(by: {$0.degree > $1.degree})
       else {
         fatalError("Error: No node with max degree found in hierarchy tree")
     }
      hierarchyMaxDegree = nodeAtMaxGen.degree
     //Package each generation of nodes into parents' tree property
     for generation in stride(from: hierarchyMaxDegree, to: 0, by: -1) {
-      for node in hierarchyNodesValues.filter({$0.degree == generation}) {
+      for node in nodes.values.filter({$0.degree == generation}) {
         guard let parent = node.parent
           else {
             fatalError("No parent found for node")
@@ -115,6 +101,18 @@ class GraphManager: NSObject {
         chartChildren(ofNode: newNode)
       }
     }
+  
+  var hierarchyGraphMaxWidth: CGFloat {
+    var maxWidth: CGFloat = 0.0
+    for i in 0...hierarchyMaxDegree {
+      let generation = nodes.filter({$0.value.degree == i}).values
+      let width = generation.reduce(0, {$1.layoutAttribute.size.width + $0})
+      if width > maxWidth {
+        maxWidth = width
+      }
+    }
+    return maxWidth
+  }
   
   fileprivate func clearGraphs() {
     indexRegister = 0
