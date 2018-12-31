@@ -65,7 +65,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   //If this function can be taught to take a generic layoutmap or a custom class shared between the different graph types, it could be moved to the graph manager and used for all graphs
   //Don't bother refactoring until all block sizes and positions have been calculated
   fileprivate func calculateContentSize() -> CGSize {
-    return CGSize.init(width: 1000.0, height: 1000.0)
+    return CGSize.init(width: GraphManager.sharedInstance.hierarchyGraphMaxWidth, height: 1000.0)
   }
   
   fileprivate func calculateBlockSize(for indexPath: IndexPath) -> CGSize {

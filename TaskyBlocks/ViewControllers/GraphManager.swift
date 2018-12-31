@@ -25,6 +25,18 @@ class GraphManager: NSObject {
     return Array(nodes.filter({$0.key[0] == Section.hierarchy.rawValue}).values.filter({$0.degree == 0}))
   }
   
+  var hierarchyGraphMaxWidth: CGFloat {
+    var maxWidth: CGFloat = 0.0
+    for i in 0...hierarchyMaxDegree {
+      let generation = nodes.filter({$0.value.degree == i}).values
+      let width = generation.reduce(0, {$1.layoutAttribute.size.width + $0})
+      if width > maxWidth {
+        maxWidth = width
+      }
+    }
+    return maxWidth
+  }
+  
   func node(for path: IndexPath) -> TaskyNode? {
     return nodes[path]
   }
