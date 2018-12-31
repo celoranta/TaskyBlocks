@@ -3,10 +3,10 @@
 import UIKit
 
 class HierarchyGraphViewLayout: GraphCollectionViewLayout {
- var contentSize: CGSize = CGSize.zero
-  override var collectionViewContentSize: CGSize {
-    return contentSize
-  }
+ //var contentSize: CGSize = CGSize.zero
+//  override var collectionViewContentSize: CGSize {
+//    return contentSize
+//  }
   let graphManager = GraphManager.sharedInstance
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
@@ -43,11 +43,10 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
       node.y = calculateY(for: node.layoutAttribute, and: row)
       }
     
-    calculateX(for: graphManager.hierarchyGraph, from: 0)
+    calculateX(for: graphManager.hierarchyGraph, from: self.centeringMargin)
     
     
-    
-    
+  
     for graphDataSet in graphManager.nodes {
       let node = graphDataSet.value
       guard let layoutAttribute = node.layoutAttribute
@@ -59,13 +58,14 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
       //layoutMap.updateValue(layoutAttribute, forKey: indexPath)
     }
       //Don't bother refactoring until all block sizes and positions have been calculated
-      contentSize = calculateContentSize()
+      calculateGraphSize()
   }
   
   //If this function can be taught to take a generic layoutmap or a custom class shared between the different graph types, it could be moved to the graph manager and used for all graphs
   //Don't bother refactoring until all block sizes and positions have been calculated
-  fileprivate func calculateContentSize() -> CGSize {
-    return CGSize.init(width: GraphManager.sharedInstance.hierarchyGraphMaxWidth, height: 1000.0)
+  fileprivate func calculateGraphSize() {
+    self.graphWidth = GraphManager.sharedInstance.hierarchyGraphMaxWidth
+    self.graphHeight = 1000.0
   }
   
   fileprivate func calculateBlockSize(for indexPath: IndexPath) -> CGSize {

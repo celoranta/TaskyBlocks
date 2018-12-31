@@ -102,7 +102,7 @@ class GraphManager: NSObject {
       }
     }
   
-  var hierarchyGraphMaxWidth: CGFloat {
+  var hierarchyGraphMaxWidth: CGFloat { //This seems like it erroneously counts recently completed tasks' widths
     var maxWidth: CGFloat = 0.0
     for i in 0...hierarchyMaxDegree {
       let generation = nodes.filter({$0.value.degree == i}).values
