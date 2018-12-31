@@ -24,7 +24,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     }
   
   override func prepare() {
-    //The graphmanager will probably end up being a singleton.
     graphManager.updateGraphs()
     for graphDataPoint in graphManager.nodes {
       let layoutAttribute = UICollectionViewLayoutAttributes.init(forCellWith: graphDataPoint.key)

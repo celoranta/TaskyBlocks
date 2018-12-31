@@ -43,6 +43,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   }
   
   fileprivate func refreshGraph() {
+    GraphManager.sharedInstance.updateGraphs()
     self.collectionView.reloadData()
     self.graphViewLayout.invalidateLayout()
   }
