@@ -15,14 +15,24 @@ class GraphCollectionViewDatasource: NSObject, UICollectionViewDataSource {
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
   {
+    if section == 0 {
+      return GraphManager.sharedInstance.nodes.count
+    }
+    else{
     let count = TaskyEditor.sharedInstance.countActiveTasks()
     return count
+  }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
   {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "graphingCell", for: indexPath) as! GraphingCollectionViewCell
-    let task = TaskyEditor.sharedInstance.taskDatabase[indexPath.row]
+    //let task = TaskyEditor.sharedInstance.taskDatabase[indexPath.row]
+    guard let node = GraphManager.sharedInstance.node(for: indexPath)
+      else {
+        fatalError("Node not found")
+    }
+    let task = node.task
      cell.setupCellWith(task: task)
     return cell
 //

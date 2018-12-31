@@ -10,8 +10,16 @@ import UIKit
 import RealmSwift
 
 class GraphManager: NSObject {
-  private let tasks: Results<Tasky> = TaskyEditor.sharedInstance.taskDatabase
+  static let sharedInstance = GraphManager()
+  private var tasks: Results<Tasky> {return TaskyEditor.sharedInstance.taskDatabase}
+  private var indexRegister = 0
   var nodes: [IndexPath : TaskyNode] = [:]
+  //The hierarchy Graph only exists to hold nodes which have been assigned child 'trees,' but
+  //doesn't the very nature of classes suggest that the hierarchy graph holds EXACTLY the same
+  //references as the nodes in the 'Nodes' property?
+//  var hierarchyGraph: [TaskyNode] {
+//    return Array(nodes.filter({$0.value.tree.count == 1}).values)
+//  }
   var hierarchyGraph: [TaskyNode] = []
  // var treePaths: [IndexPath : TreePath] = [:]
   
@@ -19,9 +27,9 @@ class GraphManager: NSObject {
     return nodes[path]
   }
   
-  func createHierarchyGraph() {
+  fileprivate func createHierarchyGraph() {
     //let rootTasks = TaskyEditor.sharedInstance.TaskDatabase.filter("parents.@count = 0")
-    
+    clearGraphs()
     //Add root nodes to nodes array
     for i in 0..<TaskyEditor.sharedInstance.rootTasks().count {
       let task = TaskyEditor.sharedInstance.rootTasks()[i]
@@ -29,15 +37,16 @@ class GraphManager: NSObject {
       //Ensure that the index refers to the database and not the local copy
       //(SInce the actual objects are stored as Realm results, this
       //should probably use a realm object ID as a reference, not an index.
-      guard let index = tasks.index(of: task)
-        else {
-          fatalError("Task does not exist within the array it was found within")
-      }
+//      guard let index = indexRegister
+//        else {
+//          fatalError("Task does not exist within the array it was found within")
+//      }
       //Save the index path of the task to a variable
-      let indexPath = IndexPath.init(item: index, section: 0)
+      let indexPath = IndexPath.init(item: indexRegister, section: 0)
+      indexRegister += 1
       //treePaths.updateValue(treePath, forKey: indexPath)
       let newNode = TaskyNode.init(fromTask: task, fromTreePath: treePath, fromParent: nil)
-      newNode.treePath = treePath
+      //newNode.treePath = treePath
       //Enter a graphing node for each index path in the datasource
       nodes.updateValue(newNode, forKey: indexPath)
     }
@@ -74,6 +83,20 @@ class GraphManager: NSObject {
     //print("TreePaths: ", treePaths)
   }
   
+  fileprivate func createDependanceGraph() {
+    
+  }
+  
+  fileprivate func createPriorityGraph() {
+    
+  }
+  
+  func updateGraphs() {
+    createHierarchyGraph()
+    createDependanceGraph()
+    createPriorityGraph()
+  }
+  
   //Sends an array of nodes to recursive node creation function
   fileprivate func chartDescendants(ofNodes nodeArray: [TaskyNode]) {
     for node in nodeArray {
@@ -93,12 +116,14 @@ class GraphManager: NSObject {
         //Create the child's treepath by annexing birth order to parent's treepath
         let treePath = node.treePath + [birthOrder]
         //Create an index which references the datasource object and not the local copy
-        guard let index = tasks.index(of: child)
-          else {
-            fatalError("Task does not exist within the array it was found within")
-        }
+        //THIS INDEX IS WRONG AND PROHIBITS MULTIPLE CELLS WITH SAME TASK
+//        guard let index = tasks.index(of: child)
+//          else {
+//            fatalError("Task does not exist within the array it was found within")
+//        }
         //Create an index path using the reference to the datasource
-        let indexPath = IndexPath.init(item: index, section: 0)
+        let indexPath = IndexPath.init(item: indexRegister, section: 0)
+        indexRegister += 1
         //
         let newNode = TaskyNode.init(fromTask: child, fromTreePath: treePath, fromParent: node)
         nodes.updateValue(newNode, forKey: indexPath)
@@ -120,5 +145,16 @@ class GraphManager: NSObject {
       fatalError("More than one index path was found for node")
     }
     return indexPaths[0]
+  }
+  
+  fileprivate func clearGraphs() {
+    indexRegister = 0
+    nodes = [:]
+    hierarchyGraph = []
+  }
+  
+  override private init() {
+    super.init()
+    updateGraphs()
   }
 }

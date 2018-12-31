@@ -7,11 +7,11 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   override var collectionViewContentSize: CGSize {
     return contentSize
   }
-  let inappropriateGraphManager = GraphManager()
+  let graphManager = GraphManager.sharedInstance
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     var newAttributes: [UICollectionViewLayoutAttributes] = []
-    for attribute in inappropriateGraphManager.nodes.compactMap({$0.value.layoutAttribute}) {
+    for attribute in graphManager.nodes.compactMap({$0.value.layoutAttribute}) {
       if attribute.frame.intersects(rect) {
         newAttributes.append(attribute)
       }
@@ -20,20 +20,20 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   }
   
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-      return inappropriateGraphManager.nodes[indexPath]?.layoutAttribute
+      return graphManager.nodes[indexPath]?.layoutAttribute
     }
   
   override func prepare() {
     //The graphmanager will probably end up being a singleton.
-    inappropriateGraphManager.createHierarchyGraph()
-    for graphDataPoint in inappropriateGraphManager.nodes {
+    graphManager.updateGraphs()
+    for graphDataPoint in graphManager.nodes {
       let layoutAttribute = UICollectionViewLayoutAttributes.init(forCellWith: graphDataPoint.key)
       let node = graphDataPoint.value
       node.layoutAttribute = layoutAttribute
     }
     
     //Calculate a size and y value for each node
-    for graphDataPoint in inappropriateGraphManager.nodes.sorted(by: {$0.value.treePath.count > $1.value.treePath.count}) {
+    for graphDataPoint in graphManager.nodes.sorted(by: {$0.value.treePath.count > $1.value.treePath.count}) {
       let indexPath = graphDataPoint.key
       let node = graphDataPoint.value
       if let layoutAttribute = node.layoutAttribute{
@@ -44,12 +44,12 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
       node.y = calculateY(for: node.layoutAttribute, and: row)
       }
     
-    calculateX(for: inappropriateGraphManager.hierarchyGraph, from: 0)
+    calculateX(for: graphManager.hierarchyGraph, from: 0)
     
     
     
     
-    for graphDataSet in inappropriateGraphManager.nodes {
+    for graphDataSet in graphManager.nodes {
       let node = graphDataSet.value
       guard let layoutAttribute = node.layoutAttribute
         else {
@@ -71,10 +71,10 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   
   fileprivate func calculateBlockSize(for indexPath: IndexPath) -> CGSize {
     var width: CGFloat = 0.0
-    //let tempNode = inappropriateGraphManager.node(for: indexPath)!
+    //let tempNode = graphManager.node(for: indexPath)!
     //let tempTask = tempNode.task
     //let tempTaskName = tempTask.title
-    guard let node = inappropriateGraphManager.nodes[indexPath]
+    guard let node = graphManager.nodes[indexPath]
       else {
         fatalError("Node not found")
     }
@@ -128,7 +128,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   let degree = node.treePath.count // Could this just use node.degree?
   //Find all treePaths which contain the entire treePath of the subject
   //CORRECTION:  MUST _BEGIN_WITH_ THE TREEPATH
-  let otherNodes = inappropriateGraphManager.nodes.filter({$0.value != node})
+  let otherNodes = graphManager.nodes.filter({$0.value != node})
   let youngerNodes = otherNodes.filter({$0.value.treePath.count > degree})
   let descendantNodes = youngerNodes.filter({Array($0.value.treePath[..<degree]) == node.treePath})
   //Limit these to only treePaths of the generation under the subject

@@ -53,11 +53,17 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   }
   
   func taskWasSelected() {
-    let taskPaths = collectionView.indexPathsForSelectedItems
-    if let taskPaths = taskPaths {
-    let taskPath = taskPaths[0]
-      selectedTask = TaskyEditor.sharedInstance.taskDatabase[taskPath.row]
+    let nodePaths = collectionView.indexPathsForSelectedItems
+    if let nodePaths = nodePaths {
+    let nodePath = nodePaths[0]
+      //selectedTask = TaskyEditor.sharedInstance.taskDatabase[taskPath.row]
+     guard let selectedNode = GraphManager.sharedInstance.node(for: nodePath)
+      else {
+        fatalError("No node at index path")
+      }
+      selectedTask = selectedNode.task
       pushToDetail(task: selectedTask)
+      
       //print("Should navigate to detail view for task ",selectedTask," at path ", taskPath)
     }
   }
@@ -100,8 +106,8 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     graphViewLayout = HierarchyGraphViewLayout()
   //  graphViewLayout.collectionViewLayoutDelegate = self
  //  collectionView.dataSource = self
-    let graphManager = GraphManager.init() //For testing only, does not belong here
-    graphManager.createHierarchyGraph() //For testing only, does not belong here
+    //let graphManager = GraphManager.sharedInstance //For testing only, does not belong here
+    //graphManager.updateGraphs() //For testing only, does not belong here
     self.collectionView.setCollectionViewLayout(graphViewLayout, animated: true)
    refreshGraph()
   }
