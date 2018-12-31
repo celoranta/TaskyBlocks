@@ -18,7 +18,7 @@ class GraphManager: NSObject {
   static let sharedInstance = GraphManager()
   private var indexRegister = 0
   private var hierarchyMaxDegree = 0
-  private let incompleteRootTasks = Array(TaskyEditor.sharedInstance.rootTasks()).filter({$0.completionDate == nil})
+  private var incompleteRootTasks: [Tasky] { return TaskyEditor.sharedInstance.rootTasks().filter({$0.completionDate == nil})}
   var nodes: [IndexPath : TaskyNode] = [:]
   var hierarchyGraph: [TaskyNode] {
     //Returns only the root-level hierarchy nodes
