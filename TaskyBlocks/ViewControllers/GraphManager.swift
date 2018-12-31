@@ -16,9 +16,9 @@ class GraphManager: NSObject {
     case priority = 2
   }
   static let sharedInstance = GraphManager()
-  private var tasks: Results<Tasky> {return TaskyEditor.sharedInstance.taskDatabase}
   private var indexRegister = 0
   private var hierarchyMaxDegree = 0
+  private let incompleteTasks = Array(TaskyEditor.sharedInstance.rootTasks()).filter({$0.completionDate == nil})
   var nodes: [IndexPath : TaskyNode] = [:]
   var hierarchyGraph: [TaskyNode] {
     //Returns only the root-level nodes, with their descendents nested in their 'tree' properties
@@ -38,8 +38,9 @@ class GraphManager: NSObject {
   
   fileprivate func createHierarchyGraph() {
     //Add root nodes to nodes array
-    for i in 0..<TaskyEditor.sharedInstance.rootTasks().count {
-      let task = TaskyEditor.sharedInstance.rootTasks()[i]
+
+    for i in 0..<incompleteTasks.count {
+      let task = incompleteTasks[i]
       let treePath = [i]
       let indexPath = IndexPath.init(item: indexRegister, section: Section.hierarchy.rawValue)
       indexRegister += 1
