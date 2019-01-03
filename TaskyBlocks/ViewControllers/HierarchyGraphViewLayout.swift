@@ -30,7 +30,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
       let node = graphDataPoint.value
       node.layoutAttribute = layoutAttribute
     }
-    
     //Calculate a size and y value for each node
     for graphDataPoint in graphManager.nodes.sorted(by: {$0.value.treePath.count > $1.value.treePath.count}) {
       let indexPath = graphDataPoint.key
@@ -42,11 +41,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
       let row = calculateRow(for: node.treePath)
       node.y = calculateY(for: node.layoutAttribute, and: row)
       }
-    
     calculateX(for: graphManager.hierarchyGraph, from: self.centeringMargin)
-    
-    
-  
     for graphDataSet in graphManager.nodes {
       let node = graphDataSet.value
       guard let layoutAttribute = node.layoutAttribute

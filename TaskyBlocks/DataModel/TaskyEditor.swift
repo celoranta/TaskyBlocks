@@ -15,7 +15,7 @@ enum NewTaskyType {
 
 class TaskyEditor: NSObject {
   private let realm: Realm
-  let taskDatabase: Results<Tasky>
+  var taskDatabase: Results<Tasky>
   static let sharedInstance = TaskyEditor()
   var notificationToken: NotificationToken? = nil
   

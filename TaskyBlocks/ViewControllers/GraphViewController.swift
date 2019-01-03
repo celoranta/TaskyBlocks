@@ -11,7 +11,7 @@ import RealmSwift
 
 
 class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelectionSegueHandler {
-
+  
   var selectedTask: Tasky! 
   var dataModel: Results<Tasky>!
   var graphViewLayout: UICollectionViewLayout!

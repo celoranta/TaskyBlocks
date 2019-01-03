@@ -24,4 +24,6 @@ class GraphCollectionViewDelegate: NSObject, UICollectionViewDelegate {
     delegate.taskWasSelected()
   }
   
+  // Support for reordering
+
 }

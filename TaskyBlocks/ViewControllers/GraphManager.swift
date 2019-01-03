@@ -41,12 +41,14 @@ class GraphManager: NSObject {
 
     for i in 0..<incompleteRootTasks.count {
       let task = incompleteRootTasks[i]
-      let treePath = [i]
+      let siblingIndex = [i]
       let indexPath = IndexPath.init(item: indexRegister, section: Section.hierarchy.rawValue)
-      indexRegister += 1
-      let newNode = TaskyNode.init(fromTask: task, fromTreePath: treePath)
+      let newNode = TaskyNode.init(fromTask: task, fromTreePath: siblingIndex)
+      
       //Enter a graphing node for each index path
       nodes.updateValue(newNode, forKey: indexPath)
+      indexRegister += 1
+
     }
     //Recurse children to create nodes for each node in forest
     //let hierarchyNodesValues = Array(nodes.filter({$0.key[0] == Section.hierarchy.rawValue}).values)
@@ -83,7 +85,7 @@ class GraphManager: NSObject {
   
   //Creates all nodes in hierarchy graph
   fileprivate func chartChildren(ofNode node: TaskyNode) {
-    if node.task.children.count == 0 { return }
+    if node.task.children.count == 0 || node.isCollapsed == true { return }
       for child in node.task.children {
         //Find the child's location with relation to its siblings
         guard let birthOrder = node.task.children.index(of: child)
@@ -94,9 +96,13 @@ class GraphManager: NSObject {
         let treePath = node.treePath + [birthOrder]
         //Create an index path using the reference to the datasource
         let indexPath = IndexPath.init(item: indexRegister, section: 0)
+        
         indexRegister += 1
-        //
+
         let newNode = TaskyNode.init(fromTask: child, fromTreePath: treePath, fromParent: node)
+//        if indexRegister == 2 { //Temporary Test
+//          newNode.isCollapsed = true
+//        }
         nodes.updateValue(newNode, forKey: indexPath)
         chartChildren(ofNode: newNode)
       }

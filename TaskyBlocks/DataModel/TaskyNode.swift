@@ -11,17 +11,24 @@ import RealmSwift
 
 class TaskyNode: NSObject {
   
+  /*It seems that, generally speaking, the nodes should be transient, and only created just before graphing, with no plan to save them for further use.  However, there are a few factors which, although unrelated to actual task data, should nevertheless influence the layout of cells.  These include:
+   isCollapsed:  It can apply to a task when shown under one parent, yet not apply to the same task when shown under another parent.  This needs to be saved between sessions and regraphings
+   Sibling Order: It can apply to a task when shown under one parent, yet apply differently to the same task when shown under another parent.  This needs to be saved between sessions and regraphings.
+   */
+
+  
   let task: Tasky
   let parent: TaskyNode?
   let nodeId = String(UUID().uuidString) + "N"
   var degree:Int {
    return countDegrees(forNode: self)
     }
-  var tree: [TaskyNode] = []
-  var treePath: TreePath = []
+  var tree: [TaskyNode] = [] // Contains all descendant nodes
+  var treePath: TreePath = [] // Contains the sibling order index of this and all ancestor nodes
   var x: CGFloat = 0.0
   var y: CGFloat = 0.0
   var layoutAttribute: UICollectionViewLayoutAttributes!
+  var isCollapsed = false //Records whether descendants should appear in graph
   
   init(fromTask task: Tasky, fromTreePath treePath: TreePath, fromParent parent: TaskyNode? = nil) {
     self.task = task
