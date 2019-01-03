@@ -165,8 +165,9 @@ class TaskyEditor: NSObject {
     realm.beginWrite()
     if !task.parents.contains(newParent)
     {
-      task.parents.append(newParent)
-      realm.add(task, update: true)
+      newParent.children.append(task)
+     // task.parents.append(newParent)
+      realm.add(newParent, update: true)
     }
     try! realm.commitWrite()
   }
@@ -176,7 +177,8 @@ class TaskyEditor: NSObject {
     realm.beginWrite()
     if !newChild.parents.contains(task)
     {
-      newChild.parents.append(task)
+      //newChild.parents.append(task)
+      task.children.append(newChild)
       realm.add(task, update: true)
     }
     try! realm.commitWrite()
@@ -187,8 +189,9 @@ class TaskyEditor: NSObject {
     realm.beginWrite()
     if let index = task.parents.index(of: parent)
     {
-      task.parents.remove(at: index)
-      realm.add(task, update: true)
+      parent.children.remove(at: index)
+      //task.parents.remove(at: index)
+      realm.add(parent, update: true)
     }
     try! realm.commitWrite()
   }
@@ -198,7 +201,8 @@ class TaskyEditor: NSObject {
     realm.beginWrite()
     if let uindex = child.parents.index(of: task)
     {
-      child.parents.remove(at: uindex)
+      task.children.remove(at: uindex)
+     // child.parents.remove(at: uindex)
       realm.add(task, update: true)
     }
     try! realm.commitWrite()
@@ -207,8 +211,13 @@ class TaskyEditor: NSObject {
   func removeAsChildToAllParents(task: Tasky)
   {
     realm.beginWrite()
-    task.parents.removeAll()
-    realm.add(task, update: true)
+    for parent in task.parents{
+      if let index = parent.children.index(of: task) {
+        parent.children.remove(at: index)
+      }
+      realm.add(parent, update: true)
+    }
+    //realm.add(task, update: true)
     try! realm.commitWrite()
   }
   

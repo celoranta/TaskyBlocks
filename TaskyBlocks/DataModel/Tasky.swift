@@ -33,8 +33,8 @@ class Tasky: Object
    @objc dynamic var secondsElapsed: Int = 0
   
   //MARK: Realm Object Properties
-  let parents = List<Tasky>()
-  let children = LinkingObjects(fromType: Tasky.self, property: "parents")
+  let parents = LinkingObjects(fromType: Tasky.self, property: "children")
+  let children = List<Tasky>()
   let antecedents = List<Tasky>() //Move to Task
   let consequents = LinkingObjects(fromType: Tasky.self, property: "antecedents")
   let priorityDirect: RealmOptional<Double> = RealmOptional.init()
