@@ -23,7 +23,7 @@ class TaskyNode: NSObject {
   var degree:Int {
    return countDegrees(forNode: self)
     }
-  var tree: [TaskyNode] = [] // Contains all descendant nodes
+  var tree: [TaskyNode] = [] // Contains all descendant nodes, nested
   var treePath: TreePath = [] // Contains the sibling order index of this and all ancestor nodes
   var x: CGFloat = 0.0
   var y: CGFloat = 0.0

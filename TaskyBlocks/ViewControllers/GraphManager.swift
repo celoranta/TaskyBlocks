@@ -53,6 +53,7 @@ class GraphManager: NSObject {
     //Recurse children to create nodes for each node in forest
     //let hierarchyNodesValues = Array(nodes.filter({$0.key[0] == Section.hierarchy.rawValue}).values)
     chartDescendants(ofNodes: hierarchyGraph)
+    
     guard let nodeAtMaxGen = nodes.values.max(by: {$0.degree > $1.degree})
       else {
         fatalError("Error: No node with max degree found in hierarchy tree")
@@ -104,6 +105,7 @@ class GraphManager: NSObject {
 //          newNode.isCollapsed = true
 //        }
         nodes.updateValue(newNode, forKey: indexPath)
+        node.tree.append(newNode)
         chartChildren(ofNode: newNode)
       }
     }
@@ -119,7 +121,7 @@ class GraphManager: NSObject {
     }
     return maxWidth
   }
-  
+
   fileprivate func clearGraphs() {
     indexRegister = 0
     nodes = [:]

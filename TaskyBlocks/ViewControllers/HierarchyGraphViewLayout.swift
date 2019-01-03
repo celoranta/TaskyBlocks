@@ -8,7 +8,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
 //    return contentSize
 //  }
   let graphManager = GraphManager.sharedInstance
-  
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     var newAttributes: [UICollectionViewLayoutAttributes] = []
     for attribute in graphManager.nodes.compactMap({$0.value.layoutAttribute}) {
@@ -38,7 +37,7 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
         layoutAttribute.size = calculateBlockSize(for: indexPath)
       }
       else {fatalError("layoutAttribute or treepath not found")}
-      let row = calculateRow(for: node.treePath)
+      let row = CGFloat(node.degree)
       node.y = calculateY(for: node.layoutAttribute, and: row)
       }
     calculateX(for: graphManager.hierarchyGraph, from: self.centeringMargin)
@@ -95,18 +94,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     return layoutAttribute.size.height * row
   }
   
-  fileprivate func calculateX(for layoutAttribute: UICollectionViewLayoutAttributes) -> CGFloat {
-    return layoutAttribute.size.width * CGFloat(layoutAttribute.indexPath.row)
-  }
-  
-//  fileprivate func recurseXOffsets(node: TaskyNode) {
-//    var xRegister = 0
-//    var siblingIndex = node.treePath.last
-//    if let v
-//    
-//
-//  }
-  
   func calculateX(for siblings: [TaskyNode], from offset: CGFloat)  {
     var xRegister = offset
     for sibling in siblings {
@@ -119,15 +106,6 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
   }
   
   func childrenNodes(for node: TaskyNode) -> [TaskyNode] {
-  let degree = node.treePath.count // Could this just use node.degree?
-  //Find all treePaths which contain the entire treePath of the subject
-  //CORRECTION:  MUST _BEGIN_WITH_ THE TREEPATH
-  let otherNodes = graphManager.nodes.filter({$0.value != node})
-  let youngerNodes = otherNodes.filter({$0.value.treePath.count > degree})
-  let descendantNodes = youngerNodes.filter({Array($0.value.treePath[..<degree]) == node.treePath})
-  //Limit these to only treePaths of the generation under the subject
-  let childNodes = descendantNodes.filter({$0.value.treePath.count == degree + 1})
-    let children = Array(childNodes.values)
-  return children
+  return node.tree
   }
 }
