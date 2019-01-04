@@ -14,7 +14,7 @@ protocol TaskSelectionSegueHandler {
 
 
 
-class GraphCollectionViewDelegate: NSObject, UICollectionViewDelegate {
+class GraphCollectionViewDelegate: NSObject, UICollectionViewDelegate, UIGestureRecognizerDelegate {
   
   var delegate: TaskSelectionSegueHandler!
   
@@ -23,6 +23,8 @@ class GraphCollectionViewDelegate: NSObject, UICollectionViewDelegate {
     
     delegate.taskWasSelected()
   }
+  
+
   
   // Support for reordering
 

@@ -41,6 +41,10 @@ class GraphCollectionViewDatasource: NSObject, UICollectionViewDataSource {
 //    }
   }
   
+  func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+  
   func cellData(for indexPath: IndexPath) {
     
   }

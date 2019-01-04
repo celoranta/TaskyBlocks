@@ -12,12 +12,15 @@ import RealmSwift
 
 class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelectionSegueHandler {
   
-  var selectedTask: Tasky! 
+  var selectedTask: Tasky!
+  var snapshot: UIView?
+  fileprivate var sourceIndexPath: IndexPath?
   var dataModel: Results<Tasky>!
   var graphViewLayout: UICollectionViewLayout!
   //var visibleScreenSize: CGSize {return dynamicScreenSize}
   var collectionViewDelegate = GraphCollectionViewDelegate()
   var collectionViewDatasource = GraphCollectionViewDatasource()
+
   
   @IBOutlet weak var collectionView: UICollectionView!
   @IBOutlet weak var toolBarOutlet: UIToolbar!
@@ -52,6 +55,8 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
+  
+
   
   func taskWasSelected() {
     let nodePaths = collectionView.indexPathsForSelectedItems
@@ -139,5 +144,105 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     let _ = TaskyEditor.sharedInstance.newTask()
     self.collectionView.reloadData()
     self.collectionView.collectionViewLayout.invalidateLayout()
+  }
+  @IBAction func longPress(_ sender: UILongPressGestureRecognizer) {
+        print("Long Press")
+    let location = sender.location(in: collectionView)
+    guard let indexPath = collectionView.indexPathForItem(at: location)
+          else {
+            //Clean up
+            self.cleanup()
+            return
+          }
+      let node = GraphManager.sharedInstance.node(for: indexPath) as! TaskyNode
+      print(node.task)
+      let canMove = collectionView.beginInteractiveMovementForItem(at: indexPath)
+      print("Can move?", canMove)
+    
+    //https://medium.com/@bhaveshtandel17/https-medium-com-bhaveshtandel17-how-to-create-custom-movable-uitableviewcell-uicollectionviewcell-8e90f3190606
+    
+      guard let cell = collectionView.cellForItem(at: indexPath)
+        else {return}
+      switch sender.state {
+      case .began:
+        print("Began")
+          snapshot = self.customSnapshotFromView(inputView: cell)
+          guard  let snapshot = self.snapshot else { return }
+          var center = cell.center
+          snapshot.center = center
+          snapshot.alpha = 0.0
+          self.collectionView.addSubview(snapshot)
+          UIView.animate(withDuration: 0.25, animations: {
+            center.y = location.y
+            center.x = location.x
+            snapshot.center = center
+            snapshot.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+            snapshot.alpha = 0.98
+            cell.alpha = 0.0
+          }, completion: { (finished) in
+            cell.isHidden = true
+          })
+          break
+      case .changed:
+        print("Changed")
+        guard  let snapshot = self.snapshot else {
+          return
+        }
+        var center = snapshot.center
+        center.y = location.y
+        center.x = location.x
+        snapshot.center = center
+        guard let sourceIndexPath = self.sourceIndexPath  else {return}
+//        if indexPath != sourceIndexPath {
+//          swap(&data[indexPath.row], &data[sourceIndexPath.row])
+//          self.collectionView.moveItem(at: sourceIndexPath, to: indexPath)
+//          self.sourceIndexPath = indexPath
+//        }
+        break
+      default:
+        guard let cell = self.collectionView.cellForItem(at: indexPath)
+          else {
+          return
+        }
+        guard  let snapshot = self.snapshot else {
+          return
+        }
+        cell.isHidden = false
+        cell.alpha = 0.0
+        UIView.animate(withDuration: 0.25, animations: {
+          snapshot.center = cell.center
+          snapshot.transform = CGAffineTransform.identity
+          snapshot.alpha = 0
+          cell.alpha = 1
+        }, completion: { (finished) in
+          self.cleanup()
+        })
+    }
+  }
+  
+  
+  private func customSnapshotFromView(inputView: UIView) -> UIView? {
+    UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0)
+    if let CurrentContext = UIGraphicsGetCurrentContext() {
+      inputView.layer.render(in: CurrentContext)
+    }
+    guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+      UIGraphicsEndImageContext()
+      return nil
+    }
+    UIGraphicsEndImageContext()
+    let snapshot = UIImageView(image: image)
+    snapshot.layer.masksToBounds = false
+    snapshot.layer.cornerRadius = 0
+    snapshot.layer.shadowOffset = CGSize(width: -5, height: 0)
+    snapshot.layer.shadowRadius = 5
+    snapshot.layer.shadowOpacity = 0.4
+    return snapshot
+  }
+  
+  private func cleanup() {
+    self.sourceIndexPath = nil
+    snapshot?.removeFromSuperview()
+    self.snapshot = nil
   }
 }
