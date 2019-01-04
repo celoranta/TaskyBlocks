@@ -15,6 +15,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   var selectedTask: Tasky!
   var snapshot: UIView?
   fileprivate var sourceIndexPath: IndexPath?
+  fileprivate var sourceNode: TaskyNode?
   var dataModel: Results<Tasky>!
   var graphViewLayout: UICollectionViewLayout!
   //var visibleScreenSize: CGSize {return dynamicScreenSize}
@@ -148,25 +149,36 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   @IBAction func longPress(_ sender: UILongPressGestureRecognizer) {
         print("Long Press")
     let location = sender.location(in: collectionView)
-    guard let indexPath = collectionView.indexPathForItem(at: location)
-          else {
-            //Clean up
-            self.cleanup()
-            return
-          }
-      let node = GraphManager.sharedInstance.node(for: indexPath) as! TaskyNode
-      print(node.task)
-      let canMove = collectionView.beginInteractiveMovementForItem(at: indexPath)
-      print("Can move?", canMove)
-    
+
     //https://medium.com/@bhaveshtandel17/https-medium-com-bhaveshtandel17-how-to-create-custom-movable-uitableviewcell-uicollectionviewcell-8e90f3190606
     
-      guard let cell = collectionView.cellForItem(at: indexPath)
-        else {return}
       switch sender.state {
       case .began:
         print("Began")
+        guard let currentIndexPath = collectionView.indexPathForItem(at: location)
+          else {
+            self.cleanup()
+            return
+        }
+        guard let node = GraphManager.sharedInstance.node(for: currentIndexPath)
+          else{
+            self.cleanup()
+            return
+          }
+        print("Source node: ", node.task)
+        guard let cell = collectionView.cellForItem(at: currentIndexPath)
+          else {
+            self.cleanup()
+            return
+            }
           snapshot = self.customSnapshotFromView(inputView: cell)
+          sourceIndexPath = collectionView.indexPathForItem(at: location)
+          sourceNode = node
+          guard let indexPath = sourceIndexPath
+            else {
+              self.cleanup()
+              return
+        }
           guard  let snapshot = self.snapshot else { return }
           var center = cell.center
           snapshot.center = center
@@ -180,26 +192,54 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
             snapshot.alpha = 0.98
             cell.alpha = 0.0
           }, completion: { (finished) in
-            cell.isHidden = true
+            cell.isHidden = false//This was set to TRUE in the original code
           })
           break
       case .changed:
         print("Changed")
-        guard  let snapshot = self.snapshot else {
-          return
+        guard let defaultIndexPath = sourceIndexPath, let defaultNode = sourceNode, let snapshot = self.snapshot
+          else {
+            cleanup()
+            return
         }
+        let currentIndexPath = collectionView.indexPathForItem(at: location) ?? defaultIndexPath
+        let currentNode = GraphManager.sharedInstance.node(for: currentIndexPath) ?? defaultNode
         var center = snapshot.center
         center.y = location.y
         center.x = location.x
         snapshot.center = center
-        guard let sourceIndexPath = self.sourceIndexPath  else {return}
+       // let sourceIndexPath = self.sourceIndexPath
+        let targetNode = currentNode //default is original position
+//        if let targetIndex = collectionView.indexPathForItem(at: center) {
+//        targetNode = GraphManager.sharedInstance.node(for: targetIndex)!
+//        }
+        print("New Target: ", targetNode.task.title )
+        if let targetParent = targetNode.parent {
+          print("Target Parent: ", targetParent.task.title)
+          let siblings = targetParent.task.children
+          guard let siblingIndex = siblings.index(of: targetNode.task)
+            else {return}
+          print("Sibling Index: ", siblingIndex)
+          TaskyEditor.sharedInstance.removeAsChildToAllParents(task: defaultNode.task)
+          TaskyEditor.sharedInstance.add(task: defaultNode.task, AsChildTo: targetParent.task, at: siblingIndex, and: false)
+        }
+        GraphManager.sharedInstance.updateGraphs()
+       // collectionView.collectionViewLayout.invalidateLayout()
 //        if indexPath != sourceIndexPath {
 //          swap(&data[indexPath.row], &data[sourceIndexPath.row])
 //          self.collectionView.moveItem(at: sourceIndexPath, to: indexPath)
 //          self.sourceIndexPath = indexPath
 //        }
+      break
+      case .ended:
+        //GraphManager.sharedInstance.updateGraphs()
+        collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.layoutIfNeeded()
+        self.cleanup()
         break
       default:
+        guard let indexPath = sourceIndexPath
+          else {return}
         guard let cell = self.collectionView.cellForItem(at: indexPath)
           else {
           return

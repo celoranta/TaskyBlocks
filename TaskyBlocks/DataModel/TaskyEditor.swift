@@ -160,14 +160,24 @@ class TaskyEditor: NSObject {
   
   //MARK: Tasky Relational Assignment Edits
   
-  func add(task: Tasky, AsChildTo newParent: Tasky)
+  func add(task: Tasky, AsChildTo newParent: Tasky){
+    let index = newParent.children.count
+    add(task: task, AsChildTo: newParent, at: index, and: true)
+  }
+  
+  func add(task: Tasky, AsChildTo newParent: Tasky, at index: Int?, and update: Bool?)
   {
     realm.beginWrite()
     if !task.parents.contains(newParent)
     {
-      newParent.children.append(task)
+      if let index = index {
+        newParent.children.insert(task, at: index)
+      }
+      else {
+        newParent.children.append(task)
+      }
      // task.parents.append(newParent)
-      realm.add(newParent, update: true)
+      realm.add(newParent, update: update!)
     }
     try! realm.commitWrite()
   }
