@@ -223,7 +223,8 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
           TaskyEditor.sharedInstance.removeAsChildToAllParents(task: defaultNode.task)
           TaskyEditor.sharedInstance.add(task: defaultNode.task, AsChildTo: targetParent.task, at: siblingIndex, and: false)
         }
-        GraphManager.sharedInstance.updateGraphs()
+        refreshGraph()
+        //GraphManager.sharedInstance.updateGraphs()
        // collectionView.collectionViewLayout.invalidateLayout()
 //        if indexPath != sourceIndexPath {
 //          swap(&data[indexPath.row], &data[sourceIndexPath.row])
@@ -232,9 +233,10 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
 //        }
       break
       case .ended:
+        refreshGraph()
         //GraphManager.sharedInstance.updateGraphs()
-        collectionView.collectionViewLayout.invalidateLayout()
-        collectionView.layoutIfNeeded()
+        //collectionView.collectionViewLayout.invalidateLayout()
+        //collectionView.layoutIfNeeded()
         self.cleanup()
         break
       default:
