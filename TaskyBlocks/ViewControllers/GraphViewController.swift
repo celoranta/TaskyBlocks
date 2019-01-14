@@ -16,6 +16,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   var snapshot: UIView?
   fileprivate var sourceIndexPath: IndexPath?
   fileprivate var sourceNode: TaskyNode?
+  fileprivate var sourceTreePath: TreePath?
   var dataModel: Results<Tasky>!
   var graphViewLayout: UICollectionViewLayout!
   //var visibleScreenSize: CGSize {return dynamicScreenSize}
@@ -155,30 +156,23 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
       switch sender.state {
       case .began:
         print("Began")
-        guard let currentIndexPath = collectionView.indexPathForItem(at: location)
-          else {
-            self.cleanup()
-            return
-        }
-        guard let node = GraphManager.sharedInstance.node(for: currentIndexPath)
+       sourceIndexPath = collectionView.indexPathForItem(at: location) ?? IndexPath.init(row: 0, section: 0)
+        guard let node = GraphManager.sharedInstance.node(for: sourceIndexPath!)
           else{
             self.cleanup()
             return
           }
         print("Source node: ", node.task)
-        guard let cell = collectionView.cellForItem(at: currentIndexPath)
+        sourceTreePath = node.treePath
+//        var nodeTree = node.tree.compactMap({$0})
+//        nodeTree.insert(node, at: 0)
+         guard let cell = collectionView.cellForItem(at: sourceIndexPath!)
           else {
             self.cleanup()
             return
             }
           snapshot = self.customSnapshotFromView(inputView: cell)
-          sourceIndexPath = collectionView.indexPathForItem(at: location)
           sourceNode = node
-          guard let indexPath = sourceIndexPath
-            else {
-              self.cleanup()
-              return
-        }
           guard  let snapshot = self.snapshot else { return }
           var center = cell.center
           snapshot.center = center
@@ -193,50 +187,48 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
             cell.alpha = 0.0
           }, completion: { (finished) in
             cell.isHidden = false//This was set to TRUE in the original code
+            cell.alpha = 0.25//This was added by me
           })
           break
+        
       case .changed:
         print("Changed")
-        guard let defaultIndexPath = sourceIndexPath, let defaultNode = sourceNode, let snapshot = self.snapshot
+        guard let defaultIndexPath = sourceIndexPath, let defaultNode = sourceNode, let snapshot = self.snapshot, let defaultParentNode = sourceNode?.parent, let defaultTreePath = sourceTreePath
           else {
             cleanup()
             return
         }
+        let collectionViewLayout = collectionView.collectionViewLayout as! GraphCollectionViewLayout
+        let cellHeight = collectionViewLayout.initialCellHeight
+        let parentLocation = CGPoint(x: location.x,y:  location.y - cellHeight)
+        let defaultParentIndexPath = IndexPath.init(row: 0, section: 0)
+        let parentIndexPath = collectionView.indexPathForItem(at: parentLocation) ?? defaultParentIndexPath
+        let currentParent = GraphManager.sharedInstance.node(for: parentIndexPath)
         let currentIndexPath = collectionView.indexPathForItem(at: location) ?? defaultIndexPath
         let currentNode = GraphManager.sharedInstance.node(for: currentIndexPath) ?? defaultNode
         var center = snapshot.center
         center.y = location.y
         center.x = location.x
         snapshot.center = center
-       // let sourceIndexPath = self.sourceIndexPath
-        let targetNode = currentNode //default is original position
-//        if let targetIndex = collectionView.indexPathForItem(at: center) {
-//        targetNode = GraphManager.sharedInstance.node(for: targetIndex)!
-//        }
-        print("New Target: ", targetNode.task.title )
-        if let targetParent = targetNode.parent {
-          print("Target Parent: ", targetParent.task.title)
-          let siblings = targetParent.task.children
-          guard let siblingIndex = siblings.index(of: targetNode.task)
-            else {return}
+        var siblings: List<Tasky>
+        if let currentParent = currentParent {
+        siblings = currentParent.task.children
+        let siblingIndex = siblings.index(of: currentNode.task) ?? 0
           print("Sibling Index: ", siblingIndex)
           TaskyEditor.sharedInstance.removeAsChildToAllParents(task: defaultNode.task)
-          TaskyEditor.sharedInstance.add(task: defaultNode.task, AsChildTo: targetParent.task, at: siblingIndex, and: false)
+          TaskyEditor.sharedInstance.add(task: defaultNode.task, AsChildTo: currentParent.task, at: siblingIndex, and: false)
+        }
+        if let _ = collectionView.indexPathForItem(at: parentLocation){
+          snapshot.isHidden = true
+        }
+        else {
+          snapshot.isHidden = false
         }
         refreshGraph()
-        //GraphManager.sharedInstance.updateGraphs()
-       // collectionView.collectionViewLayout.invalidateLayout()
-//        if indexPath != sourceIndexPath {
-//          swap(&data[indexPath.row], &data[sourceIndexPath.row])
-//          self.collectionView.moveItem(at: sourceIndexPath, to: indexPath)
-//          self.sourceIndexPath = indexPath
-//        }
       break
+        
       case .ended:
         refreshGraph()
-        //GraphManager.sharedInstance.updateGraphs()
-        //collectionView.collectionViewLayout.invalidateLayout()
-        //collectionView.layoutIfNeeded()
         self.cleanup()
         break
       default:
@@ -262,7 +254,6 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     }
   }
   
-  
   private func customSnapshotFromView(inputView: UIView) -> UIView? {
     UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0)
     if let CurrentContext = UIGraphicsGetCurrentContext() {
@@ -284,6 +275,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   
   private func cleanup() {
     self.sourceIndexPath = nil
+    self.sourceTreePath = nil
     snapshot?.removeFromSuperview()
     self.snapshot = nil
   }
