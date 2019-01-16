@@ -32,8 +32,8 @@ class GraphCollectionViewDatasource: NSObject, UICollectionViewDataSource {
       else {
         fatalError("Node not found")
     }
-    let task = node.task
-     cell.setupCellWith(task: task)
+     cell.node = node
+     cell.setupCell()
     return cell
 //
 //    else{

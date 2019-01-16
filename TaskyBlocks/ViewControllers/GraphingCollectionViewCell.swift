@@ -4,12 +4,13 @@ import UIKit
 
 class GraphingCollectionViewCell: UICollectionViewCell {
   @IBOutlet weak var taskLabel: UILabel!
+  var node: TaskyNode!
 
 
-  func setupCellWith(task: Tasky)
+  func setupCell()
   {
-    taskLabel.text = "\(task.title)"
-    self.backgroundColor = task.calculateBlockColor()
+    taskLabel.text = "\(node.task.title)"
+    self.backgroundColor = node.task.calculateBlockColor()
 
     self.layer.borderWidth = 3
     self.layer.borderColor = UIColor.black.cgColor
