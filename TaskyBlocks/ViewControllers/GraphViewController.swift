@@ -17,6 +17,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   fileprivate var sourceIndexPath: IndexPath?
   fileprivate var sourceNode: TaskyNode?
   fileprivate var sourceTreePath: TreePath?
+  fileprivate var sourceParentNode: TaskyNode?
   var dataModel: Results<Tasky>!
   var graphViewLayout: UICollectionViewLayout!
   //var visibleScreenSize: CGSize {return dynamicScreenSize}
@@ -156,7 +157,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
       switch sender.state {
       case .began:
         print("Began")
-       sourceIndexPath = collectionView.indexPathForItem(at: location) ?? IndexPath.init(row: 0, section: 0)
+       sourceIndexPath = collectionView.indexPathForItem(at: location)
         guard let node = GraphManager.sharedInstance.node(for: sourceIndexPath!)
           else{
             self.cleanup()
@@ -164,8 +165,6 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
           }
         print("Source node: ", node.task)
         sourceTreePath = node.treePath
-//        var nodeTree = node.tree.compactMap({$0})
-//        nodeTree.insert(node, at: 0)
          guard let cell = collectionView.cellForItem(at: sourceIndexPath!)
           else {
             self.cleanup()
@@ -184,7 +183,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
             snapshot.center = center
             snapshot.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
             snapshot.alpha = 0.98
-            cell.alpha = 0.0
+            //cell.alpha = 0.00
           }, completion: { (finished) in
             cell.isHidden = false//This was set to TRUE in the original code
             cell.alpha = 0.25//This was added by me
@@ -201,7 +200,12 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
         let collectionViewLayout = collectionView.collectionViewLayout as! GraphCollectionViewLayout
         let cellHeight = collectionViewLayout.initialCellHeight
         let parentLocation = CGPoint(x: location.x,y:  location.y - cellHeight)
-        let defaultParentIndexPath = IndexPath.init(row: 0, section: 0)
+        
+        guard let defaultParentIndexPath = sourceIndexPath
+          else {
+            cleanup()
+            return
+        }
         let parentIndexPath = collectionView.indexPathForItem(at: parentLocation) ?? defaultParentIndexPath
         let currentParent = GraphManager.sharedInstance.node(for: parentIndexPath)
         let currentIndexPath = collectionView.indexPathForItem(at: location) ?? defaultIndexPath
@@ -210,6 +214,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
         center.y = location.y
         center.x = location.x
         snapshot.center = center
+        //Could this be done with nodes sans tasks?
         var siblings: List<Tasky>
         if let currentParent = currentParent {
         siblings = currentParent.task.children
