@@ -29,11 +29,15 @@ class GraphManager: NSObject {
     return nodes[path]
   }
   
+  func siblings(of node: TaskyNode) -> [TaskyNode] {
+    return Array(nodes.filter({$0.value.parent == node.parent}).values)
+  }
+  
   func updateGraphs() {
     clearGraphs()
     createHierarchyGraph()
-    createDependanceGraph()
-    createPriorityGraph()
+    //createDependanceGraph()
+    //createPriorityGraph()
   }
   
   fileprivate func createHierarchyGraph() {

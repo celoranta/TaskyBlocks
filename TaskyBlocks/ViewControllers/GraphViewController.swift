@@ -17,7 +17,16 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
   fileprivate var sourceIndexPath: IndexPath?
   fileprivate var sourceNode: TaskyNode?
   fileprivate var sourceTreePath: TreePath?
-  fileprivate var sourceParentNode: TaskyNode?
+  
+  //fileprivate var sourceParent: TaskyNode!
+  fileprivate var sourceParentIndexPath: IndexPath?
+  fileprivate var sourceParent: TaskyNode!
+  //fileprivate var sourceParentNodes: [TaskyNode] = []
+  
+  fileprivate var currentNode: TaskyNode?
+  fileprivate var currentParent: TaskyNode?
+  fileprivate var siblingIndex: Int?
+
   var dataModel: Results<Tasky>!
   var graphViewLayout: UICollectionViewLayout!
   //var visibleScreenSize: CGSize {return dynamicScreenSize}
@@ -58,8 +67,6 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
-  
-
   
   func taskWasSelected() {
     let nodePaths = collectionView.indexPathsForSelectedItems
@@ -155,6 +162,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     //https://medium.com/@bhaveshtandel17/https-medium-com-bhaveshtandel17-how-to-create-custom-movable-uitableviewcell-uicollectionviewcell-8e90f3190606
     
       switch sender.state {
+        
       case .began:
         print("Began")
        sourceIndexPath = collectionView.indexPathForItem(at: location)
@@ -164,6 +172,22 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
             return
           }
         print("Source node: ", node.task)
+        
+        sourceParent = node.parent
+        guard let sourceParentU = node.parent
+          else {
+            self.cleanup()
+            return
+        }
+        sourceParent = sourceParentU
+        let x = GraphManager.sharedInstance.nodes.keysForValue(value: sourceParent).count
+        if x == 0 {
+          self.cleanup()
+          return
+        }
+        sourceParentIndexPath = GraphManager.sharedInstance.nodes.keysForValue(value: sourceParent)[0]
+        
+        
         sourceTreePath = node.treePath
          guard let cell = collectionView.cellForItem(at: sourceIndexPath!)
           else {
@@ -192,7 +216,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
         
       case .changed:
         print("Changed")
-        guard let defaultIndexPath = sourceIndexPath, let defaultNode = sourceNode, let snapshot = self.snapshot, let defaultParentNode = sourceNode?.parent, let defaultTreePath = sourceTreePath
+        guard let defaultIndexPath = sourceIndexPath, let defaultNode = sourceNode, let defaultParentIndexPath = sourceParentIndexPath, let snapshot = self.snapshot
           else {
             cleanup()
             return
@@ -200,30 +224,35 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
         let collectionViewLayout = collectionView.collectionViewLayout as! GraphCollectionViewLayout
         let cellHeight = collectionViewLayout.initialCellHeight
         let parentLocation = CGPoint(x: location.x,y:  location.y - cellHeight)
-        
-        guard let defaultParentIndexPath = sourceIndexPath
-          else {
-            cleanup()
-            return
-        }
-        let parentIndexPath = collectionView.indexPathForItem(at: parentLocation) ?? defaultParentIndexPath
-        let currentParent = GraphManager.sharedInstance.node(for: parentIndexPath)
         let currentIndexPath = collectionView.indexPathForItem(at: location) ?? defaultIndexPath
         let currentNode = GraphManager.sharedInstance.node(for: currentIndexPath) ?? defaultNode
+        let parentIndexPath = collectionView.indexPathForItem(at: parentLocation) ?? defaultParentIndexPath
+        currentParent = GraphManager.sharedInstance.node(for: parentIndexPath)
+
         var center = snapshot.center
         center.y = location.y
         center.x = location.x
         snapshot.center = center
+        
         //Could this be done with nodes sans tasks?
         var siblings: List<Tasky>
+        
         if let currentParent = currentParent {
         siblings = currentParent.task.children
-        let siblingIndex = siblings.index(of: currentNode.task) ?? 0
+        siblingIndex = siblings.index(of: currentNode.task) ?? 0
+          if let siblingIndex = siblingIndex {
           print("Sibling Index: ", siblingIndex)
+          }
           //If these could be calculated using nodes
-          //TaskyEditor.sharedInstance.removeAsChildToAllParents(task: defaultNode.task)
+          TaskyEditor.sharedInstance.removeAsChildToAllParents(task: defaultNode.task)
+
+//            if !sourceParentNodes.contains(defaultNode){
+//              TaskyEditor.sharedInstance.remove(task: defaultNode.task, asChildTo: parent)
+//            }
+
           TaskyEditor.sharedInstance.add(task: defaultNode.task, AsChildTo: currentParent.task, at: siblingIndex, and: false)
         }
+        
         if let _ = collectionView.indexPathForItem(at: parentLocation){
           snapshot.isHidden = true
         }
@@ -233,13 +262,13 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
         refreshGraph()
       break
         
-      case .ended:
-        if let defaultNode = sourceNode {
-        TaskyEditor.sharedInstance.removeAsChildToAllParents(task: defaultNode.task)
-        }
-        refreshGraph()
-        self.cleanup()
-        break
+//      case .ended:
+//        if let currentParent = currentParent {
+//
+//        refreshGraph()
+//        self.cleanup()
+//        break
+        
       default:
         guard let indexPath = sourceIndexPath
           else {return}
