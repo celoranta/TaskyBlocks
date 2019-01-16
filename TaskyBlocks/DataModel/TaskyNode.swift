@@ -44,6 +44,7 @@ class TaskyNode: NSObject {
       return 0
     }
   }
+
 //    if node.parent == nil {
 //      return 0
 //    }

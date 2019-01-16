@@ -220,7 +220,8 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
         siblings = currentParent.task.children
         let siblingIndex = siblings.index(of: currentNode.task) ?? 0
           print("Sibling Index: ", siblingIndex)
-          TaskyEditor.sharedInstance.removeAsChildToAllParents(task: defaultNode.task)
+          //If these could be calculated using nodes
+          //TaskyEditor.sharedInstance.removeAsChildToAllParents(task: defaultNode.task)
           TaskyEditor.sharedInstance.add(task: defaultNode.task, AsChildTo: currentParent.task, at: siblingIndex, and: false)
         }
         if let _ = collectionView.indexPathForItem(at: parentLocation){
@@ -233,6 +234,9 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
       break
         
       case .ended:
+        if let defaultNode = sourceNode {
+        TaskyEditor.sharedInstance.removeAsChildToAllParents(task: defaultNode.task)
+        }
         refreshGraph()
         self.cleanup()
         break
@@ -278,6 +282,7 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
     return snapshot
   }
   
+
   private func cleanup() {
     self.sourceIndexPath = nil
     self.sourceTreePath = nil

@@ -101,7 +101,6 @@ class Tasky: Object
     }
   }
 
-  
   //MARK: Realm Key Property
   override static func primaryKey() -> String?
   {
@@ -199,8 +198,22 @@ class Tasky: Object
     //blockColor = hexStringToUIColor(hex: blockColorString)
     return blockColor
   }
-
+  
+  func isDescendent(of task: Tasky) -> Bool {
+    if task == self {
+      return true
+    }
+    for child in task.children {
+      if self.isDescendent(of: child) {
+        return true
+      }
+    }
+    return false
+  }
 }
+
+
+
 
 typealias TaskRecord = (taskId: String, priority: Double)
 

@@ -168,7 +168,7 @@ class TaskyEditor: NSObject {
   func add(task: Tasky, AsChildTo newParent: Tasky, at index: Int?, and update: Bool?)
   {
     realm.beginWrite()
-    if !task.parents.contains(newParent)
+    if !task.parents.contains(newParent) && !newParent.isDescendent(of: task)
     {
       if let index = index {
         newParent.children.insert(task, at: index)
@@ -185,7 +185,7 @@ class TaskyEditor: NSObject {
   func add(task: Tasky, asParentTo newChild: Tasky)
   {
     realm.beginWrite()
-    if !newChild.parents.contains(task)
+    if !newChild.parents.contains(task) && !task.isDescendent(of: newChild)
     {
       //newChild.parents.append(task)
       task.children.append(newChild)
@@ -288,6 +288,7 @@ class TaskyEditor: NSObject {
       TaskyEditor.sharedInstance.remove(task: consequent, asConsequentTo: task)
     }
   }
+  
   
   //MARK: Initializers
   override private init()
