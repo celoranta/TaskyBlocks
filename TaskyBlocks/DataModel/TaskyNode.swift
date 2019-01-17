@@ -13,8 +13,10 @@ class TaskyNode: NSObject {
   
   /*It seems that, generally speaking, the nodes should be transient, and only created just before graphing, with no plan to save them for further use.  However, there are a few factors which, although unrelated to actual task data, should nevertheless influence the layout of cells.  These include:
    isCollapsed:  It can apply to a task when shown under one parent, yet not apply to the same task when shown under another parent.  This needs to be saved between sessions and regraphings
-   Sibling Order: It can apply to a task when shown under one parent, yet apply differently to the same task when shown under another parent.  This needs to be saved between sessions and regraphings.
+   Sibling Order: It can apply to a task when shown under one parent, yet apply differently to the same task when shown under another parent.  This needs to be saved between sessions and regraphings. UPDATE: This is already solved, as nodes are spawned from tasks, and tasks have ordered collections of their children.
    */
+  
+  /*Could the above be accomplished with a collection of ChildPath+ParentPath pairings and their settings?  For example, Where 'Eat The Boss' is a child to 'Conquer the Lawn,' 'Eat The Boss' shall be collapsed.  These could be transferred to new pairings as they are created or deleted as need dictates*/
 
   
   let task: Tasky
@@ -44,6 +46,15 @@ class TaskyNode: NSObject {
       return 0
     }
   }
+  
+//  func calculateTreePath() {
+//    var path: [Int] = []
+//    if let parent = parent {
+//      let siblingOrder = Int(parent.tree.firstIndex(of: self)!)
+//      path.insert(siblingOrder, at: 0)
+//      parent.calculateTreePath()
+//    }
+//  }
 
 //    if node.parent == nil {
 //      return 0

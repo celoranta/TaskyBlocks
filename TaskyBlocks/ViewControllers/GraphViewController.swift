@@ -235,8 +235,12 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
         snapshot.center = center
         
         //Could this be done with nodes sans tasks?
-        var siblings: List<Tasky>
+        //Not the sibling order... nodes have no
+        //children, thus no sibling order.
+        //Although nodes DO have TreePaths,
+        //And Graph manager could work it out from there.
         
+        var siblings: List<Tasky>
         if let currentParent = currentParent {
         siblings = currentParent.task.children
         siblingIndex = siblings.index(of: currentNode.task) ?? 0
