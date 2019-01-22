@@ -116,7 +116,7 @@ class GraphManager: NSObject {
   }
   
   //Package each generation of nodes into parents' tree property
-  fileprivate func createTree(){
+  func createTree(){
     calculateMaxGen()
     for generation in stride(from: hierarchyMaxDegree, to: 0, by: -1) {
       for node in nodes.values.filter({$0.degree == generation}) {

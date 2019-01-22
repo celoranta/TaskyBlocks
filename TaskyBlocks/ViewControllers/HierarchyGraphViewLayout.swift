@@ -23,7 +23,10 @@ class HierarchyGraphViewLayout: GraphCollectionViewLayout {
     }
   
   override func prepare() {
+    if GraphManager.sharedInstance.nodes.count == 0
+    {
     graphManager.updateGraphs()
+    }
     for graphDataPoint in graphManager.nodes {
       let layoutAttribute = UICollectionViewLayoutAttributes.init(forCellWith: graphDataPoint.key)
       let node = graphDataPoint.value

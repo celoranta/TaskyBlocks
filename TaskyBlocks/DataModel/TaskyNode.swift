@@ -20,7 +20,7 @@ class TaskyNode: NSObject {
 
   
   let task: Tasky
-  let parent: TaskyNode?
+  var parent: TaskyNode?
   let nodeId = String(UUID().uuidString) + "N"
   var degree:Int {
    return countDegrees(forNode: self)

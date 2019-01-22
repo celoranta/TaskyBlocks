@@ -233,37 +233,40 @@ class GraphViewController: UIViewController, SelectedTaskDestination, TaskSelect
         center.y = location.y
         center.x = location.x
         snapshot.center = center
+      
+        //defaultNode.parent = nil
         
-        //Could this be done with nodes sans tasks?
-        //Not the sibling order... nodes have no
-        //children, thus no sibling order.
-        //Although nodes DO have TreePaths,
-        //And Graph manager could work it out from there.
-        
-        var siblings: List<Tasky>
+        var siblings: [TaskyNode]
         if let currentParent = currentParent {
-        siblings = currentParent.task.children
-        siblingIndex = siblings.index(of: currentNode.task) ?? 0
+        siblings = currentParent.tree
+        siblingIndex = siblings.index(of: currentNode) ?? 0
           if let siblingIndex = siblingIndex {
           print("Sibling Index: ", siblingIndex)
+            if currentParent != defaultNode {
+          defaultNode.parent = currentParent
+            }
           }
           //If these could be calculated using nodes
-          TaskyEditor.sharedInstance.removeAsChildToAllParents(task: defaultNode.task)
+         // TaskyEditor.sharedInstance.removeAsChildToAllParents(task: defaultNode.task)
 
 //            if !sourceParentNodes.contains(defaultNode){
 //              TaskyEditor.sharedInstance.remove(task: defaultNode.task, asChildTo: parent)
 //            }
-
-          TaskyEditor.sharedInstance.add(task: defaultNode.task, AsChildTo: currentParent.task, at: siblingIndex, and: false)
+//
+//          TaskyEditor.sharedInstance.add(task: defaultNode.task, AsChildTo: currentParent.task, at: siblingIndex, and: false)
         }
-        
+        else {
+          defaultNode.parent = GraphManager.sharedInstance.nodes[defaultParentIndexPath]
+        }
         if let _ = collectionView.indexPathForItem(at: parentLocation){
           snapshot.isHidden = true
         }
         else {
           snapshot.isHidden = false
         }
-        refreshGraph()
+        GraphManager.sharedInstance.createTree()
+        self.collectionView.collectionViewLayout.invalidateLayout()
+        //refreshGraph()
       break
         
 //      case .ended:
